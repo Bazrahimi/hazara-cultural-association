@@ -1,16 +1,12 @@
-
 import type { Metadata } from "next";
 
-
 import { Geist, Geist_Mono } from "next/font/google";
-
 
 import "./globals.css";
 
 // Import layout components for consistent navigation and footer.
-import Footer from "./ui/Footer";
 import NavBar from "./Navbar";
-
+import Footer from "./ui/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,12 +18,33 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-// Define default metadata for the application (title, description, SEO).
 export const metadata: Metadata = {
   title: "Hazara Cultural Association",
   description:
-    "Hazara Cultural Association (HCA) is a non-profit organisation in Australia dedicated to preserving Hazara culture, supporting the community, and advocating for justice for the Hazara people.",
+    "Hazara Cultural Association (HCA) is an Australian non-profit organisation advocating for the Hazara people and preserving culture.",
+  manifest: "/images/favicon_io/site.webmanifest",
+  icons: {
+    icon: [
+      {
+        url: "/images/favicon_io/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/images/favicon_io/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      { url: "/images/favicon_io/favicon.ico", rel: "icon" },
+    ],
+    apple: [
+      {
+        url: "/images/favicon_io/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
 };
 
 // Root layout component wraps all pages.

@@ -1,78 +1,65 @@
+// app/Navbar.tsx
+import Image from "next/image";
 import Link from "next/link";
-import {
-  HiAcademicCap,
-  HiCalendar,
-  HiHome,
-  HiInformationCircle,
-} from "react-icons/hi";
-import { MdOutlineEmail } from "react-icons/md";
+import { HiAcademicCap, HiCalendar, HiInformationCircle } from "react-icons/hi";
+import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
+
+// Reusable styles
+const navLinkBase =
+  "group flex flex-col items-center gap-1 hover:text-blue-700 flex-1";
+const navIcon = "text-2xl sm:text-xl opacity-80 group-hover:opacity-100"; // bigger on mobile
+const donateBtn =
+  "inline-flex items-center rounded-md border border-blue-600 px-3 py-1.5 font-medium text-blue-700 hover:bg-blue-50";
 
 const NavBar = () => {
   return (
-    <nav className="sticky top-0 z-[100] flex h-16 w-full items-center justify-between border-b border-gray-200 bg-gray-100/95 px-4 sm:px-6 text-sm text-slate-800 backdrop-blur supports-[backdrop-filter]:bg-gray-100/80">
-      {/* Left: Brand + Primary nav */}
-      <div className="flex items-center gap-6">
-        {/* Brand (clickable) */}
+    <nav className="sticky top-0 z-[100] flex h-16 w-full items-center justify-between border-b border-gray-200 bg-gray-100/95 px-4 sm:px-6 text-slate-800 backdrop-blur supports-[backdrop-filter]:bg-gray-100/80">
+      {/* Left: Brand */}
+      <div className="flex items-center gap-4 sm:gap-6">
         <Link
           href="/"
-          className="font-semibold tracking-tight hover:opacity-90"
+          className="flex items-center gap-2 font-semibold tracking-tight hover:opacity-90"
           aria-label="Hazara Cultural Association home"
         >
-          HCA
+          <Image
+            src="/logo-hca-mark.png"
+            alt="HCA logo"
+            width={28}
+            height={28}
+            priority
+          />
+          <span className="hidden sm:inline">HCA</span>
         </Link>
-
-        {/* Primary links */}
-        <div className="hidden md:flex items-center gap-5">
-          <Link
-            href="/"
-            className="group inline-flex items-center gap-2 hover:text-blue-700"
-          >
-            <HiHome className="text-lg opacity-80 group-hover:opacity-100" />
-            <span>Home</span>
-          </Link>
-
-          <Link
-            href="/about-us"
-            className="group inline-flex items-center gap-2 hover:text-blue-700"
-          >
-            <HiInformationCircle className="text-lg opacity-80 group-hover:opacity-100" />
-            <span>About Us</span>
-          </Link>
-
-          <Link
-            href="/programs"
-            className="group inline-flex items-center gap-2 hover:text-blue-700"
-          >
-            <HiAcademicCap className="text-lg opacity-80 group-hover:opacity-100" />
-            <span>Programs</span>
-          </Link>
-
-          <Link
-            href="/events"
-            className="group inline-flex items-center gap-2 hover:text-blue-700"
-          >
-            <HiCalendar className="text-lg opacity-80 group-hover:opacity-100" />
-            <span>Events</span>
-          </Link>
-
-          <Link
-            href="/contact-us"
-            className="group inline-flex items-center gap-2 hover:text-blue-700"
-          >
-            <MdOutlineEmail className="text-lg opacity-80 group-hover:opacity-100" />
-            <span>Contact</span>
-          </Link>
-        </div>
       </div>
 
-      {/* Right: Quick contact (optional) */}
+      {/* Center: Primary links (spread evenly) */}
+      <div className="flex flex-1 justify-evenly max-w-md">
+        <Link href="/about-us" className={navLinkBase} aria-label="About Us">
+          <HiInformationCircle className={navIcon} />
+          <span className="hidden sm:inline">About Us</span>
+        </Link>
+
+        <Link href="/programs" className={navLinkBase} aria-label="Programs">
+          <HiAcademicCap className={navIcon} />
+          <span className="hidden sm:inline">Programs</span>
+        </Link>
+
+        <Link href="/events" className={navLinkBase} aria-label="Events">
+          <HiCalendar className={navIcon} />
+          <span className="hidden sm:inline">Events</span>
+        </Link>
+
+        <Link href="/contact-us" className={navLinkBase} aria-label="Contact">
+          <MdOutlineEmail className={navIcon} />
+          <span className="hidden sm:inline">Contact</span>
+        </Link>
+      </div>
+
+      {/* Right: Donate */}
       <div className="flex items-center gap-4">
-        <Link
-          href="/contact-us"
-          className="inline-flex items-center rounded-md border border-blue-600 px-3 py-1.5 font-medium text-blue-700 hover:bg-blue-50"
-          aria-label="Quick enquiry"
-        >
-          Enquire
+        <Link href="/donate" className={donateBtn} aria-label="Donate">
+          <span className="hidden sm:inline">Donate</span>
+          <MdVolunteerActivism className="sm:hidden text-xl" />
         </Link>
       </div>
     </nav>
