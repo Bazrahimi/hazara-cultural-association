@@ -206,7 +206,7 @@ const COLOR = {
   default: "text-blue-600",
 };
 
-export default function Header({
+export function Header({
   children,
   size = "md",
   as = "h1",

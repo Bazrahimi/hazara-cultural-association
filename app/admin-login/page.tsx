@@ -2,8 +2,8 @@
 import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
 import { authenticate } from "../lib/action";
-import { ActionButton } from "../ui/global/action-button";
-import Header, { Input } from "../ui/global/components";
+import { ActionButton, FormErrorMessage } from "../ui/global/clientComponent";
+import { Header, Input } from "../ui/global/components";
 
 const LoginPage = () => {
   const [state, formAction, isPending] = useActionState(
@@ -47,6 +47,8 @@ const LoginPage = () => {
         >
           Login
         </ActionButton>
+        {/* Message Error Field */}
+        <FormErrorMessage message={state?.message} />
       </div>
     </form>
   );
