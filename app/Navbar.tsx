@@ -1,6 +1,7 @@
 // app/Navbar.tsx
 import Image from "next/image";
 import Link from "next/link";
+import { CiShoppingCart } from "react-icons/ci";
 import { HiAcademicCap, HiCalendar, HiInformationCircle } from "react-icons/hi";
 import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
 
@@ -39,14 +40,14 @@ const NavBar = () => {
           <span className="hidden sm:inline">About Us</span>
         </Link>
 
-        <Link href="/programs" className={navLinkBase} aria-label="Programs">
-          <HiAcademicCap className={navIcon} />
-          <span className="hidden sm:inline">Programs</span>
+        <Link href="/blogs" className={navLinkBase} aria-label="Blogs">
+          <HiCalendar className={navIcon} />
+          <span className="hidden sm:inline">Blogs</span>
         </Link>
 
-        <Link href="/events" className={navLinkBase} aria-label="Events">
-          <HiCalendar className={navIcon} />
-          <span className="hidden sm:inline">Events</span>
+        <Link href="/shop" className={navLinkBase} aria-label="Programs">
+          <CiShoppingCart className={navIcon} />
+          <span className="hidden sm:inline">Shop</span>
         </Link>
 
         <Link href="/contact-us" className={navLinkBase} aria-label="Contact">
