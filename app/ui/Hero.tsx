@@ -1,7 +1,7 @@
 // app/components/Hero.tsx
 "use client";
 
-import { inter, roboto } from "@/app/utils/font";
+import { inter, roboto } from "@/app/lib/font";
 import { clsx } from "clsx";
 import Image from "next/image";
 
