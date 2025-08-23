@@ -1,10 +1,16 @@
-import React from 'react'
-import Hero from './ui/Hero'
+import Hero from "./ui/Hero";
 
 const page = () => {
   return (
-    <div><Hero/></div>
-  )
-}
+    <div>
+      <Hero />
+      {/* <AboutUsPage />
+      <BlogsPage />
+      <ShopPage />
+      <DonatePage />
+      <ContactUsPage /> */}
+    </div>
+  );
+};
 
-export default page
+export default page;

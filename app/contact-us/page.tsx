@@ -1,6 +1,6 @@
 import HcaContactBasic from "./ui/ContactForm";
 
-const page = () => {
+const ContactUsPage = () => {
   return (
     <>
       <HcaContactBasic />
@@ -8,4 +8,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ContactUsPage;
