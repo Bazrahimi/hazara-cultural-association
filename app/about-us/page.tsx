@@ -1,5 +1,6 @@
 import { inter, roboto } from "@/app/utils/font";
 import clsx from "clsx";
+import Image from "next/image";
 
 export default function AboutUsPage() {
   return (
@@ -60,6 +61,70 @@ export default function AboutUsPage() {
           Hazaras everywhere to reconnect with their roots, strengthen their
           communities, and proudly reclaim their identity.
         </p>
+      </section>
+
+      {/* /* Governance section (with placeholder team members) */}
+      <section>
+        <h2 className="text-2xl font-semibold text-gray-900">
+          Governance and Management
+        </h2>
+        <p className="mt-3 text-gray-700 leading-relaxed">
+          The Hazara Cultural Association is led by dedicated volunteers from
+          across Melbourne, working together to serve the community.
+        </p>
+
+        <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+          {[
+            {
+              name: "???? Hussaini",
+              role: "President",
+              img: "https://picsum.photos/200/200?random=1",
+            },
+            {
+              name: "???? Jawadi",
+              role: "Vice President",
+              img: "https://picsum.photos/200/200?random=2",
+            },
+            {
+              name: "??? Yazdani",
+              role: "Secretary",
+              img: "https://picsum.photos/200/200?random=3",
+            },
+            {
+              name: "???? Kazemi",
+              role: "Treasurer",
+              img: "https://picsum.photos/200/200?random=4",
+            },
+            {
+              name: "??? Karimi",
+              role: "Community Liaison",
+              img: "https://picsum.photos/200/200?random=5",
+            },
+            {
+              name: "??? Sadiqi",
+              role: "Program Coordinator",
+              img: "https://picsum.photos/200/200?random=6",
+            },
+          ].map((person) => (
+            <div
+              key={person.name}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="relative h-32 w-32 overflow-hidden rounded-full">
+                <Image
+                  src={person.img}
+                  alt={person.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="mt-3 text-lg font-medium text-gray-900">
+                {person.name}
+              </h3>
+              <p className="text-sm text-gray-600">{person.role}</p>
+            </div>
+          ))}
+        </div>
       </section>
     </section>
   );
