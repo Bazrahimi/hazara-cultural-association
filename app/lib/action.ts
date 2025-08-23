@@ -4,6 +4,7 @@ import { z } from "zod";
 import { sql } from "./db";
 import { LoginState } from "./definitions";
 import { LoginSchema } from "./schema";
+import { createSession } from "./session";
 
 export const authenticate = async (
   prevState: LoginState,
@@ -71,6 +72,9 @@ export const authenticate = async (
         password,
         message: "Incorrect password. Please try again.",
       };
+    if (user.isAdmin) {
+      await createSession(String(user.userId), user.isAdmin);
+    }
   } catch (error) {
     console.error("Failed to login", error);
     return {
