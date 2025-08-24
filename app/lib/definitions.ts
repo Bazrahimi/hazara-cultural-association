@@ -33,7 +33,6 @@ export type QuickEnquiry =
       contactNumber?: string;
       queryType?: string;
       qMessage?: string;
-      message?: string;
       errors?: {
         fullName?: string[];
         email?: string[];
@@ -41,5 +40,7 @@ export type QuickEnquiry =
         queryType?: string[];
         qMessage?: string[];
       };
+      message?: string;
+      ok?: boolean;
     }
   | undefined;

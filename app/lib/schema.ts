@@ -9,7 +9,7 @@ export const LoginSchema = z.object({
 
 export const QuickEnquirySchema = z.object({
   fullName: z.string().min(3, { message: "Please enter your full name" }),
-  email: z.email({ message: "Please enter a valid email address" }),
+  email: z.email({ message: "Please enter a valid email address" }).trim(),
   contactNumber: z
     .string()
     .optional()

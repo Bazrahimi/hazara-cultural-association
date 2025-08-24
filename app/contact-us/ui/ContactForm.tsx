@@ -19,14 +19,6 @@ const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
 const labelBase = "block text-sm font-medium text-gray-700";
 
-// export type ContactFormValues = {
-//   name: string;
-//   email: string;
-//   phone?: string;
-//   query: string;
-//   message?: string;
-// };
-
 export default function ContactForm() {
   const [state, formAction, isPending] = useActionState(
     submitEnquiry,
@@ -43,7 +35,7 @@ export default function ContactForm() {
         id="fullName"
         label="Full Name"
         placeholder="Enter your full name"
-        error={state?.errors.fullName}
+        error={state?.errors?.fullName}
         defaultValue={state?.fullName}
         type="text"
         Icon={CiUser}
@@ -56,7 +48,7 @@ export default function ContactForm() {
         id="email"
         label="Email"
         placeholder="Enter your Email"
-        error={state?.errors.email}
+        error={state?.errors?.email}
         defaultValue={state?.email}
         type="email"
         Icon={MdEmail}
@@ -68,7 +60,7 @@ export default function ContactForm() {
         id="contactNumber"
         label="Contact Number"
         placeholder="Enter your contact Number"
-        error={state?.errors.contactNumber}
+        error={state?.errors?.contactNumber}
         defaultValue={state?.contactNumber}
         type="text"
         Icon={IoIosPhonePortrait}
@@ -106,7 +98,7 @@ export default function ContactForm() {
           defaultValue={state?.qMessage}
           className={`${fieldBase} min-h-[120px]`}
         />
-        {state?.errors.qMessage?.length && (
+        {state?.errors?.qMessage?.length && (
           <p className="mt-1 text-sm text-red-600">
             {state.errors.qMessage[0]}
           </p>
@@ -147,6 +139,8 @@ export default function ContactForm() {
         By contacting us, you agree to our community guidelines and privacy
         policy.
       </P>
+      {state?.ok && <p>your message was sent successfully</p>}
+      <p>{state?.message}</p>
     </form>
   );
 }

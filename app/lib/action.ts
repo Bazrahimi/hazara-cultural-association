@@ -32,6 +32,7 @@ export const submitEnquiry = async (
 
     return {
       ...rawData,
+      ok: false,
       errors: {
         fullName: tree.properties?.fullName?.errors,
         email: tree.properties?.email?.errors,
@@ -45,17 +46,27 @@ export const submitEnquiry = async (
   const data = validated.data;
 
   try {
-  
     const rows = await sql<[{ id: number }]>`
       INSERT INTO quick_enquiries (full_name, email, contact_number, query_type, message)
-      VALUES (${data.fullName}, ${data.email}, ${data.contactNumber || null}, ${data.queryType}, ${data.qMessage})
+      VALUES (${data.fullName}, ${data.email}, ${data.contactNumber || null}, ${
+      data.queryType
+    }, ${data.qMessage})
       RETURNING id
     `;
+    return {
+      ...data,
+      ok: true,
+      message: "Thanks! we have received your enquiry.",
+      errors:undefined,
+    };
   } catch (error) {
     console.error("Failed to submit the query", error);
     return {
       ...rawData,
-      message: "Failed to submit the query.",
+      ok: false,
+      message:
+        "Sorry — something went wrong saving your enquiry. Please try again.",
+      errors: undefined,
     };
   }
 };
