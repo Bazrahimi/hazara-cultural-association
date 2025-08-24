@@ -3,7 +3,9 @@ import { Header, Input } from "@/app/ui/global/components";
 import { useState } from "react";
 import { FaHandHoldingHeart } from "react-icons/fa";
 import { HiAcademicCap, HiCalendar, HiUsers } from "react-icons/hi";
-import { MdCampaign } from "react-icons/md";
+import { IoIosPhonePortrait } from "react-icons/io";
+import { MdCampaign, MdEmail } from "react-icons/md";
+import { CiUser } from "react-icons/ci";
 
 const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
@@ -13,7 +15,7 @@ export type ContactFormValues = {
   name: string;
   email: string;
   phone?: string;
-  topic: string;
+  query: string;
   message?: string;
 };
 
@@ -38,7 +40,7 @@ export default function ContactForm({
       name: String(data.get("name") || ""),
       email: String(data.get("email") || ""),
       phone: String(data.get("phone") || "") || undefined,
-      topic: String(data.get("topic") || ""),
+      query: String(data.get("query") || ""),
       message: String(data.get("message") || "") || undefined,
     };
 
@@ -71,60 +73,52 @@ export default function ContactForm({
         error={[]}
         defaultValue=""
         type="text"
+        Icon={CiUser}
         required
       />
-
 
       {/* Email */}
 
       <Input
-      id="email"
-      label="Email"
-
+        id="email"
+        label="Email"
+        placeholder="Enter your Email"
+        error={[]}
+        defaultValue=""
+        type="email"
+        Icon={MdEmail}
+        required
       />
-      <div>
-        <label htmlFor="email" className={labelBase}>
-          Email Address <span className="text-red-500">*</span>
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          placeholder="you@example.com"
-          className={fieldBase}
-        />
-      </div>
 
       {/* Phone (optional) */}
-      <div>
-        <label htmlFor="phone" className={labelBase}>
-          Phone (optional)
-        </label>
-        <input
-          id="phone"
-          name="phone"
-          type="tel"
-          placeholder="0000 000 000"
-          className={fieldBase}
-        />
-      </div>
+      <Input
+        id="contactNumber"
+        label="Contact Number"
+        placeholder="Enter your contact Number"
+        error={[]}
+        defaultValue=""
+        type="text"
+        Icon={IoIosPhonePortrait}
+      />
 
-      {/* Topic */}
+
+
+
+      {/* Query */}
       <div>
-        <label htmlFor="topic" className={labelBase}>
+        <label htmlFor="query" className={labelBase}>
           How can we help? <span className="text-red-500">*</span>
         </label>
         <div className="relative">
           <select
-            id="topic"
-            name="topic"
+            id="query"
+            name="query"
             required
             defaultValue=""
             className={fieldBase}
           >
             <option value="" disabled hidden>
-              -- Select a topic --
+              -- Select a query --
             </option>
             <option value="donations">Donations & Support</option>
             <option value="volunteering">Volunteering</option>
@@ -153,7 +147,7 @@ export default function ContactForm({
         />
       </div>
 
-      {/* Visual topic chips */}
+      {/* Visual query chips */}
       <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
         <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-1">
           <FaHandHoldingHeart className="text-blue-600" /> Donations

@@ -52,7 +52,7 @@ export const Input = ({
   return (
     <div className="mb-5" data-required={required || undefined}>
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-        {label || placeholder}
+        {label}
         {required && (
           <span className="ml-0.5 text-red-500" aria-hidden>
             *

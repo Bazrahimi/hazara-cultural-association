@@ -5,6 +5,7 @@ import { authenticate } from "../lib/action";
 import { ActionButton, FormErrorMessage } from "../ui/global/clientComponent";
 import { Header, Input } from "../ui/global/components";
 
+
 const LoginPage = () => {
   const [state, formAction, isPending] = useActionState(
     authenticate,
