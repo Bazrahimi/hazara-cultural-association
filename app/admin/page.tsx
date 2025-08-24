@@ -1,8 +1,10 @@
 import React from 'react'
+import { Button } from '../ui/global/components'
+import { destroySession } from '../lib/session'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div><form action={destroySession}><Button>Logout</Button></form></div>
   )
 }
 

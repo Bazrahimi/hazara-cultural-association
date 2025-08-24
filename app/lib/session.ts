@@ -2,6 +2,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { Session, SessionPayload } from "./definitions";
+import { redirect } from "next/navigation";
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
@@ -34,6 +35,21 @@ export const createSession = async (userId: string, isAdmin: boolean) => {
     path: "/", // Make the cookie accessible site-wide
   });
 };
+
+export const destroySession = async() => {
+  const cookieStore = await cookies();
+
+   cookieStore.set("session", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    expires: new Date(0), // Expire the cookie
+  });
+  redirect("/")
+}
+
+
 
 export async function decrypt(
   session: string | undefined = ""

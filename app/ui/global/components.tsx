@@ -1,9 +1,15 @@
+"use client";
+
 import { inter, lusitana } from "@/app/lib/font";
 import clsx from "clsx";
 import Link from "next/link";
-import { ReactNode, useState } from "react";
+import React, { forwardRef, ReactNode, useState } from "react";
 import { IconType } from "react-icons";
 import { IoEye, IoEyeOff } from "react-icons/io5";
+
+/* =========================
+ * Input
+ * =======================*/
 
 type InputProps = {
   id: string;
@@ -25,26 +31,27 @@ export const Input = ({
   autoComplete,
 }: InputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const showPasswordToggle = type === "password";
-  const inputType = showPasswordToggle && isPasswordVisible ? "text" : type;
+  const isPassword = type === "password";
+  const inputType = isPassword && isPasswordVisible ? "text" : type;
+  const hasError = !!error?.length;
 
+  const describedBy = hasError ? `${id}-error` : undefined;
   const togglePasswordVisibility = () => setIsPasswordVisible((p) => !p);
 
-  // describe only when there are errors
-  const describedBy = error?.length ? `${id}-error` : undefined;
+  // dynamic padding if a leading Icon is present
+  const leftPad = Icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4";
 
   return (
     <div className="mb-5">
-      {/* Label (visually hidden, still accessible) */}
       <label htmlFor={id} className="sr-only">
         {placeholder}
       </label>
 
       <div className="relative">
         <input
-          type={inputType}
           id={id}
           name={id}
+          type={inputType}
           defaultValue={defaultValue}
           placeholder={placeholder}
           autoComplete={
@@ -56,19 +63,25 @@ export const Input = ({
               : "on")
           }
           aria-describedby={describedBy}
-          className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 pr-10 text-sm sm:text-base outline-2 placeholder:text-gray-500 focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+          aria-invalid={hasError || undefined}
+          className={clsx(
+            "peer block w-full rounded-md border border-gray-200",
+            "py-2 pr-10 text-sm sm:text-base outline-2 placeholder:text-gray-500",
+            "focus:border-blue-600 focus:ring-2 focus:ring-blue-100",
+            leftPad
+          )}
         />
 
         {/* Leading icon */}
         {Icon && (
           <Icon
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 h-5 w-5 sm:h-6 sm:w-6"
+            className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 sm:h-6 sm:w-6 peer-focus:text-gray-900"
             aria-hidden
           />
         )}
 
         {/* Password toggle */}
-        {showPasswordToggle && (
+        {isPassword && (
           <button
             type="button"
             onClick={togglePasswordVisibility}
@@ -85,21 +98,25 @@ export const Input = ({
       </div>
 
       {/* Errors */}
-      {error?.length ? (
+      {hasError && (
         <div
           id={`${id}-error`}
           aria-live="polite"
           aria-atomic="true"
-          className="mt-2 text-right text-xs sm:text-sm text-red-600"
+          className="mt-2 text-right text-xs text-red-600 sm:text-sm"
         >
-          {error.map((msg, i) => (
+          {error!.map((msg, i) => (
             <p key={`${id}-error-${i}`}>{msg}</p>
           ))}
         </div>
-      ) : null}
+      )}
     </div>
   );
 };
+
+/* =========================
+ * Button
+ * =======================*/
 
 type ButtonVariant = "primary" | "secondary" | "danger" | "outline";
 type ButtonSize = "sm" | "md" | "lg";
@@ -126,9 +143,6 @@ type ButtonAsLink = BaseButtonProps &
 
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
-// const baseStyles =
-//   "inline-flex items-center gap-2 rounded-lg font-semibold shadow-md transition-transform duration-200 focus:ring-4 focus:outline-none hover:scale-105";
-
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-yellow-700 text-white hover:bg-yellow-600 focus:ring-yellow-300",
   secondary: "bg-gray-700 text-white hover:bg-gray-600 focus:ring-gray-300",
@@ -143,7 +157,10 @@ const sizes: Record<ButtonSize, string> = {
   lg: "px-8 py-4 text-lg sm:px-10 sm:py-5 sm:text-xl",
 };
 
-export function Button(props: ButtonProps) {
+export const Button = forwardRef<
+  HTMLButtonElement | HTMLAnchorElement,
+  ButtonProps
+>(function Button(props, ref) {
   const {
     as = "button",
     children,
@@ -153,25 +170,29 @@ export function Button(props: ButtonProps) {
     fullWidth,
     className,
     ...rest
-  } = props as ButtonProps & { fulWidth?: boolean };
+  } = props as ButtonProps;
 
-  const layout = fullWidth
-    ? "flex w-full justify-center" // block-level, takes full width, centers content
-    : "inline-flex"; // default inline sizing
+  const layout = fullWidth ? "flex w-full justify-center" : "inline-flex";
 
   const classes = clsx(
     inter.className,
-    layout, // <--- use computed layout
-    "items-center gap-2 rounded-lg font-semibold shadow-md transition-transform duration-200 focus:ring-4 focus:outline-none hover:scale-105",
+    layout,
+    "items-center gap-2 rounded-lg font-semibold shadow-md",
+    "transition-transform duration-200 focus:outline-none focus:ring-4 hover:scale-105",
     variants[variant],
     sizes[size],
     className
   );
 
   if (as === "link") {
-    const { href, ...anchorRest } = rest as ButtonAsLink; // <-- strip href before spread
+    const { href, ...anchorRest } = rest as ButtonAsLink;
     return (
-      <Link href={href} className={classes} {...anchorRest}>
+      <Link
+        href={href}
+        className={classes}
+        ref={ref as React.Ref<HTMLAnchorElement>}
+        {...anchorRest}
+      >
         {icon && <span className="flex-shrink-0">{icon}</span>}
         {children}
       </Link>
@@ -179,31 +200,55 @@ export function Button(props: ButtonProps) {
   }
 
   return (
-    <button className={classes} {...(rest as ButtonAsButton)}>
+    <button
+      className={classes}
+      ref={ref as React.Ref<HTMLButtonElement>}
+      {...(rest as ButtonAsButton)}
+    >
       {icon && <span className="flex-shrink-0">{icon}</span>}
       {children}
     </button>
   );
-}
+});
+
+/* =========================
+ * Header (h1/h2/h3 only)
+ * =======================*/
+
+type AsTag = "h1" | "h2" | "h3";
+
+type HeadingSize = "sm" | "md" | "lg";
 
 type HeaderProps = {
   children: React.ReactNode;
-  size?: "sm" | "md" | "lg";
-  as?: "h1" | "h2" | "h3" | "p" | "div";
+  size?: HeadingSize;
+  as?: AsTag; // only headings
   align?: "left" | "center" | "right";
   color?: "brand" | "default";
   className?: string;
 };
 
-const SIZE = {
-  sm: "text-xl sm:text-2xl md:text-3xl",
-  md: "text-2xl sm:text-3xl md:text-4xl", // <- your original scale
-  lg: "text-3xl sm:text-4xl md:text-5xl",
-};
-
-const COLOR = {
+const HEADING_COLOR: Record<NonNullable<HeaderProps["color"]>, string> = {
   brand: "text-yellow-700",
   default: "text-blue-600",
+};
+
+const SCALE: Record<AsTag, Record<HeadingSize, string>> = {
+  h1: {
+    sm: "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl",
+    md: "text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl",
+    lg: "text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl",
+  },
+  h2: {
+    sm: "text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl",
+    md: "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl",
+    lg: "text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl",
+  },
+  h3: {
+    sm: "text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl",
+    md: "text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl",
+    lg: "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl",
+  },
 };
 
 export function Header({
@@ -215,14 +260,13 @@ export function Header({
   className,
 }: HeaderProps) {
   const Tag = as;
-
   return (
     <Tag
       className={clsx(
         lusitana.className,
-        "mb-3 font-bold leading-tight",
-        SIZE[size],
-        COLOR[color],
+        "mb-3 break-words font-extrabold leading-tight tracking-tight hyphens-auto",
+        SCALE[as][size],
+        HEADING_COLOR[color],
         {
           "text-left": align === "left",
           "text-center": align === "center",

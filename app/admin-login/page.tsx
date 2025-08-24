@@ -10,47 +10,50 @@ const LoginPage = () => {
     authenticate,
     undefined
   );
+
   return (
-    <form action={formAction} className="relative">
-      <div className="flex-1">
-        <Header size="md" align="center">
-          Login to admin account.
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white/90 shadow-xl backdrop-blur-sm p-5 sm:p-7 md:p-8">
+        <Header size="md" align="center" className="mb-10">
+          Admin Login
         </Header>
+        <Header as="h3" size="sm" align="center"> Enter your email and password to continue.</Header>
 
-        <div className="w-full">
-          <Input
-            id="email"
-            placeholder="Email Address"
-            type="email"
-            defaultValue={state?.email}
-            Icon={MdEmail}
-            error={state?.errors?.email}
-          />
+        <form action={formAction} className="relative mt-6 space-y-6">
+          <div className="space-y-5">
+            <Input
+              id="email"
+              placeholder="Email Address"
+              type="email"
+              defaultValue={state?.email}
+              Icon={MdEmail}
+              error={state?.errors?.email}
+            />
+            <Input
+              id="password"
+              placeholder="Enter your password"
+              type="password"
+              defaultValue={state?.password}
+              Icon={MdPassword}
+              error={state?.errors?.password}
+            />
+          </div>
 
-          <Input
-            id="password"
-            placeholder="Enter your Password"
-            type="password"
-            defaultValue={state?.password}
-            Icon={MdPassword}
-            error={state?.errors?.password}
-          />
-        </div>
+          <ActionButton
+            type="submit"
+            fullWidth
+            isLoading={isPending}
+            overlay
+            loadingText="Logging in..."
+            buttonClassName="mt-2"
+          >
+            Login
+          </ActionButton>
 
-        {/* Submit Button */}
-        <ActionButton
-          type="submit"
-          fullWidth
-          isLoading={isPending}
-          overlay
-          loadingText="Logging in..."
-        >
-          Login
-        </ActionButton>
-        {/* Message Error Field */}
-        <FormErrorMessage message={state?.message} />
+          <FormErrorMessage message={state?.message} />
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
 

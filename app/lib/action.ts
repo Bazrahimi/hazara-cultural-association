@@ -5,6 +5,7 @@ import { sql } from "./db";
 import { LoginState } from "./definitions";
 import { LoginSchema } from "./schema";
 import { createSession } from "./session";
+import { redirect } from "next/navigation";
 
 export const authenticate = async (
   prevState: LoginState,
@@ -84,4 +85,5 @@ export const authenticate = async (
         "An error occurred while processing your request. Please try again.",
     };
   }
+  redirect("/admin")
 };
