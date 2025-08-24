@@ -1,11 +1,17 @@
 "use client";
-import { Header, Input, InputAutocomplete } from "@/app/ui/global/components";
-import { useState } from "react";
+import {
+  Header,
+  Input,
+  InputAutocomplete,
+  P,
+} from "@/app/ui/global/components";
 import { CiUser } from "react-icons/ci";
 import { FaHandHoldingHeart } from "react-icons/fa";
 import { HiAcademicCap, HiCalendar, HiUsers } from "react-icons/hi";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdCampaign, MdEmail } from "react-icons/md";
+
+import { ActionButton } from "@/app/ui/global/clientComponent";
 
 const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
@@ -19,48 +25,9 @@ export type ContactFormValues = {
   message?: string;
 };
 
-type FormProps = {
-  onSubmit?: (values: ContactFormValues) => Promise<void> | void;
-  isSubmittingExternal?: boolean; // allow parent control
-};
-
-export default function ContactForm({
-  onSubmit,
-  isSubmittingExternal,
-}: FormProps) {
-  const [isSendingLocal, setIsSendingLocal] = useState(false);
-  const isSending = isSubmittingExternal ?? isSendingLocal;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const form = e.currentTarget as HTMLFormElement;
-    const data = new FormData(form);
-
-    const values: ContactFormValues = {
-      name: String(data.get("name") || ""),
-      email: String(data.get("email") || ""),
-      phone: String(data.get("phone") || "") || undefined,
-      query: String(data.get("query") || ""),
-      message: String(data.get("message") || "") || undefined,
-    };
-
-    if (!onSubmit) {
-      // demo fallback
-      setIsSendingLocal(true);
-      setTimeout(() => setIsSendingLocal(false), 1200);
-      return;
-    }
-
-    try {
-      setIsSendingLocal(true);
-      await onSubmit(values);
-    } finally {
-      setIsSendingLocal(false);
-    }
-  };
-
+export default function ContactForm() {
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form className="space-y-4 relative">
       <Header align="center" as="h3" size="sm">
         Quick Enquiry
       </Header>
@@ -153,20 +120,20 @@ export default function ContactForm({
       </div>
 
       {/* Submit */}
-      <button
+      <ActionButton
         type="submit"
-        disabled={isSending}
-        className={`w-full rounded-md bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200 ${
-          isSending ? "opacity-70" : ""
-        }`}
+        isLoading={false}
+        loadingText="Sending..."
+        overlay
+        fullWidth
       >
-        {isSending ? "Sending…" : "Send Message"}
-      </button>
+        Send Message
+      </ActionButton>
 
-      <p className="text-center text-xs text-gray-500">
+      <P className="text-center text-xs text-gray-500">
         By contacting us, you agree to our community guidelines and privacy
         policy.
-      </p>
+      </P>
     </form>
   );
 }
