@@ -3,110 +3,109 @@
 import { inter, lusitana, roboto } from "@/app/lib/font";
 import clsx from "clsx";
 import Link from "next/link";
-import React, { forwardRef, ReactNode, useMemo, useState } from "react";
+import React, { forwardRef, ReactNode, useEffect, useId, useMemo, useRef, useState } from "react";
 import { IconType } from "react-icons";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 
 /* =========================
  * Input
  * =======================*/
-type InputOption = string | { value: string; label?: string };
-type InputProps = {
+export type BaseInputProps = {
   id: string;
   label: string;
   placeholder?: string;
   type: "text" | "email" | "password";
+  /** Controlled or uncontrolled */
+  value?: string;
+  onChange?: (v: string) => void;
   defaultValue?: string;
+
   error?: string[];
   Icon?: IconType;
-  autoComplete?: string;
   required?: boolean;
-  options?: InputOption[];
-  listId?: string;
+  autoComplete?: string;
+
+  /** Extra props to apply to the underlying <input> (handlers/ARIA, etc.) */
+  inputProps?: Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    | "id" | "name" | "type" | "value" | "defaultValue"
+    | "placeholder" | "required" | "className" | "onChange"
+  >;
 };
 
-export const Input = ({
-  id,
-  label,
-  placeholder,
-  type,
-  defaultValue,
-  Icon,
-  error,
-  autoComplete,
-  required = false,
-  options,
-  listId
-}: InputProps) => {
+export const Input = forwardRef<HTMLInputElement, BaseInputProps>(function Input(
+  {
+    id,
+    label,
+    placeholder,
+    type,
+    value,
+    onChange,
+    defaultValue,
+    Icon,
+    error,
+    required = false,
+    autoComplete,
+    inputProps,
+  },
+  ref
+) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const isPassword = type === "password";
   const inputType = isPassword && isPasswordVisible ? "text" : type;
+
   const hasError = !!error?.length;
 
-  const describedBy = hasError ? `${id}-error` : undefined;
   const togglePasswordVisibility = () => setIsPasswordVisible((p) => !p);
 
-  // inputMode improves mobile keyboards
   const inputMode =
-    type === "email" ? "email" : type === "text" ? "text" : undefined;
+    type === "email" ? "email" :
+    type === "text" ? "text" : undefined;
 
-  // dynamic padding if a leading Icon is present
   const leftPad = Icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4";
 
-    // datalist id (only if options are provided)
-  const resolvedListId = options && (listId || `${id}-list`);
-
-  // normalise options to { value, label }
-  const normalisedOptions = useMemo(
-    () =>
-      (options ?? []).map((opt) =>
-        typeof opt === "string" ? { value: opt, label: opt } : opt
-      ),
-    [options]
-  );
+  const common = {
+    id,
+    name: id,
+    type: inputType,
+    placeholder,
+    required,
+    "aria-required": required || undefined,
+    inputMode,
+    autoComplete: autoComplete ?? (type === "password" ? "current-password" : "off"),
+    className: clsx(
+      "peer block w-full rounded-md border border-gray-200",
+      "py-2 pr-10 text-sm sm:text-base outline-2 placeholder:text-gray-500",
+      "focus:border-blue-600 focus:ring-2 focus:ring-blue-100",
+      leftPad,
+      hasError && "border-red-300 focus:border-red-400 focus:ring-red-100"
+    ),
+    ...inputProps, // allow handlers/ARIA from parent
+  } as const;
 
   return (
     <div className="mb-5" data-required={required || undefined}>
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
         {label}
-        {required && (
-          <span className="ml-0.5 text-red-500" aria-hidden>
-            *
-          </span>
-        )}
+        {required && <span className="ml-0.5 text-red-500" aria-hidden>*</span>}
       </label>
 
       <div className="relative">
-        <input
-          id={id}
-          name={id}
-          type={inputType}
-          defaultValue={defaultValue}
-          placeholder={placeholder}
-          required={required} // ✅ native early check
-          aria-required={required || undefined} // ✅ a11y
-          inputMode={inputMode}
-          autoComplete={
-            autoComplete ??
-            (type === "email"
-              ? "email"
-              : type === "password"
-              ? "current-password"
-              : "on")
-          }
-          aria-describedby={describedBy}
-          aria-invalid={hasError || undefined}
-          list={resolvedListId || undefined}
-          className={clsx(
-            "peer block w-full rounded-md border border-gray-200",
-            "py-2 pr-10 text-sm sm:text-base outline-2 placeholder:text-gray-500",
-            "focus:border-blue-600 focus:ring-2 focus:ring-blue-100",
-            leftPad,
-            hasError && "border-red-300 focus:border-red-400 focus:ring-red-100"
-          )}
-        />
+        {value !== undefined ? (
+          <input
+            {...common}
+            ref={ref}
+            value={value}
+            onChange={(e) => onChange?.(e.currentTarget.value)}
+          />
+        ) : (
+          <input
+            {...common}
+            ref={ref}
+            defaultValue={defaultValue}
+          />
+        )}
 
-        {/* Leading icon */}
         {Icon && (
           <Icon
             className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 sm:h-6 sm:w-6 peer-focus:text-gray-900"
@@ -114,7 +113,6 @@ export const Input = ({
           />
         )}
 
-        {/* Password toggle */}
         {isPassword && (
           <button
             type="button"
@@ -131,18 +129,6 @@ export const Input = ({
         )}
       </div>
 
-            {/* Datalist (only if options provided) */}
-      {resolvedListId && normalisedOptions.length > 0 && (
-        <datalist id={resolvedListId}>
-          {normalisedOptions.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label ?? o.value}
-            </option>
-          ))}
-        </datalist>
-      )}
-
-      {/* Errors */}
       {hasError && (
         <div
           id={`${id}-error`}
@@ -157,7 +143,221 @@ export const Input = ({
       )}
     </div>
   );
+});
+
+export type InputOption = string | { value: string; label?: string };
+
+type Props = Omit<BaseInputProps, "type" | "inputProps"> & {
+  options: readonly InputOption[];
+  type?: "text";
+  mustMatch?: boolean;
+  /** Max items to render in the dropdown */
+  maxItems?: number;
+  onOptionSelect?: (opt: { value: string; label: string }) => void;
 };
+
+export function InputAutocomplete({
+  id,
+  label,
+  placeholder,
+  value,
+  onChange,
+  defaultValue,
+  Icon,
+  error,
+  required,
+  autoComplete = "off",
+  options,
+  type = "text",
+  mustMatch = false,
+  maxItems = 50,
+  onOptionSelect,
+}: Props) {
+  // controlled/uncontrolled
+  const [internal, setInternal] = useState(defaultValue ?? "");
+  const val = value ?? internal;
+  const setVal = (next: string) => (onChange ? onChange(next) : setInternal(next));
+
+  // dropdown
+  const [open, setOpen] = useState(false);
+  const [highlight, setHighlight] = useState(-1);
+
+  // refs
+  const rootRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // ids
+  const uid = useId();
+  const listboxId = `${id}-listbox-${uid}`;
+  const optionId = (i: number) => `${listboxId}-opt-${i}`;
+
+  // normalise options
+  const normalised = useMemo(
+    () =>
+      options.map((o) =>
+        typeof o === "string"
+          ? { value: o, label: o }
+          : { value: o.value, label: o.label ?? o.value }
+      ),
+    [options]
+  );
+
+  // filter
+  const filtered = useMemo(() => {
+    const q = val.trim().toLowerCase();
+    const base = q
+      ? normalised.filter((o) => o.label.toLowerCase().includes(q))
+      : normalised;
+    return base.slice(0, maxItems);
+  }, [normalised, val, maxItems]);
+
+  // keep active in view
+  useEffect(() => {
+    if (!open || highlight < 0 || !listRef.current) return;
+    const el = listRef.current.querySelector<HTMLLIElement>(`#${optionId(highlight)}`);
+    el?.scrollIntoView({ block: "nearest" });
+  }, [highlight, open]);
+
+  // outside click
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e: MouseEvent) => {
+      if (!rootRef.current) return;
+      if (!rootRef.current.contains(e.target as Node)) {
+        setOpen(false);
+        setHighlight(-1);
+      }
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [open]);
+
+  const selectIndex = (i: number) => {
+    const item = filtered[i];
+    if (!item) return;
+    setVal(item.value);
+    onOptionSelect?.(item);
+    setOpen(false);
+    setHighlight(i);
+    requestAnimationFrame(() => inputRef.current?.focus());
+  };
+
+  const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
+    if (!mustMatch) return;
+    const matched = normalised.find((o) => o.value === val || o.label === val);
+    if (!matched) {
+      setVal("");
+    }
+  };
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+      setOpen(true);
+      setHighlight(0);
+      return;
+    }
+    if (!open) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlight((h) => Math.min(filtered.length - 1, h + 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlight((h) => Math.max(0, h - 1));
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      setHighlight(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      setHighlight(Math.max(0, filtered.length - 1));
+    } else if (e.key === "Enter") {
+      if (highlight >= 0) {
+        e.preventDefault();
+        selectIndex(highlight);
+      }
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setOpen(false);
+      setHighlight(-1);
+    }
+  };
+
+  return (
+    <div className="relative" ref={rootRef}>
+      <Input
+        ref={inputRef}
+        id={id}
+        label={label}
+        placeholder={placeholder}
+        type={type}
+        value={val}
+        onChange={(next) => {
+          setVal(next);
+          setOpen(true);
+          setHighlight(-1);
+        }}
+        Icon={Icon}
+        error={error}
+        required={required}
+        autoComplete={autoComplete}
+        inputProps={{
+          role: "combobox",
+          "aria-expanded": open,
+          "aria-controls": listboxId,
+          "aria-autocomplete": "list",
+          "aria-activedescendant":
+            open && highlight >= 0 ? optionId(highlight) : undefined,
+          onFocus: () => setOpen(true),
+          onBlur: handleBlur,
+          onKeyDown: handleKeyDown,
+        }}
+      />
+
+      {open && (
+        <ul
+          ref={listRef}
+          id={listboxId}
+          role="listbox"
+          className={clsx(
+            "absolute z-10 mt-1 max-h-64 w-full overflow-auto rounded-md border border-gray-200 bg-white shadow-lg"
+          )}
+        >
+          {filtered.length === 0 ? (
+            <li
+              className="cursor-default px-3 py-2 text-sm text-gray-500"
+              aria-disabled="true"
+            >
+              No matches
+            </li>
+          ) : (
+            filtered.map((o, i) => (
+              <li
+                key={`${o.value}-${i}`}
+                id={optionId(i)}
+                role="option"
+                aria-selected={i === highlight}
+                className={clsx(
+                  "cursor-pointer select-none px-3 py-2 text-sm",
+                  i === highlight
+                    ? "bg-blue-50 text-blue-700"
+                    : "text-gray-800 hover:bg-gray-50"
+                )}
+                onMouseDown={(e) => e.preventDefault()} // prevent blur
+                onMouseEnter={() => setHighlight(i)}
+                onClick={() => selectIndex(i)}
+              >
+                {o.label}
+              </li>
+            ))
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+
 
 /* =========================
  * Button

@@ -1,5 +1,5 @@
 "use client";
-import { Header, Input } from "@/app/ui/global/components";
+import { Header, Input, InputAutocomplete } from "@/app/ui/global/components";
 import { useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { FaHandHoldingHeart } from "react-icons/fa";
@@ -101,12 +101,13 @@ export default function ContactForm({
         Icon={IoIosPhonePortrait}
       />
 
-      <Input
+      <InputAutocomplete
         id="query"
         label="How can we help"
         placeholder="start typing..."
         type="text"
         required
+        mustMatch
         options={[
           "Donations & Support",
           "Volunteering",
@@ -117,8 +118,7 @@ export default function ContactForm({
           "Other",
         ]}
       />
-      {/* TODO: if we give a an option children probe to above Input component, will we be able to to transform the below sleect to an input autocoplete input */}
-      {/* Query */}
+   
       <div>
         <label htmlFor="query" className={labelBase}>
           How can we help? <span className="text-red-500">*</span>
