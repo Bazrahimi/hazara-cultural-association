@@ -23,19 +23,23 @@ const LoginPage = () => {
           <div className="space-y-5">
             <Input
               id="email"
-              placeholder="Email Address"
+              label="Email Address"
+              placeholder="Enter your email Address"
               type="email"
               defaultValue={state?.email}
               Icon={MdEmail}
               error={state?.errors?.email}
+              required
             />
             <Input
               id="password"
+              label="Password"
               placeholder="Enter your password"
               type="password"
               defaultValue={state?.password}
               Icon={MdPassword}
               error={state?.errors?.password}
+              required
             />
           </div>
 

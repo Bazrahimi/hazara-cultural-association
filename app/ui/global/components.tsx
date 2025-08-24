@@ -1,6 +1,6 @@
 "use client";
 
-import { inter, lusitana } from "@/app/lib/font";
+import { inter, lusitana, roboto } from "@/app/lib/font";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { forwardRef, ReactNode, useState } from "react";
@@ -13,22 +13,26 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 
 type InputProps = {
   id: string;
+  label: string;
   placeholder?: string;
   type: "text" | "email" | "password";
   defaultValue?: string;
   error?: string[];
   Icon?: IconType;
   autoComplete?: string;
+  required?: boolean;
 };
 
 export const Input = ({
   id,
+  label,
   placeholder,
   type,
   defaultValue,
   Icon,
   error,
   autoComplete,
+  required = false,
 }: InputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const isPassword = type === "password";
@@ -38,13 +42,22 @@ export const Input = ({
   const describedBy = hasError ? `${id}-error` : undefined;
   const togglePasswordVisibility = () => setIsPasswordVisible((p) => !p);
 
+  // inputMode improves mobile keyboards
+  const inputMode =
+    type === "email" ? "email" : type === "text" ? "text" : undefined;
+
   // dynamic padding if a leading Icon is present
   const leftPad = Icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4";
 
   return (
-    <div className="mb-5">
-      <label htmlFor={id} className="sr-only">
-        {placeholder}
+    <div className="mb-5" data-required={required || undefined}>
+      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+        {label || placeholder}
+        {required && (
+          <span className="ml-0.5 text-red-500" aria-hidden>
+            *
+          </span>
+        )}
       </label>
 
       <div className="relative">
@@ -54,6 +67,9 @@ export const Input = ({
           type={inputType}
           defaultValue={defaultValue}
           placeholder={placeholder}
+          required={required} // ✅ native early check
+          aria-required={required || undefined} // ✅ a11y
+          inputMode={inputMode}
           autoComplete={
             autoComplete ??
             (type === "email"
@@ -68,7 +84,8 @@ export const Input = ({
             "peer block w-full rounded-md border border-gray-200",
             "py-2 pr-10 text-sm sm:text-base outline-2 placeholder:text-gray-500",
             "focus:border-blue-600 focus:ring-2 focus:ring-blue-100",
-            leftPad
+            leftPad,
+            hasError && "border-red-300 focus:border-red-400 focus:ring-red-100"
           )}
         />
 
@@ -277,5 +294,27 @@ export function Header({
     >
       {children}
     </Tag>
+  );
+}
+
+type ParaSize = "sm" | "md" | "lg";
+
+type PProps = {
+  children: React.ReactNode;
+  size?: ParaSize;
+  className: string;
+};
+
+const SIZE: Record<ParaSize, string> = {
+  sm: "text-sm sm:text-base",
+  md: "text-base sm:text-lg",
+  lg: "text-lg sm:text-xl",
+};
+
+export function P({ children, size = "md", className }: PProps) {
+  return (
+    <p className={clsx(roboto.className, SIZE[size], "antialiased", className)}>
+      {children}
+    </p>
   );
 }
