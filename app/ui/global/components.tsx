@@ -3,9 +3,17 @@
 import { inter, lusitana, roboto } from "@/app/lib/font";
 import clsx from "clsx";
 import Link from "next/link";
-import React, { forwardRef, ReactNode, useEffect, useId, useMemo, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { IconType } from "react-icons";
-import { IoEye, IoEyeOff } from "react-icons/io5";
+import { IoClose, IoEye, IoEyeOff } from "react-icons/io5";
 
 /* =========================
  * Input
@@ -24,126 +32,145 @@ export type BaseInputProps = {
   Icon?: IconType;
   required?: boolean;
   autoComplete?: string;
+  inputClassName?: string;
 
   /** Extra props to apply to the underlying <input> (handlers/ARIA, etc.) */
   inputProps?: Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
-    | "id" | "name" | "type" | "value" | "defaultValue"
-    | "placeholder" | "required" | "className" | "onChange"
+    | "id"
+    | "name"
+    | "type"
+    | "value"
+    | "defaultValue"
+    | "placeholder"
+    | "required"
+    | "className"
+    | "onChange"
   >;
+  endAdornment?: React.ReactNode;
 };
 
-export const Input = forwardRef<HTMLInputElement, BaseInputProps>(function Input(
-  {
-    id,
-    label,
-    placeholder,
-    type,
-    value,
-    onChange,
-    defaultValue,
-    Icon,
-    error,
-    required = false,
-    autoComplete,
-    inputProps,
-  },
-  ref
-) {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const isPassword = type === "password";
-  const inputType = isPassword && isPasswordVisible ? "text" : type;
+export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
+  function Input(
+    {
+      id,
+      label,
+      placeholder,
+      type,
+      value,
+      onChange,
+      defaultValue,
+      Icon,
+      error,
+      required = false,
+      autoComplete,
+      inputProps,
+      inputClassName,
+      endAdornment,
+    },
+    ref
+  ) {
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const isPassword = type === "password";
+    const inputType = isPassword && isPasswordVisible ? "text" : type;
 
-  const hasError = !!error?.length;
+    const hasError = !!error?.length;
 
-  const togglePasswordVisibility = () => setIsPasswordVisible((p) => !p);
+    const togglePasswordVisibility = () => setIsPasswordVisible((p) => !p);
 
-  const inputMode =
-    type === "email" ? "email" :
-    type === "text" ? "text" : undefined;
+    const inputMode =
+      type === "email" ? "email" : type === "text" ? "text" : undefined;
 
-  const leftPad = Icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4";
+    const leftPad = Icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4";
 
-  const common = {
-    id,
-    name: id,
-    type: inputType,
-    placeholder,
-    required,
-    "aria-required": required || undefined,
-    inputMode,
-    autoComplete: autoComplete ?? (type === "password" ? "current-password" : "off"),
-    className: clsx(
-      "peer block w-full rounded-md border border-gray-200",
-      "py-2 pr-10 text-sm sm:text-base outline-2 placeholder:text-gray-500",
-      "focus:border-blue-600 focus:ring-2 focus:ring-blue-100",
-      leftPad,
-      hasError && "border-red-300 focus:border-red-400 focus:ring-red-100"
-    ),
-    ...inputProps, // allow handlers/ARIA from parent
-  } as const;
+    const common = {
+      id,
+      name: id,
+      type: inputType,
+      placeholder,
+      required,
+      "aria-required": required || undefined,
+      inputMode,
+      autoComplete:
+        autoComplete ?? (type === "password" ? "current-password" : "off"),
+      className: clsx(
+        "peer block w-full rounded-md border border-gray-200",
+        "py-2 pr-10 text-sm sm:text-base outline-2 placeholder:text-gray-500",
+        "focus:border-blue-600 focus:ring-2 focus:ring-blue-100",
+        leftPad,
+        hasError && "border-red-300 focus:border-red-400 focus:ring-red-100",
+        inputClassName
+      ),
+      ...inputProps, // allow handlers/ARIA from parent
+    } as const;
 
-  return (
-    <div className="mb-5" data-required={required || undefined}>
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-        {label}
-        {required && <span className="ml-0.5 text-red-500" aria-hidden>*</span>}
-      </label>
+    return (
+      <div className="mb-5" data-required={required || undefined}>
+        <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+          {label}
+          {required && (
+            <span className="ml-0.5 text-red-500" aria-hidden>
+              *
+            </span>
+          )}
+        </label>
 
-      <div className="relative">
-        {value !== undefined ? (
-          <input
-            {...common}
-            ref={ref}
-            value={value}
-            onChange={(e) => onChange?.(e.currentTarget.value)}
-          />
-        ) : (
-          <input
-            {...common}
-            ref={ref}
-            defaultValue={defaultValue}
-          />
-        )}
+        <div className="relative">
+          {value !== undefined ? (
+            <input
+              {...common}
+              ref={ref}
+              value={value}
+              onChange={(e) => onChange?.(e.currentTarget.value)}
+            />
+          ) : (
+            <input {...common} ref={ref} defaultValue={defaultValue} />
+          )}
 
-        {Icon && (
-          <Icon
-            className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 sm:h-6 sm:w-6 peer-focus:text-gray-900"
-            aria-hidden
-          />
-        )}
+          {Icon && (
+            <Icon
+              className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 sm:h-6 sm:w-6 peer-focus:text-gray-900"
+              aria-hidden
+            />
+          )}
 
-        {isPassword && (
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-900 focus:outline-none"
-            aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+          {isPassword ? (
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-900 focus:outline-none"
+              aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+            >
+              {isPasswordVisible ? (
+                <IoEyeOff className="h-5 w-5 sm:h-6 sm:w-6" />
+              ) : (
+                <IoEye className="h-5 w-5 sm:h-6 sm:w-6" />
+              )}
+            </button>
+          ) : /* render any custom end adornment (e.g., clear button) */
+          endAdornment ? (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              {endAdornment}
+            </div>
+          ) : null}
+        </div>
+
+        {hasError && (
+          <div
+            id={`${id}-error`}
+            aria-live="polite"
+            aria-atomic="true"
+            className="mt-2 text-right text-xs text-red-600 sm:text-sm"
           >
-            {isPasswordVisible ? (
-              <IoEyeOff className="h-5 w-5 sm:h-6 sm:w-6" />
-            ) : (
-              <IoEye className="h-5 w-5 sm:h-6 sm:w-6" />
-            )}
-          </button>
+            {error!.map((msg, i) => (
+              <p key={`${id}-error-${i}`}>{msg}</p>
+            ))}
+          </div>
         )}
       </div>
-
-      {hasError && (
-        <div
-          id={`${id}-error`}
-          aria-live="polite"
-          aria-atomic="true"
-          className="mt-2 text-right text-xs text-red-600 sm:text-sm"
-        >
-          {error!.map((msg, i) => (
-            <p key={`${id}-error-${i}`}>{msg}</p>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-});
+    );
+  }
+);
 
 export type InputOption = string | { value: string; label?: string };
 
@@ -154,6 +181,7 @@ type Props = Omit<BaseInputProps, "type" | "inputProps"> & {
   /** Max items to render in the dropdown */
   maxItems?: number;
   onOptionSelect?: (opt: { value: string; label: string }) => void;
+  clearable?: boolean;
 };
 
 export function InputAutocomplete({
@@ -170,13 +198,15 @@ export function InputAutocomplete({
   options,
   type = "text",
   mustMatch = false,
-  maxItems = 50,
+  maxItems,
   onOptionSelect,
+  clearable = true,
 }: Props) {
   // controlled/uncontrolled
   const [internal, setInternal] = useState(defaultValue ?? "");
   const val = value ?? internal;
-  const setVal = (next: string) => (onChange ? onChange(next) : setInternal(next));
+  const setVal = (next: string) =>
+    onChange ? onChange(next) : setInternal(next);
 
   // dropdown
   const [open, setOpen] = useState(false);
@@ -215,7 +245,9 @@ export function InputAutocomplete({
   // keep active in view
   useEffect(() => {
     if (!open || highlight < 0 || !listRef.current) return;
-    const el = listRef.current.querySelector<HTMLLIElement>(`#${optionId(highlight)}`);
+    const el = listRef.current.querySelector<HTMLLIElement>(
+      `#${optionId(highlight)}`
+    );
     el?.scrollIntoView({ block: "nearest" });
   }, [highlight, open]);
 
@@ -283,6 +315,25 @@ export function InputAutocomplete({
     }
   };
 
+  const clearBtn =
+    clearable && !!val ? (
+      <button
+        type="button"
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={() => {
+          setVal("");
+          setOpen(true);
+          setHighlight(-1);
+          requestAnimationFrame(() => inputRef.current?.focus());
+        }}
+        className="text-gray-400 hover:text-gray-700 focus:outline-none"
+        aria-label="Clear"
+        title="Clear"
+      >
+        <IoClose className="h-5 w-5 sm:h-6 sm:w-6" />
+      </button>
+    ) : null;
+
   return (
     <div className="relative" ref={rootRef}>
       <Input
@@ -312,6 +363,8 @@ export function InputAutocomplete({
           onBlur: handleBlur,
           onKeyDown: handleKeyDown,
         }}
+        inputClassName={open ? "rounded-b-none border-b-0" : undefined}
+        endAdornment={clearBtn}
       />
 
       {open && (
@@ -320,7 +373,14 @@ export function InputAutocomplete({
           id={listboxId}
           role="listbox"
           className={clsx(
-            "absolute z-10 mt-1 max-h-64 w-full overflow-auto rounded-md border border-gray-200 bg-white shadow-lg"
+            // anchor to the input
+            "absolute left-0 top-full z-10 w-full",
+            // remove the little gap & merge borders
+            " border border-gray-200 border-t-0",
+            // blend corners with input
+            "rounded-b-md rounded-t-none",
+            // surface
+            "bg-gray-100 shadow-lg max-h-64 overflow-auto"
           )}
         >
           {filtered.length === 0 ? (
@@ -356,8 +416,6 @@ export function InputAutocomplete({
     </div>
   );
 }
-
-
 
 /* =========================
  * Button

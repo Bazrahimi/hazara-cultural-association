@@ -104,7 +104,7 @@ export default function ContactForm({
       <InputAutocomplete
         id="query"
         label="How can we help"
-        placeholder="start typing..."
+        placeholder="Select your Query Type..."
         type="text"
         required
         mustMatch
