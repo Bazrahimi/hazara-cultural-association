@@ -95,7 +95,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
         autoComplete ?? (type === "password" ? "current-password" : "off"),
       className: clsx(
         "peer block w-full rounded-md border border-gray-200",
-        "py-2 pr-10 text-sm sm:text-base outline-2 placeholder:text-gray-500",
+        "py-2 pr-10 text-sm sm:text-base outline-1 placeholder:text-gray-500",
         "focus:border-blue-600 focus:ring-2 focus:ring-blue-100",
         leftPad,
         hasError && "border-red-300 focus:border-red-400 focus:ring-red-100",
@@ -249,7 +249,7 @@ export function InputAutocomplete({
       `#${optionId(highlight)}`
     );
     el?.scrollIntoView({ block: "nearest" });
-  }, [highlight, open]);
+  }, [highlight, open, optionId]);
 
   // outside click
   useEffect(() => {
@@ -385,8 +385,11 @@ export function InputAutocomplete({
         >
           {filtered.length === 0 ? (
             <li
-              className="cursor-default px-3 py-2 text-sm text-gray-500"
+              role="option"
               aria-disabled="true"
+              aria-selected="false"
+              tabIndex={-1}
+              className="cursor-default px-3 py-2 text-sm text-gray-500 pointer-events-none"
             >
               No matches
             </li>
