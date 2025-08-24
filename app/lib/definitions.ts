@@ -1,16 +1,3 @@
-export type LoginState =
-  | {
-      email?: string;
-      password?: string;
-      message?: string;
-      errors?: {
-        email?: string[];
-        password?: string[];
-      };
-    }
-  // "|" in TypeScript is the union operator
-  | undefined;
-
 export type SessionPayload = {
   userId: string; // required
   isAdmin?: boolean; // optional
@@ -25,3 +12,34 @@ export type Session = {
   iat: number;
   exp: number;
 };
+
+export type LoginState =
+  | {
+      email?: string;
+      password?: string;
+      message?: string;
+      errors?: {
+        email?: string[];
+        password?: string[];
+      };
+    }
+  // "|" in TypeScript is the union operator
+  | undefined;
+
+export type QuickEnquiry =
+  | {
+      fullName?: string;
+      email?: string;
+      contactNumber?: string;
+      queryType?: string;
+      qMessage?: string;
+      message?: string;
+      errors?: {
+        fullName?: string[];
+        email?: string[];
+        contactNumber?: string[];
+        queryType?: string[];
+        qMessage?: string[];
+      };
+    }
+  | undefined;

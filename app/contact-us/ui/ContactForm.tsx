@@ -11,23 +11,29 @@ import { HiAcademicCap, HiCalendar, HiUsers } from "react-icons/hi";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdCampaign, MdEmail } from "react-icons/md";
 
+import { submitEnquiry } from "@/app/lib/action";
 import { ActionButton } from "@/app/ui/global/clientComponent";
+import { useActionState } from "react";
 
 const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
 const labelBase = "block text-sm font-medium text-gray-700";
 
-export type ContactFormValues = {
-  name: string;
-  email: string;
-  phone?: string;
-  query: string;
-  message?: string;
-};
+// export type ContactFormValues = {
+//   name: string;
+//   email: string;
+//   phone?: string;
+//   query: string;
+//   message?: string;
+// };
 
 export default function ContactForm() {
+  const [state, formAction, isPending] = useActionState(
+    submitEnquiry,
+    undefined
+  );
   return (
-    <form className="space-y-4 relative">
+    <form className="space-y-4 relative" action={formAction}>
       <Header align="center" as="h3" size="sm">
         Quick Enquiry
       </Header>
@@ -37,8 +43,8 @@ export default function ContactForm() {
         id="fullName"
         label="Full Name"
         placeholder="Enter your full name"
-        error={[]}
-        defaultValue=""
+        error={state?.errors.fullName}
+        defaultValue={state?.fullName}
         type="text"
         Icon={CiUser}
         required
@@ -50,8 +56,8 @@ export default function ContactForm() {
         id="email"
         label="Email"
         placeholder="Enter your Email"
-        error={[]}
-        defaultValue=""
+        error={state?.errors.email}
+        defaultValue={state?.email}
         type="email"
         Icon={MdEmail}
         required
@@ -62,16 +68,17 @@ export default function ContactForm() {
         id="contactNumber"
         label="Contact Number"
         placeholder="Enter your contact Number"
-        error={[]}
-        defaultValue=""
+        error={state?.errors.contactNumber}
+        defaultValue={state?.contactNumber}
         type="text"
         Icon={IoIosPhonePortrait}
       />
 
       <InputAutocomplete
-        id="query"
+        id="queryType"
         label="How can we help"
         placeholder="Select your Query Type..."
+        defaultValue={state?.queryType}
         type="text"
         required
         mustMatch
@@ -92,12 +99,18 @@ export default function ContactForm() {
           Message
         </label>
         <textarea
-          id="message"
-          name="message"
+          id="qMessage"
+          name="qMessage"
           rows={5}
           placeholder="Tell us a little about your enquiry…"
+          defaultValue={state?.qMessage}
           className={`${fieldBase} min-h-[120px]`}
         />
+        {state?.errors.qMessage?.length && (
+          <p className="mt-1 text-sm text-red-600">
+            {state.errors.qMessage[0]}
+          </p>
+        )}
       </div>
 
       {/* Visual query chips */}
@@ -122,7 +135,7 @@ export default function ContactForm() {
       {/* Submit */}
       <ActionButton
         type="submit"
-        isLoading={false}
+        isLoading={isPending}
         loadingText="Sending..."
         overlay
         fullWidth

@@ -1,11 +1,64 @@
 "use server";
 import bcrypt from "bcrypt";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import { sql } from "./db";
-import { LoginState } from "./definitions";
-import { LoginSchema } from "./schema";
+import { LoginState, QuickEnquiry } from "./definitions";
+import { LoginSchema, QuickEnquirySchema } from "./schema";
 import { createSession } from "./session";
-import { redirect } from "next/navigation";
+
+export const submitEnquiry = async (
+  prevState: QuickEnquiry,
+  formData: FormData
+) => {
+  const rawData = {
+    fullName: formData.get("fullName") as string,
+    email: formData.get("email") as string,
+    contactNumber: formData.get("contactNumber") as string,
+    queryType: formData.get("queryType") as string,
+    qMessage: formData.get("qMessage") as string,
+  };
+
+  const validated = QuickEnquirySchema.safeParse({
+    fullName: rawData.fullName,
+    email: rawData.email,
+    contactNumber: rawData.contactNumber,
+    queryType: rawData.queryType,
+    qMessage: rawData.qMessage,
+  });
+
+  if (!validated.success) {
+    const tree = z.treeifyError(validated.error);
+
+    return {
+      ...rawData,
+      errors: {
+        fullName: tree.properties?.fullName?.errors,
+        email: tree.properties?.email?.errors,
+        contactNumber: tree.properties?.contactNumber?.errors,
+        queryType: tree.properties?.queryType?.errors,
+        qMessage: tree.properties?.qMessage?.errors,
+      },
+    };
+  }
+
+  const data = validated.data;
+
+  try {
+  
+    const rows = await sql<[{ id: number }]>`
+      INSERT INTO quick_enquiries (full_name, email, contact_number, query_type, message)
+      VALUES (${data.fullName}, ${data.email}, ${data.contactNumber || null}, ${data.queryType}, ${data.qMessage})
+      RETURNING id
+    `;
+  } catch (error) {
+    console.error("Failed to submit the query", error);
+    return {
+      ...rawData,
+      message: "Failed to submit the query.",
+    };
+  }
+};
 
 export const authenticate = async (
   prevState: LoginState,
@@ -85,5 +138,5 @@ export const authenticate = async (
         "An error occurred while processing your request. Please try again.",
     };
   }
-  redirect("/admin")
+  redirect("/admin");
 };
