@@ -1,11 +1,11 @@
 "use client";
 import { Header, Input } from "@/app/ui/global/components";
 import { useState } from "react";
+import { CiUser } from "react-icons/ci";
 import { FaHandHoldingHeart } from "react-icons/fa";
 import { HiAcademicCap, HiCalendar, HiUsers } from "react-icons/hi";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdCampaign, MdEmail } from "react-icons/md";
-import { CiUser } from "react-icons/ci";
 
 const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
@@ -101,9 +101,23 @@ export default function ContactForm({
         Icon={IoIosPhonePortrait}
       />
 
-
-
-
+      <Input
+        id="query"
+        label="How can we help"
+        placeholder="start typing..."
+        type="text"
+        required
+        options={[
+          "Donations & Support",
+          "Volunteering",
+          "Cultural Programs & Classes",
+          "Events & Community Gatherings",
+          "Family Assistance / Community Support",
+          "Advocacy & Media Enquiries",
+          "Other",
+        ]}
+      />
+      {/* TODO: if we give a an option children probe to above Input component, will we be able to to transform the below sleect to an input autocoplete input */}
       {/* Query */}
       <div>
         <label htmlFor="query" className={labelBase}>

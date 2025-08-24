@@ -3,14 +3,14 @@
 import { inter, lusitana, roboto } from "@/app/lib/font";
 import clsx from "clsx";
 import Link from "next/link";
-import React, { forwardRef, ReactNode, useState } from "react";
+import React, { forwardRef, ReactNode, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 
 /* =========================
  * Input
  * =======================*/
-
+type InputOption = string | { value: string; label?: string };
 type InputProps = {
   id: string;
   label: string;
@@ -21,6 +21,8 @@ type InputProps = {
   Icon?: IconType;
   autoComplete?: string;
   required?: boolean;
+  options?: InputOption[];
+  listId?: string;
 };
 
 export const Input = ({
@@ -33,6 +35,8 @@ export const Input = ({
   error,
   autoComplete,
   required = false,
+  options,
+  listId
 }: InputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const isPassword = type === "password";
@@ -48,6 +52,18 @@ export const Input = ({
 
   // dynamic padding if a leading Icon is present
   const leftPad = Icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4";
+
+    // datalist id (only if options are provided)
+  const resolvedListId = options && (listId || `${id}-list`);
+
+  // normalise options to { value, label }
+  const normalisedOptions = useMemo(
+    () =>
+      (options ?? []).map((opt) =>
+        typeof opt === "string" ? { value: opt, label: opt } : opt
+      ),
+    [options]
+  );
 
   return (
     <div className="mb-5" data-required={required || undefined}>
@@ -80,6 +96,7 @@ export const Input = ({
           }
           aria-describedby={describedBy}
           aria-invalid={hasError || undefined}
+          list={resolvedListId || undefined}
           className={clsx(
             "peer block w-full rounded-md border border-gray-200",
             "py-2 pr-10 text-sm sm:text-base outline-2 placeholder:text-gray-500",
@@ -113,6 +130,17 @@ export const Input = ({
           </button>
         )}
       </div>
+
+            {/* Datalist (only if options provided) */}
+      {resolvedListId && normalisedOptions.length > 0 && (
+        <datalist id={resolvedListId}>
+          {normalisedOptions.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label ?? o.value}
+            </option>
+          ))}
+        </datalist>
+      )}
 
       {/* Errors */}
       {hasError && (
