@@ -222,7 +222,7 @@ type HeadingSize = "sm" | "md" | "lg";
 type HeaderProps = {
   children: React.ReactNode;
   size?: HeadingSize;
-  as?: AsTag; // only headings
+  as: AsTag; // only headings
   align?: "left" | "center" | "right";
   color?: "brand" | "default";
   className?: string;
