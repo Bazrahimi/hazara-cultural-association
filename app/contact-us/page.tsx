@@ -4,18 +4,18 @@ import ContactHeader from "./ui/ContactHeader";
 const ContactUsPage = () => {
   return (
     <main
-      className={`
-        min-h-screen
-        bg-[linear-gradient(
-          to_bottom,
-          theme(colors.blue.600) 0%,
-          theme(colors.blue.600) 32%,
-          white 32%,
-          white 72%,
-          theme(colors.yellow.500) 72%,
-          theme(colors.yellow.500) 100%
-        )]
-      `}
+      // className={`
+      //   min-h-screen
+      //   bg-[linear-gradient(
+      //     to_bottom,
+      //     theme(colors.blue.600) 0%,
+      //     theme(colors.blue.600) 32%,
+      //     white 32%,
+      //     white 72%,
+      //     theme(colors.yellow.500) 72%,
+      //     theme(colors.yellow.500) 100%
+      //   )]
+      // `}
     >
       {/* subtle overlay to keep content readable on bright bg */}
       <div className="min-h-screen bg-white/60 backdrop-blur-[1px]">

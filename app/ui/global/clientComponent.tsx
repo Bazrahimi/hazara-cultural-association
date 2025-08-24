@@ -48,8 +48,8 @@ export function ActionButton({
           className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-gray-200/60"
           aria-hidden
         >
-          <span className="mr-2 text-yellow-700">{loadingText}</span>
-          <ImSpinner10 className="h-5 w-5 animate-spin text-yellow-700" />
+          <span className="mr-2 text-yellow-600">{loadingText}</span>
+          <ImSpinner10 className="h-5 w-5 animate-spin text-yellow-600" />
         </div>
       )}
 
