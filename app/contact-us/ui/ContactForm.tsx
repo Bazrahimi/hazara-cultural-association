@@ -118,34 +118,6 @@ export default function ContactForm({
           "Other",
         ]}
       />
-   
-      <div>
-        <label htmlFor="query" className={labelBase}>
-          How can we help? <span className="text-red-500">*</span>
-        </label>
-        <div className="relative">
-          <select
-            id="query"
-            name="query"
-            required
-            defaultValue=""
-            className={fieldBase}
-          >
-            <option value="" disabled hidden>
-              -- Select a query --
-            </option>
-            <option value="donations">Donations & Support</option>
-            <option value="volunteering">Volunteering</option>
-            <option value="programs">Cultural Programs & Classes</option>
-            <option value="events">Events & Community Gatherings</option>
-            <option value="family">
-              Family Assistance / Community Support
-            </option>
-            <option value="advocacy">Advocacy & Media Enquiries</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-      </div>
 
       {/* Message */}
       <div>
