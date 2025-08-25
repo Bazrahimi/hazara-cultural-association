@@ -33,6 +33,7 @@ export const submitEnquiry = async (
     return {
       ...rawData,
       ok: false,
+      message: "Complete the above field!",
       errors: {
         fullName: tree.properties?.fullName?.errors,
         email: tree.properties?.email?.errors,
@@ -54,10 +55,14 @@ export const submitEnquiry = async (
       RETURNING id
     `;
     return {
-      ...data,
+      fullName: '',
+      email: '',
+      contactNumber: '',
+      qType: '',
+      qMessage: '',
       ok: true,
       message: "Thanks! we have received your enquiry.",
-      errors:undefined,
+      errors: undefined, // unify shape
     };
   } catch (error) {
     console.error("Failed to submit the query", error);
@@ -65,7 +70,7 @@ export const submitEnquiry = async (
       ...rawData,
       ok: false,
       message:
-        "Sorry — something went wrong saving your enquiry. Please try again.",
+        "Sorry — Failed to submit the enquiry. Please try again.",
       errors: undefined,
     };
   }
