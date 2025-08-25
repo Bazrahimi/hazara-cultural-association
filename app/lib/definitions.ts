@@ -1,5 +1,5 @@
 import z from "zod";
-import { QuickEnquirySchema } from "./schema";
+import { AuthSchema, QuickEnquirySchema } from "./schema";
 
 export type SessionPayload = {
   userId: string; // required
@@ -16,30 +16,11 @@ export type Session = {
   exp: number;
 };
 
-
-
-// export type SendQuickEnquiry = {
-//   fullName?: string;
-//   email?: string;
-//   contactNumber?: string;
-//   queryType?: string;
-//   qMessage?: string;
-//   errors?: {
-//     fullName?: string[];
-//     email?: string[];
-//     contactNumber?: string[];
-//     queryType?: string[];
-//     qMessage?: string[];
-//   };
-//   message?: string;
-//   ok?: boolean;
-// };
-
 /**2) data shape directly from schema  */
 export type QuickEnquiry = z.infer<typeof QuickEnquirySchema>;
 
 /**3) Generic Helpers for action state typed by any schema-derived data */
-export type FieldErrors<T> = Partial<Record<keyof T, string[]>>
+export type FieldErrors<T> = Partial<Record<keyof T, string[]>>;
 
 export type ActionState<T> = {
   /** Optionally return back the user’s data so the form can re-fill */
@@ -51,19 +32,7 @@ export type ActionState<T> = {
   ok?: boolean;
 };
 
-export type QuickEnquiryState = ActionState<QuickEnquiry>
+export type QuickEnquiryState = ActionState<QuickEnquiry>;
 
-
-
-export type LoginState =
-  | {
-      email?: string;
-      password?: string;
-      message?: string;
-      errors?: {
-        email?: string[];
-        password?: string[];
-      };
-    }
-  // "|" in TypeScript is the union operator
-  | undefined;
+type Auth = z.infer<typeof AuthSchema>;
+export type AuthState = ActionState<Auth>;

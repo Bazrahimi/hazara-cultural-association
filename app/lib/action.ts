@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { sendQuickEnquiryEmail } from "../ui/global/resend/email";
 import { sql } from "./db";
-import { LoginState, QuickEnquiryState } from "./definitions";
-import { LoginSchema, QuickEnquirySchema } from "./schema";
+import { AuthState, QuickEnquiryState } from "./definitions";
+import { AuthSchema, QuickEnquirySchema } from "./schema";
 import { createSession } from "./session";
 
 export const submitEnquiry = async (
@@ -95,14 +95,14 @@ export const submitEnquiry = async (
   };
 };
 
-export const authenticate = async (
-  prevState: LoginState | undefined,
+export const auth = async (
+  prevState: AuthState | undefined,
   formData: FormData
 ) => {
   const rawEmail = formData.get("email") as string;
   const rawPassword = formData.get("password") as string;
 
-  const validated = LoginSchema.safeParse({
+  const validated = AuthSchema.safeParse({
     email: rawEmail,
     password: rawPassword,
   });

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const LoginSchema = z.object({
+export const AuthSchema = z.object({
   email: z.email({ message: "Please enter a valid email address." }).trim(),
   password: z
     .string()
@@ -19,4 +19,3 @@ export const QuickEnquirySchema = z.object({
   queryType: z.string().min(2, { message: "please select your query type" }),
   qMessage: z.string().min(2, { message: "please enter your message" }),
 });
-
