@@ -1,3 +1,6 @@
+import { QuickEnquirySchema } from "./schema";
+import z from "zod";
+
 export type SessionPayload = {
   userId: string; // required
   isAdmin?: boolean; // optional
@@ -45,10 +48,7 @@ export type SendQuickEnquiry =
     }
   | undefined;
 
-export type QuickEnquiry = {
-  fullName: string;
-  email: string;
-  contactNumber?: string;
-  queryType: string;
-  qMessage: string;
-};
+
+export type QuickEnquiry = z.infer<typeof QuickEnquirySchema>
+
+
