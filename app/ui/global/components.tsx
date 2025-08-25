@@ -536,7 +536,7 @@ type HeaderProps = {
 
 const HEADING_COLOR: Record<NonNullable<HeaderProps["color"]>, string> = {
   brand: "text-blue-600",
-  // default: "text-blue-600",
+  default: "text-yellow-500",
 };
 
 const SCALE: Record<AsTag, Record<HeadingSize, string>> = {

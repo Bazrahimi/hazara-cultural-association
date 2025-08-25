@@ -75,11 +75,13 @@ export const submitEnquiry = async (
     };
   }
 
-  let message = "Thanks! we have received your enquiry.";
-  if (emailRes.status === "rejected") {
-    console.error("Email send failed", emailRes.reason);
-    message += " (Heads-up: we couldn’t send the confirmation email.)";
-  }
+  // let message = "Thanks! we have received your enquiry.";
+  // if (emailRes.status === "rejected") {
+  //   console.error("Email send failed", emailRes.reason);
+  //   message += " (Heads-up: we couldn’t send the confirmation email.)";
+  // }
+
+    const message = "Thanks! we have received your enquiry.";
 
   return {
     fullName: "",
