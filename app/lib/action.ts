@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { sendQuickEnquiryEmail } from "../ui/global/resend/email";
 import { sql } from "./db";
-import { LoginState, SendQuickEnquiry } from "./definitions";
+import { LoginState, QuickEnquiryState } from "./definitions";
 import { LoginSchema, QuickEnquirySchema } from "./schema";
 import { createSession } from "./session";
 
 export const submitEnquiry = async (
-  prevState: SendQuickEnquiry | undefined,
+  prevState: QuickEnquiryState | undefined,
   formData: FormData
 ) => {
   const rawData = {
@@ -96,7 +96,7 @@ export const submitEnquiry = async (
 };
 
 export const authenticate = async (
-  prevState: LoginState,
+  prevState: LoginState | undefined,
   formData: FormData
 ) => {
   const rawEmail = formData.get("email") as string;

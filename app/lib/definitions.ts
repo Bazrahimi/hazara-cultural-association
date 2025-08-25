@@ -16,18 +16,7 @@ export type Session = {
   exp: number;
 };
 
-export type LoginState =
-  | {
-      email?: string;
-      password?: string;
-      message?: string;
-      errors?: {
-        email?: string[];
-        password?: string[];
-      };
-    }
-  // "|" in TypeScript is the union operator
-  | undefined;
+
 
 // export type SendQuickEnquiry = {
 //   fullName?: string;
@@ -62,7 +51,19 @@ export type ActionState<T> = {
   ok?: boolean;
 };
 
-export type SendQuickEnquiry = ActionState<QuickEnquiry>
+export type QuickEnquiryState = ActionState<QuickEnquiry>
 
 
 
+export type LoginState =
+  | {
+      email?: string;
+      password?: string;
+      message?: string;
+      errors?: {
+        email?: string[];
+        password?: string[];
+      };
+    }
+  // "|" in TypeScript is the union operator
+  | undefined;

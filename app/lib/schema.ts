@@ -19,3 +19,4 @@ export const QuickEnquirySchema = z.object({
   queryType: z.string().min(2, { message: "please select your query type" }),
   qMessage: z.string().min(2, { message: "please enter your message" }),
 });
+
