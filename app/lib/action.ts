@@ -56,7 +56,13 @@ export const submitEnquiry = async (
     `;
   const emailPromise = sendQuickEnquiryEmail({ ...data });
 
-  const [dbRes, emailRes] = await Promise.allSettled([dbPromise, emailPromise]);
+  const [
+    dbRes,
+    // emailRes
+  ] = await Promise.allSettled([
+    dbPromise,
+    // emailPromise
+  ]);
 
   // DB is critical - if it failed, show and error,
   if (dbRes.status === "rejected") {
