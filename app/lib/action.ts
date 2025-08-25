@@ -9,7 +9,7 @@ import { LoginSchema, QuickEnquirySchema } from "./schema";
 import { createSession } from "./session";
 
 export const submitEnquiry = async (
-  prevState: SendQuickEnquiry,
+  prevState: SendQuickEnquiry | undefined,
   formData: FormData
 ) => {
   const rawData = {

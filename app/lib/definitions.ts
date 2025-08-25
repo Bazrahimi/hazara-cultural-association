@@ -1,5 +1,5 @@
-import { QuickEnquirySchema } from "./schema";
 import z from "zod";
+import { QuickEnquirySchema } from "./schema";
 
 export type SessionPayload = {
   userId: string; // required
@@ -29,26 +29,21 @@ export type LoginState =
   // "|" in TypeScript is the union operator
   | undefined;
 
-export type SendQuickEnquiry =
-  | {
-      fullName?: string;
-      email?: string;
-      contactNumber?: string;
-      queryType?: string;
-      qMessage?: string;
-      errors?: {
-        fullName?: string[];
-        email?: string[];
-        contactNumber?: string[];
-        queryType?: string[];
-        qMessage?: string[];
-      };
-      message?: string;
-      ok?: boolean;
-    }
-  | undefined;
+export type SendQuickEnquiry = {
+  fullName?: string;
+  email?: string;
+  contactNumber?: string;
+  queryType?: string;
+  qMessage?: string;
+  errors?: {
+    fullName?: string[];
+    email?: string[];
+    contactNumber?: string[];
+    queryType?: string[];
+    qMessage?: string[];
+  };
+  message?: string;
+  ok?: boolean;
+};
 
-
-export type QuickEnquiry = z.infer<typeof QuickEnquirySchema>
-
-
+export type QuickEnquiry = z.infer<typeof QuickEnquirySchema>;
