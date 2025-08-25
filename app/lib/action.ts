@@ -81,7 +81,7 @@ export const submitEnquiry = async (
   //   message += " (Heads-up: we couldn’t send the confirmation email.)";
   // }
 
-    const message = "Thanks! we have received your enquiry.";
+  const message = "Thanks! we have received your enquiry.";
 
   return {
     fullName: "",
