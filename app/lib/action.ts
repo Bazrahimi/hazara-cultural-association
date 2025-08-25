@@ -2,13 +2,14 @@
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { sendQuickEnquiryEmail } from "../ui/global/resend/email";
 import { sql } from "./db";
-import { LoginState, QuickEnquiry } from "./definitions";
+import { LoginState, SendQuickEnquiry } from "./definitions";
 import { LoginSchema, QuickEnquirySchema } from "./schema";
 import { createSession } from "./session";
 
 export const submitEnquiry = async (
-  prevState: QuickEnquiry,
+  prevState: SendQuickEnquiry,
   formData: FormData
 ) => {
   const rawData = {
@@ -46,34 +47,44 @@ export const submitEnquiry = async (
 
   const data = validated.data;
 
-  try {
-    const rows = await sql<[{ id: number }]>`
+  const dbPromise = await sql<[{ id: number }]>`
       INSERT INTO quick_enquiries (full_name, email, contact_number, query_type, message)
       VALUES (${data.fullName}, ${data.email}, ${data.contactNumber || null}, ${
-      data.queryType
-    }, ${data.qMessage})
+        data.queryType
+      }, ${data.qMessage})
       RETURNING id
     `;
-    return {
-      fullName: '',
-      email: '',
-      contactNumber: '',
-      queryType: '',
-      qMessage: '',
-      ok: true,
-      message: "Thanks! we have received your enquiry.",
-      errors: undefined, // unify shape
-    };
-  } catch (error) {
-    console.error("Failed to submit the query", error);
+  const emailPromise = sendQuickEnquiryEmail({ ...data });
+
+  const [dbRes, emailRes] = await Promise.allSettled([dbPromise, emailPromise]);
+
+  // DB is critical - if it failed, show and error,
+  if (dbRes.status === "rejected") {
+    console.error("Failed to submit the query", dbRes.reason);
     return {
       ...rawData,
       ok: false,
-      message:
-        "Sorry — Failed to submit the enquiry. Please try again.",
+      message: "Failed to submit the enquiry. Please try again Later.",
       errors: undefined,
     };
   }
+
+  let message = "Thanks! we have received your enquiry.";
+  if (emailRes.status === "rejected") {
+    console.error("Email send failed", emailRes.reason);
+    message += " (Heads-up: we couldn’t send the confirmation email.)";
+  }
+
+  return {
+    fullName: "",
+    email: "",
+    contactNumber: "",
+    queryType: "",
+    qMessage: "",
+    ok: true,
+    message,
+    errors: undefined,
+  };
 };
 
 export const authenticate = async (

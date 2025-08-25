@@ -26,7 +26,7 @@ export type LoginState =
   // "|" in TypeScript is the union operator
   | undefined;
 
-export type QuickEnquiry =
+export type SendQuickEnquiry =
   | {
       fullName?: string;
       email?: string;
@@ -44,3 +44,11 @@ export type QuickEnquiry =
       ok?: boolean;
     }
   | undefined;
+
+export type QuickEnquiry = {
+  fullName: string;
+  email: string;
+  contactNumber?: string;
+  queryType: string;
+  qMessage: string;
+};
