@@ -13,8 +13,8 @@ import { MdCampaign, MdEmail } from "react-icons/md";
 
 import { submitEnquiry } from "@/app/lib/action";
 import { ActionButton } from "@/app/ui/global/clientComponent";
-import { useActionState } from "react";
 import StatusBanner from "@/app/ui/global/FormMessage";
+import { useActionState } from "react";
 
 const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
@@ -135,13 +135,14 @@ export default function ContactForm() {
       >
         Send Message
       </ActionButton>
-      <StatusBanner ok={state?.ok} message={state?.message} />
+      {!isPending && state && (
+        <StatusBanner ok={state.ok} message={state.message} />
+      )}
 
       <P className="text-center text-xs text-gray-500">
         By contacting us, you agree to our community guidelines and privacy
         policy.
       </P>
-
     </form>
   );
 }

@@ -58,7 +58,7 @@ export const submitEnquiry = async (
       fullName: '',
       email: '',
       contactNumber: '',
-      qType: '',
+      queryType: '',
       qMessage: '',
       ok: true,
       message: "Thanks! we have received your enquiry.",
