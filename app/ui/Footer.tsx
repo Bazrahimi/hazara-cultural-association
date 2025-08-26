@@ -115,7 +115,7 @@ const Footer = () => {
       {/* Copyright */}
       <div className="border-t border-gray-700 px-6 py-4 text-center text-xs text-gray-500">
         © {new Date().getFullYear()} Hazara Cultural Association. All rights
-        reserved. <Link href="/admin-login" className="text-yellow-400 hover:text-yellow-500">Admin Login</Link> | Built by{" "}
+        reserved. <Link href="/login" className="text-yellow-400 hover:text-yellow-500">Admin Login</Link> | Built by{" "}
         <a
           href="https://github.com/Bazrahimi"
           target="_blank"

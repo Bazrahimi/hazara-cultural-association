@@ -13,7 +13,7 @@ export const middleware = async (req: NextRequest) => {
 
   if (!session?.isAdmin) {
     const url = req.nextUrl.clone();
-    url.pathname = "/admin-login";
+    url.pathname = "/login";
     url.searchParams.set("next", pathname);
     return NextResponse.redirect(url);
   }
