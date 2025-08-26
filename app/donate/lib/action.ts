@@ -1,3 +1,4 @@
+"use server";
 import { FieldErrors } from "@/app/lib/definitions";
 import { z } from "zod";
 import { DonationState } from "./definitions";
@@ -9,16 +10,17 @@ export async function submitDonation(
   formData: FormData
 ) {
   // Gather raw values from the form
+  console.log(formData);
 
   const raw = {
-    amount: formData.get("amount") as string,
-    fullName: formData.get("fullName") as string,
-    email: formData.get("email") as string,
-    contactNumber: formData.get("contactNumber") as string,
-    address1: formData.get("address1") as string,
-    address2: formData.get("address2") as string,
-    suburb: formData.get("suburb") as string,
-    state: formData.get("state") as string,
+    amount: formData.get("amount"),
+    fullName: formData.get("fullName"),
+    email: formData.get("email"),
+    contactNumber: formData.get("contactNumber"),
+    address1: formData.get("address1"),
+    address2: formData.get("address2"),
+    suburb: formData.get("suburb"),
+    state: formData.get("state"),
     postCode: formData.get("postCode"),
   };
 
@@ -46,6 +48,8 @@ export async function submitDonation(
   }
 
   const data = validated.data;
+
+  console.log("date______", data)
 
   return {
     ok: true,

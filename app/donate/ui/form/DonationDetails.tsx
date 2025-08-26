@@ -1,37 +1,9 @@
 "use client";
-import { Button, Input, InputAutocomplete } from "@/app/ui/global/components";
+import { Button, Input } from "@/app/ui/global/components";
 import { DonationState } from "../../lib/definitions";
 
-export type AUState =
-  | "VIC"
-  | "NSW"
-  | "QLD"
-  | "SA"
-  | "WA"
-  | "TAS"
-  | "ACT"
-  | "NT";
-
-// Server returns errors keyed by DonationSchema:
-// amount, fullName, email, contactNumber, address, suburb, state, postCode, creditCard
-type ServerErrors = Partial<
-  Record<
-    | "amount"
-    | "fullName"
-    | "email"
-    | "contactNumber"
-    | "address"
-    | "suburb"
-    | "state"
-    | "postCode"
-    | "creditCard",
-    string[]
-  >
->;
-
 type Props = {
-  state: DonationState | undefined;
-
+  state?: DonationState;
   onBack: () => void;
 };
 
@@ -49,82 +21,110 @@ export default function DonationDetails({ state, onBack }: Props) {
         id="fullName"
         label="Full name"
         type="text"
-        placeholder="Enter your full name"
-        defaultValue={state?.data?.fullName}
+        placeholder="Jane Citizen"
+        defaultValue={state?.data?.fullName ?? ""}
         error={state?.errors?.fullName}
-        required
+        inputProps={{ autoComplete: "name" }}
       />
 
       <Input
         id="email"
-        label="Email Address"
-        placeholder="Enter your email Address"
+        label="Email"
         type="email"
-        defaultValue={state?.data?.email}
+        placeholder="you@example.com"
+        defaultValue={state?.data?.email ?? ""}
         error={state?.errors?.email}
-        required
+        inputProps={{ autoComplete: "email" }}
       />
 
       <Input
         id="contactNumber"
         label="Contact number"
         type="text"
-        placeholder="Enter your contact number"
-        defaultValue={state?.data?.contactNumber}
+        placeholder="04xx xxx xxx"
+        defaultValue={state?.data?.contactNumber ?? ""}
         error={state?.errors?.contactNumber}
+        inputProps={{ autoComplete: "tel", inputMode: "tel" }}
       />
 
-      {/* Address line 1 */}
       <Input
         id="address1"
         label="Street address"
         type="text"
         placeholder="123 Example St"
-        defaultValue={state?.data?.address1}
-        error={state?.errors?.address1}
+        defaultValue={state?.data?.address1 ?? ""}
+        error={state?.errors?.address}
+        inputProps={{ autoComplete: "address-line1" }}
       />
 
-      {/* Address line 2 (optional) */}
       <Input
         id="address2"
         label="Address line 2 (optional)"
         type="text"
         placeholder="Unit, Apartment, etc."
-        defaultValue={state?.data?.address2}
+        defaultValue={state?.data?.address2 ?? ""}
+        inputProps={{ autoComplete: "address-line2" }}
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {/* Suburb / City */}
         <div className="sm:col-span-2">
           <Input
             id="suburb"
-            label="Suburb"
+            label="Suburb / City"
             type="text"
-            placeholder="Enter your suburb"
-            defaultValue={state?.data?.suburb}
+            placeholder="Dandenong"
+            defaultValue={state?.data?.suburb ?? ""}
             error={state?.errors?.suburb}
+            inputProps={{ autoComplete: "address-level2" }}
           />
         </div>
 
         <div>
-          <InputAutocomplete
+          <label
+            htmlFor="state"
+            className="block text-sm font-medium text-gray-700"
+          >
+            State
+          </label>
+          <select
             id="state"
-            label="state" // matches server schema
-            defaultValue={state?.data?.state}
-            error={state?.errors?.state}
-            options={["VIC", "NSW", "QLD", "SA", "WA", "TAS", "ACT", "NT"]}
-          />
+            name="state"
+            defaultValue={state?.data?.state ?? ""}
+            className="mt-1 block w-full rounded-md border border-gray-200 py-2 px-3 text-sm sm:text-base focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+            autoComplete="address-level1"
+          >
+            <option value="">Select state</option>
+            <option value="VIC">VIC</option>
+            <option value="NSW">NSW</option>
+            <option value="QLD">QLD</option>
+            <option value="SA">SA</option>
+            <option value="WA">WA</option>
+            <option value="TAS">TAS</option>
+            <option value="ACT">ACT</option>
+            <option value="NT">NT</option>
+          </select>
+          {state?.errors?.state?.length ? (
+            <p className="mt-2 text-right text-xs text-red-600 sm:text-sm">
+              {state.errors.state[0]}
+            </p>
+          ) : null}
         </div>
       </div>
 
-      {/* Postcode (server: postCode) */}
       <Input
         id="postCode"
         label="Postcode"
-        type="number"
-        placeholder="your post code"
-        defaultValue={state?.data?.postCode}
+        type="text"
+        placeholder="3175"
+        defaultValue={state?.data?.postCode?.toString?.() ?? ""}
         error={state?.errors?.postCode}
+        inputProps={{
+          autoComplete: "postal-code",
+          inputMode: "numeric",
+          pattern: "[0-9]*",
+          maxLength: 4,
+          // label: "postCode", // ensure name matches schema
+        }}
       />
     </fieldset>
   );

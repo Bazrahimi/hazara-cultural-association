@@ -1,13 +1,15 @@
 "use client";
 import { Button } from "@/app/ui/global/components";
 import { useActionState, useState } from "react";
-import { submitDonation } from "../lib/action";
+import { submitDonation, type DonationState } from "../lib/action";
 import DonationAmount, { type DonateTab } from "./form/DonationAmount";
 import DonationDetails from "./form/DonationDetails";
 
 const nowAmount = [50, 100, 250, 500];
 const regularAmount = [20, 50, 100, 250];
 type Step = "amount" | "details";
+
+const initial: DonationState = { ok: false };
 
 export default function DonateForm() {
   const [tab, setTab] = useState<DonateTab>("once");
@@ -17,7 +19,7 @@ export default function DonateForm() {
 
   const [state, formAction, isPending] = useActionState(
     submitDonation,
-    undefined
+    initial
   );
 
   const handleTabChange = (t: DonateTab) => {
@@ -26,9 +28,7 @@ export default function DonateForm() {
     setAmount("");
   };
 
-  // Step 1 → Step 2
-  const goToDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const goToDetails = () => {
     if (typeof amount !== "number" || amount <= 10) {
       setAmountError(true);
       return;
@@ -52,7 +52,7 @@ export default function DonateForm() {
             setAmount={setAmount}
             nowAmount={nowAmount}
             regularAmount={regularAmount}
-            // error={state?.errors?.amount} // if you want to show server-side amount error too
+            // error={state?.errors?.amount}
           />
           {amountError && (
             <p className="text-red-500 text-sm">
@@ -62,6 +62,12 @@ export default function DonateForm() {
         </>
       ) : (
         <>
+          {/* Hidden amount so server receives it */}
+          <input
+            type="hidden"
+            name="amount"
+            value={amount === "" ? "" : amount}
+          />
           <DonationDetails state={state} onBack={() => setStep("amount")} />
         </>
       )}
@@ -69,7 +75,7 @@ export default function DonateForm() {
       {isAmountStep ? (
         <Button
           type="button"
-          onClick={(e) => goToDetails(e)}
+          onClick={goToDetails}
           fullWidth
           className="text-center"
         >

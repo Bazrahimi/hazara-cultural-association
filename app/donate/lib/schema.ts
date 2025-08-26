@@ -10,12 +10,7 @@ export const DonationSchema = z.object({
   address2: z.string().optional(),
   suburb: z.string().min(2, { message: "Please enter your suburb/city" }),
   state: z.string({ message: "Select your State" }),
-  postCode: z.coerce
-    .number()
-    .int()
-    .min(0)
-    .max(9999, { message: "Postcode must be 4 digits" }),
-  creditCard: z.boolean(),
+  postCode: z.coerce.number(),
 });
 
 export type Donation = z.infer<typeof DonationSchema>;
