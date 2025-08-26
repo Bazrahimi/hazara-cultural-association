@@ -1,17 +1,16 @@
 "use server";
-import { FieldErrors } from "@/app/lib/definitions";
 import { z } from "zod";
-import { DonationState } from "./definitions";
-import { Donation, DonationSchema } from "./schema";
+import { DonationState } from "./schema";
+import { DonationSchema } from "./schema";
+import { FieldErrors } from "./schema";
+import { Donation } from "./schema";
 
-/** 3) Server action */
+
+/* ── Server action ───────────────────────────────────────────────────────── */
 export async function submitDonation(
   _prev: DonationState | undefined,
   formData: FormData
-) {
-  // Gather raw values from the form
-  console.log(formData);
-
+): Promise<DonationState> {
   const raw = {
     amount: formData.get("amount"),
     fullName: formData.get("fullName"),
@@ -24,33 +23,32 @@ export async function submitDonation(
     postCode: formData.get("postCode"),
   };
 
-  const validated = DonationSchema.safeParse(raw);
+  const parsed = DonationSchema.safeParse(raw);
 
-  if (!validated.success) {
-    const tree = z.treeifyError(validated.error);
+  if (!parsed.success) {
+    const fe = parsed.error.flatten().fieldErrors as FieldErrors<Donation>;
     return {
       ok: false,
       message: "Please fix the errors below.",
-      errors: tree as FieldErrors<Donation>,
-      // return some data to keep fields sticky
+      errors: fe,
       data: {
-        fullName: raw.fullName,
-        email: raw.email,
-        contactNumber: raw.contactNumber,
-        address1: raw.address1,
-        address2: raw.address2,
-        suburb: raw.suburb,
-        state: raw.state,
+        fullName: String(raw.fullName ?? ""),
+        email: String(raw.email ?? ""),
+        contactNumber: String(raw.contactNumber ?? ""),
+        address1: String(raw.address1 ?? ""),
+        address2: String(raw.address2 ?? ""),
+        suburb: String(raw.suburb ?? ""),
+        state: String(raw.state ?? ""),
+        // amount/postCode are coerced; include if you want:
+        // amount: Number(raw.amount ?? 0),
+        // postCode: Number(raw.postCode ?? 0),
       },
-
-      // amount / postCode are coerced; you can include them too if you like
     };
   }
 
-  const data = validated.data;
+  const data = parsed.data;
 
-  console.log("date______", data)
-
+  // TODO: persist / payment intent / email
   return {
     ok: true,
     message: "Thanks for your donation! 🎉",

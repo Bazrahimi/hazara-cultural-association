@@ -1,15 +1,13 @@
 "use client";
 import { Button } from "@/app/ui/global/components";
 import { useActionState, useState } from "react";
-import { submitDonation, type DonationState } from "../lib/action";
+import { submitDonation } from "../lib/action";
 import DonationAmount, { type DonateTab } from "./form/DonationAmount";
 import DonationDetails from "./form/DonationDetails";
 
 const nowAmount = [50, 100, 250, 500];
 const regularAmount = [20, 50, 100, 250];
 type Step = "amount" | "details";
-
-const initial: DonationState = { ok: false };
 
 export default function DonateForm() {
   const [tab, setTab] = useState<DonateTab>("once");
@@ -19,7 +17,7 @@ export default function DonateForm() {
 
   const [state, formAction, isPending] = useActionState(
     submitDonation,
-    initial
+    undefined
   );
 
   const handleTabChange = (t: DonateTab) => {

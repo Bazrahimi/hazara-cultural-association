@@ -1,8 +1,7 @@
-
 "use client";
 
-import React from "react";
 import { Button, Input } from "@/app/ui/global/components";
+import React from "react";
 import { CiDollar } from "react-icons/ci";
 
 export type DonateTab = "once" | "regular";
