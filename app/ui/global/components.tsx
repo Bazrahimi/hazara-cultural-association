@@ -26,7 +26,7 @@ export type BaseInputProps = {
   /** Controlled or uncontrolled */
   value?: string | number;
   onChange?: (v: string) => void;
-  defaultValue?: string;
+  defaultValue?: string | number;
 
   error?: string[];
   Icon?: IconType;

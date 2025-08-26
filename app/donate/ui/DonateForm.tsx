@@ -1,15 +1,13 @@
 "use client";
 import { Button } from "@/app/ui/global/components";
 import { useActionState, useState } from "react";
-import { submitDonation, type DonationState } from "../lib/action";
+import { submitDonation } from "../lib/action";
 import DonationAmount, { type DonateTab } from "./form/DonationAmount";
-import DonationDetails, { type Details } from "./form/DonationDetails";
+import DonationDetails from "./form/DonationDetails";
 
 const nowAmount = [50, 100, 250, 500];
 const regularAmount = [20, 50, 100, 250];
 type Step = "amount" | "details";
-
-const initialState: DonationState = { ok: false };
 
 export default function DonateForm() {
   const [tab, setTab] = useState<DonateTab>("once");
@@ -17,19 +15,10 @@ export default function DonateForm() {
   const [amountError, setAmountError] = useState(false);
   const [step, setStep] = useState<Step>("amount");
 
-  const [details, setDetails] = useState<Details>({
-    fullName: "",
-    email: "",
-    contactNumber: "",
-    address1: "",
-    address2: "",
-    suburb: "",
-    state: "",
-    postCode: "",
-    payByCard: true, // maps to creditCard
-  });
-
-  const [state, formAction, isPending] = useActionState(submitDonation, initialState);
+  const [state, formAction, isPending] = useActionState(
+    submitDonation,
+    undefined
+  );
 
   const handleTabChange = (t: DonateTab) => {
     setAmountError(false);
@@ -37,11 +26,9 @@ export default function DonateForm() {
     setAmount("");
   };
 
-  const updateDetails = <K extends keyof Details>(field: K, value: Details[K]) =>
-    setDetails((d) => ({ ...d, [field]: value }));
-
   // Step 1 → Step 2
-  const goToDetails = () => {
+  const goToDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (typeof amount !== "number" || amount <= 10) {
       setAmountError(true);
       return;
@@ -50,9 +37,6 @@ export default function DonateForm() {
   };
 
   const isAmountStep = step === "amount";
-
-  // Combine for server "address"
-  const combinedAddress = details.address1 + (details.address2 ? `, ${details.address2}` : "");
 
   return (
     <form
@@ -71,35 +55,38 @@ export default function DonateForm() {
             // error={state?.errors?.amount} // if you want to show server-side amount error too
           />
           {amountError && (
-            <p className="text-red-500 text-sm">Minimum donate amount is $10.00</p>
+            <p className="text-red-500 text-sm">
+              Minimum donate amount is $10.00
+            </p>
           )}
         </>
       ) : (
         <>
-          {/* Hidden fields for server submit */}
-          <input type="hidden" name="amount" value={amount === "" ? "" : amount} />
-          <input type="hidden" name="address" value={combinedAddress} />
-
-          <DonationDetails
-            details={details}
-            onChange={updateDetails}
-            onBack={() => setStep("amount")}
-            errors={state?.errors}
-          />
+          <DonationDetails state={state} onBack={() => setStep("amount")} />
         </>
       )}
 
       {isAmountStep ? (
-        <Button type="button" onClick={goToDetails} fullWidth className="text-center">
+        <Button
+          type="button"
+          onClick={(e) => goToDetails(e)}
+          fullWidth
+          className="text-center"
+        >
           Donate Now
         </Button>
       ) : (
-        <Button type="submit" disabled={isPending} fullWidth className="text-center">
+        <Button
+          type="submit"
+          disabled={isPending}
+          fullWidth
+          className="text-center"
+        >
           {isPending
             ? "Processing..."
             : tab === "once"
-            ? `Donate Now ($${amount})`
-            : `Donate Regularly ($${amount})`}
+              ? `Donate Now ($${amount})`
+              : `Donate Regularly ($${amount})`}
         </Button>
       )}
 

@@ -1,35 +1,41 @@
 "use client";
-import { Button, Input } from "@/app/ui/global/components";
+import { Button, Input, InputAutocomplete } from "@/app/ui/global/components";
+import { DonationState } from "../../lib/definitions";
 
-export type AUState = "VIC" | "NSW" | "QLD" | "SA" | "WA" | "TAS" | "ACT" | "NT";
-
-export type Details = {
-  fullName: string;
-  email: string;
-  contactNumber: string;
-  address1: string;
-  address2: string;
-  suburb: string;
-  state: "" | AUState;
-  postCode: string;
-  payByCard: boolean;
-};
+export type AUState =
+  | "VIC"
+  | "NSW"
+  | "QLD"
+  | "SA"
+  | "WA"
+  | "TAS"
+  | "ACT"
+  | "NT";
 
 // Server returns errors keyed by DonationSchema:
 // amount, fullName, email, contactNumber, address, suburb, state, postCode, creditCard
-type ServerErrors = Partial<Record<
-  "amount" | "fullName" | "email" | "contactNumber" | "address" | "suburb" | "state" | "postCode" | "creditCard",
-  string[]
->>;
+type ServerErrors = Partial<
+  Record<
+    | "amount"
+    | "fullName"
+    | "email"
+    | "contactNumber"
+    | "address"
+    | "suburb"
+    | "state"
+    | "postCode"
+    | "creditCard",
+    string[]
+  >
+>;
 
 type Props = {
-  details: Details;
-  onChange: <K extends keyof Details>(field: K, value: Details[K]) => void;
+  state: DonationState | undefined;
+
   onBack: () => void;
-  errors?: ServerErrors;
 };
 
-export default function DonationDetails({ details, onChange, onBack, errors }: Props) {
+export default function DonationDetails({ state, onBack }: Props) {
   return (
     <fieldset>
       <div className="mb-2 flex items-center justify-between">
@@ -43,33 +49,29 @@ export default function DonationDetails({ details, onChange, onBack, errors }: P
         id="fullName"
         label="Full name"
         type="text"
-        placeholder="Jane Citizen"
-        value={details.fullName}
-        onChange={(v) => onChange("fullName", v)}
-        inputProps={{ autoComplete: "name" }}
-        error={errors?.fullName}
+        placeholder="Enter your full name"
+        defaultValue={state?.data?.fullName}
+        error={state?.errors?.fullName}
+        required
       />
 
       <Input
         id="email"
-        label="Email"
+        label="Email Address"
+        placeholder="Enter your email Address"
         type="email"
-        placeholder="you@example.com"
-        value={details.email}
-        onChange={(v) => onChange("email", v)}
-        inputProps={{ autoComplete: "email" }}
-        error={errors?.email}
+        defaultValue={state?.data?.email}
+        error={state?.errors?.email}
+        required
       />
 
       <Input
         id="contactNumber"
         label="Contact number"
         type="text"
-        placeholder="04xx xxx xxx"
-        value={details.contactNumber}
-        onChange={(v) => onChange("contactNumber", v)}
-        inputProps={{ autoComplete: "tel", inputMode: "tel" }}
-        error={errors?.contactNumber}
+        placeholder="Enter your contact number"
+        defaultValue={state?.data?.contactNumber}
+        error={state?.errors?.contactNumber}
       />
 
       {/* Address line 1 */}
@@ -78,11 +80,8 @@ export default function DonationDetails({ details, onChange, onBack, errors }: P
         label="Street address"
         type="text"
         placeholder="123 Example St"
-        value={details.address1}
-        onChange={(v) => onChange("address1", v)}
-        inputProps={{ autoComplete: "address-line1" }}
-        // server validates combined "address", so show its errors here
-        error={errors?.address}
+        defaultValue={state?.data?.address1}
+        error={state?.errors?.address1}
       />
 
       {/* Address line 2 (optional) */}
@@ -91,9 +90,7 @@ export default function DonationDetails({ details, onChange, onBack, errors }: P
         label="Address line 2 (optional)"
         type="text"
         placeholder="Unit, Apartment, etc."
-        value={details.address2}
-        onChange={(v) => onChange("address2", v)}
-        inputProps={{ autoComplete: "address-line2" }}
+        defaultValue={state?.data?.address2}
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -101,42 +98,22 @@ export default function DonationDetails({ details, onChange, onBack, errors }: P
         <div className="sm:col-span-2">
           <Input
             id="suburb"
-            label="Suburb / City"
+            label="Suburb"
             type="text"
-            placeholder="Dandenong"
-            value={details.suburb}
-            onChange={(v) => onChange("suburb", v)}
-            inputProps={{ autoComplete: "address-level2" }}
-            error={errors?.suburb}
+            placeholder="Enter your suburb"
+            defaultValue={state?.data?.suburb}
+            error={state?.errors?.suburb}
           />
         </div>
 
-        {/* State (AU) */}
         <div>
-          <label htmlFor="state" className="block text-sm font-medium text-gray-700">
-            State
-          </label>
-          <select
+          <InputAutocomplete
             id="state"
-            name="state" // matches server schema
-            value={details.state}
-            onChange={(e) => onChange("state", e.currentTarget.value as Details["state"])}
-            className="mt-1 block w-full rounded-md border border-gray-200 py-2 px-3 text-sm sm:text-base focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-            autoComplete="address-level1"
-          >
-            <option value="">Select state</option>
-            <option value="VIC">VIC</option>
-            <option value="NSW">NSW</option>
-            <option value="QLD">QLD</option>
-            <option value="SA">SA</option>
-            <option value="WA">WA</option>
-            <option value="TAS">TAS</option>
-            <option value="ACT">ACT</option>
-            <option value="NT">NT</option>
-          </select>
-          {errors?.state?.length ? (
-            <p className="mt-2 text-right text-xs text-red-600 sm:text-sm">{errors.state[0]}</p>
-          ) : null}
+            label="state" // matches server schema
+            defaultValue={state?.data?.state}
+            error={state?.errors?.state}
+            options={["VIC", "NSW", "QLD", "SA", "WA", "TAS", "ACT", "NT"]}
+          />
         </div>
       </div>
 
@@ -144,34 +121,11 @@ export default function DonationDetails({ details, onChange, onBack, errors }: P
       <Input
         id="postCode"
         label="Postcode"
-        type="text"
-        placeholder="3175"
-        value={details.postCode}
-        onChange={(v) => onChange("postCode", v)}
-        inputProps={{
-          autoComplete: "postal-code",
-          inputMode: "numeric",
-          pattern: "[0-9]*",
-          maxLength: 4,
-          name: "postCode", // ensure name matches server schema
-        }}
-        error={errors?.postCode}
+        type="number"
+        placeholder="your post code"
+        defaultValue={state?.data?.postCode}
+        error={state?.errors?.postCode}
       />
-
-      <label className="mb-5 mt-2 flex items-center gap-2 text-sm text-gray-700">
-        <input
-          id="creditCard"
-          name="creditCard" // ensures FormData has "creditCard"
-          type="checkbox"
-          className="h-4 w-4 rounded border-gray-300"
-          checked={details.payByCard}
-          onChange={(e) => onChange("payByCard", e.currentTarget.checked)}
-        />
-        <span>Pay by credit/debit card</span>
-      </label>
-      {errors?.creditCard?.length ? (
-        <p className="text-right text-xs text-red-600 sm:text-sm">{errors.creditCard[0]}</p>
-      ) : null}
     </fieldset>
   );
 }
