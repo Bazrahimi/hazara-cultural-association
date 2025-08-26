@@ -1,128 +1,105 @@
 "use client";
-import { Button, Input } from "@/app/ui/global/components";
+import { Button } from "@/app/ui/global/components";
 import { useState } from "react";
+import DonationAmount, { DonateTab } from "./form/DonationAmount";
+import DonationDetails from "./form/DonationDetails";
 
-import { CiDollar } from "react-icons/ci";
 const nowAmount = [50, 100, 250, 500];
 const regularAmount = [20, 50, 100, 250];
+type Step = "amount" | "details";
 
 export default function DonateForm() {
-  const [tab, setTab] = useState<"once" | "regular">("once");
+  const [tab, setTab] = useState<DonateTab>("once");
   const [amount, setAmount] = useState<number | "">("");
+  const [step, setStep] = useState<Step>("amount");
 
-  const handleAmountClick = (value: number) => {
-    setAmount(value);
+  const [details, setDetails] = useState({
+  fullName: "",
+  email: "",
+  contactNumber: "",
+  // split address:
+  address1: "",
+  address2: "",
+  suburb: "",      // suburb / city
+  state: "" as "" | "VIC" | "NSW" | "QLD" | "SA" | "WA" | "TAS" | "ACT" | "NT",
+  postcode: "",
+  payByCard: true,
+});
+
+  const handleTabChange = (t: DonateTab) => {
+    setTab(t);
+    setAmount("");
+  };
+
+  const updateDetails = <K extends keyof typeof details>(field: K, value: (typeof details)[K]) => {
+    setDetails((d) => ({ ...d, [field]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (step === "amount") {
+      if (amount === "" || Number(amount) <= 0) {
+        alert("Please choose or enter a valid amount.");
+        return;
+      }
+      // If amount > $10, go to details step; else proceed immediately (adjust as you like)
+      if (typeof amount === "number" && amount > 10) {
+        setStep("details");
+        return;
+      }
+      alert(`Donating ${amount} AUD (${tab === "once" ? "Now" : "Regularly"})`);
+      // TODO: trigger payment for <= $10 flow
+      return;
+    }
+
+    // step === "details": basic validation then "donate"
+    if (!details.fullName || !details.email) {
+      alert("Please fill your full name and email.");
+      return;
+    }
+
     alert(
-      `Donating ${amount || "custom"} AUD (${tab === "once" ? "Now" : "Regularly"})`
+      [
+        `Donating ${amount} AUD (${tab === "once" ? "Now" : "Regularly"})`,
+        `Name: ${details.fullName}`,
+        `Email: ${details.email}`,
+        `Phone: ${details.contactNumber || "-"}`,
+        `Address: ${details.address || "-"}`,
+        `Pay by card: ${details.payByCard ? "Yes" : "No"}`,
+      ].join("\n")
     );
+    // TODO: hand off to your payment intent / Stripe checkout here
   };
+
+  const isAmountStep = step === "amount";
 
   return (
     <form
       onSubmit={handleSubmit}
       className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
     >
-      {/* Amount */}
-      {/* I want move out this div into separate separate component. while keep the state amount in here */}
-      <div>
-        <div className="mb-6 flex border-b text-sm font-medium text-gray-600">
-          <Button
-            variant="secondary"
-            onClick={(e) => {
-              e.preventDefault();
-              setTab("once");
-            }}
-            className={`w-1/2 border-b-2 py-2 rounded-none ${
-              tab === "once"
-                ? "border-blue-600 text-blue-700"
-                : "border-transparent"
-            }`}
-          >
-            Now
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={(e) => {
-              e.preventDefault();
-              setTab("regular");
-            }}
-            className={`w-1/2 border-b-2 py-2 rounded-none ${
-              tab === "regular"
-                ? "border-blue-600 text-blue-700"
-                : "border-transparent"
-            }`}
-          >
-            Regularly
-          </Button>
-        </div>
-
-        {tab === "once" ? (
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            {nowAmount.map((val) => (
-              <button
-                type="button"
-                key={val}
-                onClick={() => handleAmountClick(val)}
-                className={`rounded-md border px-4 py-3 text-lg font-semibold transition ${
-                  amount === val
-                    ? "border-blue-600 bg-blue-50 text-blue-700"
-                    : "border-gray-300 hover:border-blue-400"
-                }`}
-              >
-                ${val}
-              </button>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            {regularAmount.map((val) => (
-              <button
-                type="button"
-                key={val}
-                onClick={() => handleAmountClick(val)}
-                className={`rounded-md border px-4 py-3 text-lg font-semibold transition ${
-                  amount === val
-                    ? "border-blue-600 bg-blue-50 text-blue-700"
-                    : "border-gray-300 hover:border-blue-400"
-                }`}
-              >
-                ${val}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Custom input */}
-
-        <Input
-          id="donation-amount"
-          Icon={CiDollar}
-          label="Donation amount (AUD)"
-          type="number"
-          placeholder="Enter amount"
-          value={amount === "" ? "" : amount} // stays controlled
-          onChange={(v) => setAmount(v === "" ? "" : Number(v))}
-          inputClassName="text-lg" // keep your larger text style
-          inputProps={{
-            min: 1,
-            step: 1,
-            // pattern can help on some browsers:
-            pattern: "[0-9]*",
-          }}
-          endAdornment={<span className="text-sm">AUD</span>}
+      {isAmountStep ? (
+        <DonationAmount
+          tab={tab}
+          onTabChange={handleTabChange}
+          amount={amount}
+          setAmount={setAmount}
+          nowAmount={nowAmount}
+          regularAmount={regularAmount}
         />
-      </div>
+      ) : (
+        <DonationDetails
+          details={details}
+          onChange={updateDetails}
+          onBack={() => setStep("amount")}
+        />
+      )}
 
-      {/* Submit button */}
       <Button type="submit" fullWidth className="text-center">
-        Donate {tab === "once" ? "Now" : "Regularly"}
+        {isAmountStep ? "Continue" : `Donate ${tab === "once" ? "Now" : "Regularly"}`}
       </Button>
 
-      {/* Footnote */}
       <p className="mt-3 text-xs text-gray-500">
         Every dollar you give goes back to the community.
       </p>
