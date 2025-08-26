@@ -22,9 +22,9 @@ export type BaseInputProps = {
   id: string;
   label: string;
   placeholder?: string;
-  type: "text" | "email" | "password";
+  type: "text" | "number" | "email" | "password";
   /** Controlled or uncontrolled */
-  value?: string;
+  value?: string | number;
   onChange?: (v: string) => void;
   defaultValue?: string;
 
@@ -79,7 +79,13 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
     const togglePasswordVisibility = () => setIsPasswordVisible((p) => !p);
 
     const inputMode =
-      type === "email" ? "email" : type === "text" ? "text" : undefined;
+      type === "email"
+        ? "email"
+        : type === "text"
+          ? "text"
+          : type === "number"
+            ? "numeric"
+            : undefined;
 
     const leftPad = Icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4";
 
@@ -425,7 +431,7 @@ export function InputAutocomplete({
  * =======================*/
 
 type ButtonVariant = "primary" | "secondary" | "danger" | "outline";
-type ButtonSize = "sm" | "md" | "lg";
+type ButtonSize = "xs" | "sm" | "md" | "lg";
 
 interface BaseButtonProps {
   children: ReactNode;
@@ -450,14 +456,15 @@ type ButtonAsLink = BaseButtonProps &
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-yellow-700 text-white hover:bg-yellow-600 focus:ring-yellow-300",
-  secondary: "bg-gray-700 text-white hover:bg-gray-600 focus:ring-gray-300",
+  primary: "bg-yellow-500 text-white hover:bg-yellow-400 focus:ring-yellow-300",
+  secondary: "bg-blue-500 text-white hover:bg-blue-400 focus:ring-blue-300",
   danger: "bg-red-600 text-white hover:bg-red-500 focus:ring-red-300",
   outline:
     "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-gray-200",
 };
 
 const sizes: Record<ButtonSize, string> = {
+  xs: "px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm",
   sm: "px-4 py-2 text-sm sm:px-5 sm:py-2.5 sm:text-base",
   md: "px-6 py-3 text-base sm:px-7 sm:py-3.5 sm:text-lg",
   lg: "px-8 py-4 text-lg sm:px-10 sm:py-5 sm:text-xl",
