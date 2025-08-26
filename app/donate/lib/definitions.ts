@@ -1,8 +1,4 @@
-import { z } from "zod";
-import { DonationSchema } from "./schema";
 import { ActionState } from "@/app/lib/definitions";
+import { Donation } from "./schema";
 
-export type Donation = z.infer<typeof DonationSchema>;
 export type DonationState = ActionState<Donation>;
-
-

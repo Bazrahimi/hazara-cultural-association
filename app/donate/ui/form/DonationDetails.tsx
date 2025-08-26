@@ -1,18 +1,36 @@
 "use client";
 import { Button, Input } from "@/app/ui/global/components";
 
+export type AUState =
+  | "VIC"
+  | "NSW"
+  | "QLD"
+  | "SA"
+  | "WA"
+  | "TAS"
+  | "ACT"
+  | "NT";
+
+type Details = {
+  fullName: string;
+  email: string;
+  contactNumber: string;
+
+  // Split address (these are visual-only; parent will combine into hidden "address")
+  address1: string;
+  address2: string;
+
+  suburb: string;
+  state: "" | AUState;
+  postCode: string;
+
+  // UI toggle; submitted as checkbox with name="creditCard"
+  payByCard: boolean;
+};
+
 type Props = {
-  details: {
-    fullName: string;
-    email: string;
-    contactNumber: string;
-    address: string;
-    payByCard: boolean;
-  };
-  onChange: <K extends keyof Props["details"]>(
-    field: K,
-    value: Props["details"][K]
-  ) => void;
+  details: Details;
+  onChange: <K extends keyof Details>(field: K, value: Details[K]) => void;
   onBack: () => void;
 };
 
@@ -55,17 +73,28 @@ export default function DonationDetails({ details, onChange, onBack }: Props) {
         onChange={(v) => onChange("contactNumber", v)}
         inputProps={{ autoComplete: "tel", inputMode: "tel" }}
       />
+
       {/* Address line 1 */}
       <Input
-        id="address"
+        id="address1"
         label="Street address"
         type="text"
         placeholder="123 Example St"
         value={details.address1}
-        onChange={(v) => onChange("address", v)}
+        onChange={(v) => onChange("address1", v)}
         inputProps={{ autoComplete: "address-line1" }}
       />
 
+      {/* Address line 2 (optional) */}
+      <Input
+        id="address2"
+        label="Address line 2 (optional)"
+        type="text"
+        placeholder="Unit, Apartment, etc."
+        value={details.address2}
+        onChange={(v) => onChange("address2", v)}
+        inputProps={{ autoComplete: "address-line2" }}
+      />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {/* Suburb / City */}
@@ -91,10 +120,10 @@ export default function DonationDetails({ details, onChange, onBack }: Props) {
           </label>
           <select
             id="state"
-            name="state"
+            name="state" // <-- matches server schema
             value={details.state}
             onChange={(e) =>
-              onChange("state", e.currentTarget.value as typeof details.state)
+              onChange("state", e.currentTarget.value as Details["state"])
             }
             className="mt-1 block w-full rounded-md border border-gray-200 py-2 px-3 text-sm sm:text-base focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
             autoComplete="address-level1"
@@ -112,14 +141,14 @@ export default function DonationDetails({ details, onChange, onBack }: Props) {
         </div>
       </div>
 
-      {/* Postcode */}
+      {/* Postcode (note id/name casing to match server: postCode) */}
       <Input
-        id="postcode"
+        id="postCode"
         label="Postcode"
         type="text"
         placeholder="3175"
-        value={details.postcode}
-        onChange={(v) => onChange("postcode", v)}
+        value={details.postCode}
+        onChange={(v) => onChange("postCode", v)}
         inputProps={{
           autoComplete: "postal-code",
           inputMode: "numeric",
@@ -130,6 +159,8 @@ export default function DonationDetails({ details, onChange, onBack }: Props) {
 
       <label className="mb-5 mt-2 flex items-center gap-2 text-sm text-gray-700">
         <input
+          id="creditCard"
+          name="creditCard" // <-- this ensures FormData has "creditCard"
           type="checkbox"
           className="h-4 w-4 rounded border-gray-300"
           checked={details.payByCard}

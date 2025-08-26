@@ -1,51 +1,54 @@
-import z from "zod";
+import { FieldErrors } from "@/app/lib/definitions";
 import { DonationState } from "./definitions";
-import { DonationSchema } from "./schema";
+import { Donation, DonationSchema } from "./schema";
 
-export const submitDonation = async (
-  prevState: DonationState | undefined,
+/** 3) Server action */
+export async function submitDonation(
+  _prev: DonationState | undefined,
   formData: FormData
-) => {
-  const rawData = {
-    amount: Number(formData.get("amount")),
-    fullName: formData.get("fullName") as string,
-    contactNumber: Number(formData.get("contactNumber")),
-    address: formData.get("address") as string,
-    suburb: formData.get("suburb") as string,
-    state: formData.get("state") as string,
-    postCode: formData.get("postCode") as string,
-    creditCard: formData.get("creditCard"),
+): Promise<DonationState> {
+  // Gather raw values from the form
+  const raw = {
+    amount: formData.get("amount"),
+    fullName: formData.get("fullName"),
+    email: formData.get("email"),
+    contactNumber: formData.get("contactNumber") ?? "",
+    address1: formData.get("address1") ?? "",
+    address2: formData.get("address2") ?? "",
+    suburb: formData.get("suburb") ?? "",
+    state: formData.get("state") ?? "",
+    postCode: formData.get("postCode"),
+    creditCard: !!formData.get("creditCard"), // checkbox => "on" | null
   };
 
-  const validated = DonationSchema.safeParse({
-    amount: rawData.amount,
-    fullName: rawData.fullName,
-    contactNumber: rawData.contactNumber,
-    address: rawData.address,
-    suburb: rawData.suburb,
-    state: rawData.state,
-    postCode: rawData.postCode,
-    creditCard: rawData.creditCard,
-  });
+  const parsed = DonationSchema.safeParse(raw);
 
-  if (!validated.success) {
-    const tree = z.treeifyError(validated.error);
+  if (!parsed.success) {
+    const fe = parsed.error.flatten().fieldErrors;
     return {
-      ...rawData,
       ok: false,
-      message: "Complete teh above fields",
-      errors: {
-        amount: tree.properties?.amount?.errors,
-        fullName: tree.properties?.fullName?.errors,
-        contactNumber: tree.properties?.contactNumber?.errors,
-        address: tree.properties?.address?.errors,
-        suburb: tree.properties?.suburb?.errors,
-        state: tree.properties?.state?.errors,
-        postCode: tree.properties?.postCode?.errors,
-        creditCard: tree.properties?.creditCard?.errors,
+      message: "Please fix the errors below.",
+      errors: fe as FieldErrors<Donation>,
+      // return some data to keep fields sticky
+      data: {
+        fullName: String(raw.fullName ?? ""),
+        email: String(raw.email ?? ""),
+        contactNumber: String(raw.contactNumber ?? ""),
+        address: String(raw.address2 ?? ""),
+        suburb: String(raw.suburb ?? ""),
+        state: String(raw.state ?? ""),
+        // amount / postCode are coerced; you can include them too if you like
       },
     };
   }
 
-  const data = validated.data
-};
+  const data = parsed.data;
+
+
+
+  return {
+    ok: true,
+    message: "Thanks for your donation! 🎉",
+    data,
+  };
+}
