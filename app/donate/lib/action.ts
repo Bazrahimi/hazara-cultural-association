@@ -1,16 +1,18 @@
 "use server";
-import { z } from "zod";
-import { DonationState } from "./schema";
-import { DonationSchema } from "./schema";
-import { FieldErrors } from "./schema";
-import { Donation } from "./schema";
 
+import { stripe } from "@/app/lib/stripe";
+import { redirect } from "next/navigation";
+import {
+  DonationSchema,
+  type Donation,
+  type DonationState,
+  type FieldErrors,
+} from "./schema"; // adjust path
 
-/* ── Server action ───────────────────────────────────────────────────────── */
 export async function submitDonation(
   _prev: DonationState | undefined,
   formData: FormData
-): Promise<DonationState> {
+): Promise<DonationState | never> {
   const raw = {
     amount: formData.get("amount"),
     fullName: formData.get("fullName"),
@@ -24,7 +26,6 @@ export async function submitDonation(
   };
 
   const parsed = DonationSchema.safeParse(raw);
-
   if (!parsed.success) {
     const fe = parsed.error.flatten().fieldErrors as FieldErrors<Donation>;
     return {
@@ -39,19 +40,67 @@ export async function submitDonation(
         address2: String(raw.address2 ?? ""),
         suburb: String(raw.suburb ?? ""),
         state: String(raw.state ?? ""),
-        // amount/postCode are coerced; include if you want:
-        // amount: Number(raw.amount ?? 0),
-        // postCode: Number(raw.postCode ?? 0),
       },
     };
   }
 
   const data = parsed.data;
 
-  // TODO: persist / payment intent / email
-  return {
-    ok: true,
-    message: "Thanks for your donation! 🎉",
-    data,
-  };
+  // Amount in cents
+  const unitAmount = Math.round(Number(data.amount) * 100);
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  if (!baseUrl) {
+    return {
+      ok: false,
+      message: "Configuration error: NEXT_PUBLIC_BASE_URL is not set.",
+    };
+  }
+
+  const successUrl = `${baseUrl}/donate/success?session_id={CHECKOUT_SESSION_ID}`;
+  const cancelUrl = `${baseUrl}/donate/cancel`;
+
+  // Create Checkout Session
+  const session = await stripe.checkout.sessions.create({
+    mode: "payment", // switch to "subscription" for recurring
+    payment_method_types: ["card"],
+    customer_email: data.email,
+    line_items: [
+      {
+        price_data: {
+          currency: "aud",
+          product_data: {
+            name: "Donation",
+            description: `Donation from ${data.fullName}`,
+          },
+          unit_amount: unitAmount,
+        },
+        quantity: 1,
+      },
+    ],
+    metadata: {
+      fullName: data.fullName,
+      contactNumber: data.contactNumber ?? "",
+      address1: data.address1,
+      address2: data.address2 ?? "",
+      suburb: data.suburb,
+      state: data.state,
+      postCode: String(data.postCode),
+      amount: String(data.amount),
+    },
+    allow_promotion_codes: false,
+    success_url: successUrl,
+    cancel_url: cancelUrl,
+  });
+
+  if (!session.url) {
+    // Fallback: return an error state consumable by the client
+    return {
+      ok: false,
+      message: "Unable to start payment session. Please try again.",
+    };
+  }
+
+  // Ends the request — no code after this runs
+  redirect(session.url);
 }

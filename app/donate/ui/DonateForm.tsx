@@ -26,7 +26,8 @@ export default function DonateForm() {
     setAmount("");
   };
 
-  const goToDetails = () => {
+  const goToDetails = (e:React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     if (typeof amount !== "number" || amount <= 10) {
       setAmountError(true);
       return;
@@ -73,7 +74,7 @@ export default function DonateForm() {
       {isAmountStep ? (
         <Button
           type="button"
-          onClick={goToDetails}
+          onClick={(e) => goToDetails(e)}
           fullWidth
           className="text-center"
         >
