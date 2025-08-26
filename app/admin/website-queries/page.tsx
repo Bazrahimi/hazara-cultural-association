@@ -2,18 +2,14 @@
 import { sql } from "@/app/lib/db";
 import { Header, P } from "@/app/ui/global/components";
 import Link from "next/link";
-import NewEnquiry from "./ui/NewEnquiry";
-import { QuickEnquiryRecord } from "./utils/definitions";
+import { QuickEnquiryHead } from "./utils/definitions";
 
 const QuickEnquiriesPage = async () => {
-  const q = await sql<QuickEnquiryRecord[]>`
+  const q = await sql<QuickEnquiryHead[]>`
     SELECT
       id::int AS id, 
       full_name AS "fullName",
-      email,
-      contact_number AS "contactNumber",
       query_type AS "queryType",
-      message,
       to_char(created_at AT TIME ZONE 'Australia/Melbourne', 'DD Mon YY') AS "received",
       seen
     FROM public.quick_enquiries
@@ -36,7 +32,7 @@ const QuickEnquiriesPage = async () => {
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Type</th>
                 <th className="px-4 py-3">Received</th>
-                <th className="px-4 py-3">Preview</th>
+
                 <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
@@ -73,23 +69,6 @@ const QuickEnquiriesPage = async () => {
 
                   <td className="px-4 py-3 text-gray-600">
                     {enquiry.received}
-                  </td>
-
-                  {/* Inline email-style preview using your React Email component */}
-                  <td className="px-4 py-3 align-top">
-                    <details className="group">
-                      <summary className="cursor-pointer select-none text-blue-700 hover:underline">
-                        Open preview
-                      </summary>
-                      <div className="mt-2 overflow-hidden rounded border border-gray-200 bg-white">
-                        <NewEnquiry
-                          fullName={enquiry.fullName}
-                          email={enquiry.email}
-                          contactNumber={enquiry.contactNumber ?? ""}
-                          qMessage={enquiry.message}
-                        />
-                      </div>
-                    </details>
                   </td>
 
                   <td className="px-4 py-3 text-right">

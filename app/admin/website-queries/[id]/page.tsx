@@ -1,14 +1,25 @@
 import { sql } from "@/app/lib/db";
-import { notFound } from "next/navigation";
-import { QuickEnquiryStateRecord } from "../utils/definitions";
-import NewEnquiry from "../ui/NewEnquiry";
+import { DeleteFormAction, Header, P } from "@/app/ui/global/components";
+import { revalidatePath } from "next/cache";
+import { notFound, redirect } from "next/navigation";
+import { QuickEnquiryRecord } from "../utils/definitions";
 
+// --- Server Action (delete) ---
+const deleteEnquiryAction = async (formData: FormData) => {
+  "use server";
+  const id = Number(formData.get("id"));
+  if (!Number.isFinite(id)) return;
+
+  await sql`DELETE FROM public.quick_enquiries WHERE id = ${id}`;
+  revalidatePath("/admin/website-queries");
+  redirect("/admin/website-queries");
+};
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const idStr = (await params).id;
   const id = parseInt(idStr); // convert to number
   if (isNaN(id)) return notFound();
 
-  const [enquiry] = await sql<QuickEnquiryStateRecord[]>`
+  const [enquiry] = await sql<QuickEnquiryRecord[]>`
     UPDATE public.quick_enquiries
     SET seen = true
     WHERE id = ${id}
@@ -27,7 +38,16 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   if (!enquiry) return notFound();
   return (
     <main className="mx-auto max-w-3xl p-6">
-      <h1 className="mb-4 text-2xl font-semibold">Quick Enquiry #{enquiry.id}</h1>
+      <div className="flex justify-between gap-3 mb-3">
+        <Header as="h3">Quick Enquiry #{enquiry.id}</Header>
+        <DeleteFormAction
+          id={enquiry.id}
+          variant="outline"
+          action={deleteEnquiryAction}
+        >
+          X
+        </DeleteFormAction>
+      </div>
 
       <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
         <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -37,7 +57,9 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
           <div>
             <dt className="text-sm text-gray-500">Seen</dt>
-            <dd className="text-base text-gray-900">{enquiry.seen ? "Yes" : "No"}</dd>
+            <dd className="text-base text-gray-900">
+              {enquiry.seen ? "Yes" : "No"}
+            </dd>
           </div>
           <div>
             <dt className="text-sm text-gray-500">Name</dt>
@@ -60,26 +82,15 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         </dl>
 
         <div className="mt-6">
-          <dt className="text-sm text-gray-500">Message</dt>
+          <dt>
+            {" "}
+            <P className="text-sm text-gray-500"> Message</P>
+          </dt>
           <dd className="mt-1 whitespace-pre-wrap rounded bg-gray-50 p-3 text-gray-900">
             {enquiry.message}
           </dd>
         </div>
       </div>
-
-      {/* Optional: inline preview of the React Email (handy for dev) */}
-      <section className="mt-10">
-        <h2 className="mb-2 text-lg font-medium">Email Preview</h2>
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-          <NewEnquiry
-            fullName={enquiry.fullName}
-            email={enquiry.email}
-            contactNumber={enquiry.contactNumber ?? ""}
-            // map DB `message` -> email prop `qMessage`
-            qMessage={enquiry.message}
-          />
-        </div>
-      </section>
     </main>
   );
 };
