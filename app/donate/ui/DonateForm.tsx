@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@/app/ui/global/components";
 import { useActionState, useState } from "react";
+import { submitDonation } from "../lib/action";
 import DonationAmount, { DonateTab } from "./form/DonationAmount";
 import DonationDetails from "./form/DonationDetails";
-import { submitDonation, } from "../lib/action";
 
 import { DonationState } from "../lib/definitions";
 
@@ -16,6 +16,7 @@ const initialState: DonationState = { ok: false };
 export default function DonateForm() {
   const [tab, setTab] = useState<DonateTab>("once");
   const [amount, setAmount] = useState<number | "">("");
+  const [amountError, setAmountError] = useState<boolean>(false);
   const [step, setStep] = useState<Step>("amount");
 
   const [details, setDetails] = useState({
@@ -25,14 +26,27 @@ export default function DonateForm() {
     address1: "",
     address2: "",
     suburb: "",
-    state: "" as "" | "VIC" | "NSW" | "QLD" | "SA" | "WA" | "TAS" | "ACT" | "NT",
+    state: "" as
+      | ""
+      | "VIC"
+      | "NSW"
+      | "QLD"
+      | "SA"
+      | "WA"
+      | "TAS"
+      | "ACT"
+      | "NT",
     postCode: "",
     payByCard: true, // maps to creditCard
   });
 
-  const [state, formAction, isPending] = useActionState(submitDonation, initialState);
+  const [state, formAction, isPending] = useActionState(
+    submitDonation,
+    initialState
+  );
 
   const handleTabChange = (t: DonateTab) => {
+    setAmountError(false);
     setTab(t);
     setAmount("");
   };
@@ -43,9 +57,10 @@ export default function DonateForm() {
   ) => setDetails((d) => ({ ...d, [field]: value }));
 
   // Step 1 → Step 2 transition
-  const goToDetails = () => {
-    if (amount === "" || Number(amount) <= 0) {
-      alert("Please choose or enter a valid amount.");
+  const goToDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (amount === "" || Number(amount) <= 10) {
+      setAmountError(true);
       return;
     }
     setStep("details");
@@ -63,27 +78,25 @@ export default function DonateForm() {
       className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
     >
       {/* Optional success/error banner */}
-      {state?.message && (
-        <div
-          className={`mb-4 rounded-md p-3 text-sm ${
-            state.ok ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
-          }`}
-        >
-          {state.message}
-        </div>
-      )}
 
       {isAmountStep ? (
-        <DonationAmount
-          tab={tab}
-          onTabChange={handleTabChange}
-          amount={amount}
-          setAmount={setAmount}
-          nowAmount={nowAmount}
-          regularAmount={regularAmount}
-          // If you want to show server error for amount back on step 1:
-          // error={state?.errors?.amount}
-        />
+        <>
+          <DonationAmount
+            tab={tab}
+            onTabChange={handleTabChange}
+            amount={amount}
+            setAmount={setAmount}
+            nowAmount={nowAmount}
+            regularAmount={regularAmount}
+            // If you want to show server error for amount back on step 1:
+            // error={state?.errors?.amount}
+          />
+          {amountError && (
+            <p className="text-red-500 text-sm">
+              Minimum Donate amount is $10.00
+            </p>
+          )}
+        </>
       ) : (
         <>
           {/* Hidden fields needed on submit */}
@@ -111,13 +124,35 @@ export default function DonateForm() {
       )}
 
       {isAmountStep ? (
-        <Button type="button" onClick={goToDetails} fullWidth className="text-center">
-          Continue
+        <Button
+          type="button"
+          onClick={(e) => goToDetails(e)}
+          fullWidth
+          className="text-center"
+        >
+          Donate Now
         </Button>
       ) : (
-        <Button type="submit" disabled={isPending} fullWidth className="text-center">
-          {isPending ? "Processing..." : `Donate ${tab === "once" ? "Now" : "Regularly"}`}
+        <Button
+          type="submit"
+          disabled={isPending}
+          fullWidth
+          className="text-center"
+        >
+          {isPending
+            ? "Processing..."
+            : tab === "once" ? `Donate Now ($${amount})` : `Donate Regularly ($${amount})`}
         </Button>
+      )}
+
+      {state?.message && (
+        <div
+          className={`mb-4 rounded-md p-3 text-sm ${
+            state.ok ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
+          }`}
+        >
+          {state.message}
+        </div>
       )}
 
       <p className="mt-3 text-xs text-gray-500">
