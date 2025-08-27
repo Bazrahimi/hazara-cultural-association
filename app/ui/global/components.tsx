@@ -3,17 +3,9 @@
 import { inter, lusitana, roboto } from "@/app/lib/font";
 import clsx from "clsx";
 import Link from "next/link";
-import React, {
-  forwardRef,
-  ReactNode,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, ReactNode, useState } from "react";
 import { IconType } from "react-icons";
-import { IoClose, IoEye, IoEyeOff } from "react-icons/io5";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 
 /* =========================
  * Input
@@ -190,241 +182,241 @@ type Props = Omit<BaseInputProps, "type" | "inputProps"> & {
   clearable?: boolean;
 };
 
-export function InputAutocomplete({
-  id,
-  label,
-  placeholder,
-  value,
-  onChange,
-  defaultValue,
-  Icon,
-  error,
-  required,
-  autoComplete = "off",
-  options,
-  type = "text",
-  mustMatch = false,
-  maxItems,
-  onOptionSelect,
-  clearable = true,
-}: Props) {
-  // controlled/uncontrolled
-  const [internal, setInternal] = useState(defaultValue ?? "");
-  const val = value ?? internal;
-  const setVal = (next: string) =>
-    onChange ? onChange(next) : setInternal(next);
+// export function InputAutocomplete({
+//   id,
+//   label,
+//   placeholder,
+//   value,
+//   onChange,
+//   defaultValue,
+//   Icon,
+//   error,
+//   required,
+//   autoComplete = "off",
+//   options,
+//   type = "text",
+//   mustMatch = false,
+//   maxItems,
+//   onOptionSelect,
+//   clearable = true,
+// }: Props) {
+//   // controlled/uncontrolled
+//   const [internal, setInternal] = useState(defaultValue ?? "");
+//   const val = value ?? internal;
+//   const setVal = (next: string) =>
+//     onChange ? onChange(next) : setInternal(next);
 
-  // dropdown
-  const [open, setOpen] = useState(false);
-  const [highlight, setHighlight] = useState(-1);
+//   // dropdown
+//   const [open, setOpen] = useState(false);
+//   const [highlight, setHighlight] = useState(-1);
 
-  // refs
-  const rootRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+//   // refs
+//   const rootRef = useRef<HTMLDivElement>(null);
+//   const listRef = useRef<HTMLUListElement>(null);
+//   const inputRef = useRef<HTMLInputElement>(null);
 
-  // ids
-  const uid = useId();
-  const listboxId = `${id}-listbox-${uid}`;
-  // const optionId = (i: number) => `${listboxId}-opt-${i}`;
+//   // ids
+//   const uid = useId();
+//   const listboxId = `${id}-listbox-${uid}`;
+//   // const optionId = (i: number) => `${listboxId}-opt-${i}`;
 
-  // normalise options
-  const normalised = useMemo(
-    () =>
-      options.map((o) =>
-        typeof o === "string"
-          ? { value: o, label: o }
-          : { value: o.value, label: o.label ?? o.value }
-      ),
-    [options]
-  );
+//   // normalise options
+//   const normalised = useMemo(
+//     () =>
+//       options.map((o) =>
+//         typeof o === "string"
+//           ? { value: o, label: o }
+//           : { value: o.value, label: o.label ?? o.value }
+//       ),
+//     [options]
+//   );
 
-  // filter
-  const filtered = useMemo(() => {
-    const q = val.trim().toLowerCase();
-    const base = q
-      ? normalised.filter((o) => o.label.toLowerCase().includes(q))
-      : normalised;
-    return base.slice(0, maxItems);
-  }, [normalised, val, maxItems]);
+//   // filter
+//   const filtered = useMemo(() => {
+//     const q = val.trim().toLowerCase();
+//     const base = q
+//       ? normalised.filter((o) => o.label.toLowerCase().includes(q))
+//       : normalised;
+//     return base.slice(0, maxItems);
+//   }, [normalised, val, maxItems]);
 
-  // keep active in view
-  useEffect(() => {
-    if (!open || highlight < 0 || !listRef.current) return;
-    const el = listRef.current.querySelector<HTMLLIElement>(
-      `#${optionId(highlight)}`
-    );
-    el?.scrollIntoView({ block: "nearest" });
-  }, [highlight, open, optionId]);
+//   // keep active in view
+//   useEffect(() => {
+//     if (!open || highlight < 0 || !listRef.current) return;
+//     const el = listRef.current.querySelector<HTMLLIElement>(
+//       `#${optionId(highlight)}`
+//     );
+//     el?.scrollIntoView({ block: "nearest" });
+//   }, [highlight, open, optionId]);
 
-  // outside click
-  useEffect(() => {
-    if (!open) return;
-    const onDoc = (e: MouseEvent) => {
-      if (!rootRef.current) return;
-      if (!rootRef.current.contains(e.target as Node)) {
-        setOpen(false);
-        setHighlight(-1);
-      }
-    };
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
-  }, [open]);
+//   // outside click
+//   useEffect(() => {
+//     if (!open) return;
+//     const onDoc = (e: MouseEvent) => {
+//       if (!rootRef.current) return;
+//       if (!rootRef.current.contains(e.target as Node)) {
+//         setOpen(false);
+//         setHighlight(-1);
+//       }
+//     };
+//     document.addEventListener("mousedown", onDoc);
+//     return () => document.removeEventListener("mousedown", onDoc);
+//   }, [open]);
 
-  const selectIndex = (i: number) => {
-    const item = filtered[i];
-    if (!item) return;
-    setVal(item.value);
-    onOptionSelect?.(item);
-    setOpen(false);
-    setHighlight(i);
-    requestAnimationFrame(() => inputRef.current?.focus());
-  };
+//   const selectIndex = (i: number) => {
+//     const item = filtered[i];
+//     if (!item) return;
+//     setVal(item.value);
+//     onOptionSelect?.(item);
+//     setOpen(false);
+//     setHighlight(i);
+//     requestAnimationFrame(() => inputRef.current?.focus());
+//   };
 
-  const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
-    if (!mustMatch) return;
-    const matched = normalised.find((o) => o.value === val || o.label === val);
-    if (!matched) {
-      setVal("");
-    }
-  };
+//   const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
+//     if (!mustMatch) return;
+//     const matched = normalised.find((o) => o.value === val || o.label === val);
+//     if (!matched) {
+//       setVal("");
+//     }
+//   };
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
-      setOpen(true);
-      setHighlight(0);
-      return;
-    }
-    if (!open) return;
+//   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+//     if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+//       setOpen(true);
+//       setHighlight(0);
+//       return;
+//     }
+//     if (!open) return;
 
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setHighlight((h) => Math.min(filtered.length - 1, h + 1));
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setHighlight((h) => Math.max(0, h - 1));
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      setHighlight(0);
-    } else if (e.key === "End") {
-      e.preventDefault();
-      setHighlight(Math.max(0, filtered.length - 1));
-    } else if (e.key === "Enter") {
-      if (highlight >= 0) {
-        e.preventDefault();
-        selectIndex(highlight);
-      }
-    } else if (e.key === "Escape") {
-      e.preventDefault();
-      setOpen(false);
-      setHighlight(-1);
-    }
-  };
+//     if (e.key === "ArrowDown") {
+//       e.preventDefault();
+//       setHighlight((h) => Math.min(filtered.length - 1, h + 1));
+//     } else if (e.key === "ArrowUp") {
+//       e.preventDefault();
+//       setHighlight((h) => Math.max(0, h - 1));
+//     } else if (e.key === "Home") {
+//       e.preventDefault();
+//       setHighlight(0);
+//     } else if (e.key === "End") {
+//       e.preventDefault();
+//       setHighlight(Math.max(0, filtered.length - 1));
+//     } else if (e.key === "Enter") {
+//       if (highlight >= 0) {
+//         e.preventDefault();
+//         selectIndex(highlight);
+//       }
+//     } else if (e.key === "Escape") {
+//       e.preventDefault();
+//       setOpen(false);
+//       setHighlight(-1);
+//     }
+//   };
 
-  const clearBtn =
-    clearable && !!val ? (
-      <button
-        type="button"
-        onMouseDown={(e) => e.preventDefault()}
-        onClick={() => {
-          setVal("");
-          setOpen(true);
-          setHighlight(-1);
-          requestAnimationFrame(() => inputRef.current?.focus());
-        }}
-        className="text-gray-400 hover:text-gray-700 focus:outline-none"
-        aria-label="Clear"
-        title="Clear"
-      >
-        <IoClose className="h-5 w-5 sm:h-6 sm:w-6" />
-      </button>
-    ) : null;
+//   const clearBtn =
+//     clearable && !!val ? (
+//       <button
+//         type="button"
+//         onMouseDown={(e) => e.preventDefault()}
+//         onClick={() => {
+//           setVal("");
+//           setOpen(true);
+//           setHighlight(-1);
+//           requestAnimationFrame(() => inputRef.current?.focus());
+//         }}
+//         className="text-gray-400 hover:text-gray-700 focus:outline-none"
+//         aria-label="Clear"
+//         title="Clear"
+//       >
+//         <IoClose className="h-5 w-5 sm:h-6 sm:w-6" />
+//       </button>
+//     ) : null;
 
-  return (
-    <div className="relative" ref={rootRef}>
-      <Input
-        ref={inputRef}
-        id={id}
-        label={label}
-        placeholder={placeholder}
-        type={type}
-        value={val}
-        onChange={(next) => {
-          setVal(next);
-          setOpen(true);
-          setHighlight(-1);
-        }}
-        Icon={Icon}
-        error={error}
-        required={required}
-        autoComplete={autoComplete}
-        inputProps={{
-          role: "combobox",
-          "aria-expanded": open,
-          "aria-controls": listboxId,
-          "aria-autocomplete": "list",
-          "aria-activedescendant":
-            open && highlight >= 0 ? optionId(highlight) : undefined,
-          onFocus: () => setOpen(true),
-          onBlur: handleBlur,
-          onKeyDown: handleKeyDown,
-        }}
-        inputClassName={open ? "rounded-b-none border-b-0" : undefined}
-        endAdornment={clearBtn}
-      />
+//   return (
+//     <div className="relative" ref={rootRef}>
+//       <Input
+//         ref={inputRef}
+//         id={id}
+//         label={label}
+//         placeholder={placeholder}
+//         type={type}
+//         value={val}
+//         onChange={(next) => {
+//           setVal(next);
+//           setOpen(true);
+//           setHighlight(-1);
+//         }}
+//         Icon={Icon}
+//         error={error}
+//         required={required}
+//         autoComplete={autoComplete}
+//         inputProps={{
+//           role: "combobox",
+//           "aria-expanded": open,
+//           "aria-controls": listboxId,
+//           "aria-autocomplete": "list",
+//           "aria-activedescendant":
+//             open && highlight >= 0 ? optionId(highlight) : undefined,
+//           onFocus: () => setOpen(true),
+//           onBlur: handleBlur,
+//           onKeyDown: handleKeyDown,
+//         }}
+//         inputClassName={open ? "rounded-b-none border-b-0" : undefined}
+//         endAdornment={clearBtn}
+//       />
 
-      {open && (
-        <ul
-          ref={listRef}
-          id={listboxId}
-          role="listbox"
-          className={clsx(
-            // anchor to the input
-            "absolute left-0 top-full z-10 w-full",
-            // remove the little gap & merge borders
-            " border border-gray-200 border-t-0",
-            // blend corners with input
-            "rounded-b-md rounded-t-none",
-            // surface
-            "bg-gray-100 shadow-lg max-h-64 overflow-auto"
-          )}
-        >
-          {filtered.length === 0 ? (
-            <li
-              role="option"
-              aria-disabled="true"
-              aria-selected="false"
-              tabIndex={-1}
-              className="cursor-default px-3 py-2 text-sm text-gray-500 pointer-events-none"
-            >
-              No matches
-            </li>
-          ) : (
-            filtered.map((o, i) => (
-              <li
-                key={`${o.value}-${i}`}
-                id={optionId(i)}
-                role="option"
-                aria-selected={i === highlight}
-                className={clsx(
-                  "cursor-pointer select-none px-3 py-2 text-sm",
-                  i === highlight
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-gray-800 hover:bg-gray-50"
-                )}
-                onMouseDown={(e) => e.preventDefault()} // prevent blur
-                onMouseEnter={() => setHighlight(i)}
-                onClick={() => selectIndex(i)}
-              >
-                {o.label}
-              </li>
-            ))
-          )}
-        </ul>
-      )}
-    </div>
-  );
-}
+//       {open && (
+//         <ul
+//           ref={listRef}
+//           id={listboxId}
+//           role="listbox"
+//           className={clsx(
+//             // anchor to the input
+//             "absolute left-0 top-full z-10 w-full",
+//             // remove the little gap & merge borders
+//             " border border-gray-200 border-t-0",
+//             // blend corners with input
+//             "rounded-b-md rounded-t-none",
+//             // surface
+//             "bg-gray-100 shadow-lg max-h-64 overflow-auto"
+//           )}
+//         >
+//           {filtered.length === 0 ? (
+//             <li
+//               role="option"
+//               aria-disabled="true"
+//               aria-selected="false"
+//               tabIndex={-1}
+//               className="cursor-default px-3 py-2 text-sm text-gray-500 pointer-events-none"
+//             >
+//               No matches
+//             </li>
+//           ) : (
+//             filtered.map((o, i) => (
+//               <li
+//                 key={`${o.value}-${i}`}
+//                 id={optionId(i)}
+//                 role="option"
+//                 aria-selected={i === highlight}
+//                 className={clsx(
+//                   "cursor-pointer select-none px-3 py-2 text-sm",
+//                   i === highlight
+//                     ? "bg-blue-50 text-blue-700"
+//                     : "text-gray-800 hover:bg-gray-50"
+//                 )}
+//                 onMouseDown={(e) => e.preventDefault()} // prevent blur
+//                 onMouseEnter={() => setHighlight(i)}
+//                 onClick={() => selectIndex(i)}
+//               >
+//                 {o.label}
+//               </li>
+//             ))
+//           )}
+//         </ul>
+//       )}
+//     </div>
+//   );
+// }
 
 /* =========================
  * Button

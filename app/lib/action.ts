@@ -16,9 +16,11 @@ export const submitEnquiry = async (
     fullName: formData.get("fullName") as string,
     email: formData.get("email") as string,
     contactNumber: formData.get("contactNumber") as string,
-    queryType: formData.get("queryType") as string,
+    queryType: formData.get("queryType"),
     qMessage: formData.get("qMessage") as string,
   };
+
+  console.log(rawData);
 
   const validated = QuickEnquirySchema.safeParse({
     fullName: rawData.fullName,

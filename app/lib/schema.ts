@@ -16,6 +16,10 @@ export const QuickEnquirySchema = z.object({
     .refine((v) => !v || v.trim().length > 0, {
       message: "Invalid phone number",
     }),
-  queryType: z.string().min(2, { message: "please select your query type" }),
+  queryType: z.coerce
+    .number()
+    .int()
+    .min(1, { message: "Please select your query type" })
+    .max(20, { message: "Please select your query type" }),
   qMessage: z.string().min(2, { message: "please enter your message" }),
 });

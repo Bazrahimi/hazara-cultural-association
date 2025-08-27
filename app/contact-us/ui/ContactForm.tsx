@@ -1,10 +1,5 @@
 "use client";
-import {
-  Header,
-  Input,
-  InputAutocomplete,
-  P,
-} from "@/app/ui/global/components";
+import { Header, Input, P } from "@/app/ui/global/components";
 import { CiUser } from "react-icons/ci";
 import { FaHandHoldingHeart } from "react-icons/fa";
 import { HiAcademicCap, HiCalendar, HiUsers } from "react-icons/hi";
@@ -14,7 +9,18 @@ import { MdCampaign, MdEmail } from "react-icons/md";
 import { submitEnquiry } from "@/app/lib/action";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import StatusBanner from "@/app/ui/global/FormMessage";
+import clsx from "clsx";
 import { useActionState } from "react";
+
+const QUERY_OPTIONS = {
+  1: "Donations & Support",
+  2: "Volunteering",
+  3: "Cultural Programs & Classes",
+  4: "Events & Community Gatherings",
+  5: "Family Assistance / Community Support",
+  6: "Advocacy & Media Enquiries",
+  7: "Other",
+} as const;
 
 const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
@@ -25,6 +31,8 @@ export default function ContactForm() {
     submitEnquiry,
     undefined
   );
+
+  const hasQueryTypeError = !!state?.errors?.queryType?.length;
   return (
     <form className="space-y-4 relative" action={formAction}>
       <Header align="center" as="h3" size="sm">
@@ -67,24 +75,54 @@ export default function ContactForm() {
         Icon={IoIosPhonePortrait}
       />
 
-      <InputAutocomplete
+      <label
+        htmlFor="queryType"
+        className="block text-sm font-medium text-gray-700"
+      >
+        How can we help
+      </label>
+
+      <select
+        name="queryType"
         id="queryType"
-        label="How can we help"
-        placeholder="Select your Query Type..."
-        defaultValue={state?.queryType}
-        type="text"
-        required
-        mustMatch
-        options={[
-          "Donations & Support",
-          "Volunteering",
-          "Cultural Programs & Classes",
-          "Events & Community Gatherings",
-          "Family Assistance / Community Support",
-          "Advocacy & Media Enquiries",
-          "Other",
-        ]}
-      />
+        // required
+        // preserve selection after server validation:
+        defaultValue={state?.queryType != null ? String(state.queryType) : ""}
+        aria-invalid={hasQueryTypeError || undefined}
+        aria-describedby={hasQueryTypeError ? "queryType-error" : undefined}
+        className={clsx(
+          "w-full rounded-md border border-gray-200 py-2 pr-10 text-sm sm:text-base outline-1 placeholder:text-gray-500 focus:border-blue-600 focus:ring-2 focus:ring-blue-400",
+          hasQueryTypeError &&
+            "border-red-300 focus:border-red-400 focus:ring-red-100"
+        )}
+      >
+        {/* Placeholder option; keep it disabled so a choice is required */}
+        <option value="" disabled hidden>
+          Select your Query type
+        </option>
+
+        {Object.entries(QUERY_OPTIONS).map(([value, label]) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </select>
+
+      {/* Unique id for the error; link via aria-describedby above */}
+      {hasQueryTypeError ? (
+        <div
+          id="queryType-error"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          className="mt-2 text-right text-xs text-red-600 sm:text-sm"
+        >
+          {/* show first message or all, your choice */}
+          <p>{state?.errors?.queryType}</p>
+          {/* or map all:
+    {state.errors.queryType.map((msg, i) => <p key={i}>{msg}</p>)} */}
+        </div>
+      ) : null}
 
       {/* Message */}
       <div>
@@ -106,24 +144,7 @@ export default function ContactForm() {
         )}
       </div>
 
-      {/* Visual query chips */}
-      <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
-        <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-1">
-          <FaHandHoldingHeart className="text-blue-600" /> Donations
-        </span>
-        <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-1">
-          <HiUsers className="text-blue-600" /> Volunteering
-        </span>
-        <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-1">
-          <HiAcademicCap className="text-blue-600" /> Programs
-        </span>
-        <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-1">
-          <HiCalendar className="text-blue-600" /> Events
-        </span>
-        <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-1">
-          <MdCampaign className="text-blue-600" /> Advocacy
-        </span>
-      </div>
+
 
       {/* Submit */}
       <ActionButton
