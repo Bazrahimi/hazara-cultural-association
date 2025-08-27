@@ -3,6 +3,7 @@ import { stripe } from "@/app/lib/stripe";
 import { Button, Header } from "@/app/ui/global/components";
 import Link from "next/link";
 import type Stripe from "stripe";
+import { P } from "@/app/ui/global/components";
 
 export const metadata = {
   title: "Donation Successful",
@@ -86,12 +87,36 @@ export default async function SuccessPage({
               {amountText} received
             </p>
           )}
-          {email && (
-            <p className="text-slate-600">
-              A confirmation has been sent to{" "}
-              <span className="font-medium">{email}</span>.
-            </p>
+                {/* Copy polish */}
+          {email ? (
+            <P className="text-slate-600">
+              A confirmation receipt has been sent to{" "}
+              <span className="font-extrabold">{email}</span>.
+            </P>
+          ) : (
+            <P className="text-slate-600">Your payment was successful.</P>
           )}
+
+          {/* ✅ RECOMMENDATION: concise, polished mission statement */}
+          <P className="text-slate-700">
+            We use donated funds responsibly to support the community and our programs.
+          </P>
+        </div>
+
+        {/* ✅ RECOMMENDATION: gratitude + mission block */}
+        <div className="mt-6 rounded-lg border border-blue-100 bg-blue-50/60 p-4 text-slate-800">
+          <p className="font-semibold mb-1">With gratitude from Hazara Cultural Association</p>
+          <p className="text-sm leading-relaxed">
+            We’re a volunteer-run community. Your donation helps sustain advocacy for
+            <strong> Justice for Hazaras</strong> and the
+            <strong> revival of Hazara heritage</strong>—preserving language, culture, and history
+            for future generations. Thank you for standing with us.
+          </p>
+          {/* Optional tax note (uncomment if applicable) */}
+          {/* <p className="mt-2 text-xs text-slate-600">
+            Donations of $2 or more may be tax-deductible in Australia. A receipt will be emailed.
+          </p> */}
+        </div>
           {!email && (
             <p className="text-slate-600">Your payment was successful.</p>
           )}
@@ -105,14 +130,16 @@ export default async function SuccessPage({
               rel="noopener noreferrer"
               className="inline-flex"
             >
-              <Button variant="secondary">View Receipt</Button>
+              <Button variant="outline">View / Download Receipt</Button>
             </a>
           )}
+          {/* Print to PDF for users who want a hard copy */}
+
           <Link href="/donate" className="inline-flex">
             <Button>Make another donation</Button>
           </Link>
         </div>
       </div>
-    </div>
+  
   );
 }
