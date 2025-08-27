@@ -40,7 +40,7 @@ export async function submitDonation(
         address2: String(raw.address2 ?? ""),
         suburb: String(raw.suburb ?? ""),
         stateCode: String(raw.stateCode ?? ""),
-        postCode:raw.postCode ? Number(raw.postCode) : undefined,
+        postCode: raw.postCode ? Number(raw.postCode) : undefined,
       },
     };
   }
@@ -85,7 +85,7 @@ export async function submitDonation(
       address1: data.address1,
       address2: data.address2 ?? "",
       suburb: data.suburb,
-      state: data.state,
+      state: data.stateCode,
       postCode: String(data.postCode),
       amount: String(data.amount),
     },

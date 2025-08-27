@@ -3,7 +3,7 @@ import { z } from "zod";
 /* ── Schema ──────────────────────────────────────────────────────────────── */
 export const DonationSchema = z.object({
   fullName: z.string().min(3, { message: "Please enter your full name" }),
-  amount: z.coerce.number().positive({ message: "Please enter an amount > 0" }),
+  amount: z.coerce.number().gt(1, { message: "Please enter an amount > 1" }),
   email: z.email({ message: "Please enter a valid email address" }),
   contactNumber: z.string().optional(),
   address1: z.string().min(5, { message: "Please enter your street address" }),

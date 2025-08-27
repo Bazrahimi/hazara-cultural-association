@@ -28,7 +28,7 @@ export default function DonateForm() {
 
   const goToDetails = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    if (typeof amount !== "number" || amount <= 10) {
+    if (typeof amount !== "number" || amount <= 1) {
       setAmountError(true);
       return;
     }
@@ -40,7 +40,7 @@ export default function DonateForm() {
   return (
     <form
       action={formAction}
-      className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+      className="mx-auto max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
     >
       {isAmountStep ? (
         <>
