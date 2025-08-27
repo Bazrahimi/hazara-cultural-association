@@ -1,21 +1,22 @@
 import Link from "next/link";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { HiLocationMarker, HiMail, HiPhone } from "react-icons/hi";
+import { P } from "./global/components";
 
 const Footer = () => {
   return (
-    <footer className="mt-16 bg-gray-900 text-gray-300">
+    <footer className="mt-16 bg-yellow-500 text-gray-300">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-14 sm:grid-cols-2 md:grid-cols-4">
         {/* Organisation Info */}
         <div>
           <h3 className="mb-3 text-lg font-bold text-yellow-400">
             Hazara Cultural Association
           </h3>
-          <p className="text-sm leading-relaxed">
+          <P className="text-sm leading-relaxed">
             A non-profit organisation in Australia dedicated to preserving
-            Hazara culture, supporting community initiatives, and advocating
-            for justice and human rights.
-          </p>
+            Hazara culture, supporting community initiatives, and advocating for
+            justice and human rights.
+          </P>
         </div>
 
         {/* Quick Links */}
@@ -115,7 +116,11 @@ const Footer = () => {
       {/* Copyright */}
       <div className="border-t border-gray-700 px-6 py-4 text-center text-xs text-gray-500">
         © {new Date().getFullYear()} Hazara Cultural Association. All rights
-        reserved. <Link href="/login" className="text-yellow-400 hover:text-yellow-500">Admin Login</Link> | Built by{" "}
+        reserved.{" "}
+        <Link href="/login" className="text-yellow-400 hover:text-yellow-500">
+          Admin Login
+        </Link>{" "}
+        | Built by{" "}
         <a
           href="https://github.com/Bazrahimi"
           target="_blank"
