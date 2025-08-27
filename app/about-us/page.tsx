@@ -2,6 +2,7 @@ import { inter, roboto } from "@/app/lib/font";
 import clsx from "clsx";
 import Image from "next/image";
 import { P } from "../ui/global/components";
+import { IMAGE_DEFAULT_BLUR } from "../ui/global/ImageShimer";
 
 type Person = { name: string; role: string; img: string };
 
@@ -126,6 +127,8 @@ export default function AboutUsPage() {
                     src={person.img}
                     alt={`${person.name}, ${person.role}`}
                     fill
+                    placeholder="blur"
+                    blurDataURL={IMAGE_DEFAULT_BLUR}
                     className="rounded-full object-cover transition-transform duration-300 group-hover:scale-105"
                     sizes="(max-width: 640px) 6rem, (max-width: 768px) 7rem, 8rem"
                     priority={false}
