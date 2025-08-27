@@ -21,7 +21,7 @@ export async function submitDonation(
     address1: formData.get("address1"),
     address2: formData.get("address2"),
     suburb: formData.get("suburb"),
-    state: formData.get("state"),
+    stateCode: formData.get("stateCode"),
     postCode: formData.get("postCode"),
   };
 
@@ -30,7 +30,7 @@ export async function submitDonation(
     const fe = parsed.error.flatten().fieldErrors as FieldErrors<Donation>;
     return {
       ok: false,
-      message: "Please fix the errors below.",
+      message: "Please fix the errors above.",
       errors: fe,
       data: {
         fullName: String(raw.fullName ?? ""),
@@ -39,7 +39,8 @@ export async function submitDonation(
         address1: String(raw.address1 ?? ""),
         address2: String(raw.address2 ?? ""),
         suburb: String(raw.suburb ?? ""),
-        state: String(raw.state ?? ""),
+        stateCode: String(raw.stateCode ?? ""),
+        postCode:raw.postCode ? Number(raw.postCode) : undefined,
       },
     };
   }

@@ -53,7 +53,7 @@ export default function DonationDetails({ state, onBack }: Props) {
         type="text"
         placeholder="123 Example St"
         defaultValue={state?.data?.address1 ?? ""}
-        error={state?.errors?.address}
+        error={state?.errors?.address1}
         inputProps={{ autoComplete: "address-line1" }}
       />
 
@@ -81,31 +81,32 @@ export default function DonationDetails({ state, onBack }: Props) {
 
         <div>
           <label
-            htmlFor="state"
+            htmlFor="stateCode"
             className="block text-sm font-medium text-gray-700"
           >
             State
           </label>
           <select
-            id="state"
-            name="state"
-            defaultValue={state?.data?.state ?? ""}
+            id="stateCode"
+            name="stateCode"
+            defaultValue={state?.data?.stateCode ?? ""}
             className="mt-1 block w-full rounded-md border border-gray-200 py-2 px-3 text-sm sm:text-base focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
             autoComplete="address-level1"
           >
             <option value="">Select state</option>
-            <option value="VIC">VIC</option>
-            <option value="NSW">NSW</option>
-            <option value="QLD">QLD</option>
-            <option value="SA">SA</option>
-            <option value="WA">WA</option>
-            <option value="TAS">TAS</option>
-            <option value="ACT">ACT</option>
-            <option value="NT">NT</option>
+            <option value="VIC">Victoria (VIC)</option>
+            <option value="NSW">New South Wales (NSW)</option>
+            <option value="QLD">Queensland (QLD)</option>
+            <option value="SA">South Australia (SA)</option>
+            <option value="WA">Western Australia (WA)</option>
+            <option value="TAS">Tasmania (TAS)</option>
+            <option value="ACT">Australian Capital Territory (ACT)</option>
+            <option value="NT">Northern Territory (NT)</option>
           </select>
-          {state?.errors?.state?.length ? (
+
+          {state?.errors?.stateCode?.length ? (
             <p className="mt-2 text-right text-xs text-red-600 sm:text-sm">
-              {state.errors.state[0]}
+              {state.errors.stateCode[0]}
             </p>
           ) : null}
         </div>
@@ -113,7 +114,7 @@ export default function DonationDetails({ state, onBack }: Props) {
 
       <Input
         id="postCode"
-        label="Postcode"
+        label="PostCode"
         type="text"
         placeholder="3175"
         defaultValue={state?.data?.postCode?.toString?.() ?? ""}
