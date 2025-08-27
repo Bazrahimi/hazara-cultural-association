@@ -16,6 +16,12 @@ export type Session = {
   exp: number;
 };
 
+export type Breadcrumb = {
+  label: string;
+  href: string;
+  active?: boolean;
+};
+
 /**2) data shape directly from schema  */
 export type QuickEnquiry = z.infer<typeof QuickEnquirySchema>;
 

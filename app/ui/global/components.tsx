@@ -226,7 +226,7 @@ export function InputAutocomplete({
   // ids
   const uid = useId();
   const listboxId = `${id}-listbox-${uid}`;
-  const optionId = (i: number) => `${listboxId}-opt-${i}`;
+  // const optionId = (i: number) => `${listboxId}-opt-${i}`;
 
   // normalise options
   const normalised = useMemo(

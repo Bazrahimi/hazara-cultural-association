@@ -71,6 +71,7 @@ export default async function SuccessPage({
         : null;
     receiptUrl = latestCharge?.receipt_url ?? undefined;
   } catch (err) {
+    console.error("Failed Stripe Success", err)
     // swallow error, show a generic success box
   }
 

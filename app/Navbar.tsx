@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CiShoppingCart } from "react-icons/ci";
-import { HiAcademicCap, HiCalendar, HiInformationCircle } from "react-icons/hi";
+import { HiCalendar, HiInformationCircle } from "react-icons/hi";
 import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
 
 // Reusable styles
