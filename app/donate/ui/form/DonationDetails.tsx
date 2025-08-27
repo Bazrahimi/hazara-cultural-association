@@ -1,5 +1,6 @@
 "use client";
-import { Button, Header, Input } from "@/app/ui/global/components";
+import { Button, Input } from "@/app/ui/global/components";
+import { Header } from "@/app/ui/global/Header";
 import { CiUser } from "react-icons/ci";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
@@ -17,7 +18,7 @@ export default function DonationDetails({ state, onBack }: Props) {
         <Button type="button" variant="secondary" fullWidth onClick={onBack}>
           Back
         </Button>
-        <Header as="h2" size="sm" align="center" className="m-1">
+        <Header as="h3" size="sm" align="center" className="m-1">
           Your Details
         </Header>
       </div>
@@ -88,7 +89,6 @@ export default function DonationDetails({ state, onBack }: Props) {
             defaultValue={state?.data?.suburb ?? ""}
             error={state?.errors?.suburb}
             inputProps={{ autoComplete: "address-level2" }}
-         
           />
         </div>
 

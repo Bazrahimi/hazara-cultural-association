@@ -1,10 +1,10 @@
 "use client";
-import { Header, Input, P } from "@/app/ui/global/components";
+import { Input} from "@/app/ui/global/components";
+import { P } from "@/app/ui/global/paragraph";
+import { Header } from "@/app/ui/global/Header";
 import { CiUser } from "react-icons/ci";
-import { FaHandHoldingHeart } from "react-icons/fa";
-import { HiAcademicCap, HiCalendar, HiUsers } from "react-icons/hi";
 import { IoIosPhonePortrait } from "react-icons/io";
-import { MdCampaign, MdEmail } from "react-icons/md";
+import { MdEmail } from "react-icons/md";
 
 import { submitEnquiry } from "@/app/lib/action";
 import { ActionButton } from "@/app/ui/global/clientComponent";
@@ -143,8 +143,6 @@ export default function ContactForm() {
           </p>
         )}
       </div>
-
-
 
       {/* Submit */}
       <ActionButton

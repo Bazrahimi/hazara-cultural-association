@@ -172,15 +172,15 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
 
 export type InputOption = string | { value: string; label?: string };
 
-type Props = Omit<BaseInputProps, "type" | "inputProps"> & {
-  options: readonly InputOption[];
-  type?: "text";
-  mustMatch?: boolean;
-  /** Max items to render in the dropdown */
-  maxItems?: number;
-  onOptionSelect?: (opt: { value: string; label: string }) => void;
-  clearable?: boolean;
-};
+// type Props = Omit<BaseInputProps, "type" | "inputProps"> & {
+//   options: readonly InputOption[];
+//   type?: "text";
+//   mustMatch?: boolean;
+//   /** Max items to render in the dropdown */
+//   maxItems?: number;
+//   onOptionSelect?: (opt: { value: string; label: string }) => void;
+//   clearable?: boolean;
+// };
 
 // export function InputAutocomplete({
 //   id,
@@ -516,96 +516,8 @@ export const Button = forwardRef<
   );
 });
 
-/* =========================
- * Header (h1/h2/h3 only)
- * =======================*/
 
-type AsTag = "h1" | "h2" | "h3";
 
-type HeadingSize = "sm" | "md" | "lg";
-
-type HeaderProps = {
-  children: React.ReactNode;
-  size?: HeadingSize;
-  as: AsTag; // only headings
-  align?: "left" | "center" | "right";
-  color?: "brand" | "default";
-  className?: string;
-};
-
-const HEADING_COLOR: Record<NonNullable<HeaderProps["color"]>, string> = {
-  brand: "text-blue-600",
-  default: "text-yellow-500",
-};
-
-const SCALE: Record<AsTag, Record<HeadingSize, string>> = {
-  h1: {
-    sm: "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl",
-    md: "text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl",
-    lg: "text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl",
-  },
-  h2: {
-    sm: "text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl",
-    md: "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl",
-    lg: "text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl",
-  },
-  h3: {
-    sm: "text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl",
-    md: "text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl",
-    lg: "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl",
-  },
-};
-
-export function Header({
-  children,
-  size = "md",
-  as = "h1",
-  align = "left",
-  color = "brand",
-  className,
-}: HeaderProps) {
-  const Tag = as;
-  return (
-    <Tag
-      className={clsx(
-        lusitana.className,
-        "mb-3 break-words font-extrabold leading-tight tracking-tight hyphens-auto",
-        SCALE[as][size],
-        HEADING_COLOR[color],
-        {
-          "text-left": align === "left",
-          "text-center": align === "center",
-          "text-right": align === "right",
-        },
-        className
-      )}
-    >
-      {children}
-    </Tag>
-  );
-}
-
-type ParaSize = "sm" | "md" | "lg";
-
-type PProps = {
-  children: React.ReactNode;
-  size?: ParaSize;
-  className: string;
-};
-
-const SIZE: Record<ParaSize, string> = {
-  sm: "text-sm sm:text-base",
-  md: "text-base sm:text-lg",
-  lg: "text-lg sm:text-xl",
-};
-
-export function P({ children, size = "md", className }: PProps) {
-  return (
-    <p className={clsx(roboto.className, SIZE[size], "antialiased", className)}>
-      {children}
-    </p>
-  );
-}
 
 export const DeleteFormAction = (args: {
   id: number;

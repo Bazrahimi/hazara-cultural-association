@@ -1,8 +1,7 @@
-import { inter, roboto } from "@/app/lib/font";
-import clsx from "clsx";
 import Image from "next/image";
-import { P } from "../ui/global/components";
+import { Header } from "../ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "../ui/global/ImageShimer";
+import { P } from "../ui/global/paragraph";
 
 type Person = { name: string; role: string; img: string };
 
@@ -33,36 +32,24 @@ export default function AboutUsPage() {
   return (
     // container + breathing room
     <main className="mx-auto max-w-6xl px-4 py-10">
-      {/* Page header */}
-      <header className="text-center">
-        <h1
-          className={clsx(
-            inter.className,
-            "text-3xl font-bold text-blue-700 sm:text-4xl lg:text-5xl"
-          )}
-        >
-          About Us
-        </h1>
-        <p
-          className={clsx(
-            roboto.className,
-            "mx-auto mt-3 max-w-2xl text-base leading-relaxed text-gray-700 sm:text-lg lg:text-xl"
-          )}
-        >
-          Hazara Cultural Association (HCA) is a community-driven nonprofit
-          organisation in Melbourne dedicated to preserving Hazara culture,
-          teaching our history, and reclaiming our identity.
-        </p>
-      </header>
+      <Header as="h1" align="center">
+        About Us
+      </Header>
+      <P>
+        Hazara Cultural Association (HCA) is a community-driven nonprofit
+        organisation in Melbourne dedicated to preserving Hazara culture,
+        teaching our history, and reclaiming our identity.
+      </P>
 
       {/* Content stack */}
       <section className="mt-10 space-y-12">
         {/* Purpose */}
         <section aria-labelledby="purpose">
-          <h2 id="purpose" className="text-2xl font-semibold text-gray-900">
+          <Header size="sm" as="h2">
+            {" "}
             Our Purpose
-          </h2>
-          <P className="mt-3 leading-relaxed text-gray-700">
+          </Header>
+          <P>
             The purpose of HCA is to{" "}
             <strong>advocate for the Hazara people</strong> and to teach younger
             generations about our history, heritage, and language. For thousands
@@ -71,7 +58,7 @@ export default function AboutUsPage() {
             Hazara history has been erased from official books and denied by
             successive rulers in Kabul.
           </P>
-          <P className="mt-3 leading-relaxed text-gray-700">
+          <P className="mt-3 ">
             Our mission is to reclaim this identity, to give every Hazara a
             sense of belonging, and to ensure that our culture and language are
             preserved and passed down with pride.
@@ -80,17 +67,17 @@ export default function AboutUsPage() {
 
         {/* Vision */}
         <section aria-labelledby="vision">
-          <h2 id="vision" className="text-2xl font-semibold text-gray-900">
+          <Header size="sm" as="h2">
             Our Vision
-          </h2>
-          <P className="mt-3 leading-relaxed text-gray-700">
+          </Header>
+          <P>
             We envision a world where the Hazara people’s story is told
             truthfully, where our cultural heritage is valued, and where justice
             is pursued without fear. Our vision is to advocate among the Hazara
             diaspora, in civil society, and in the international community for
             the <strong>official recognition of the Hazara genocide</strong>.
           </P>
-          <P className="mt-3 leading-relaxed text-gray-700">
+          <P className="mt-3 ">
             Through education, advocacy, and cultural programs, we aim to
             empower Hazaras everywhere to reconnect with their roots, strengthen
             their communities, and proudly reclaim their identity.
@@ -99,10 +86,11 @@ export default function AboutUsPage() {
 
         {/* Governance */}
         <section aria-labelledby="governance">
-          <h2 id="governance" className="text-2xl font-semibold text-gray-900">
+          <Header as="h2" size="sm">
+            {" "}
             Governance and Management
-          </h2>
-          <P className="mt-3 leading-relaxed text-gray-700">
+          </Header>
+          <P>
             The Hazara Cultural Association is led by dedicated volunteers from
             across Melbourne, working together to serve the community.
           </P>

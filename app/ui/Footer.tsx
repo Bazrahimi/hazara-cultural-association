@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { HiLocationMarker, HiMail, HiPhone } from "react-icons/hi";
-import { P } from "./global/components";
+import { P } from "./global/paragraph";
 
 const Footer = () => {
   return (

@@ -1,5 +1,7 @@
 import { sql } from "@/app/lib/db";
-import { DeleteFormAction, Header, P } from "@/app/ui/global/components";
+import { DeleteFormAction } from "@/app/ui/global/components";
+import { Header } from "@/app/ui/global/Header";
+import { P } from "@/app/ui/global/paragraph";
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 import { QuickEnquiryRecord } from "../utils/definitions";
@@ -39,7 +41,9 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <main className="mx-auto max-w-3xl p-6">
       <div className="flex justify-between gap-3 mb-3">
-        <Header as="h3">Quick Enquiry #{enquiry.id}</Header>
+        <Header as="h3" size="sm">
+          Quick Enquiry #{enquiry.id}
+        </Header>
         <DeleteFormAction
           id={enquiry.id}
           variant="outline"

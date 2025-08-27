@@ -3,7 +3,8 @@ import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
 import { auth } from "../lib/action";
 import { ActionButton, FormErrorMessage } from "../ui/global/clientComponent";
-import { Header, Input } from "../ui/global/components";
+import { Input } from "../ui/global/components";
+import { Header } from "../ui/global/Header";
 
 const LoginPage = () => {
   const [state, formAction, isPending] = useActionState(auth, undefined);

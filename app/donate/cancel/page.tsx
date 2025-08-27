@@ -1,5 +1,6 @@
 // app/donate/cancel/page.tsx
-import { Button, Header } from "@/app/ui/global/components";
+import { Button } from "@/app/ui/global/components";
+import { Header } from "@/app/ui/global/Header";
 import Link from "next/link";
 
 export const metadata = {
@@ -26,4 +27,3 @@ export default function CancelPage() {
     </div>
   );
 }
- 

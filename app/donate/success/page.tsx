@@ -1,9 +1,10 @@
 // app/donate/success/page.tsx
 import { stripe } from "@/app/lib/stripe";
-import { Button, Header } from "@/app/ui/global/components";
+import { Button} from "@/app/ui/global/components";
 import Link from "next/link";
 import type Stripe from "stripe";
-import { P } from "@/app/ui/global/components";
+import { P } from "@/app/ui/global/paragraph";
+import { Header } from "@/app/ui/global/Header";
 
 export const metadata = {
   title: "Donation Successful",
