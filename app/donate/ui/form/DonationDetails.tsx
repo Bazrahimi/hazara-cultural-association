@@ -1,5 +1,8 @@
 "use client";
-import { Button, Input } from "@/app/ui/global/components";
+import { Button, Header, Input } from "@/app/ui/global/components";
+import { CiUser } from "react-icons/ci";
+import { IoIosPhonePortrait } from "react-icons/io";
+import { MdEmail } from "react-icons/md";
 import { DonationState } from "../../lib/definitions";
 
 type Props = {
@@ -10,38 +13,45 @@ type Props = {
 export default function DonationDetails({ state, onBack }: Props) {
   return (
     <fieldset>
-      <div className="mb-2 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-gray-700">Your details</h3>
-        <Button type="button" variant="secondary" size="sm" onClick={onBack}>
+      <div className="mb-2  items-center">
+        <Button type="button" variant="secondary" fullWidth onClick={onBack}>
           Back
         </Button>
+        <Header as="h2" size="sm" align="center" className="m-1">
+          Your Details
+        </Header>
       </div>
 
       <Input
         id="fullName"
         label="Full name"
         type="text"
-        placeholder="Jane Citizen"
+        placeholder="Your full name"
+        Icon={CiUser}
         defaultValue={state?.data?.fullName ?? ""}
         error={state?.errors?.fullName}
         inputProps={{ autoComplete: "name" }}
+        required
       />
 
       <Input
         id="email"
         label="Email"
         type="email"
-        placeholder="you@example.com"
+        placeholder="Your email address"
+        Icon={MdEmail}
         defaultValue={state?.data?.email ?? ""}
         error={state?.errors?.email}
         inputProps={{ autoComplete: "email" }}
+        required
       />
 
       <Input
         id="contactNumber"
         label="Contact number"
         type="text"
-        placeholder="04xx xxx xxx"
+        placeholder="Enter your contact Number"
+        Icon={IoIosPhonePortrait}
         defaultValue={state?.data?.contactNumber ?? ""}
         error={state?.errors?.contactNumber}
         inputProps={{ autoComplete: "tel", inputMode: "tel" }}
@@ -55,6 +65,7 @@ export default function DonationDetails({ state, onBack }: Props) {
         defaultValue={state?.data?.address1 ?? ""}
         error={state?.errors?.address1}
         inputProps={{ autoComplete: "address-line1" }}
+        required
       />
 
       <Input
@@ -72,10 +83,12 @@ export default function DonationDetails({ state, onBack }: Props) {
             id="suburb"
             label="Suburb / City"
             type="text"
-            placeholder="Dandenong"
+            placeholder="Your suburb"
+            required
             defaultValue={state?.data?.suburb ?? ""}
             error={state?.errors?.suburb}
             inputProps={{ autoComplete: "address-level2" }}
+         
           />
         </div>
 
@@ -84,7 +97,7 @@ export default function DonationDetails({ state, onBack }: Props) {
             htmlFor="stateCode"
             className="block text-sm font-medium text-gray-700"
           >
-            State
+            State <span className="text-red-500">*</span>
           </label>
           <select
             id="stateCode"
@@ -92,6 +105,7 @@ export default function DonationDetails({ state, onBack }: Props) {
             defaultValue={state?.data?.stateCode ?? ""}
             className="mt-1 block w-full rounded-md border border-gray-200 py-2 px-3 text-sm sm:text-base focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
             autoComplete="address-level1"
+            required
           >
             <option value="">Select state</option>
             <option value="VIC">Victoria (VIC)</option>
@@ -116,7 +130,8 @@ export default function DonationDetails({ state, onBack }: Props) {
         id="postCode"
         label="PostCode"
         type="text"
-        placeholder="3175"
+        placeholder="Your post-code"
+        required
         defaultValue={state?.data?.postCode?.toString?.() ?? ""}
         error={state?.errors?.postCode}
         inputProps={{
