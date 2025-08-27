@@ -8,7 +8,7 @@ import { P } from "./global/paragraph";
 // Reusable className tokens
 // -------------------------------
 const CN = {
-  footer: "mt-16 bg-yellow-500",
+  footer: "mt-16 bg-yellow-500 pb-10",
   wrap: "mx-auto max-w-7xl px-6 py-14",
   grid: "grid grid-cols-1 gap-10 sm:grid-cols-3 md:grid-cols-4",
   sectionTitle: "text-gray-950", // Header already styles size/color
@@ -18,8 +18,8 @@ const CN = {
   socialLink: "flex items-center gap-2 hover:text-yellow-300",
   contactItem: "flex items-start gap-2",
   contactIcon: "mt-1 text-yellow-400",
-  copy: "border-t border-gray-700 px-6 py-4 text-center text-xs text-gray-500",
-  copyLink: "text-yellow-400 hover:text-yellow-500",
+  copy: "border-t border-gray-700 px-6 py-4 text-center text-xs text-gray-700",
+  copyLink: "text-gray-700 hover:text-yellow-500",
   copyLinkAlt: "text-yellow-400 hover:text-yellow-300",
 };
 
@@ -137,6 +137,20 @@ const Footer = () => {
               </a>
             </li>
           </ul>
+        </div>
+
+        <div>
+          <Header as="h4" size="xs" className={CN.sectionTitle}>
+            Country acknowledges
+          </Header>
+          <P size="sm" className="text-gray-700 m-3">
+            Hazara Cultural Association acknowledges the Bunurong people of the
+            Kulin Nation as the Traditional Custodians of the lands and waters
+            in and around Greater Dandenong. We pay our respects to Elders past
+            and present, and extend that respect to all Aboriginal and Torres
+            Strait Islander peoples. We honour their enduring connection to
+            Country, culture, and community.
+          </P>
         </div>
       </div>
 
