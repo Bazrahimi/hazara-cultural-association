@@ -4,8 +4,9 @@
 import { inter, roboto } from "@/app/lib/font";
 import { clsx } from "clsx";
 import Image from "next/image";
+import { IMAGE_DEFAULT_BLUR } from "./global/ImageShimer";
 
-const heroImg = "/images/hero/hero2.webp";
+const heroImg = "/images/hero/hero2.png";
 
 const Hero = () => {
   return (
@@ -22,6 +23,8 @@ const Hero = () => {
         priority
         sizes="100vw"
         className="object-cover object-center"
+        placeholder="blur"
+        blurDataURL={IMAGE_DEFAULT_BLUR}
       />
 
       {/* Overlay */}
