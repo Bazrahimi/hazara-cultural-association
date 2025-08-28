@@ -5,40 +5,15 @@ import * as React from "react";
 type AsTag = "h1" | "h2" | "h3" | "h4";
 type HeadingSize = "xs" | "sm" | "md" | "lg";
 
-// You can pass one of these tokens OR any Tailwind text color class string.
-const COLORS = {
-  brand: "text-blue-500",
-  slate: "text-slate-900",
-  muted: "text-gray-700",
-  info: "text-sky-600",
-  success: "text-green-600",
-  warning: "text-amber-600",
-  danger: "text-red-600",
-  white: "text-white",
-} as const;
-
-type HeaderColor = keyof typeof COLORS | string;
-
 type HeaderProps = React.HTMLAttributes<HTMLHeadingElement> & {
-  /** Heading content */
   children: React.ReactNode;
-  /** Visual scale (responsive) */
-  size?: HeadingSize;
-  /** Semantic tag: use correct level for SEO/a11y hierarchy */
-  as: AsTag;
-  /** Text alignment */
-  align?: "left" | "center" | "right";
-  /** Color override: pass a token (e.g. "brand", "danger") or a Tailwind class (e.g. "text-red-600") */
-  color?: HeaderColor;
-  /** Extra classes (optional). Last one wins if you also override color here. */
-  className?: string;
+  as: AsTag; // semantic level
+  size?: HeadingSize; // responsive scale
+  align?: "left" | "center" | "right"; // text alignment
+  className?: string; // optional overrides
 };
 
-/**
- * Responsive size scales per heading tag.
- * `xs` is intentionally compact for tight layouts or small cards.
- * h4 is one step smaller than h3 across breakpoints.
- */
+/** Responsive scales per heading tag */
 const SCALE: Record<AsTag, Record<HeadingSize, string>> = {
   h1: {
     xs: "text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl",
@@ -73,17 +48,10 @@ export function Header({
   size = "md",
   as,
   align = "left",
-  color,         // ← new prop
   className,
   ...rest
 }: HeaderProps) {
   const Tag = as;
-
-  // Resolve color: token → mapped class, raw string → use as-is, undefined → default
-  const resolvedColor =
-    typeof color === "string"
-      ? (color in COLORS ? (COLORS as any)[color] : color)
-      : DEFAULT_COLOR;
 
   return (
     <Tag
@@ -91,13 +59,13 @@ export function Header({
         lusitana.className,
         "mb-3 break-words font-extrabold leading-tight tracking-tight hyphens-auto",
         SCALE[as][size],
-        resolvedColor, // use resolved color class
-        {
-          "text-left": align === "left",
-          "text-center": align === "center",
-          "text-right": align === "right",
-        },
-        className // last wins if you want to override color here too
+        DEFAULT_COLOR, // fixed color
+        align === "center"
+          ? "text-center"
+          : align === "right"
+            ? "text-right"
+            : "text-left",
+        className // you can still override color with className e.g. "text-black"
       )}
       {...rest}
     >

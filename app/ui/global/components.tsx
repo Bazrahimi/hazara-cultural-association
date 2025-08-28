@@ -1,6 +1,6 @@
 "use client";
 
-import { inter, lusitana, roboto } from "@/app/lib/font";
+import { inter } from "@/app/lib/font";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { forwardRef, ReactNode, useState } from "react";
@@ -515,9 +515,6 @@ export const Button = forwardRef<
     </button>
   );
 });
-
-
-
 
 export const DeleteFormAction = (args: {
   id: number;
