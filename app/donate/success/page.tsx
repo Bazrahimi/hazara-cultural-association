@@ -10,7 +10,7 @@ export const metadata = {
   title: "Donation Successful",
 };
 
-type SearchParams = { session_id?: string | string[] };
+
 
 function formatAmount(
   amount: number | null | undefined,
@@ -23,12 +23,18 @@ function formatAmount(
   }).format(amount / 100);
 }
 
+
+
+type SearchParamsShape = { session_id?: string | string[] };
+
 export default async function SuccessPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  /** In Next 15, this is a Promise */
+  searchParams: Promise<SearchParamsShape>;
 }) {
-  const rawId = searchParams?.session_id;
+  const sp = await searchParams;                 // 👈 await the promise
+  const rawId = sp?.session_id;
   const sessionId = Array.isArray(rawId) ? rawId[0] : rawId;
 
   if (!sessionId) {
@@ -82,6 +88,7 @@ export default async function SuccessPage({
         <Header as="h2" size="md" align="center" className="mb-4">
           Thank you for your donation! 🎉
         </Header>
+        <Header as="h3" size="sm" className="text-red-500">Test Mode: The Donation amount is play money.</Header>
 
         <div className="space-y-2 text-center">
           {amountText && (
@@ -92,7 +99,7 @@ export default async function SuccessPage({
                 {/* Copy polish */}
           {email ? (
             <P className="text-slate-600">
-              A confirmation receipt has been sent to{" "}
+              A confirmation will be sent been sent to{" "}
               <span className="font-extrabold">{email}</span>.
             </P>
           ) : (
