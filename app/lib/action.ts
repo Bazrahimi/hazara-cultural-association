@@ -2,7 +2,11 @@
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { sendQuickEnquiryEmail } from "../ui/global/resend/email";
+
+import {
+  sendAdminEmail,
+  sendUserConfirmationEmail,
+} from "../ui/global/resend/email";
 import { sql } from "./db";
 import { AuthState, QuickEnquiryState } from "./definitions";
 import { AuthSchema, QuickEnquirySchema } from "./schema";
@@ -18,9 +22,10 @@ export const submitEnquiry = async (
     contactNumber: formData.get("contactNumber") as string,
     queryType: formData.get("queryType"),
     qMessage: formData.get("qMessage") as string,
+    queryLabel: formData.get('queryTypeLabel') as string
   };
 
-  console.log(rawData);
+
 
   const validated = QuickEnquirySchema.safeParse({
     fullName: rawData.fullName,
@@ -49,42 +54,44 @@ export const submitEnquiry = async (
 
   const data = validated.data;
 
-  const dbPromise = await sql<[{ id: number }]>`
+ 
+  try {
+     await sql<[{ id: number }]>`
       INSERT INTO quick_enquiries (full_name, email, contact_number, query_type, message)
-      VALUES (${data.fullName}, ${data.email}, ${data.contactNumber || null}, ${
-        data.queryType
-      }, ${data.qMessage})
+      VALUES (${data.fullName}, ${data.email}, ${data.contactNumber || null}, ${data.queryType}, ${data.qMessage})
       RETURNING id
     `;
-  const emailPromise = sendQuickEnquiryEmail({ ...data });
 
-  const [
-    dbRes,
-    emailRes
-  ] = await Promise.allSettled([
-    dbPromise,
-    emailPromise
-  ]);
-
-  // DB is critical - if it failed, show and error,
-  if (dbRes.status === "rejected") {
-    console.error("Failed to submit the query", dbRes.reason);
+  } catch (err) {
+    console.error("Failed to submit the enquiry:", err);
     return {
       ...rawData,
       ok: false,
-      message: "Failed to submit the enquiry. Please try again Later.",
+      message: "Failed to submit the enquiry. Please try again later.",
       errors: undefined,
     };
   }
 
-  let message = "Thanks! we have received your enquiry.";
+  // 2) Send admin + user emails in parallel (non-critical)
+  const adminEmailPromise = sendAdminEmail({ ...data }, rawData.queryLabel);
+  const userEmailPromise = sendUserConfirmationEmail({ ...data }, rawData.queryLabel);
 
-  if (emailRes.status === "rejected") {
-    console.error("Email send failed", emailRes.reason);
-    message += " (Heads-up: we couldn’t send the confirmation email.)";
+  const [adminRes, userRes] = await Promise.allSettled([
+    adminEmailPromise,
+    userEmailPromise,
+  ]);
+
+  if (adminRes.status === "rejected") {
+    console.error("Admin email send failed:", adminRes.reason);
+  }
+  if (userRes.status === "rejected") {
+    console.error("User confirmation email failed:", userRes.reason);
   }
 
-  // const message = "Thanks! we have received your enquiry.";
+  let message = "Thanks! We have received your enquiry.";
+  if (userRes.status === "rejected") {
+    message += " (Heads-up: we couldn’t send the confirmation email.)";
+  }
 
   return {
     fullName: "",
@@ -95,6 +102,7 @@ export const submitEnquiry = async (
     ok: true,
     message,
     errors: undefined,
+    // id: insertedId, // expose if you want
   };
 };
 

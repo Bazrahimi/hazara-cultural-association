@@ -1,18 +1,17 @@
 "use client";
+import { submitEnquiry } from "@/app/lib/action";
+import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Input } from "@/app/ui/global/components";
+import StatusBanner from "@/app/ui/global/FormMessage";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
+import clsx from "clsx";
+import { useActionState, useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
 
-import { submitEnquiry } from "@/app/lib/action";
-import { ActionButton } from "@/app/ui/global/clientComponent";
-import StatusBanner from "@/app/ui/global/FormMessage";
-import clsx from "clsx";
-import { useActionState } from "react";
-
-export const QUERY_OPTIONS = {
+export const QUERY_OPTIONS: Record<1 | 2 | 3 | 4 | 5 | 6 | 7, string> = {
   1: "Donations & Support",
   2: "Volunteering",
   3: "Cultural Programs & Classes",
@@ -20,7 +19,9 @@ export const QUERY_OPTIONS = {
   5: "Family Assistance / Community Support",
   6: "Advocacy & Media Enquiries",
   7: "Other",
-} as const;
+};
+
+type QueryType = keyof typeof QUERY_OPTIONS;
 
 const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
@@ -31,6 +32,7 @@ export default function ContactForm() {
     submitEnquiry,
     undefined
   );
+  const [selectedLabel, setSelectedLabel] = useState("");
 
   const hasQueryTypeError = !!state?.errors?.queryType?.length;
   return (
@@ -95,6 +97,10 @@ export default function ContactForm() {
           hasQueryTypeError &&
             "border-red-300 focus:border-red-400 focus:ring-red-100"
         )}
+        onChange={(e) => {
+          const value = Number(e.target.value) as keyof typeof QUERY_OPTIONS;
+          setSelectedLabel(QUERY_OPTIONS[value]);
+        }}
       >
         {/* Placeholder option; keep it disabled so a choice is required */}
         <option value="" disabled hidden>
@@ -107,6 +113,9 @@ export default function ContactForm() {
           </option>
         ))}
       </select>
+
+      {/* Hidden input → ensures label is submitted */}
+      <input type="hidden" name="queryTypeLabel" value={selectedLabel} />
 
       {/* Unique id for the error; link via aria-describedby above */}
       {hasQueryTypeError ? (

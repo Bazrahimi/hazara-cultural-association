@@ -1,3 +1,4 @@
+// emails/NewEnquiryAdmin.tsx
 import { QuickEnquiry } from "@/app/lib/definitions";
 import {
   Body,
@@ -10,12 +11,15 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+type QuickEnquiryWithLabel = QuickEnquiry & {
+  queryLabel: string;
+};
 
-const NewEnquiry = (args: QuickEnquiry) => {
+export default function NewEnquiryAdmin(args: QuickEnquiryWithLabel) {
   return (
     <Html>
       <Head />
-      <Preview>New Website Enquiry from {args?.fullName}</Preview>
+      <Preview>New Website Enquiry from {args.fullName}</Preview>
       <Body
         style={{ backgroundColor: "#ffffff", fontFamily: "Arial, sans-serif" }}
       >
@@ -34,6 +38,9 @@ const NewEnquiry = (args: QuickEnquiry) => {
             <Text>
               <strong>Phone:</strong> {args.contactNumber}
             </Text>
+            <Text>
+              <strong>Query Type:</strong> {String(args.queryLabel)}
+            </Text>
             {args.qMessage && (
               <>
                 <Hr />
@@ -45,6 +52,4 @@ const NewEnquiry = (args: QuickEnquiry) => {
       </Body>
     </Html>
   );
-};
-
-export default NewEnquiry;
+}
