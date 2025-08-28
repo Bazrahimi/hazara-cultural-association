@@ -5,13 +5,25 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import { QuickEnquiryHead } from "./utils/definitions";
+// app/lib/constants.ts
+export const QUERY_OPTIONS: Record<number, string> = {
+  1: "Donations & Support",
+  2: "Volunteering",
+  3: "Cultural Programs & Classes",
+  4: "Events & Community Gatherings",
+  5: "Family Assistance / Community Support",
+  6: "Advocacy & Media Enquiries",
+  7: "Other",
+};
+
+
 
 const QuickEnquiriesPage = async () => {
   const q = await sql<QuickEnquiryHead[]>`
     SELECT
       id::int AS id, 
       full_name AS "fullName",
-      query_type AS "queryType",
+      query_type::int AS "queryType",
       to_char(created_at AT TIME ZONE 'Australia/Melbourne', 'DD Mon YY') AS "received",
       seen
     FROM public.quick_enquiries
@@ -32,7 +44,7 @@ const QuickEnquiriesPage = async () => {
             <thead className="border-b bg-gray-100 text-xs uppercase tracking-wider text-gray-600">
               <tr>
                 <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Type</th>
+                <th className="px-4 py-3">Query Type</th>
                 <th className="px-4 py-3">Received</th>
 
                 <th className="px-4 py-3 text-right">Actions</th>
@@ -65,7 +77,8 @@ const QuickEnquiriesPage = async () => {
 
                   <td className="px-4 py-3">
                     <span className="inline-flex items-center rounded-full border border-gray-300 px-2 py-0.5 text-xs text-gray-700">
-                      {enquiry.queryType}
+                        {QUERY_OPTIONS[enquiry.queryType]}
+     
                     </span>
                   </td>
 

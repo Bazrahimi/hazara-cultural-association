@@ -4,6 +4,7 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
+import { QUERY_OPTIONS } from "../page";
 import { QuickEnquiryRecord } from "../utils/definitions";
 
 // --- Server Action (delete) ---
@@ -71,7 +72,9 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
           <div>
             <dt className="text-sm text-gray-500">Query Type</dt>
-            <dd className="text-base text-gray-900">{enquiry.queryType}</dd>
+            <dd className="text-base text-gray-900">
+              {QUERY_OPTIONS[enquiry.queryType]}
+            </dd>
           </div>
           <div>
             <dt className="text-sm text-gray-500">Email</dt>

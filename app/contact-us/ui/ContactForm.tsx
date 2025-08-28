@@ -1,7 +1,7 @@
 "use client";
-import { Input} from "@/app/ui/global/components";
-import { P } from "@/app/ui/global/paragraph";
+import { Input } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
+import { P } from "@/app/ui/global/paragraph";
 import { CiUser } from "react-icons/ci";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
@@ -12,7 +12,7 @@ import StatusBanner from "@/app/ui/global/FormMessage";
 import clsx from "clsx";
 import { useActionState } from "react";
 
-const QUERY_OPTIONS = {
+export const QUERY_OPTIONS = {
   1: "Donations & Support",
   2: "Volunteering",
   3: "Cultural Programs & Classes",

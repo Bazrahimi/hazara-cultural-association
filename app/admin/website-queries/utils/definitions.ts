@@ -3,7 +3,7 @@ export type QuickEnquiryRecord = {
   fullName: string;
   email: string;
   contactNumber: string | null;
-  queryType: string;
+  queryType: number;
   message: string;
   received: string;
   seen: boolean;

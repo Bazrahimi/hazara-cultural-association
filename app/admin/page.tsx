@@ -1,11 +1,31 @@
-import React from 'react'
-import { Button } from '../ui/global/components'
-import { destroySession } from '../lib/session'
+import { Breadcrumb } from "../lib/definitions";
+import { destroySession } from "../lib/session";
+import Breadcrumbs from "../ui/global/Breadcrumbs";
+import { Button } from "../ui/global/components";
+import QuickEnquiriesPage from "./website-queries/page";
+
+const breadcrumbs: Breadcrumb[] = [
+  {
+    label: "Admin Dashboard",
+    href: "/admin",
+    active: true,
+  },
+];
 
 const page = () => {
   return (
-    <div><form action={destroySession}><Button>Logout</Button></form></div>
-  )
-}
+    <>
+      <div className="flex justify-between">
+        <Breadcrumbs breadcrumbs={breadcrumbs} />
+        <form action={destroySession}>
+          <Button>Logout</Button>
+        </form>
+      </div>
 
-export default page
+      {/*  */}
+      <QuickEnquiriesPage />
+    </>
+  );
+};
+
+export default page;
