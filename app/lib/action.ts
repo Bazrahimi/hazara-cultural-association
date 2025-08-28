@@ -60,10 +60,10 @@ export const submitEnquiry = async (
 
   const [
     dbRes,
-    // emailRes
+    emailRes
   ] = await Promise.allSettled([
     dbPromise,
-    // emailPromise
+    emailPromise
   ]);
 
   // DB is critical - if it failed, show and error,
@@ -77,13 +77,14 @@ export const submitEnquiry = async (
     };
   }
 
-  // let message = "Thanks! we have received your enquiry.";
-  // if (emailRes.status === "rejected") {
-  //   console.error("Email send failed", emailRes.reason);
-  //   message += " (Heads-up: we couldn’t send the confirmation email.)";
-  // }
+  let message = "Thanks! we have received your enquiry.";
 
-  const message = "Thanks! we have received your enquiry.";
+  if (emailRes.status === "rejected") {
+    console.error("Email send failed", emailRes.reason);
+    message += " (Heads-up: we couldn’t send the confirmation email.)";
+  }
+
+  // const message = "Thanks! we have received your enquiry.";
 
   return {
     fullName: "",
