@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaTiktok, FaWpforms } from "react-icons/fa6";
 import { HiLocationMarker, HiMail, HiPhone } from "react-icons/hi";
+import { MdDeveloperMode } from "react-icons/md";
+import { RiAdminLine } from "react-icons/ri";
 import { Header } from "./global/Header";
 import { P } from "./global/paragraph";
 
@@ -10,48 +13,55 @@ import { P } from "./global/paragraph";
 const CN = {
   footer: "mt-16 bg-yellow-500 text-gray-900",
   wrap: "mx-auto max-w-7xl px-6 py-14",
-  // CHANGED: better responsive grid (1 → 2 → 4)
   grid: "grid grid-cols-1 gap-y-10 gap-x-8 sm:grid-cols-2 md:grid-cols-4",
-  sectionTitle: "text-gray-950", // Header renders black; this is fine for overrides
+  sectionTitle: "text-gray-950",
   list: "space-y-2 text-sm",
   listDense: "space-y-3 text-sm",
-  // CHANGED: unified link styles + focus-visible
-  link: "underline underline-offset-4 decoration-black/20 hover:decoration-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 rounded-sm",
+  link: "underline underline-offset-4 decoration-black/30 hover:decoration-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 rounded-sm",
   socialLink:
-    "flex items-center gap-2 underline underline-offset-4 decoration-black/20 hover:decoration-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 rounded-sm",
-  contactItem: "flex items-start gap-2",
-  contactIcon: "mt-1 text-black",
-  // footer bottom
+    "flex items-center gap-2 underline underline-offset-4 decoration-black/30 hover:decoration-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 rounded-sm",
+  Item: "flex items-start gap-2",
+  Icon: "mt-1 text-black",
   copy: "border-t border-black/20 px-6 py-4 text-center text-xs text-gray-800",
-  copyLink: "underline underline-offset-4 hover:opacity-80",
-  copyLinkAlt: "underline underline-offset-4 hover:opacity-80",
 };
 
 // -------------------------------
-// Data (keeps JSX tiny)
+// Data
 // -------------------------------
+const ORG = {
+  name: "Hazara Cultural Association",
+  abn: "60 858 912 479",
+};
+
 const QUICK_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/about-us", label: "About Us" },
-  { href: "/programs", label: "Programs" },
-  { href: "/blogs", label: "Blogs" },
-  { href: "/contact-us", label: "Contact" },
+  { href: "/about-us", label: "About HCA" },
+  { href: "/blogs", label: "News & Blogs" },
+  { href: "/shop", label: "Shop Merchandise" },
+  { href: "/donate", label: "Support HCA" },
 ];
 
 const SOCIAL_LINKS = [
   {
-    href: "https://www.facebook.com",
+    href: "https://www.facebook.com/profile.php?id=61557919424367",
     label: "Facebook",
     iconClass: "text-blue-600",
-    aria: "Visit HCA Facebook page",
+    aria: "Open HCA Facebook (opens in new tab)",
     Icon: FaFacebook,
   },
   {
-    href: "https://www.instagram.com",
+    href: "https://www.instagram.com/hazaraculturalassociation/",
     label: "Instagram",
     iconClass: "text-pink-600",
-    aria: "Visit HCA Instagram page",
+    aria: "Open HCA Instagram (opens in new tab)",
     Icon: FaInstagram,
+  },
+  {
+    href: "https://www.tiktok.com/@yourusername", // <-- replace with real TikTok URL
+    label: "TikTok",
+    iconClass: "text-black", // TikTok icon is usually black/white, you could style with gradient if desired
+    aria: "Open HCA TikTok (opens in new tab)",
+    Icon: FaTiktok,
   },
 ];
 
@@ -65,21 +75,24 @@ const Footer = () => {
   return (
     <footer className={CN.footer} role="contentinfo">
       <div className={`${CN.wrap} ${CN.grid}`}>
-        {/* Organisation Info — spans 2 cols on sm+ for nicer reading width */}
+        {/* Organisation Info */}
         <div className="sm:col-span-2">
-          <Header as="h4" size="xs" className={CN.sectionTitle}>
-            Hazara Cultural Association
+          <Header as="h4" size="sm" className={CN.sectionTitle}>
+            {ORG.name}
           </Header>
           <P size="md" className="text-gray-900">
-            A non-profit organisation in Australia dedicated to preserving Hazara
-            culture, supporting community initiatives, and advocating for justice
-            and human rights.
+            A non-profit organisation in Australia dedicated to preserving
+            Hazara culture, supporting community initiatives, and advocating for
+            justice and human rights.
           </P>
+          <p className="mt-2 text-sm">
+            <span className="font-medium">ABN:</span> {ORG.abn}
+          </p>
         </div>
 
         {/* Quick Links */}
         <div>
-          <Header as="h4" size="xs" className={CN.sectionTitle}>
+          <Header as="h4" size="sm" className={CN.sectionTitle}>
             Quick Links
           </Header>
           <ul className={CN.list}>
@@ -93,10 +106,49 @@ const Footer = () => {
           </ul>
         </div>
 
+        {/* Contact Info */}
+        <address className="not-italic" aria-labelledby="contact-heading">
+          <Header
+            as="h4"
+            id="contact-heading"
+            size="sm"
+            className={CN.sectionTitle}
+          >
+            Get in touch with HCA
+          </Header>
+          <ul className={CN.listDense}>
+            <li className={CN.Item}>
+              <FaWpforms className={CN.Icon} aria-hidden="true" />
+              <Link href="/contact-us" className={CN.link}>
+                Quick Enquiry
+              </Link>
+            </li>
+            <li className={CN.Item}>
+              <HiLocationMarker className={CN.Icon} aria-hidden="true" />
+              <span>{CONTACT.location}</span>
+            </li>
+            <li className={CN.Item}>
+              <HiMail className={CN.Icon} aria-hidden="true" />
+              <a href={`mailto:${CONTACT.email}`} className={CN.link}>
+                {CONTACT.email}
+              </a>
+            </li>
+            <li className={CN.Item}>
+              <HiPhone className={CN.Icon} aria-hidden="true" />
+              <a
+                href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
+                className={CN.link}
+              >
+                {CONTACT.phone}
+              </a>
+            </li>
+          </ul>
+        </address>
+
         {/* Social Media */}
         <div>
-          <Header as="h4" size="xs" className={CN.sectionTitle}>
-            Follow Us
+          <Header as="h4" size="sm" className={CN.sectionTitle}>
+            Follow HCA on Social Media
           </Header>
           <ul className={CN.list}>
             {SOCIAL_LINKS.map(({ href, label, Icon, iconClass, aria }) => (
@@ -108,61 +160,38 @@ const Footer = () => {
                   className={CN.socialLink}
                   aria-label={aria}
                 >
-                  <Icon className={iconClass} aria-hidden /> {label}
+                  <Icon className={iconClass} aria-hidden="true" /> {label}
                 </a>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Contact Info */}
-        <address className="not-italic">
-          <Header as="h4" size="xs" className={CN.sectionTitle}>
-            Contact
-          </Header>
-          <ul className={CN.listDense}>
-            <li className={CN.contactItem}>
-              <HiLocationMarker className={CN.contactIcon} aria-hidden />
-              <span>{CONTACT.location}</span>
-            </li>
-            <li className={CN.contactItem}>
-              <HiMail className={CN.contactIcon} aria-hidden />
-              <a href={`mailto:${CONTACT.email}`} className={CN.link}>
-                {CONTACT.email}
-              </a>
-            </li>
-            <li className={CN.contactItem}>
-              <HiPhone className={CN.contactIcon} aria-hidden />
-              <a
-                href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
-                className={CN.link}
-              >
-                {CONTACT.phone}
-              </a>
-            </li>
-          </ul>
-        </address>
-      </div>
+        {/* Administration & Credits */}
 
-      {/* Administration & Credits */}
-      <div className="mx-auto max-w-7xl px-6 mt-6">
         <nav aria-labelledby="admin-credits">
-          <Header as="h4" id="admin-credits" size="xs" className={CN.sectionTitle}>
-            Administration & Credits
+          <Header
+            as="h4"
+            id="admin-credits"
+            size="sm"
+            className={CN.sectionTitle}
+          >
+            Administration & Developer Credit
           </Header>
-          <ul className={CN.listDense}>
-            <li>
-              <Link href="/login" className={CN.copyLink}>
+          <ul className={CN.list}>
+            <li className={CN.Item}>
+              <RiAdminLine className={CN.Icon} aria-hidden="true" />
+              <Link href="/login" className={CN.link}>
                 Admin Login
               </Link>
             </li>
-            <li>
-              Built by{" "}
+            <li className={CN.Item}>
+              <MdDeveloperMode className={CN.Icon} aria-hidden="true" />
               <a
                 href="https://github.com/Bazrahimi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={CN.copyLinkAlt}
+                className={CN.link}
               >
                 Baz Rahimi
               </a>
@@ -172,30 +201,37 @@ const Footer = () => {
       </div>
 
       {/* Acknowledgement of Country */}
-      <section aria-labelledby="ack-heading" className="mx-auto max-w-7xl px-6 mt-10" role="region">
+      <section
+        aria-labelledby="ack-heading"
+        className="mx-auto mt-10 max-w-7xl px-6"
+        role="region"
+      >
         <div className="relative overflow-hidden rounded-lg border border-black/10 bg-yellow-400/40 p-4 sm:p-5">
-          {/* Decorative bar in Aboriginal flag colors */}
           <span
-            aria-hidden
+            aria-hidden="true"
             className="absolute left-0 top-0 h-full w-1.5 bg-[linear-gradient(to_bottom,#000000,#CC0000,#FFFF00)]"
           />
-          <h4 id="ack-heading" className="mb-2 text-sm font-semibold text-black">
+          <h4
+            id="ack-heading"
+            className="mb-2 text-sm font-semibold text-black"
+          >
             Acknowledgement of Country
           </h4>
           <p className="text-sm leading-6 text-gray-900">
-            Hazara Cultural Association acknowledges the Bunurong people of the Kulin
-            Nation as the Traditional Custodians of the lands and waters in and around
-            Greater Dandenong. We pay our respects to Elders past and present, and extend
-            that respect to all Aboriginal and Torres Strait Islander peoples. We honour
-            their enduring connection to Country, culture, and community.
+            Hazara Cultural Association acknowledges the Bunurong people of the
+            Kulin Nation as the Traditional Custodians of the lands and waters
+            in and around Greater Dandenong. We pay our respects to Elders past
+            and present, and extend that respect to all Aboriginal and Torres
+            Strait Islander peoples. We honour their enduring connection to
+            Country, culture, and community.
           </p>
         </div>
       </section>
 
       {/* Copyright */}
       <div className={CN.copy}>
-        © {new Date().getFullYear()} Hazara Cultural Association. All rights reserved.{" "}
-        <Link href="/login" className={CN.copyLink}>
+        © {new Date().getFullYear()} {ORG.name}. All rights reserved.{" "}
+        <Link href="/login" className={CN.link}>
           Admin Login
         </Link>{" "}
         | Built by{" "}
@@ -203,7 +239,7 @@ const Footer = () => {
           href="https://github.com/Bazrahimi"
           target="_blank"
           rel="noopener noreferrer"
-          className={CN.copyLinkAlt}
+          className={CN.link}
         >
           Baz Rahimi
         </a>
