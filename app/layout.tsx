@@ -19,6 +19,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
+  /* ─────────────────────────────────────────────
+     REMOVE WHEN PUBLIC:
+     Block search engines while the site is in testing/private mode.
+     Also see: middleware X-Robots-Tag + robots.txt for belt & braces.
+  ────────────────────────────────────────────── */
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      nosnippet: true,
+      noarchive: true,
+    },
+  },
+  // ─────────────────────────────────────────────
+
   title: "Hazara Cultural Association",
   description:
     "Hazara Cultural Association (HCA) is an Australian non-profit organisation advocating for the Hazara people and preserving culture.",
