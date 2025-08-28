@@ -19,7 +19,7 @@ export default function NewEnquiryAdmin(args: QuickEnquiryWithLabel) {
   return (
     <Html>
       <Head />
-      <Preview>New Website Enquiry from {args.fullName}</Preview>
+      <Preview>{args.fullName}</Preview>
       <Body
         style={{ backgroundColor: "#ffffff", fontFamily: "Arial, sans-serif" }}
       >

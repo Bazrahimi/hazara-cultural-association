@@ -12,7 +12,7 @@ import NewEnquiryAdmin from "./NewEnquiry";
 export async function sendAdminEmail(data: QuickEnquiry, queryLabel: string) {
   try {
     const result = await resend.emails.send({
-      from: "Website Enquiry <no_reply@hazara.org.au>", // must be verified in Resend
+      from: "Website Enquiry <website@hazara.org.au>", // must be verified in Resend
       to: [toEmail],
       replyTo: data.email || undefined,
       subject: `New Quick Enquiry – ${data.fullName}`,
