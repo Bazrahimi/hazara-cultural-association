@@ -2,6 +2,7 @@
 import Image from "next/image";
 import type { Breadcrumb } from "../lib/definitions";
 import Breadcrumbs from "../ui/global/Breadcrumbs";
+import { Button } from "../ui/global/components";
 import { Header } from "../ui/global/Header";
 import { P } from "../ui/global/paragraph";
 
@@ -34,11 +35,11 @@ export default function ShopPage() {
         </header>
 
         {/* TODO note */}
-        <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-yellow-800">
+        <P className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-yellow-800">
           <strong>Note:</strong> This shop is a placeholder. In the future, it
           will be used to generate revenue for HCA to fund advocacy, events, and
           community projects.
-        </div>
+        </P>
 
         {/* Product grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
@@ -74,14 +75,12 @@ export default function ShopPage() {
               <Header
                 as="h4"
                 size="xs"
-                className="mt-3 text-lg font-semibold text-gray-900"
+                className="mt-3 text-lg font-semibold text-gray-800"
               >
                 {item.name}
               </Header>
               <p className="mt-1 text-gray-600">{item.price}</p>
-              <button className="mt-3 w-full rounded-md bg-blue-600 px-3 py-2 text-white font-medium hover:bg-blue-500">
-                Add to Cart
-              </button>
+              <Button fullWidth>Add to Cart</Button>
             </div>
           ))}
         </div>

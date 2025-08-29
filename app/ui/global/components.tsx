@@ -1,6 +1,7 @@
 "use client";
 
 import { inter } from "@/app/lib/font";
+import { cn } from "@/app/lib/helper";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { forwardRef, ReactNode, useState } from "react";
@@ -231,11 +232,12 @@ export const Button = forwardRef<
 
   const layout = fullWidth ? "flex w-full justify-center" : "inline-flex";
 
-  const classes = clsx(
+  const classes = cn(
     inter.className,
     layout,
     "items-center gap-2 rounded-lg font-semibold shadow-md",
     "transition-transform duration-200 focus:outline-none focus:ring-4 hover:scale-105",
+    "cursor-pointer",
     variants[variant],
     sizes[size],
     className
