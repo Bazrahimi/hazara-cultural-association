@@ -12,7 +12,7 @@ export default function CartIcon({ className }: { className?: string }) {
   return (
     <nav>
       <Link
-        href="/cart"
+        href="/shop/cart"
         className="group flex flex-col items-center gap-1 text-white hover:text-hca-yellow-main flex-1 relative"
       >
         <CiShoppingCart className={cn("text-2xl")} />

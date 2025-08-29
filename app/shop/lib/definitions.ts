@@ -5,7 +5,7 @@ export type Product = {
   img: string;
 };
 
-type CartItem = Product & { qty: number };
+export type CartItem = Product & { qty: number };
 export type CartState = { items: CartItem[] };
 
 export type Ctx = CartState & {
