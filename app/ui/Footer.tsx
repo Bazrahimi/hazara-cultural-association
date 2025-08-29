@@ -11,10 +11,10 @@ import { P } from "./global/paragraph";
 // Reusable className tokens
 // -------------------------------
 const CN = {
-  footer: "mt-16 bg-yellow-500 text-gray-900",
+  footer: "mt-16 bg-hca-yellow-main",
   wrap: "mx-auto max-w-7xl px-6 py-14",
   grid: "grid grid-cols-1 gap-y-10 gap-x-8 sm:grid-cols-2 md:grid-cols-4",
-  sectionTitle: "text-gray-950",
+  // sectionTitle: "text-hca-blue-light",
   list: "space-y-2 text-sm",
   listDense: "space-y-3 text-sm",
   link: "underline underline-offset-4 decoration-black/30 hover:decoration-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 rounded-sm",
@@ -77,7 +77,7 @@ const Footer = () => {
       <div className={`${CN.wrap} ${CN.grid}`}>
         {/* Organisation Info */}
         <div className="sm:col-span-2">
-          <Header as="h4" size="sm" className={CN.sectionTitle}>
+          <Header as="h4" size="sm">
             {ORG.name}
           </Header>
           <P size="md" className="text-gray-900">
@@ -92,7 +92,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <Header as="h4" size="sm" className={CN.sectionTitle}>
+          <Header as="h4" size="sm">
             Quick Links
           </Header>
           <ul className={CN.list}>
@@ -108,12 +108,7 @@ const Footer = () => {
 
         {/* Contact Info */}
         <address className="not-italic" aria-labelledby="contact-heading">
-          <Header
-            as="h4"
-            id="contact-heading"
-            size="sm"
-            className={CN.sectionTitle}
-          >
+          <Header as="h4" id="contact-heading" size="sm">
             Get in touch with HCA
           </Header>
           <ul className={CN.listDense}>
@@ -147,7 +142,7 @@ const Footer = () => {
 
         {/* Social Media */}
         <div>
-          <Header as="h4" size="sm" className={CN.sectionTitle}>
+          <Header as="h4" size="sm">
             Follow HCA on Social Media
           </Header>
           <ul className={CN.list}>
@@ -174,7 +169,7 @@ const Footer = () => {
             as="h4"
             id="admin-credits"
             size="sm"
-            className={CN.sectionTitle}
+        
           >
             Administration & Developer Credit
           </Header>
@@ -206,17 +201,17 @@ const Footer = () => {
         className="mx-auto mt-10 max-w-7xl px-6"
         role="region"
       >
-        <div className="relative overflow-hidden rounded-lg border border-black/10 bg-yellow-400/40 p-4 sm:p-5">
+        <div className="relative overflow-hidden rounded-lg border border-black/10 bg-hca-yellow-dark p-4 sm:p-5">
           <span
             aria-hidden="true"
             className="absolute left-0 top-0 h-full w-1.5 bg-[linear-gradient(to_bottom,#000000,#CC0000,#FFFF00)]"
           />
-          <h4
+          <Header as="h4"
             id="ack-heading"
-            className="mb-2 text-sm font-semibold text-black"
+            className="mb-2 text-sm font-semibold text-hca-blue-main"
           >
             Acknowledgement of Country
-          </h4>
+          </Header>
           <p className="text-sm leading-6 text-gray-900">
             Hazara Cultural Association acknowledges the Bunurong people of the
             Kulin Nation as the Traditional Custodians of the lands and waters

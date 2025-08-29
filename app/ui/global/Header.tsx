@@ -41,7 +41,7 @@ const SCALE: Record<AsTag, Record<HeadingSize, string>> = {
   },
 };
 
-const DEFAULT_COLOR = "text-blue-500";
+const DEFAULT_COLOR = "text-hca-blue-main";
 
 export function Header({
   children,

@@ -7,15 +7,15 @@ import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
 
 // Reusable styles
 const navLinkBase =
-  "group flex flex-col items-center gap-1 hover:text-gray-50 flex-1";
+  "group flex flex-col items-center gap-1 text-white hover:text-hca-yellow-main flex-1";
 const navIcon = "text-2xl sm:text-xl opacity-80 group-hover:opacity-100"; // bigger on mobile
 const donateBtn =
   "inline-flex items-center rounded-md border border-gray-100 px-3 py-1.5 font-medium text-gray-100 hover:bg-gray-50 hover:text-blue-500";
 
 const NavBar = () => {
   return (
-    <nav className="sticky top-0 z-[100] flex h-16 w-full items-center justify-between border-b border-gray-50 bg-blue-5 px-4 sm:px-6 text-slate-800 backdrop-blur supports-[backdrop-filter]:bg-blue-600/80">
-      {/* Left: Brand */}
+    <nav className="sticky top-0 z-[100] flex h-16 w-full items-center justify-between border-b border-gray-50 bg-blue-5 px-4 sm:px-6 text-slate-800 backdrop-blur supports-[backdrop-filter]:bg-hca-blue-main">
+      {/* Left: Hca */}
       <div className="flex items-center gap-4 sm:gap-6">
         <Link
           href="/"
@@ -30,7 +30,8 @@ const NavBar = () => {
             className="transition duration-200 hover:opacity-80"
             priority
           />
-          <span className="hidden sm:inline hover:text-gray-50">HCA</span>
+       
+          <span className="hidden sm:inline hover:text-gray-50"></span>
         </Link>
       </div>
 

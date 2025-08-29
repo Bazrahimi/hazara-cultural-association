@@ -1,6 +1,7 @@
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import Link from "next/link";
+
+import { Button } from "@/app/ui/global/components";
 import type { IconType } from "react-icons";
 import {
   MdCampaign,
@@ -116,25 +117,16 @@ export default function ContactHeader({
           Hazara culture, strengthen our community, and advocate for justice.
         </P>
         <div className="mt-3 flex flex-wrap gap-3">
-          <Link
-            href="/donate"
-            className="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
+          <Button as="link" variant="outline" href="/donate">
             <MdFavorite className="mr-1" aria-hidden /> Donate
-          </Link>
-          <Link
-            href="/shop"
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
-          >
+          </Button>
+          <Button as="link" variant="outline" href="/shop">
             Visit Shop
-          </Link>
+          </Button>
           {/* Optional direct volunteer CTA if you have a route */}
-          <Link
-            href="/volunteer"
-            className="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 shadow-sm transition hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200"
-          >
+          <Button as="link" variant="outline" href="/volunteer">
             <MdVolunteerActivism className="mr-1" aria-hidden /> Volunteer
-          </Link>
+          </Button>
         </div>
       </div>
 

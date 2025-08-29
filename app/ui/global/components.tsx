@@ -448,11 +448,11 @@ type ButtonAsLink = BaseButtonProps &
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-yellow-500 text-white hover:bg-yellow-400 focus:ring-yellow-300",
-  secondary: "bg-blue-500 text-white hover:bg-blue-400 focus:ring-blue-300",
+  primary: "bg-hca-yellow-main text-hca-blue-main hover:bg-hca-yellow-light focus:ring-yellow-300",
+  secondary: "bg-hca-blue-main text-white hover:bg-hca-blue-light focus:ring-blue-300",
   danger: "bg-red-600 text-white hover:bg-red-500 focus:ring-red-300",
   outline:
-    "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-gray-200",
+    "border border-hca-blue-main bg-white text-hca-blue-main hover:bg-gray-50 focus:ring-gray-200",
 };
 
 const sizes: Record<ButtonSize, string> = {

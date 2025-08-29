@@ -32,9 +32,9 @@ export default function Hero() {
 
       {/* Logo placed in the niche */}
       <Image
-  src="/images/logo-transparent-hd.png"
-  alt="Logo of Hazara Cultural Association"
-  className="
+        src="/images/logo-transparent-hd.png"
+        alt="Logo of Hazara Cultural Association"
+        className="
     absolute left-1/2
     top-[45%]                /* base: move down a bit */
     sm:top-[42%]             /* adjust back up on small tablets */
@@ -48,19 +48,18 @@ export default function Hero() {
     lg:w-[clamp(24rem,36vw,38rem)]
     xl:w-[clamp(26rem,32vw,42rem)]
   "
-  width={800}
-  height={800}
-  sizes="(max-width: 640px) 60vw,
+        width={800}
+        height={800}
+        sizes="(max-width: 640px) 60vw,
          (max-width: 1024px) 50vw,
          (max-width: 1536px) 42vw,
          32vw"
-  priority
-/>
-
+        priority
+      />
 
       {/* Bottom content pinned to bottom */}
       <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center px-4 pb-3 text-center">
-        <div className="max-w-3xl rounded-2xl bg-white/20 px-4 sm:px-6 py-3 sm:py-4 shadow-lg ring-1 ring-white/30 backdrop-blur">
+        <div className="max-w-3xl rounded-2xl bg-white/50 px-4 sm:px-6 py-3 sm:py-4 shadow-lg ring-1 ring-white/80 backdrop-blur">
           <p
             id="hero-title"
             className={clsx(
@@ -71,9 +70,13 @@ export default function Hero() {
               "text-[clamp(1rem,4vw,1.5rem)] sm:text-[clamp(1.125rem,3vw,1.75rem)] md:text-[clamp(1.25rem,2.4vw,2rem)] lg:text-[clamp(1.375rem,2vw,2.25rem)] xl:text-[clamp(1.5rem,1.8vw,2.5rem)]"
             )}
           >
-            <span className="text-yellow-300">Revival of Hazara heritage</span>{" "}
+            <span className="text-hca-yellow-main">
+              Revival of Hazara heritage
+            </span>{" "}
             — strengthening community,{" "}
-            <span className="text-blue-400">and advocating for justice.</span>
+            <span className="text-hca-blue-main">
+              and advocating for justice.
+            </span>
           </p>
         </div>
       </div>

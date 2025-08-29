@@ -10,6 +10,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-hca-blue-light: #4a7ac2; /* lighter */
+  --color-hca-blue-main: #3464aa; /* base */
+  --color-hca-blue-dark: #2a4f88; /* darker */
+
+  /* Hca Yellow */
+  --color-hca-yellow-light: #faef70; /* lighter */
+  --color-hca-yellow-main: #f9eb40; /* base */
+  --color-hca-yellow-dark: #d6c323; /* darker */
 }
 
 /* @media (prefers-color-scheme: dark) {
