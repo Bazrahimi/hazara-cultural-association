@@ -1,14 +1,14 @@
 // app/components/Hero.tsx
 "use client";
 
-import { roboto } from "@/app/lib/font";
+import { lusitana } from "@/app/lib/font";
 import { clsx } from "clsx";
 import Image from "next/image";
 import { IMAGE_DEFAULT_BLUR } from "./global/ImageShimer";
 
 const heroImg = "/images/hero/hero2.png";
 
-const Hero = () => {
+export default function Hero() {
   return (
     <section
       role="banner"
@@ -22,82 +22,61 @@ const Hero = () => {
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        className="object-cover object-[50%_62%]"
         placeholder="blur"
         blurDataURL={IMAGE_DEFAULT_BLUR}
       />
 
-      {/* Overlay */}
+      {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
-      <div className="inset-0 z-10 ">
-        <Image
-          src="/images/logo-transparent-hd.png"
-          alt="Logo of Hazara Cultural Association"
-          height={240}
-          width={240}
-        />
-      </div>
 
-      {/* Content anchored bottom */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-end px-4 pb-12 text-center">
-        <Image
-          src="/images/logo-transparent-hd.png"
-          alt="Logo of Hazara Cultural Association"
-          width={340}
-          height={340}
-          className="h-auto w-24 sm:w-28 md:w-36 lg:w-44 xl:w-56 2xl:w-72"
-          // Tell the browser how much space to reserve at each breakpoint
-          sizes="(max-width: 640px) 6rem,
-             (max-width: 768px) 7rem,
-             (max-width: 1024px) 24rem,
-             (max-width: 1280px) 11rem,
-             (max-width: 1536px) 24rem,
-             18rem"
-          priority
-        />
-        {/* Glassy logo badge */}
-        {/* <div className="relative rounded-2xl bg-white/20 p-3 shadow-lg ring-1 ring-white/30 backdrop-blur mb-4">
-          <div className="relative h-[clamp(6rem,8vw,8rem)] w-[clamp(6rem,8vw,8rem)]">
+      {/* Logo placed in the niche */}
+      <Image
+  src="/images/logo-transparent-hd.png"
+  alt="Logo of Hazara Cultural Association"
+  className="
+    absolute left-1/2
+    top-[45%]                /* base: move down a bit */
+    sm:top-[42%]             /* adjust back up on small tablets */
+    md:top-[41%]             /* fine tune for medium screens */
+    lg:top-[40%]             /* desktop stays centered */
+    -translate-x-1/2 -translate-y-1/2
+    h-auto
+    w-[clamp(18rem,60vw,28rem)]
+    sm:w-[clamp(20rem,50vw,30rem)]
+    md:w-[clamp(22rem,42vw,34rem)]
+    lg:w-[clamp(24rem,36vw,38rem)]
+    xl:w-[clamp(26rem,32vw,42rem)]
+  "
+  width={800}
+  height={800}
+  sizes="(max-width: 640px) 60vw,
+         (max-width: 1024px) 50vw,
+         (max-width: 1536px) 42vw,
+         32vw"
+  priority
+/>
 
-            
-            <Image
-              src="/logo-hca-mark.png"
-              alt="Hazara Cultural Association logo"
-              fill
-              sizes="10rem"
-              className="object-contain drop-shadow"
-              priority
-            />
-          </div>
-        </div> */}
 
-        {/* Glassy text card */}
-        <div className="mt-2 rounded-2xl bg-white/20 px-6 py-4 shadow-lg ring-1 ring-white/30 backdrop-blur">
-          {/* Heading */}
-          {/* <h1
+      {/* Bottom content pinned to bottom */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center px-4 pb-3 text-center">
+        <div className="max-w-3xl rounded-2xl bg-white/20 px-4 sm:px-6 py-3 sm:py-4 shadow-lg ring-1 ring-white/30 backdrop-blur">
+          <p
             id="hero-title"
             className={clsx(
-              inter.className,
-              "text-2xl font-bold sm:text-3xl lg:text-4xl text-white drop-shadow"
+              lusitana.className,
+              // Responsive, bigger typography using clamp + breakpoints
+              "font-extrabold leading-snug text-gray-100",
+              // base → xl font sizes
+              "text-[clamp(1rem,4vw,1.5rem)] sm:text-[clamp(1.125rem,3vw,1.75rem)] md:text-[clamp(1.25rem,2.4vw,2rem)] lg:text-[clamp(1.375rem,2vw,2.25rem)] xl:text-[clamp(1.5rem,1.8vw,2.5rem)]"
             )}
           >
-            Hazara Cultural Association
-          </h1> */}
-
-          {/* Slogan */}
-          <p
-            className={clsx(
-              roboto.className,
-              "mt-2 mx-auto max-w-2xl text-sm sm:text-base lg:text-lg font-medium leading-relaxed text-gray-100 drop-shadow"
-            )}
-          >
-            Revival of Hazara heritage — strengthening community, and advocating
-            for justice.
+            <span className="text-yellow-300">Revival of Hazara heritage</span>{" "}
+            — strengthening community,{" "}
+            <span className="text-blue-400">and advocating for justice.</span>
           </p>
         </div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

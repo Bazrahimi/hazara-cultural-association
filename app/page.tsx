@@ -1,3 +1,4 @@
+import ContactUsPage from "./contact-us/page";
 import Hero from "./ui/Hero";
 
 const page = () => {
@@ -7,8 +8,8 @@ const page = () => {
       {/* <AboutUsPage />
       <BlogsPage />
       <ShopPage />
-      <DonatePage />
-      <ContactUsPage /> */}
+      <DonatePage />*/}
+      <ContactUsPage />
     </div>
   );
 };
