@@ -1,7 +1,6 @@
 import { roboto } from "@/app/lib/font";
-import clsx from "clsx";
+import { cn } from "@/app/lib/helper";
 import * as React from "react";
-
 type ParaSize = "sm" | "md" | "lg";
 
 type PProps = React.HTMLAttributes<HTMLParagraphElement> & {
@@ -35,12 +34,12 @@ const LEADING: Record<ParaSize, string> = {
 export function P({ children, size = "md", className, ...rest }: PProps) {
   return (
     <p
-      className={clsx(
+      className={cn(
         roboto.className, // ✅ Roboto for clear reading
         SIZE[size], // ✅ responsive font-size
         LEADING[size], // ✅ matching line-height
         "antialiased", // smooth edges
-        "text-gray-500", // high-contrast but not pure black
+        "text-gray-600", // high-contrast but not pure black
         "break-words", // prevent overflow on long URLs/words
         // "text-pretty",            // (optional if you're on Tailwind 3.3+) nicer wraps
         className

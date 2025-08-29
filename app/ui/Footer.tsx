@@ -38,6 +38,8 @@ const QUICK_LINKS = [
   { href: "/about-us", label: "About HCA" },
   { href: "/blogs", label: "News & Blogs" },
   { href: "/shop", label: "Shop Merchandise" },
+  { href: "/privacy-policy", label: "Privacy Policy" },
+  { href: "//terms-of-service", label: "Terms of Service" },
   { href: "/donate", label: "Support HCA" },
 ];
 
@@ -165,12 +167,7 @@ const Footer = () => {
         {/* Administration & Credits */}
 
         <nav aria-labelledby="admin-credits">
-          <Header
-            as="h4"
-            id="admin-credits"
-            size="sm"
-        
-          >
+          <Header as="h4" id="admin-credits" size="sm">
             Administration & Developer Credit
           </Header>
           <ul className={CN.list}>
@@ -206,7 +203,8 @@ const Footer = () => {
             aria-hidden="true"
             className="absolute left-0 top-0 h-full w-1.5 bg-[linear-gradient(to_bottom,#000000,#CC0000,#FFFF00)]"
           />
-          <Header as="h4"
+          <Header
+            as="h4"
             id="ack-heading"
             className="mb-2 text-sm font-semibold text-hca-blue-main"
           >

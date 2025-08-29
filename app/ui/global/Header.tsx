@@ -1,5 +1,5 @@
 import { lusitana } from "@/app/lib/font";
-import clsx from "clsx";
+import { cn } from "@/app/lib/helper";
 import * as React from "react";
 
 type AsTag = "h1" | "h2" | "h3" | "h4";
@@ -41,8 +41,6 @@ const SCALE: Record<AsTag, Record<HeadingSize, string>> = {
   },
 };
 
-const DEFAULT_COLOR = "text-hca-blue-main";
-
 export function Header({
   children,
   size = "md",
@@ -55,11 +53,11 @@ export function Header({
 
   return (
     <Tag
-      className={clsx(
+      className={cn(
+        "mb-3 break-words font-extrabold leading-tight tracking-tight hyphens-auto text-hca-blue-main",
         lusitana.className,
-        "mb-3 break-words font-extrabold leading-tight tracking-tight hyphens-auto",
         SCALE[as][size],
-        DEFAULT_COLOR, // fixed color
+
         align === "center"
           ? "text-center"
           : align === "right"

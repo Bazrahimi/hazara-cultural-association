@@ -1,7 +1,8 @@
 // app/not-found.tsx
 import Image from "next/image";
-import Link from "next/link";
 import { HiArrowLeft } from "react-icons/hi";
+import { Button } from "./ui/global/components";
+import { P } from "./ui/global/paragraph";
 
 export default function NotFound() {
   return (
@@ -17,20 +18,17 @@ export default function NotFound() {
       />
 
       {/* Headline */}
-     
-      <p className="mt-2 max-w-md text-gray-600">
+
+      <P className="mt-2">
         Sorry, the page you’re looking for doesn’t exist. But don’t worry — you
         can always return home.
-      </p>
+      </P>
 
       {/* Back button */}
-      <Link
-        href="/"
-        className="mt-6 inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-500"
-      >
+      <Button as="link" href="/">
         <HiArrowLeft className="text-lg" />
         Back to Home
-      </Link>
+      </Button>
     </main>
   );
 }
