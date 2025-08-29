@@ -73,7 +73,7 @@ export default function Hero() {
             <span className="text-hca-yellow-main">
               Revival of Hazara heritage
             </span>{" "}
-            — strengthening community,{" "}
+            — strengthening community{" "}
             <span className="text-hca-blue-main">
               and advocating for justice.
             </span>
