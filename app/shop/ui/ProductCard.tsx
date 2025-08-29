@@ -2,8 +2,10 @@ import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
 import Image from "next/image";
 import type { Product } from "../lib/definitions";
+import { useCart } from "./cart/CartContext";
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const { add } = useCart();
   return (
     <>
       <article
@@ -26,7 +28,9 @@ const ProductCard = ({ product }: { product: Product }) => {
           {product.name}
         </Header>
         <p className="mt-1 text-gray-600">{product.price}</p>
-        <Button fullWidth>Add to Cart</Button>
+        <Button fullWidth onClick={() => add(product)}>
+          Add to Cart
+        </Button>
       </article>
     </>
   );

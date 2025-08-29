@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CiShoppingCart } from "react-icons/ci";
 import { HiCalendar, HiInformationCircle } from "react-icons/hi";
 import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
+import CartIcon from "./shop/ui/cart/CartBadge";
 
 // Reusable styles
 const navLinkBase =
@@ -30,7 +31,7 @@ const NavBar = () => {
             className="transition duration-200 hover:opacity-80"
             priority
           />
-       
+
           <span className="hidden sm:inline hover:text-gray-50"></span>
         </Link>
       </div>
@@ -56,6 +57,8 @@ const NavBar = () => {
           <MdOutlineEmail className={navIcon} />
           <span className="hidden sm:inline">Contact</span>
         </Link>
+
+        <CartIcon />
       </div>
 
       {/* Right: Donate */}

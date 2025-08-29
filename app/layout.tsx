@@ -6,6 +6,7 @@ import "./globals.css";
 
 // Import layout components for consistent navigation and footer.
 import NavBar from "./Navbar";
+import { CartProvider } from "./shop/ui/cart/CartContext";
 import Footer from "./ui/Footer";
 
 const geistSans = Geist({
@@ -80,13 +81,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* Global navigation bar at the top of every page */}
-        <NavBar />
+        <CartProvider>
+          <NavBar />
 
-        {/* Main content wrapper with responsive max width */}
-        <main className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          {children}
-        </main>
-
+          {/* Main content wrapper with responsive max width */}
+          <main className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            {children}
+          </main>
+        </CartProvider>
         {/* Global footer at the bottom of every page */}
         <Footer />
       </body>

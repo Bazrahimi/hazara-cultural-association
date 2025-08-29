@@ -5,4 +5,14 @@ export type Product = {
   img: string;
 };
 
-export type CartItem = Product & { qty: number };
+type CartItem = Product & { qty: number };
+export type CartState = { items: CartItem[] };
+
+export type Ctx = CartState & {
+  add: (p: Product, qty?: number) => void;
+  remove: (id: string) => void;
+  updateQty: (id: string, qty: number) => void;
+  clear: () => void;
+  totalItems: number;
+  subtotal: number;
+};
