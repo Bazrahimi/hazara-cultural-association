@@ -1,21 +1,30 @@
 "use client";
 
-import { Header } from "@/app/ui/global/Header";
-import Link from "next/link";
-
 import { Button } from "@/app/ui/global/components";
+import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import type { CartItem } from "../../lib/definitions";
 import { useCart } from "../../ui/cart/CartContext";
 import GuestCheckout from "./ui/GuestCheckout";
 import SocialAccount from "./ui/SocialAccount";
 
-const GST_RATE = 0; // set to 0.10 if you start charging GST
+const GST_RATE = 0;
 
 export default function CheckoutPage() {
   const { items, subtotal } = useCart();
   const [activeMethod, setActiveMethod] = useState<string | null>(null);
+
+  // NEW: hold saved email (hydrated from localStorage)
+  const [checkoutEmail, setCheckoutEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem("checkoutEmail");
+      if (v) setCheckoutEmail(v);
+    } catch {}
+  }, []);
 
   if (!items.length) {
     return (
@@ -31,9 +40,16 @@ export default function CheckoutPage() {
   const gst = subtotal * GST_RATE;
   const total = subtotal + gst;
 
+  const onEditEmail = () => {
+    try {
+      localStorage.removeItem("checkoutEmail");
+    } catch {}
+    setCheckoutEmail(null);
+    setActiveMethod("guest"); // jump to the email form again
+  };
+
   return (
     <div className="mx-auto max-w-4xl p-6 space-y-8">
-      {/* Heading */}
       <div>
         <h1 className="text-2xl font-bold">Checkout</h1>
         <P className="mt-1">
@@ -41,44 +57,67 @@ export default function CheckoutPage() {
         </P>
       </div>
 
-      {/* Content layout */}
-      <div className="grid gap-8 md:grid-cols-[2fr_1fr]">
-        {/* Right: Method + Totals */}
-        <aside className="space-y-6">
-          {/* Choose method */}
-          <section
-            aria-labelledby="how-to-continue"
-            className="rounded-md border border-gray-200 p-4"
-          >
-            <Header as="h2" size="xs" id="how-to-continue">
-              Your preferred methods to checkout
+      {/* If email exists, show “Email” summary like your screenshot */}
+      {checkoutEmail && (
+        <section className="rounded-md border border-gray-200 px-4 py-5">
+          <div className="flex items-center justify-between">
+            <Header as="h2" size="xs">
+              Email
             </Header>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onEditEmail}
+              aria-label="Edit email"
+            >
+              Edit
+            </Button>
+          </div>
+          <P className="mt-2 text-gray-600">
+            You are ordering as:{" "}
+            <span className="font-semibold">{checkoutEmail}</span>
+          </P>
+        </section>
+      )}
 
-            <div className="space-y-3">
-              {(!activeMethod || activeMethod === "guest") && (
-                <GuestCheckout setActiveMethod={setActiveMethod} />
-              )}
+      <div className="grid gap-8 md:grid-cols-[2fr_1fr]">
+        {/* RIGHT: Methods panel — hide it if we already have an email */}
+        {!checkoutEmail && (
+          <aside className="space-y-6">
+            <section
+              aria-labelledby="how-to-continue"
+              className="rounded-md border border-gray-200 p-4"
+            >
+              <Header as="h2" size="xs" id="how-to-continue">
+                Your preferred methods to checkout
+              </Header>
 
-              {/* Todo: I wnat hide the below two component if activeMethod is "guest" */}
-              {!activeMethod && (
-                <>
-                  <SocialAccount />
-                  <Button variant="outline" fullWidth>
-                    Continue with Email
-                  </Button>
-                </>
-              )}
-            </div>
-          </section>
+              <div className="space-y-3">
+                {(!activeMethod || activeMethod === "guest") && (
+                  <GuestCheckout
+                    setActiveMethod={setActiveMethod}
+                    // NEW: update page state when email is saved
+                    onEmailSaved={(email) => setCheckoutEmail(email)}
+                  />
+                )}
 
-          {/* Totals */}
-        </aside>
+                {/* These are already hidden when activeMethod === "guest" */}
+                {!activeMethod && (
+                  <>
+                    <SocialAccount />
+                    <Button variant="outline" fullWidth>
+                      Continue with Email
+                    </Button>
+                  </>
+                )}
+              </div>
+            </section>
+          </aside>
+        )}
 
-        {/* Left: Order Summary */}
+        {/* LEFT: Order Summary */}
         <section aria-labelledby="order-summary">
-          <h2 id="order-summary" className="mb-3 text-lg font-semibold"></h2>
-          <Header as="h2" size="xs">
-            {" "}
+          <Header as="h2" size="xs" id="order-summary">
             Order Summary
           </Header>
 
@@ -102,7 +141,6 @@ export default function CheckoutPage() {
               </tbody>
             </table>
           </div>
-          {/* Total */}
 
           <section
             aria-labelledby="totals"
@@ -123,7 +161,6 @@ export default function CheckoutPage() {
   );
 }
 
-/* --- Small helpers --- */
 function SummaryRow({ item }: { item: CartItem }) {
   const line = item.qty * item.price;
   return (

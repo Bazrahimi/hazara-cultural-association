@@ -1,11 +1,12 @@
 import { Button, Input } from "@/app/ui/global/components";
 import { useMemo, useState } from "react";
 
-const GuestCheckout = ({
-  setActiveMethod,
-}: {
+type Props = {
   setActiveMethod: (method: string | null) => void;
-}) => {
+  onEmailSaved?: (email: string) => void; // NEW
+};
+
+const GuestCheckout = ({ setActiveMethod, onEmailSaved }: Props) => {
   const [clicked, setClicked] = useState(false);
   const [email, setEmail] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
@@ -28,10 +29,11 @@ const GuestCheckout = ({
 
     if (!e || !c) return; // button is disabled anyway
     if (!isEmail(e) || !isEmail(c)) return; // disabled anyway
-    if (e !== c) return; // disabled anyway
-
-    // Proceed with guest checkout logic
-    console.log("Guest checkout submitted with:", e);
+    if (e !== c) return;
+    try {
+      localStorage.setItem("checkoutEmail", e);
+    } catch {}
+    onEmailSaved?.(e);
   };
 
   const pickValue = (v: unknown) =>
