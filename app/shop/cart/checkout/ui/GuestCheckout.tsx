@@ -10,10 +10,8 @@ const GuestCheckout = ({
   const [email, setEmail] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
 
-  // Basic email check (keep it simple or swap for a better validator if you like)
   const isEmail = (v: string) => v.includes("@");
 
-  // Derive error from current values (no stale state, no extra effect)
   const error = useMemo(() => {
     const e = email.trim();
     const c = confirmEmail.trim();
@@ -39,7 +37,7 @@ const GuestCheckout = ({
   const pickValue = (v: unknown) =>
     typeof v === "string"
       ? v
-      : ((v as React.ChangeEvent<HTMLInputElement>)?.target?.value ?? "");
+      : ((v as React.ChangeEvent<HTMLInputElement>).target.value ?? "");
 
   return (
     <div className="my-3 md:my-5">
