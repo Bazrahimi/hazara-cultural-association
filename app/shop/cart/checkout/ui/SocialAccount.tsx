@@ -5,10 +5,10 @@ import { FcGoogle } from "react-icons/fc";
 import { ImAppleinc } from "react-icons/im";
 
 const SocialAccount = () => {
-  
+
   return (
     <div className="flex justify-between gap-4 md:gap-6 items-center my-4 ">
-      <P className="text-gray-700 font-medium">Continue with</P>{" "}
+      <P className="text-gray-600 font-medium">Continue with</P>{" "}
       <div className="flex gap-4 md:gap-6">
         <Button variant="outline">
           <FaFacebook className="text-3xl" />

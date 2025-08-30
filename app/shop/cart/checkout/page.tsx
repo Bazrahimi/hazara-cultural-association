@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import type { CartItem } from "../../lib/definitions";
 import { useCart } from "../../ui/cart/CartContext";
 import GuestCheckout from "./ui/GuestCheckout";
+import ShippingAddress from "./ui/ShippingAddress";
 import SocialAccount from "./ui/SocialAccount";
 
 const GST_RATE = 0;
@@ -51,19 +52,20 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-4xl p-6 space-y-8">
       <div>
-        <h1 className="text-2xl font-bold">Checkout</h1>
+        <Header as="h1">Checkout</Header>
+
         <P className="mt-1">
           Review your order and choose how you’d like to continue.
         </P>
       </div>
 
+      <Header as="h2" size="sm">
+        Email
+      </Header>
       {/* If email exists, show “Email” summary like your screenshot */}
       {checkoutEmail && (
         <section className="rounded-md border border-gray-200 px-4 py-5">
           <div className="flex items-center justify-between">
-            <Header as="h2" size="xs">
-              Email
-            </Header>
             <Button
               variant="outline"
               size="sm"
@@ -82,13 +84,19 @@ export default function CheckoutPage() {
 
       <div className="grid gap-8 md:grid-cols-[2fr_1fr]">
         {/* RIGHT: Methods panel — hide it if we already have an email */}
-        {!checkoutEmail && (
-          <aside className="space-y-6">
+
+        <aside className="space-y-6">
+          {!checkoutEmail && (
             <section
               aria-labelledby="how-to-continue"
               className="rounded-md border border-gray-200 p-4"
             >
-              <Header as="h2" size="xs" id="how-to-continue">
+              <Header
+                as="h3"
+                size="xs"
+                id="how-to-continue"
+                className="text-gray-600"
+              >
                 Your preferred methods to checkout
               </Header>
 
@@ -112,8 +120,16 @@ export default function CheckoutPage() {
                 )}
               </div>
             </section>
-          </aside>
-        )}
+          )}
+          <Header as="h2" size="sm">
+            Shipping Address
+          </Header>
+          {checkoutEmail && (
+            <>
+              <ShippingAddress />
+            </>
+          )}
+        </aside>
 
         {/* LEFT: Order Summary */}
         <section aria-labelledby="order-summary">

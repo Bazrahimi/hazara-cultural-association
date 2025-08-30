@@ -15,7 +15,7 @@ export type BaseInputProps = {
   id: string;
   label: string;
   placeholder?: string;
-  type: "text" | "number" | "email" | "password";
+  type: "text" | "number" | "email" | "password" | "tel";
   /** Controlled or uncontrolled */
   value?: string | number;
   onChange?: (v: string) => void;
@@ -78,7 +78,9 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
           ? "text"
           : type === "number"
             ? "numeric"
-            : undefined;
+            : type === "tel"
+              ? "tel" // <— add this
+              : undefined;
 
     const leftPad = Icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4";
 
