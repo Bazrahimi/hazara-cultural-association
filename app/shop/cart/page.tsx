@@ -1,16 +1,25 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
+import Image from "next/image";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
-import { useCart} from "../ui/cart/CartContext";
 import type { CartItem } from "../lib/definitions";
+import { useCart } from "../ui/cart/CartContext";
 
 export default function CartPage() {
   const { items, subtotal, updateQty, remove } = useCart();
 
-  if (!items.length) return <p className="p-6 text-gray-600">Your cart is empty.</p>;
+  if (!items.length) {
+    return (
+      <div>
+        <P className="p-6">Your cart is empty.</P>
+        <Button as="link" href="/shop">
+          Go to Shop
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-3xl p-6 space-y-6">
@@ -32,7 +41,7 @@ export default function CartPage() {
         </div>
       </div>
 
-      <form action="/checkout" className="mt-10 text-end">
+      <form action="/shop/cart/checkout" className="mt-10 text-end">
         <Button type="submit">Checkout</Button>
       </form>
     </div>
@@ -56,10 +65,18 @@ function CartTable({
       <table className="min-w-full text-sm">
         <thead className="bg-gray-50">
           <tr className="text-left">
-            <th scope="col" className="p-3 font-semibold">Product</th>
-            <th scope="col" className="p-3 text-center font-semibold w-[140px]">Qty</th>
-            <th scope="col" className="p-3 text-right font-semibold w-[110px]">Total</th>
-            <th scope="col" className="p-3 text-right font-semibold w-[90px]">Remove</th>
+            <th scope="col" className="p-3 font-semibold">
+              Product
+            </th>
+            <th scope="col" className="p-3 text-center font-semibold w-[140px]">
+              Qty
+            </th>
+            <th scope="col" className="p-3 text-right font-semibold w-[110px]">
+              Total
+            </th>
+            <th scope="col" className="p-3 text-right font-semibold w-[90px]">
+              Remove
+            </th>
           </tr>
         </thead>
 
