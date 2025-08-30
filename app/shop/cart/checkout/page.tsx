@@ -7,6 +7,8 @@ import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import type { CartItem } from "../../lib/definitions";
 import { useCart } from "../../ui/cart/CartContext";
+import GuestCheckout from "./ui/GuestCheckout";
+import SocialAccount from "./ui/SocialAccount";
 
 const GST_RATE = 0; // set to 0.10 if you start charging GST
 
@@ -51,7 +53,8 @@ export default function CheckoutPage() {
             </Header>
 
             <div className="space-y-3">
-              <Button fullWidth>Guest Checkout</Button>
+              <GuestCheckout />
+              <SocialAccount />
               <Button variant="outline" fullWidth>
                 Continue with Email
               </Button>
@@ -64,7 +67,10 @@ export default function CheckoutPage() {
         {/* Left: Order Summary */}
         <section aria-labelledby="order-summary">
           <h2 id="order-summary" className="mb-3 text-lg font-semibold"></h2>
-          <Header as="h2" size="xs"> Order Summary</Header>
+          <Header as="h2" size="xs">
+            {" "}
+            Order Summary
+          </Header>
 
           <div className="overflow-x-auto rounded-md border border-gray-200">
             <table className="min-w-full text-sm">
