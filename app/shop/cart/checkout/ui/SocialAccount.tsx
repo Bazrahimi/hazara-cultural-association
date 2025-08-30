@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { ImAppleinc } from "react-icons/im";
 
 const SocialAccount = () => {
+  
   return (
     <div className="flex justify-between gap-4 md:gap-6 items-center my-4 ">
       <P className="text-gray-700 font-medium">Continue with</P>{" "}

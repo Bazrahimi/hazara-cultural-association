@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
+import { useState } from "react";
 import type { CartItem } from "../../lib/definitions";
 import { useCart } from "../../ui/cart/CartContext";
 import GuestCheckout from "./ui/GuestCheckout";
@@ -14,6 +15,7 @@ const GST_RATE = 0; // set to 0.10 if you start charging GST
 
 export default function CheckoutPage() {
   const { items, subtotal } = useCart();
+  const [activeMethod, setActiveMethod] = useState<string | null>(null);
 
   if (!items.length) {
     return (
@@ -53,11 +55,19 @@ export default function CheckoutPage() {
             </Header>
 
             <div className="space-y-3">
-              <GuestCheckout />
-              <SocialAccount />
-              <Button variant="outline" fullWidth>
-                Continue with Email
-              </Button>
+              {(!activeMethod || activeMethod === "guest") && (
+                <GuestCheckout setActiveMethod={setActiveMethod} />
+              )}
+
+              {/* Todo: I wnat hide the below two component if activeMethod is "guest" */}
+              {!activeMethod && (
+                <>
+                  <SocialAccount />
+                  <Button variant="outline" fullWidth>
+                    Continue with Email
+                  </Button>
+                </>
+              )}
             </div>
           </section>
 
