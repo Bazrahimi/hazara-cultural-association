@@ -143,9 +143,21 @@ export default function CheckoutPage() {
               </div>
             </section>
           )}
-          <Header as="h2" size="sm">
-            Shipping Address
-          </Header>
+          <div className="flex justify-between">
+            <Header as="h2" size="sm">
+              Shipping Details
+            </Header>
+            {checkoutEmail && hideShipping && (
+              <Button
+                variant="outline"
+                onClick={() => setHideShipping(false)}
+                size="sm"
+              >
+                Edit
+              </Button>
+            )}
+          </div>
+
           {checkoutEmail &&
             (hideShipping ? (
               <section className="mt-4 rounded-md border border-gray-200 p-4 space-y-2">
@@ -164,14 +176,6 @@ export default function CheckoutPage() {
                     ? `, ${summaryAddress.address2}`
                     : ""}
                 </p>
-                <div className="pt-2">
-                  <Button
-                    variant="outline"
-                    onClick={() => setHideShipping(false)}
-                  >
-                    Edit details
-                  </Button>
-                </div>
               </section>
             ) : (
               <ShippingDetails onContinue={handleShippingContinue} />
