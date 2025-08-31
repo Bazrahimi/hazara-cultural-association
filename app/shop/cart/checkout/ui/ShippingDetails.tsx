@@ -7,6 +7,8 @@ import {
   emptyAddress,
   emptyContact,
   postalLabelFromFull,
+  isNonEmpty,
+  isPostcode
 } from "@/app/shop/lib/helper";
 import { Button } from "@/app/ui/global/components";
 import { useMemo, useState } from "react";
@@ -45,8 +47,6 @@ const ShippingDetails = ({ onContinue }: { onContinue: () => void }) => {
     [fullAddress]
   );
 
-  const isNonEmpty = (s?: string) => !!s && s.trim().length > 0;
-  const isPostcode = (s?: string) => !!s && /^\d{4}$/.test(s);
 
   const canContinue = useMemo(() => {
     const stateLike = (fullAddress.stateCode || fullAddress.state || "").trim();
