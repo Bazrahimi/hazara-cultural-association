@@ -50,7 +50,7 @@ function postalLabelFromFull(a: FullAddress) {
   return a.address && tail ? `${a.address}, ${tail}` : a.address || "";
 }
 
-const ShippingAddress = () => {
+const ShippingDetails = () => {
   // live editable state
   const [fullAddress, setFullAddress] = useState<FullAddress>(emptyAddress);
   const [contact, setContact] = useState<Contact>(emptyContact);
@@ -376,4 +376,4 @@ const ShippingAddress = () => {
   );
 };
 
-export default ShippingAddress;
+export default ShippingDetails;

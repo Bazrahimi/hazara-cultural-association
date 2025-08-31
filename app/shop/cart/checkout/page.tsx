@@ -5,7 +5,7 @@ import { P } from "@/app/ui/global/paragraph";
 import { useEffect, useState } from "react";
 import GuestCheckout from "./ui/GuestCheckout";
 import OrderSummary from "./ui/OrderSummary";
-import ShippingAddress from "./ui/ShippingAddress";
+import ShippingDetails from "./ui/ShippingDetails";
 import SocialAccount from "./ui/SocialAccount";
 
 export default function CheckoutPage() {
@@ -106,7 +106,7 @@ export default function CheckoutPage() {
           </Header>
           {checkoutEmail && (
             <>
-              <ShippingAddress />
+              <ShippingDetails />
             </>
           )}
         </aside>
