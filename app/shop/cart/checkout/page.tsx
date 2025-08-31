@@ -84,22 +84,26 @@ export default function CheckoutPage() {
         </P>
       </div>
 
-      <Header as="h2" size="sm">
-        Email
-      </Header>
+      <div className="flex justify-between">
+        <Header as="h2" size="sm">
+          Email
+        </Header>
+        {checkoutEmail && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onEditEmail}
+            aria-label="Edit email"
+          >
+            Edit
+          </Button>
+        )}
+      </div>
+
       {/* If email exists, show “Email” summary like your screenshot */}
       {checkoutEmail && (
         <section className="rounded-md border border-gray-200 px-4 py-5">
-          <div className="flex items-center justify-between">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onEditEmail}
-              aria-label="Edit email"
-            >
-              Edit
-            </Button>
-          </div>
+          <div className="flex items-center justify-between"></div>
           <P className="mt-2 text-gray-600">
             You are ordering as:{" "}
             <span className="font-semibold">{checkoutEmail}</span>
