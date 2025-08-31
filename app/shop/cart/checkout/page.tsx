@@ -28,7 +28,6 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     try {
-      const v = localStorage.getItem("checkoutEmail");
       const rawA = localStorage.getItem(ADDRESS_KEY);
       const rawC = localStorage.getItem(CONTACT_KEY);
       const a = rawA
@@ -49,8 +48,12 @@ export default function CheckoutPage() {
         isPostcode(a.postcode);
 
       if (addressComplete) setHideShipping(true);
-      if (v) setCheckoutEmail(v);
     } catch {}
+  }, []);
+
+  useEffect(() => {
+    const v = localStorage.getItem("checkoutEmail");
+    if (v) setCheckoutEmail(v);
   }, []);
 
   const handleShippingContinue = () => {
