@@ -6,7 +6,6 @@ import AuAddressAutocomplete, {
   ParsedAuAddress,
 } from "./AuAddressAutocomplete";
 
-
 type FullAddress = Pick<
   ParsedAuAddress,
   | "full"
@@ -319,7 +318,6 @@ const ShippingAddress = () => {
               onChange={(v) => setFullAddress((p) => ({ ...p, address: v }))}
               placeholder="e.g. 12 Smith Street"
               autoComplete="street-address"
-              inputClassName="placeholder:text-xs"
               required
             />
             <Input
@@ -329,7 +327,6 @@ const ShippingAddress = () => {
               value={fullAddress.address2}
               onChange={(v) => setFullAddress((p) => ({ ...p, address2: v }))}
               placeholder="Unit, Level, Building (optional)"
-              inputClassName="placeholder:text-xs"
             />
           </div>
 
@@ -341,7 +338,6 @@ const ShippingAddress = () => {
               value={fullAddress.suburb}
               onChange={(v) => setFullAddress((p) => ({ ...p, suburb: v }))}
               placeholder="e.g. Dandenong"
-              inputClassName="placeholder:text-xs"
               required
             />
             <Input
@@ -353,7 +349,6 @@ const ShippingAddress = () => {
                 setFullAddress((p) => ({ ...p, stateCode: v, state: v }))
               }
               placeholder="e.g. VIC"
-              inputClassName="placeholder:text-xs"
               required
             />
             <Input
@@ -364,7 +359,6 @@ const ShippingAddress = () => {
               onChange={(v) => setFullAddress((p) => ({ ...p, postcode: v }))}
               inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
               placeholder="e.g. 3177"
-              inputClassName="placeholder:text-xs"
               required
             />
           </div>
