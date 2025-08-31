@@ -1,5 +1,5 @@
 "use client";
-import { Input } from "@/app/ui/global/components";
+import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import { useEffect, useMemo, useState } from "react";
 import AuAddressAutocomplete, { ParsedAuAddress } from "./AuAddressAutocomplete";
@@ -9,7 +9,14 @@ type FullAddress = Pick<
   "full" | "address" | "address2" | "suburb" | "state" | "stateCode" | "postcode"
 >;
 
-const STORAGE_KEY = "hca_shipping_address";
+type Contact = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+};
+
+const ADDRESS_KEY = "hca_shipping_address";
+const CONTACT_KEY = "hca_shipping_contact";
 
 const emptyAddress: FullAddress = {
   full: "",
@@ -21,6 +28,12 @@ const emptyAddress: FullAddress = {
   postcode: "",
 };
 
+const emptyContact: Contact = {
+  firstName: "",
+  lastName: "",
+  phone: "",
+};
+
 // Build "Address, SUBURB STATE POSTCODE" like your dropdown
 function postalLabelFromFull(a: FullAddress) {
   const suburb = a.suburb?.toUpperCase() || "";
@@ -30,49 +43,118 @@ function postalLabelFromFull(a: FullAddress) {
 }
 
 const ShippingAddress = () => {
+  // live editable state
   const [fullAddress, setFullAddress] = useState<FullAddress>(emptyAddress);
+  const [contact, setContact] = useState<Contact>(emptyContact);
   const [manually, setManually] = useState(false);
+  const [hideInputs, setHideInputs] = useState<boolean>(false);
 
-  // --- HYDRATE from localStorage on mount (client-only)
+  // summary states (explicitly loaded from localStorage when continue is clicked)
+  const [summaryAddress, setSummaryAddress] = useState<FullAddress>(emptyAddress);
+  const [summaryContact, setSummaryContact] = useState<Contact>(emptyContact);
+
+  // --- HYDRATE from localStorage on mount
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw) as Partial<FullAddress>;
-      // light sanity check
-      if (parsed && typeof parsed === "object") {
+      const rawA = localStorage.getItem(ADDRESS_KEY);
+      if (rawA) {
+        const a = JSON.parse(rawA) as Partial<FullAddress>;
         setFullAddress({
-          full: parsed.full ?? "",
-          address: parsed.address ?? "",
-          address2: parsed.address2 ?? "",
-          suburb: parsed.suburb ?? "",
-          state: parsed.state ?? "",
-          stateCode: parsed.stateCode ?? "",
-          postcode: parsed.postcode ?? "",
+          full: a.full ?? "",
+          address: a.address ?? "",
+          address2: a.address2 ?? "",
+          suburb: a.suburb ?? "",
+          state: a.state ?? "",
+          stateCode: a.stateCode ?? "",
+          postcode: a.postcode ?? "",
+        });
+      }
+      const rawC = localStorage.getItem(CONTACT_KEY);
+      if (rawC) {
+        const c = JSON.parse(rawC) as Partial<Contact>;
+        setContact({
+          firstName: c.firstName ?? "",
+          lastName: c.lastName ?? "",
+          phone: c.phone ?? "",
         });
       }
     } catch (e) {
-      console.warn("Failed to hydrate shipping address", e);
+      console.warn("Failed to hydrate checkout info", e);
     }
   }, []);
 
-  // --- PERSIST to localStorage whenever it changes
+  // --- PERSIST on change
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(fullAddress));
+      localStorage.setItem(ADDRESS_KEY, JSON.stringify(fullAddress));
     } catch (e) {
-      console.warn("Failed to persist shipping address", e);
+      console.warn("Failed to persist address", e);
     }
   }, [fullAddress]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(CONTACT_KEY, JSON.stringify(contact));
+    } catch (e) {
+      console.warn("Failed to persist contact", e);
+    }
+  }, [contact]);
+
   // Show fields if user chose manual entry OR has saved/selected parts
   const showFields = useMemo(
-    () => manually || !!fullAddress.address || !!fullAddress.suburb || !!fullAddress.postcode,
+    () =>
+      manually ||
+      !!fullAddress.address ||
+      !!fullAddress.suburb ||
+      !!fullAddress.postcode,
     [manually, fullAddress]
   );
 
   // Use saved label to seed the autocomplete input
-  const defaultAutoLabel = useMemo(() => postalLabelFromFull(fullAddress), [fullAddress]);
+  const defaultAutoLabel = useMemo(
+    () => postalLabelFromFull(fullAddress),
+    [fullAddress]
+  );
+
+  // Helpers for button enablement
+  const isNonEmpty = (s?: string) => !!s && s.trim().length > 0;
+  const isPostcode = (s?: string) => !!s && /^\d{4}$/.test(s);
+
+  const canContinue = useMemo(() => {
+    const stateLike = (fullAddress.stateCode || fullAddress.state || "").trim();
+    return (
+      isNonEmpty(contact.firstName) &&
+      isNonEmpty(contact.lastName) &&
+      isNonEmpty(contact.phone) &&
+      isNonEmpty(fullAddress.address) &&
+      isNonEmpty(fullAddress.suburb) &&
+      isNonEmpty(stateLike) &&
+      isPostcode(fullAddress.postcode)
+    );
+  }, [contact, fullAddress]);
+
+  // Continue: hide inputs and load summary FROM localStorage
+  const handleContinue = () => {
+    try {
+      // Ensure latest values are saved
+      localStorage.setItem(ADDRESS_KEY, JSON.stringify(fullAddress));
+      localStorage.setItem(CONTACT_KEY, JSON.stringify(contact));
+
+      // Read back from localStorage for the summary block
+      const rawA = localStorage.getItem(ADDRESS_KEY);
+      const rawC = localStorage.getItem(CONTACT_KEY);
+
+      if (rawA) setSummaryAddress(JSON.parse(rawA));
+      if (rawC) setSummaryContact(JSON.parse(rawC));
+    } catch (e) {
+      console.warn("Failed to finalize checkout info", e);
+      // still fall back to in-memory state
+      setSummaryAddress(fullAddress);
+      setSummaryContact(contact);
+    } finally {
+      setHideInputs(true);
+    }
+  };
 
   return (
     <>
@@ -83,6 +165,8 @@ const ShippingAddress = () => {
         type="text"
         autoComplete="given-name"
         required
+        value={contact.firstName}
+        onChange={(v) => setContact((p) => ({ ...p, firstName: v }))}
       />
 
       <Input
@@ -92,6 +176,8 @@ const ShippingAddress = () => {
         type="text"
         autoComplete="family-name"
         required
+        value={contact.lastName}
+        onChange={(v) => setContact((p) => ({ ...p, lastName: v }))}
       />
 
       <Input
@@ -101,10 +187,12 @@ const ShippingAddress = () => {
         autoComplete="tel"
         type="tel"
         required
+        value={contact.phone}
+        onChange={(v) => setContact((p) => ({ ...p, phone: v }))}
       />
 
       {/* Autocomplete (hidden when typing manually) */}
-      {!manually && (
+      {!manually && !hideInputs && (
         <AuAddressAutocomplete
           defaultValue={defaultAutoLabel}
           onSelect={(a) =>
@@ -122,28 +210,32 @@ const ShippingAddress = () => {
       )}
 
       {/* Toggle helper */}
-      {!manually ? (
-        <P
-          onClick={() => setManually(true)}
-          role="button"
-          tabIndex={0}
-          className="mt-2 cursor-pointer underline text-gray-600 hover:text-gray-800"
-        >
-          Or click here to enter your address manually
-        </P>
-      ) : (
-        <P
-          onClick={() => setManually(false)}
-          role="button"
-          tabIndex={0}
-          className="mt-2 cursor-pointer underline text-gray-600 hover:text-gray-800"
-        >
-          Or complete your address using autocomplete
-        </P>
+      {!hideInputs && (
+        <>
+          {!manually ? (
+            <P
+              onClick={() => setManually(true)}
+              role="button"
+              tabIndex={0}
+              className="mt-2 cursor-pointer underline text-gray-600 hover:text-gray-800"
+            >
+              Or click here to enter your address manually
+            </P>
+          ) : (
+            <P
+              onClick={() => setManually(false)}
+              role="button"
+              tabIndex={0}
+              className="mt-2 cursor-pointer underline text-gray-600 hover:text-gray-800"
+            >
+              Or complete your address using autocomplete
+            </P>
+          )}
+        </>
       )}
 
       {/* Address fields (manual or after selection) */}
-      {showFields && (
+      {!hideInputs && showFields && (
         <div className="mt-4 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <Input
@@ -204,7 +296,34 @@ const ShippingAddress = () => {
             />
           </div>
 
-      
+          <Button type="button" onClick={handleContinue} disabled={!canContinue}>
+            Continue to payment details
+          </Button>
+        </div>
+      )}
+
+      {/* Summary pulled from localStorage */}
+      {hideInputs && (
+        <div className="mt-4 rounded-md border border-gray-200 p-4 space-y-2">
+          <P>
+            <span className="font-semibold">Name: </span>
+            {summaryContact.firstName} {summaryContact.lastName}
+          </P>
+          <P>
+            <span className="font-semibold">Contact: </span>
+            {summaryContact.phone}
+          </P>
+          <P>
+            <span className="font-semibold">Address: </span>
+            {postalLabelFromFull(summaryAddress)}
+            {summaryAddress.address2 ? `, ${summaryAddress.address2}` : ""}
+          </P>
+
+          <div className="pt-2">
+            <Button type="button" variant="outline" onClick={() => setHideInputs(false)}>
+              Edit details
+            </Button>
+          </div>
         </div>
       )}
     </>

@@ -3,18 +3,13 @@
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { CartItem } from "../../lib/definitions";
-import { useCart } from "../../ui/cart/CartContext";
 import GuestCheckout from "./ui/GuestCheckout";
+import OrderSummary from "./ui/OrderSummary";
 import ShippingAddress from "./ui/ShippingAddress";
 import SocialAccount from "./ui/SocialAccount";
 
-const GST_RATE = 0;
-
 export default function CheckoutPage() {
-  const { items, subtotal } = useCart();
   const [activeMethod, setActiveMethod] = useState<string | null>(null);
 
   // NEW: hold saved email (hydrated from localStorage)
@@ -26,20 +21,6 @@ export default function CheckoutPage() {
       if (v) setCheckoutEmail(v);
     } catch {}
   }, []);
-
-  if (!items.length) {
-    return (
-      <div className="mx-auto max-w-2xl p-6">
-        <P>Your cart is empty.</P>
-        <Link href="/shop" className="underline">
-          Continue shopping
-        </Link>
-      </div>
-    );
-  }
-
-  const gst = subtotal * GST_RATE;
-  const total = subtotal + gst;
 
   const onEditEmail = () => {
     try {
@@ -132,77 +113,8 @@ export default function CheckoutPage() {
         </aside>
 
         {/* LEFT: Order Summary */}
-        <section aria-labelledby="order-summary">
-          <Header as="h2" size="xs" id="order-summary">
-            Order Summary
-          </Header>
-
-          <div className="overflow-x-auto rounded-md border border-gray-200">
-            <table className="min-w-full text-sm">
-              <thead className="bg-gray-50">
-                <tr className="text-left">
-                  <th className="p-3 font-semibold">Product</th>
-                  <th className="p-3 text-center font-semibold w-[120px]">
-                    Qty
-                  </th>
-                  <th className="p-3 text-right font-semibold w-[120px]">
-                    Line Total
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((it) => (
-                  <SummaryRow key={it.id} item={it} />
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <section
-            aria-labelledby="totals"
-            className="rounded-md border border-gray-200 p-4"
-          >
-            <Header as="h3" size="xs">
-              Totals
-            </Header>
-            <div className="flex flex-col items-end gap-2">
-              <Row label="Sub-total" value={`$${subtotal.toFixed(2)}`} />
-              <Row label="GST:" value={`$${gst.toFixed(2)}`} />
-              <Row label="Total:" value={`$${total.toFixed(2)}`} bold />
-            </div>
-          </section>
-        </section>
+        <OrderSummary />
       </div>
-    </div>
-  );
-}
-
-function SummaryRow({ item }: { item: CartItem }) {
-  const line = item.qty * item.price;
-  return (
-    <tr className="border-t">
-      <td className="p-3">{item.name}</td>
-      <td className="p-1 text-center tabular-nums">{item.qty}</td>
-      <td className="p-1 text-right tabular-nums">${line.toFixed(2)}</td>
-    </tr>
-  );
-}
-
-function Row({
-  label,
-  value,
-  bold = false,
-}: {
-  label: string;
-  value: string;
-  bold?: boolean;
-}) {
-  return (
-    <div className="flex w-full max-w-xs items-center justify-between">
-      <P className={bold ? "font-bold" : ""}>{label}</P>
-      <P className={bold ? "font-bold tabular-nums" : "tabular-nums"}>
-        {value}
-      </P>
     </div>
   );
 }
