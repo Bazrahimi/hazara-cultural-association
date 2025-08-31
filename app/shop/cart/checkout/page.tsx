@@ -3,6 +3,16 @@ import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useEffect, useState } from "react";
+import type { Contact, FullAddress } from "../../lib/definitions";
+import {
+  ADDRESS_KEY,
+  CONTACT_KEY,
+  emptyAddress,
+  emptyContact,
+  isNonEmpty,
+  isPostcode,
+  postalLabelFromFull,
+} from "../../lib/helper";
 import GuestCheckout from "./ui/GuestCheckout";
 import OrderSummary from "./ui/OrderSummary";
 import ShippingDetails from "./ui/ShippingDetails";
@@ -10,16 +20,48 @@ import SocialAccount from "./ui/SocialAccount";
 
 export default function CheckoutPage() {
   const [activeMethod, setActiveMethod] = useState<string | null>(null);
-
-  // NEW: hold saved email (hydrated from localStorage)
   const [checkoutEmail, setCheckoutEmail] = useState<string | null>(null);
+  const [summaryAddress, setSummaryAddress] =
+    useState<FullAddress>(emptyAddress);
+  const [summaryContact, setSummaryContact] = useState<Contact>(emptyContact);
+  const [hideShipping, setHideShipping] = useState(false);
 
   useEffect(() => {
     try {
       const v = localStorage.getItem("checkoutEmail");
+      const rawA = localStorage.getItem(ADDRESS_KEY);
+      const rawC = localStorage.getItem(CONTACT_KEY);
+      const a = rawA
+        ? { ...emptyAddress, ...(JSON.parse(rawA) as Partial<FullAddress>) }
+        : emptyAddress;
+      const c = rawC
+        ? { ...emptyContact, ...(JSON.parse(rawC) as Partial<Contact>) }
+        : emptyContact;
+
+      setSummaryAddress(a);
+      setSummaryContact(c);
+
+      const stateLike = (a.stateCode || a.state || "").trim();
+      const addressComplete =
+        isNonEmpty(a.address) &&
+        isNonEmpty(a.suburb) &&
+        isNonEmpty(stateLike) &&
+        isPostcode(a.postcode);
+
+      if (addressComplete) setHideShipping(true);
       if (v) setCheckoutEmail(v);
     } catch {}
   }, []);
+
+  const handleShippingContinue = () => {
+    try {
+      const rawA = localStorage.getItem(ADDRESS_KEY);
+      const rawC = localStorage.getItem(CONTACT_KEY);
+      if (rawA) setSummaryAddress(JSON.parse(rawA));
+      if (rawC) setSummaryContact(JSON.parse(rawC));
+    } catch {}
+    setHideShipping(true);
+  };
 
   const onEditEmail = () => {
     try {
@@ -104,11 +146,36 @@ export default function CheckoutPage() {
           <Header as="h2" size="sm">
             Shipping Address
           </Header>
-          {checkoutEmail && (
-            <>
-              <ShippingDetails />
-            </>
-          )}
+          {checkoutEmail &&
+            (hideShipping ? (
+              <section className="mt-4 rounded-md border border-gray-200 p-4 space-y-2">
+                <p>
+                  <span className="font-semibold">Name: </span>
+                  {summaryContact.firstName} {summaryContact.lastName}
+                </p>
+                <p>
+                  <span className="font-semibold">Contact: </span>
+                  {summaryContact.phone}
+                </p>
+                <p>
+                  <span className="font-semibold">Address: </span>
+                  {postalLabelFromFull(summaryAddress)}
+                  {summaryAddress.address2
+                    ? `, ${summaryAddress.address2}`
+                    : ""}
+                </p>
+                <div className="pt-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setHideShipping(false)}
+                  >
+                    Edit details
+                  </Button>
+                </div>
+              </section>
+            ) : (
+              <ShippingDetails onContinue={handleShippingContinue} />
+            ))}
         </aside>
 
         {/* LEFT: Order Summary */}

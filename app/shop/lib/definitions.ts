@@ -1,3 +1,5 @@
+import { ParsedAuAddress } from "../cart/checkout/ui/AuAddressAutocomplete";
+
 export type Product = {
   id: string;
   name: string;
@@ -16,3 +18,16 @@ export type Ctx = CartState & {
   totalItems: number;
   subtotal: number;
 };
+
+export type FullAddress = Pick<
+  ParsedAuAddress,
+  | "full"
+  | "address"
+  | "address2"
+  | "suburb"
+  | "state"
+  | "stateCode"
+  | "postcode"
+>;
+
+export type Contact = { firstName: string; lastName: string; phone: string };
