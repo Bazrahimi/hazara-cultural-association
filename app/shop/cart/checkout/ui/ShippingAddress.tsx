@@ -2,11 +2,19 @@
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import { useEffect, useMemo, useState } from "react";
-import AuAddressAutocomplete, { ParsedAuAddress } from "./AuAddressAutocomplete";
+import AuAddressAutocomplete, {
+  ParsedAuAddress,
+} from "./AuAddressAutocomplete";
 
 type FullAddress = Pick<
   ParsedAuAddress,
-  "full" | "address" | "address2" | "suburb" | "state" | "stateCode" | "postcode"
+  | "full"
+  | "address"
+  | "address2"
+  | "suburb"
+  | "state"
+  | "stateCode"
+  | "postcode"
 >;
 
 type Contact = {
@@ -50,7 +58,8 @@ const ShippingAddress = () => {
   const [hideInputs, setHideInputs] = useState<boolean>(false);
 
   // summary states (explicitly loaded from localStorage when continue is clicked)
-  const [summaryAddress, setSummaryAddress] = useState<FullAddress>(emptyAddress);
+  const [summaryAddress, setSummaryAddress] =
+    useState<FullAddress>(emptyAddress);
   const [summaryContact, setSummaryContact] = useState<Contact>(emptyContact);
 
   // --- HYDRATE from localStorage on mount
@@ -155,6 +164,37 @@ const ShippingAddress = () => {
       setHideInputs(true);
     }
   };
+
+  // If we're hiding inputs, just render the summary and bail out early
+  if (hideInputs) {
+    return (
+      <div className="mt-4 rounded-md border border-gray-200 p-4 space-y-2">
+        <P>
+          <span className="font-semibold">Name: </span>
+          {summaryContact.firstName} {summaryContact.lastName}
+        </P>
+        <P>
+          <span className="font-semibold">Contact: </span>
+          {summaryContact.phone}
+        </P>
+        <P>
+          <span className="font-semibold">Address: </span>
+          {postalLabelFromFull(summaryAddress)}
+          {summaryAddress.address2 ? `, ${summaryAddress.address2}` : ""}
+        </P>
+
+        <div className="pt-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setHideInputs(false)}
+          >
+            Edit details
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -296,34 +336,13 @@ const ShippingAddress = () => {
             />
           </div>
 
-          <Button type="button" onClick={handleContinue} disabled={!canContinue}>
+          <Button
+            type="button"
+            onClick={handleContinue}
+            disabled={!canContinue}
+          >
             Continue to payment details
           </Button>
-        </div>
-      )}
-
-      {/* Summary pulled from localStorage */}
-      {hideInputs && (
-        <div className="mt-4 rounded-md border border-gray-200 p-4 space-y-2">
-          <P>
-            <span className="font-semibold">Name: </span>
-            {summaryContact.firstName} {summaryContact.lastName}
-          </P>
-          <P>
-            <span className="font-semibold">Contact: </span>
-            {summaryContact.phone}
-          </P>
-          <P>
-            <span className="font-semibold">Address: </span>
-            {postalLabelFromFull(summaryAddress)}
-            {summaryAddress.address2 ? `, ${summaryAddress.address2}` : ""}
-          </P>
-
-          <div className="pt-2">
-            <Button type="button" variant="outline" onClick={() => setHideInputs(false)}>
-              Edit details
-            </Button>
-          </div>
         </div>
       )}
     </>
