@@ -6,6 +6,7 @@ import AuAddressAutocomplete, {
   ParsedAuAddress,
 } from "./AuAddressAutocomplete";
 
+
 type FullAddress = Pick<
   ParsedAuAddress,
   | "full"
@@ -66,9 +67,13 @@ const ShippingAddress = () => {
   useEffect(() => {
     try {
       const rawA = localStorage.getItem(ADDRESS_KEY);
-      if (rawA) {
+      const rawC = localStorage.getItem(CONTACT_KEY);
+
+      // Build next state from storage (or keep empty defaults)
+      const nextAddress: FullAddress = (() => {
+        if (!rawA) return emptyAddress;
         const a = JSON.parse(rawA) as Partial<FullAddress>;
-        setFullAddress({
+        return {
           full: a.full ?? "",
           address: a.address ?? "",
           address2: a.address2 ?? "",
@@ -76,16 +81,44 @@ const ShippingAddress = () => {
           state: a.state ?? "",
           stateCode: a.stateCode ?? "",
           postcode: a.postcode ?? "",
-        });
-      }
-      const rawC = localStorage.getItem(CONTACT_KEY);
-      if (rawC) {
+        };
+      })();
+
+      const nextContact: Contact = (() => {
+        if (!rawC) return emptyContact;
         const c = JSON.parse(rawC) as Partial<Contact>;
-        setContact({
+        return {
           firstName: c.firstName ?? "",
           lastName: c.lastName ?? "",
           phone: c.phone ?? "",
-        });
+        };
+      })();
+
+      setFullAddress(nextAddress);
+      setContact(nextContact);
+
+      // Decide if inputs should be hidden initially
+
+      // Option A (address-only check — "shipping details" = address):
+      const stateLike = (
+        nextAddress.stateCode ||
+        nextAddress.state ||
+        ""
+      ).trim();
+      const addressComplete =
+        isNonEmpty(nextAddress.address) &&
+        isNonEmpty(nextAddress.suburb) &&
+        isNonEmpty(stateLike) &&
+        isPostcode(nextAddress.postcode);
+
+      // Option B (address + contact must exist):
+      // const contactComplete =
+      //   isNonEmpty(nextContact.firstName) &&
+      //   isNonEmpty(nextContact.lastName) &&
+      //   isNonEmpty(nextContact.phone);
+
+      if (addressComplete /* && contactComplete */) {
+        setHideInputs(true);
       }
     } catch (e) {
       console.warn("Failed to hydrate checkout info", e);

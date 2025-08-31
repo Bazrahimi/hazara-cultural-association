@@ -96,7 +96,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
         autoComplete ?? (type === "password" ? "current-password" : "off"),
       className: clsx(
         "peer block w-full rounded-md border border-gray-200",
-        "py-2 pr-10 text-sm sm:text-base outline-1 placeholder:text-gray-500",
+        "py-2 pr-10 text-sm sm:text-base outline-1 placeholder:text-gray-500 placeholder:text-xs",
         "focus:border-hca-blue-main focus:ring-2 focus:ring-blue-100",
         leftPad,
         hasError && "border-red-300 focus:border-red-400 focus:ring-red-100",
