@@ -2,13 +2,17 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
-import { verifyCodeAction, resendCodeAction, type VerifyState } from "../lib/verify-actions";
+
 import { Header } from "@/app/ui/global/Header";
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
+import { resendCodeAction, verifyCodeAction } from "../lib/verify-action";
 
 export default function VerifyEmailForm({ email }: { email: string }) {
-  const [state, formAction, isPending] = useActionState<VerifyState, FormData>(verifyCodeAction, undefined);
+  const [state, formAction, isPending] = useActionState(
+    verifyCodeAction,
+    undefined
+  );
   const [cooldown, setCooldown] = useState(0);
 
   useEffect(() => {
@@ -22,10 +26,13 @@ export default function VerifyEmailForm({ email }: { email: string }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-xl p-6 sm:p-8">
-        <Header as="h1" size="sm" className="mb-2">Verify your email</Header>
+        <Header as="h1" size="sm" className="mb-2">
+          Verify your email
+        </Header>
         <P className="text-slate-600 mb-4">
-          Enter the 6-digit code we sent to <span className="font-medium">{mask || "your email"}</span>.
-          It expires in 10 minutes.
+          Enter the 6-digit code we sent to{" "}
+          <span className="font-medium">{mask || "your email"}</span>. It
+          expires in 10 minutes.
         </P>
 
         <form action={formAction} className="space-y-4" noValidate>
@@ -33,7 +40,11 @@ export default function VerifyEmailForm({ email }: { email: string }) {
             id="code"
             label="Verification code"
             placeholder="123456"
-            inputProps={{ inputMode: "numeric", pattern: "\\d{6}", maxLength: 6 }}
+            inputProps={{
+              inputMode: "numeric",
+              pattern: "\\d{6}",
+              maxLength: 6,
+            }}
             required
           />
           <Button type="submit" fullWidth disabled={isPending}>
@@ -42,7 +53,9 @@ export default function VerifyEmailForm({ email }: { email: string }) {
         </form>
 
         {state?.message && (
-          <P className={`mt-3 text-sm ${state.ok ? "text-green-700" : "text-red-600"}`}>
+          <P
+            className={`mt-3 text-sm ${state.ok ? "text-green-700" : "text-red-600"}`}
+          >
             {state.message}
           </P>
         )}

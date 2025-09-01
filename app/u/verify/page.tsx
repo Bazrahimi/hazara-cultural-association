@@ -11,8 +11,7 @@ import { resendCodeAction, verifyCodeAction } from "./lib/verify-action";
 
 export default function VerifyEmailForm({ email }: { email: string }) {
   const [state, formAction, isPending] = useActionState<VerifyState, FormData>(
-    verifyCodeAction,
-    undefined
+    verifyCodeAction,undefined
   );
   const [cooldown, setCooldown] = useState(0);
 
