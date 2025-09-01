@@ -5,7 +5,6 @@ import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useEffect, useState } from "react";
-
 import type { Contact, FullAddress } from "../../lib/definitions";
 import {
   ADDRESS_KEY,
@@ -86,16 +85,19 @@ export default function CheckoutPage() {
     setActiveMethod("guest");
   };
 
+  // ✅ compute canPay using first & last (your stored Contact shape)
+  const hasName =
+    isNonEmpty(summaryContact.firstName) && isNonEmpty(summaryContact.lastName);
   const canPay =
     !!checkoutEmail &&
     hideShipping &&
     items.length > 0 &&
-    summaryContact.fullName &&
-    summaryContact.phone &&
-    summaryAddress.address &&
-    summaryAddress.suburb &&
-    (summaryAddress.stateCode || summaryAddress.state) &&
-    /^\d{4}$/.test(summaryAddress.postcode ?? "");
+    hasName &&
+    isNonEmpty(summaryContact.phone) &&
+    isNonEmpty(summaryAddress.address) &&
+    isNonEmpty(summaryAddress.suburb) &&
+    isNonEmpty(summaryAddress.stateCode || summaryAddress.state) &&
+    isPostcode(summaryAddress.postcode);
 
   return (
     <div className="mx-auto max-w-5xl p-6 md:p-8 space-y-8">
@@ -107,7 +109,7 @@ export default function CheckoutPage() {
         </P>
       </header>
 
-      {/* Mobile-only Order Summary at the very top */}
+      {/* Mobile-only Order Summary at the top */}
       <section className="md:hidden">
         <Header as="h2" size="sm">
           Order Summary
@@ -115,10 +117,11 @@ export default function CheckoutPage() {
         <OrderSummary />
       </section>
 
-      {/* Main layout: left = methods + shipping, right = sticky summary */}
+      {/* Main layout */}
       <div className="grid gap-8 md:grid-cols-[1fr_1fr] items-start">
-        {/* EMAIL (spans both columns on md+) */}
-        <div className="md:col-span-1 space-y-5">
+        {/* LEFT column */}
+        <div className="space-y-5">
+          {/* Email */}
           <section className="space-y-1">
             <div className="flex items-center justify-between">
               <Header as="h2" size="sm">
@@ -135,7 +138,6 @@ export default function CheckoutPage() {
                 </Button>
               )}
             </div>
-
             {checkoutEmail && (
               <div className="rounded-md border border-gray-200 px-4 py-5">
                 <P className="text-gray-600">
@@ -146,44 +148,41 @@ export default function CheckoutPage() {
             )}
           </section>
 
-          {/* LEFT: shipping */}
-          <section className="space-y-1">
-            {/* Methods panel (hide if email already chosen) */}
-            {!checkoutEmail && (
-              <section
-                aria-labelledby="how-to-continue"
-                className="rounded-md border border-gray-200 p-4"
+          {/* Methods (hidden once email chosen) */}
+          {!checkoutEmail && (
+            <section
+              aria-labelledby="how-to-continue"
+              className="rounded-md border border-gray-200 p-4"
+            >
+              <Header
+                as="h3"
+                size="xs"
+                id="how-to-continue"
+                className="text-gray-600"
               >
-                <Header
-                  as="h3"
-                  size="xs"
-                  id="how-to-continue"
-                  className="text-gray-600"
-                >
-                  Your preferred methods to checkout
-                </Header>
+                Your preferred methods to checkout
+              </Header>
+              <div className="mt-3 space-y-3">
+                {(!activeMethod || activeMethod === "guest") && (
+                  <GuestCheckout
+                    setActiveMethod={setActiveMethod}
+                    onEmailSaved={(email) => setCheckoutEmail(email)}
+                  />
+                )}
+                {!activeMethod && (
+                  <>
+                    <SocialAccount />
+                    <Button variant="outline" fullWidth>
+                      Continue with Email
+                    </Button>
+                  </>
+                )}
+              </div>
+            </section>
+          )}
 
-                <div className="mt-3 space-y-3">
-                  {(!activeMethod || activeMethod === "guest") && (
-                    <GuestCheckout
-                      setActiveMethod={setActiveMethod}
-                      onEmailSaved={(email) => setCheckoutEmail(email)}
-                    />
-                  )}
-
-                  {!activeMethod && (
-                    <>
-                      <SocialAccount />
-                      <Button variant="outline" fullWidth>
-                        Continue with Email
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </section>
-            )}
-
-            {/* Shipping details (only visible once email is chosen) */}
+          {/* Shipping */}
+          <section className="space-y-1">
             <div className="flex items-center justify-between">
               <Header as="h2" size="sm">
                 Shipping Details
@@ -203,7 +202,7 @@ export default function CheckoutPage() {
               (hideShipping ? (
                 <section className="rounded-md border border-gray-200 p-4 space-y-2">
                   <P>
-                    <span className="font-semibold">Full Name: </span>
+                    <span className="font-semibold">Name: </span>
                     {summaryContact.fullName} 
                   </P>
                   <P>
@@ -223,23 +222,23 @@ export default function CheckoutPage() {
               ))}
           </section>
 
+          {/* Payment */}
           <section className="space-y-1">
-            <div>
-              <Header as="h2" size="sm">
-                Proceed with Payment
-              </Header>
-              {checkoutEmail && hideShipping && (
-                <CheckoutPayForm
-                  email={checkoutEmail}
-                  contact={summaryContact}
-                  address={summaryAddress}
-                  disabled={!canPay}
-                />
-              )}
-            </div>
+            <Header as="h2" size="sm">
+              Proceed with Payment
+            </Header>
+            {checkoutEmail && hideShipping && (
+              <CheckoutPayForm
+                email={checkoutEmail}
+                contact={summaryContact}
+                address={summaryAddress}
+                // disabled={!canPay}
+              />
+            )}
           </section>
         </div>
-        {/* RIGHT: desktop sticky Order Summary */}
+
+        {/* RIGHT column: sticky order summary */}
         <aside className="hidden md:block self-start">
           <div className="sticky top-0">
             <OrderSummary />
