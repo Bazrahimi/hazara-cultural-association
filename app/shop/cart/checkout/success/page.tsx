@@ -20,6 +20,46 @@ const formatCurrency = (amount?: number | null, currency?: string | null) => {
 
 type SearchParamsShape = { session_id?: string | string[] };
 
+// Simple helper to render a postal-style address block
+function AddressBlock({
+  name,
+  phone,
+  address,
+  emptyText = "—",
+}: {
+  name?: string | null;
+  phone?: string | null;
+  address?: Stripe.Address | null;
+  emptyText?: string;
+}) {
+  const parts: string[] = [];
+  if (address?.line1) parts.push(address.line1);
+  if (address?.line2) parts.push(address.line2);
+  const cityLine = [address?.city, address?.state, address?.postal_code]
+    .filter(Boolean)
+    .join(" ");
+  if (cityLine) parts.push(cityLine);
+  if (address?.country) parts.push(address.country.toUpperCase());
+
+  const hasAnything = name || phone || parts.length > 0;
+
+  return (
+    <div className="space-y-1 text-sm text-slate-700">
+      {hasAnything ? (
+        <>
+          {name ? <div className="font-medium">{name}</div> : null}
+          {parts.map((l, i) => (
+            <div key={i}>{l}</div>
+          ))}
+          {phone ? <div className="text-slate-500">Phone: {phone}</div> : null}
+        </>
+      ) : (
+        <div className="text-slate-500">{emptyText}</div>
+      )}
+    </div>
+  );
+}
+
 export default async function CheckoutSuccessPage({
   searchParams,
 }: {
@@ -61,6 +101,12 @@ export default async function CheckoutSuccessPage({
   let items: Stripe.ApiList<Stripe.LineItem>["data"] = [];
   let paymentStatus: Stripe.Checkout.Session.PaymentStatus | undefined;
 
+  // NEW: addresses
+  let billingAddress: Stripe.Address | null | undefined;
+  let shippingName: string | null | undefined;
+  let shippingPhone: string | null | undefined;
+  let shippingAddress: Stripe.Address | null | undefined;
+
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: [
@@ -74,7 +120,7 @@ export default async function CheckoutSuccessPage({
     amountText = formatCurrency(session.amount_total, session.currency);
     paymentStatus = session.payment_status;
 
-    // identity
+    // Identity
     email =
       session.customer_details?.email ||
       (typeof session.customer === "object"
@@ -90,7 +136,14 @@ export default async function CheckoutSuccessPage({
         : "") ||
       "";
 
-    // receipt
+    // Billing address: prefer customer_details.address, fall back to Customer.address
+    billingAddress =
+      session.customer_details?.address ||
+      (typeof session.customer === "object"
+        ? session.customer?.address
+        : null);
+
+    // Receipt
     const pi = session.payment_intent as Stripe.PaymentIntent | null;
     const latestCharge =
       typeof pi?.latest_charge === "object"
@@ -98,7 +151,18 @@ export default async function CheckoutSuccessPage({
         : null;
     receiptUrl = latestCharge?.receipt_url ?? undefined;
 
-    // items
+    // Shipping: prefer PaymentIntent.shipping, fall back to Charge.shipping
+    if (pi?.shipping) {
+      shippingName = pi.shipping.name;
+      shippingPhone = pi.shipping.phone;
+      shippingAddress = pi.shipping.address ?? undefined;
+    } else if (latestCharge?.shipping) {
+      shippingName = latestCharge.shipping.name;
+      shippingPhone = latestCharge.shipping.phone ?? undefined;
+      shippingAddress = latestCharge.shipping.address ?? undefined;
+    }
+
+    // Items
     items = session.line_items?.data ?? [];
   } catch (err) {
     // Still render a generic success UI below
@@ -140,6 +204,27 @@ export default async function CheckoutSuccessPage({
               <span className="font-semibold text-slate-800">{name}</span>
             </P>
           )}
+        </div>
+
+        {/* Addresses */}
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-lg border border-slate-200 p-4">
+            <div className="mb-2 text-sm font-semibold text-slate-800">
+              Billing Address
+            </div>
+            <AddressBlock name={name} phone={undefined} address={billingAddress ?? null} />
+          </div>
+
+          <div className="rounded-lg border border-slate-200 p-4">
+            <div className="mb-2 text-sm font-semibold text-slate-800">
+              Shipping Address
+            </div>
+            <AddressBlock
+              name={shippingName}
+              phone={shippingPhone}
+              address={shippingAddress ?? null}
+            />
+          </div>
         </div>
 
         {/* Items */}
@@ -209,7 +294,7 @@ export default async function CheckoutSuccessPage({
             <Button>Continue shopping</Button>
           </Link>
           <Link href="/shop/checkout" className="inline-flex">
-            <Button variant="ghost">Go to checkout</Button>
+            <Button variant="outline">Go to checkout</Button>
           </Link>
         </div>
       </div>

@@ -139,7 +139,25 @@ export async function createCheckoutSession(
       customer: customer.id,
       payment_method_types: ["card"],
       // billing_address_collection: "required",
+
       customer_update: { name: "auto", address: "auto" },
+
+      // Ensure the resulting PaymentIntent carries shipping details too
+      payment_intent_data: {
+        shipping: {
+          name: buyer.fullName,
+          phone: buyer.contactNumber || undefined,
+          address: {
+            line1: buyer.address1,
+            line2: buyer.address2 || undefined,
+            city: buyer.suburb,
+            state: buyer.stateCode,
+            postal_code: buyer.postCode,
+            country: "AU",
+          },
+        },
+      },
+
       // allow_promotion_codes: true,
       line_items,
       metadata: {
