@@ -3,8 +3,8 @@ import { useCart } from "@/app/shop/ui/cart/CartContext";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
-import Row from "./Row";
-import SummaryRow from "./SummaryRow";
+import Row from "./order-summary/Row";
+import SummaryRow from "./order-summary/SummaryRow";
 
 const OrderSummary = () => {
   const { items, subtotal } = useCart();
@@ -24,10 +24,23 @@ const OrderSummary = () => {
   const gst = subtotal * GST_RATE;
   const total = subtotal + gst;
   return (
-    <section aria-labelledby="order-summary">
+    <div aria-labelledby="order-summary" className="space-y-3">
       <Header as="h2" size="xs" id="order-summary">
         Order Summary
       </Header>
+      <section
+        aria-labelledby="totals"
+        className="rounded-md border border-gray-200 p-4"
+      >
+        <Header as="h3" size="xs">
+          Totals
+        </Header>
+        <div className="flex flex-col items-end gap-2">
+          <Row label="Sub-total" value={`$${subtotal.toFixed(2)}`} />
+          <Row label="GST:" value={`$${gst.toFixed(2)}`} />
+          <Row label="Total:" value={`$${total.toFixed(2)}`} bold />
+        </div>
+      </section>
 
       <div className="overflow-x-auto rounded-md border border-gray-200">
         <table className="min-w-full text-sm">
@@ -47,21 +60,7 @@ const OrderSummary = () => {
           </tbody>
         </table>
       </div>
-
-      <section
-        aria-labelledby="totals"
-        className="rounded-md border border-gray-200 p-4"
-      >
-        <Header as="h3" size="xs">
-          Totals
-        </Header>
-        <div className="flex flex-col items-end gap-2">
-          <Row label="Sub-total" value={`$${subtotal.toFixed(2)}`} />
-          <Row label="GST:" value={`$${gst.toFixed(2)}`} />
-          <Row label="Total:" value={`$${total.toFixed(2)}`} bold />
-        </div>
-      </section>
-    </section>
+    </div>
   );
 };
 
