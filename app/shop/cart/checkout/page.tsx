@@ -11,6 +11,7 @@ import {
   CONTACT_KEY,
   emptyAddress,
   emptyContact,
+  isAddressComplete,
   isNonEmpty,
   isPostcode,
   postalLabelFromFull,
@@ -21,6 +22,9 @@ import GuestCheckout from "./ui/GuestCheckout";
 import OrderSummary from "./ui/OrderSummary";
 import ShippingDetails from "./ui/ShippingDetails";
 import SocialAccount from "./ui/SocialAccount";
+import StepCard from "./ui/StepCard";
+
+type Step = "email" | "shipping" | "pay";
 
 export default function CheckoutPage() {
   const [activeMethod, setActiveMethod] = useState<string | null>(null);
@@ -29,6 +33,8 @@ export default function CheckoutPage() {
     useState<FullAddress>(emptyAddress);
   const [summaryContact, setSummaryContact] = useState<Contact>(emptyContact);
   const [hideShipping, setHideShipping] = useState(false);
+
+  const [currentStep, setCurrentStep] = useState<Step>("email");
 
   // Hydrate shipping summary + decide whether to hide shipping form
   useEffect(() => {
@@ -80,7 +86,8 @@ export default function CheckoutPage() {
       localStorage.removeItem("checkoutEmail");
     } catch {}
     setCheckoutEmail(null);
-    setActiveMethod("guest");
+    setActiveMethod(null);
+    setCurrentStep("email");
   };
 
   return (
@@ -105,106 +112,118 @@ export default function CheckoutPage() {
       <div className="grid gap-8 md:grid-cols-[1fr_1fr] items-start">
         {/* LEFT column */}
         <div className="space-y-5">
-          {/* Email */}
-          <section className="space-y-1">
-            <div className="flex items-center justify-between">
-              <Header as="h2" size="sm">
-                Email
-              </Header>
-              {checkoutEmail && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onEditEmail}
-                  aria-label="Edit email"
-                >
-                  Edit
-                </Button>
-              )}
-            </div>
-            {checkoutEmail && (
-              <div className="rounded-md border border-gray-200 px-4 py-5">
-                <P className="text-gray-600">
+          {/* Step 1: Email */}
+
+          <StepCard
+            title="Email"
+            expanded={currentStep === "email"}
+            onEdit={onEditEmail} // <- clears stored email & reopens the form
+            canEdit={!!checkoutEmail} // <- only show Edit when we have an email
+            summary={
+              checkoutEmail ? (
+                <P className="mb-0">
                   You are ordering as:{" "}
                   <span className="font-semibold">{checkoutEmail}</span>
                 </P>
+              ) : (
+                <P className="text-gray-500">No email provided yet.</P>
+              )
+            }
+          >
+            {!checkoutEmail ? (
+              // METHODS PANEL (same content/structure as your original snippet)
+              <section
+                aria-labelledby="how-to-continue"
+                className="rounded-md border border-gray-200 p-4"
+              >
+                <Header
+                  as="h3"
+                  size="xs"
+                  id="how-to-continue"
+                  className="text-gray-600"
+                >
+                  Your preferred methods to checkout
+                </Header>
+
+                <div className="mt-3 space-y-3">
+                  {(!activeMethod || activeMethod === "guest") && (
+                    <GuestCheckout
+                      setActiveMethod={setActiveMethod}
+                      onEmailSaved={(email) => {
+                        setCheckoutEmail(email);
+                        setCurrentStep("shipping"); // advance to step 2
+                      }}
+                    />
+                  )}
+
+                  {!activeMethod && (
+                    <>
+                      <SocialAccount />
+                      <Button
+                        variant="outline"
+                        fullWidth
+                        onClick={() => setActiveMethod("guest")}
+                      >
+                        Continue with Email
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </section>
+            ) : (
+              // WHEN EMAIL EXISTS & STEP IS OPEN
+              <div className="rounded-md border border-gray-200 px-4 py-4">
+                <P className="text-gray-700 mb-0">
+                  You are ordering as:{" "}
+                  <span className="font-semibold">{checkoutEmail}</span>
+                </P>
+                <div className="mt-3">
+                  <Button onClick={() => setCurrentStep("shipping")}>
+                    Continue to Shipping
+                  </Button>
+                </div>
               </div>
             )}
-          </section>
+          </StepCard>
 
-          {/* Methods (hidden once email chosen) */}
-          {!checkoutEmail && (
-            <section
-              aria-labelledby="how-to-continue"
-              className="rounded-md border border-gray-200 p-4"
-            >
-              <Header
-                as="h3"
-                size="xs"
-                id="how-to-continue"
-                className="text-gray-600"
-              >
-                Your preferred methods to checkout
-              </Header>
-              <div className="mt-3 space-y-3">
-                {(!activeMethod || activeMethod === "guest") && (
-                  <GuestCheckout
-                    setActiveMethod={setActiveMethod}
-                    onEmailSaved={(email) => setCheckoutEmail(email)}
-                  />
-                )}
-                {!activeMethod && (
-                  <>
-                    <SocialAccount />
-                    <Button variant="outline" fullWidth>
-                      Continue with Email
-                    </Button>
-                  </>
-                )}
-              </div>
-            </section>
-          )}
-
-          {/* Shipping */}
-          <section className="space-y-1">
-            <div className="flex items-center justify-between">
-              <Header as="h2" size="sm">
-                Shipping Details
-              </Header>
-              {checkoutEmail && hideShipping && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setHideShipping(false)}
-                >
-                  Edit
-                </Button>
-              )}
-            </div>
-
-            {checkoutEmail &&
-              (hideShipping ? (
-                <section className="rounded-md border border-gray-200 p-4 space-y-2">
-                  <P>
+          <StepCard
+            title="Shipping Details"
+            expanded={currentStep === "shipping"}
+            onEdit={() => setCurrentStep("shipping")}
+            canEdit={isAddressComplete(summaryAddress)} // hide Edit until it’s complete
+            summary={
+              isAddressComplete(summaryAddress) ? (
+                <div className="space-y-1 text-sm">
+                  <p className="mb-0">
                     <span className="font-semibold">Name: </span>
-                    {summaryContact.fullName}
-                  </P>
-                  <P>
+                    {summaryContact.fullName || "—"}
+                  </p>
+                  <p className="mb-0">
                     <span className="font-semibold">Contact: </span>
-                    {summaryContact.phone}
-                  </P>
-                  <P>
+                    {summaryContact.phone || "—"}
+                  </p>
+                  <p className="mb-0">
                     <span className="font-semibold">Address: </span>
                     {postalLabelFromFull(summaryAddress)}
                     {summaryAddress.address2
                       ? `, ${summaryAddress.address2}`
                       : ""}
-                  </P>
-                </section>
+                  </p>
+                </div>
               ) : (
-                <ShippingDetails onContinue={handleShippingContinue} />
-              ))}
-          </section>
+                <p className="text-gray-500">No shipping address yet.</p>
+              )
+            }
+          >
+            <ShippingDetails
+              onContinue={() => {
+                // persist, update your summary state as you already do…
+                handleShippingContinue();
+                // then jump to next step
+                setCurrentStep("pay");
+              }}
+            />
+          </StepCard>
 
           {/* Payment */}
           <section className="space-y-1">

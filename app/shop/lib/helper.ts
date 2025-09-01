@@ -21,3 +21,14 @@ export const postalLabelFromFull = (a: FullAddress) => {
   const tail = [suburb, state, a.postcode].filter(Boolean).join(" ").trim();
   return a.address && tail ? `${a.address}, ${tail}` : a.address || "";
 };
+
+
+export function isAddressComplete(a: FullAddress) {
+  const stateLike = (a.stateCode || a.state || "").trim();
+  return (
+    isNonEmpty(a.address) &&
+    isNonEmpty(a.suburb) &&
+    isNonEmpty(stateLike) &&
+    isPostcode(a.postcode)
+  );
+}

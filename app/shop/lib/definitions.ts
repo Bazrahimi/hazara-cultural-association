@@ -31,3 +31,4 @@ export type FullAddress = Pick<
 >;
 
 export type Contact = { fullName:string, phone: string };
+
