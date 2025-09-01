@@ -26,10 +26,12 @@ export type CheckoutState = {
 };
 
 /** Detect the special error that Next throws for redirects */
-function isNextRedirectError(err: unknown): boolean {
-  const d = (err as any)?.digest;
-  // In practice it looks like: 'NEXT_REDIRECT;push;https://...'
-  return typeof d === "string" && d.startsWith("NEXT_REDIRECT");
+function isNextRedirectError(err: unknown): err is { digest: string } {
+  if (typeof err !== "object" || err === null) return false;
+  const maybe = err as { digest?: unknown };
+  return (
+    typeof maybe.digest === "string" && maybe.digest.startsWith("NEXT_REDIRECT")
+  );
 }
 
 export async function createCheckoutSession(
@@ -165,12 +167,10 @@ export async function createCheckoutSession(
     }
 
     // keep redirect LAST (this throws to perform navigation)
-    redirect(session.url);
+    redirect(session.url); // throws
   } catch (err) {
-    // If this was the expected redirect throw, rethrow it so Next can handle it
-    if (isNextRedirectError(err)) throw err;
-
+    if (isNextRedirectError(err)) throw err; // let Next handle it
     console.error("createCheckoutSession error:", err);
- 
+    return { ok: false, message: (err as Error).message ?? "Unexpected error" };
   }
 }
