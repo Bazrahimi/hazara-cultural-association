@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { decrypt } from "../lib/session";
+import { decrypt } from "../../lib/session";
 
 export const metadata: Metadata = {
   title: "Login | Hazara Cultural Association",

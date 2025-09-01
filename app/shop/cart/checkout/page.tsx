@@ -158,7 +158,10 @@ export default function CheckoutPage() {
 
                   {!activeMethod && (
                     <>
-                      <SocialAccount />
+                      <SocialAccount onEmailSaved = {(email) => {
+                        setCheckoutEmail(email);
+                        setActiveMethod(null);
+                      }} />
                       <Button
                         variant="outline"
                         fullWidth

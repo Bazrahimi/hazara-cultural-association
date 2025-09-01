@@ -1,10 +1,14 @@
 "use client";
 import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
-import { auth } from "../lib/action";
-import { ActionButton, FormErrorMessage } from "../ui/global/clientComponent";
-import { Input } from "../ui/global/components";
-import { Header } from "../ui/global/Header";
+import { auth } from "../../lib/action";
+import { Button } from "../../ui/global/components";
+import {
+  ActionButton,
+  FormErrorMessage,
+} from "../../ui/global/clientComponent";
+import { Input } from "../../ui/global/components";
+import { Header } from "../../ui/global/Header";
 
 const LoginPage = () => {
   const [state, formAction, isPending] = useActionState(auth, undefined);
@@ -57,7 +61,9 @@ const LoginPage = () => {
 
           <FormErrorMessage message={state?.message} />
         </form>
+              <Button fullWidth variant="outline" as="link" href="/u/sign-up" className="mt-5">New to HCA, Create account</Button>
       </div>
+
     </div>
   );
 };
