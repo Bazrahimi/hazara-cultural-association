@@ -1,11 +1,9 @@
 "use server";
 
 import { sql } from "@/app/lib/db"; // must return { rows: T[] }
-import bcrypt from "bcrypt";         // or see note below for bcryptjs
-import {
-  SignupStep1Schema,
-  type SignupStep1State,
-} from "./schema";
+import bcrypt from "bcrypt"; // or see note below for bcryptjs
+import { SignupStep1Schema, type SignupStep1State } from "./schema";
+import { issueVerificationCode } from "./verification";
 
 /**
  * Step 1 of signup: validate email/password, ensure email is free,
@@ -60,18 +58,18 @@ export async function signupStep1(
 
     // Adjust column names to your schema
     const inserted = await sql<{ id: string }[]>`
-      INSERT INTO users (email, hashed_password)
+      INSERT INTO users (email, password)
       VALUES (${email}, ${hashedPassword})
       RETURNING id;
     `;
 
-    const userId = inserted[0]?.id;
+    const userId = Number(inserted[0]?.id);
 
+    const sent = await issueVerificationCode({ userId, email });
     return {
       ok: true,
       message: "Account created. Continue to the next step.",
       data: { email },
-
     };
   } catch (err) {
     console.error("signupStep1 error:", err);

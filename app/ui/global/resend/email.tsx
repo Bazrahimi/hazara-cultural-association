@@ -1,10 +1,8 @@
 "use server";
 import type { QuickEnquiry } from "@/app/lib/definitions";
-import { Resend } from "resend";
+import { resend, FROM_EMAIL } from "@/app/u/ui/resend/email";
 import EnquiryConfirmation from "./NewEnquiry";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const fromEmail = "Hazara Cultural Association <no_reply@hazara.org.au>";
 const toEmail = "info@hazara.org.au";
 
 import NewEnquiryAdmin from "./NewEnquiry";
@@ -31,7 +29,7 @@ export async function sendUserConfirmationEmail(
   queryLabel: string
 ) {
   return resend.emails.send({
-    from: fromEmail,
+    from: FROM_EMAIL,
     to: [data.email], // user receives copy/confirmation
     replyTo: toEmail, // replies from user go to your inbox
     subject: `We’ve received your enquiry – ${data.fullName}`,
