@@ -1,16 +1,17 @@
 // app/u/signup/page.tsx (or wherever this lives)
 "use client";
 
-import { signup } from "@/app/lib/action";
 import { Header } from "@/app/ui/global/Header";
+import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
-import { useActionState } from "react";
 import Link from "next/link";
+import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
+import { signupStep1 } from "../lib/action";
 
 export default function Page() {
-  const [state, formAction, isPending] = useActionState(signup, undefined);
+  const [state, formAction, isPending] = useActionState(signupStep1, undefined);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
@@ -26,7 +27,7 @@ export default function Page() {
               label="Email address"
               placeholder="Enter your email address"
               type="email"
-              defaultValue={state?.email}
+              defaultValue={state?.data?.email}
               Icon={MdEmail}
               error={state?.errors?.email}
               required
@@ -36,19 +37,21 @@ export default function Page() {
               label="Password"
               placeholder="Set your password"
               type="password"
-              defaultValue={state?.password}
+              defaultValue={state?.data?.password}
               Icon={MdPassword}
               error={state?.errors?.password}
               required
             />
           </div>
 
-          <Button type="submit" fullWidth disabled={isPending}>
+          <ActionButton type="submit" fullWidth disabled={isPending}>
             {isPending ? "Creating account…" : "Continue"}
-          </Button>
+          </ActionButton>
 
           {state?.message && (
-            <P className={`text-center text-sm ${state.ok ? "text-green-700" : "text-red-600"}`}>
+            <P
+              className={`text-center text-sm ${state.ok ? "text-green-700" : "text-red-600"}`}
+            >
               {state.message}
             </P>
           )}
