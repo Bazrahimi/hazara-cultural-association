@@ -210,13 +210,13 @@ export default function CheckoutPage() {
           </section>
 
           <section className="space-y-1">
-            <div className="flex items-center justify-between">
+            <div >
               <Header as="h2" size="sm">
                 Proceed with Payment
               </Header>
               {checkoutEmail && (
                 hideShipping && (
-                  <Button>
+                  <Button fullWidth>
                     Pay
                   </Button>
                 )
