@@ -5,7 +5,6 @@ import { stripe } from "@/app/lib/stripe";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe";
 
-// ✅ import your schemas & helper types
 import {
   BuyerSchema,
   CartSchema,
@@ -15,10 +14,10 @@ import {
   type FieldErrors,
 } from "@/app/shop/lib/schema";
 
-/* ---------- util ---------- */
+/* utils */
 const toAUDCents = (n: number) => Math.max(0, Math.round(n * 100));
 
-/* ---------- action state ---------- */
+/* action state */
 export type CheckoutState = {
   ok: boolean;
   message?: string;
@@ -26,24 +25,25 @@ export type CheckoutState = {
   cartError?: string;
 };
 
+/** Detect the special error that Next throws for redirects */
+function isNextRedirectError(err: unknown): boolean {
+  const d = (err as any)?.digest;
+  // In practice it looks like: 'NEXT_REDIRECT;push;https://...'
+  return typeof d === "string" && d.startsWith("NEXT_REDIRECT");
+}
+
 export async function createCheckoutSession(
   _prev: CheckoutState | undefined,
   formData: FormData
-): Promise<CheckoutState | never> {
+): Promise<CheckoutState | never | undefined> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    if (!baseUrl) {
-      return { ok: false, message: "NEXT_PUBLIC_BASE_URL is not set." };
-    }
-
-    // ---------- parse incoming form fields ----------
+    /* parse form fields */
     const rawBuyer = {
       fullName: String(formData.get("fullName") ?? ""),
       email: String(formData.get("email") ?? ""),
       contactNumber:
         String(formData.get("contactNumber") ?? formData.get("phone") ?? "") ||
         undefined,
-      // support old/new names
       address1: String(
         formData.get("address1") ?? formData.get("address") ?? ""
       ),
@@ -63,7 +63,7 @@ export async function createCheckoutSession(
       return { ok: false, message: "Invalid items payload." };
     }
 
-    // ---------- validate with Zod ----------
+    /* validate */
     const buyerParsed = BuyerSchema.safeParse(rawBuyer);
     if (!buyerParsed.success) {
       const fe = buyerParsed.error.flatten().fieldErrors as FieldErrors<Buyer>;
@@ -76,19 +76,22 @@ export async function createCheckoutSession(
 
     const cartParsed = CartSchema.safeParse(cart);
     if (!cartParsed.success) {
-      return {
-        ok: false,
-        message: cartParsed.error?.message ?? "Cart is invalid.",
-        cartError: cartParsed.error?.message ?? "Cart is invalid.",
-      };
+      const msg = cartParsed.error.errors[0]?.message ?? "Cart is invalid.";
+      return { ok: false, message: msg, cartError: msg };
     }
 
     const buyer = buyerParsed.data;
     const validCart = cartParsed.data;
 
-   
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    if (!baseUrl) {
+      return { ok: false, message: "NEXT_PUBLIC_BASE_URL is not set." };
+    }
 
-    // ---------- Stripe objects ----------
+    const successUrl = `${baseUrl}/shop/cart/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${baseUrl}/shop/cart/checkout?canceled=1`;
+
+    /* stripe objects */
     const address: Stripe.AddressParam = {
       line1: buyer.address1,
       line2: buyer.address2,
@@ -98,7 +101,7 @@ export async function createCheckoutSession(
       country: "AU",
     };
 
-    // Upsert customer
+    // upsert customer
     const found = await stripe.customers.list({ email: buyer.email, limit: 1 });
     const customer =
       found.data[0] ??
@@ -117,16 +120,18 @@ export async function createCheckoutSession(
       });
     }
 
-    // Line items
-    const line_items = validCart.map((it: CartItem) => ({
-      quantity: it.qty,
-      price_data: {
-        currency: "aud",
-        product_data: { name: it.name },
-        unit_amount: toAUDCents(it.price),
-      },
-    }));
+    // line items
+    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] =
+      validCart.map((it: CartItem) => ({
+        quantity: it.qty,
+        price_data: {
+          currency: "aud",
+          product_data: { name: it.name },
+          unit_amount: toAUDCents(it.price),
+        },
+      }));
 
+    // session
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       customer: customer.id,
@@ -135,8 +140,6 @@ export async function createCheckoutSession(
       customer_update: { name: "auto", address: "auto" },
       allow_promotion_codes: true,
       line_items,
-
-      // Save details for back-office/webhook reconciliation
       metadata: {
         fullName: buyer.fullName,
         email: buyer.email,
@@ -150,18 +153,24 @@ export async function createCheckoutSession(
           validCart.map(({ id, qty, price }) => ({ id, qty, price }))
         ),
       },
-
-      success_url: `${baseUrl}/shop/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/shop/checkout?canceled=1`,
+      success_url: successUrl,
+      cancel_url: cancelUrl,
     });
 
     if (!session.url) {
-      return { ok: false, message: "Failed to create checkout session." };
+      return {
+        ok: false,
+        message: "Unable to start payment session. Please try again.",
+      };
     }
 
+    // keep redirect LAST (this throws to perform navigation)
     redirect(session.url);
   } catch (err) {
+    // If this was the expected redirect throw, rethrow it so Next can handle it
+    if (isNextRedirectError(err)) throw err;
+
     console.error("createCheckoutSession error:", err);
-    // return { ok: false, message: err?.message ?? "Unexpected error" };
+ 
   }
 }
