@@ -76,7 +76,7 @@ export async function createCheckoutSession(
 
     const cartParsed = CartSchema.safeParse(cart);
     if (!cartParsed.success) {
-      const msg = cartParsed.error.errors[0]?.message ?? "Cart is invalid.";
+      const msg = cartParsed.error?.message ?? "Cart is invalid.";
       return { ok: false, message: msg, cartError: msg };
     }
 
