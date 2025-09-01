@@ -293,7 +293,7 @@ export default async function CheckoutSuccessPage({
           <Link href="/shop" className="inline-flex">
             <Button>Continue shopping</Button>
           </Link>
-          <Link href="/shop/checkout" className="inline-flex">
+          <Link href="/shop/cart/checkout" className="inline-flex">
             <Button variant="outline">Go to checkout</Button>
           </Link>
         </div>
