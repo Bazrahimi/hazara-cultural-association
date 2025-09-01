@@ -173,7 +173,7 @@ const Footer = () => {
           <ul className={CN.list}>
             <li className={CN.Item}>
               <RiAdminLine className={CN.Icon} aria-hidden="true" />
-              <Link href="/login" className={CN.link}>
+              <Link href="/u/login" className={CN.link}>
                 Admin Login
               </Link>
             </li>

@@ -5,6 +5,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { HiCalendar, HiInformationCircle } from "react-icons/hi";
 import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
 import CartIcon from "./shop/ui/cart/CartBadge";
+import { CiUser } from "react-icons/ci";
 
 // Reusable styles
 const navLinkBase =
@@ -57,15 +58,18 @@ const NavBar = () => {
           <MdOutlineEmail className={navIcon} />
           <span className="hidden sm:inline">Contact</span>
         </Link>
+        <Link href="/donate" className={navLinkBase} aria-label="Donate">
+          <MdVolunteerActivism className={navIcon} />
+          <span className="hidden sm:inline">Donate</span>
+        </Link>
 
         <CartIcon />
       </div>
 
       {/* Right: Donate */}
-      <div className="flex items-center gap-4">
-        <Link href="/donate" className={donateBtn} aria-label="Donate">
-          <span className="hidden sm:inline">Donate</span>
-          <MdVolunteerActivism className="sm:hidden text-xl" />
+      <div className="flex items-center gap-2">
+        <Link href="/account" className={donateBtn} aria-label="Account">
+          <CiUser className="text-lg" /> 
         </Link>
       </div>
     </nav>
