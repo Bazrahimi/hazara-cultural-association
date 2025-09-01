@@ -86,9 +86,7 @@ export async function createCheckoutSession(
     const buyer = buyerParsed.data;
     const validCart = cartParsed.data;
 
-    console.log(buyer, validCart)
-
-    return 
+   
 
     // ---------- Stripe objects ----------
     const address: Stripe.AddressParam = {
@@ -162,8 +160,8 @@ export async function createCheckoutSession(
     }
 
     redirect(session.url);
-  } catch (err: any) {
+  } catch (err) {
     console.error("createCheckoutSession error:", err);
-    return { ok: false, message: err?.message ?? "Unexpected error" };
+    // return { ok: false, message: err?.message ?? "Unexpected error" };
   }
 }
