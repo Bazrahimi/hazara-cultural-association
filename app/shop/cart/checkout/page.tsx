@@ -17,6 +17,8 @@ import {
   postalLabelFromFull,
 } from "../../lib/helper";
 
+import { useCart } from "../../ui/cart/CartContext";
+import CheckoutPayForm from "./ui/CheckoutPayForm";
 import GuestCheckout from "./ui/GuestCheckout";
 import OrderSummary from "./ui/OrderSummary";
 import ShippingDetails from "./ui/ShippingDetails";
@@ -29,6 +31,7 @@ export default function CheckoutPage() {
     useState<FullAddress>(emptyAddress);
   const [summaryContact, setSummaryContact] = useState<Contact>(emptyContact);
   const [hideShipping, setHideShipping] = useState(false);
+  const { items } = useCart();
 
   // Hydrate shipping summary + decide whether to hide shipping form
   useEffect(() => {
@@ -82,6 +85,18 @@ export default function CheckoutPage() {
     setCheckoutEmail(null);
     setActiveMethod("guest");
   };
+
+  const canPay =
+    !!checkoutEmail &&
+    hideShipping &&
+    items.length > 0 &&
+    summaryContact.firstName &&
+    summaryContact.lastName &&
+    summaryContact.phone &&
+    summaryAddress.address &&
+    summaryAddress.suburb &&
+    (summaryAddress.stateCode || summaryAddress.state) &&
+    /^\d{4}$/.test(summaryAddress.postcode ?? "");
 
   return (
     <div className="mx-auto max-w-5xl p-6 md:p-8 space-y-8">
@@ -210,16 +225,17 @@ export default function CheckoutPage() {
           </section>
 
           <section className="space-y-1">
-            <div >
+            <div>
               <Header as="h2" size="sm">
                 Proceed with Payment
               </Header>
-              {checkoutEmail && (
-                hideShipping && (
-                  <Button fullWidth>
-                    Pay
-                  </Button>
-                )
+              {checkoutEmail && hideShipping && (
+                <CheckoutPayForm
+                  email={checkoutEmail}
+                  contact={summaryContact}
+                  address={summaryAddress}
+                  disabled={!canPay}
+                />
               )}
             </div>
           </section>
