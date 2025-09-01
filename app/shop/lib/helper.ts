@@ -11,7 +11,7 @@ export const emptyAddress: FullAddress = {
   stateCode: "",
   postcode: "",
 };
-export const emptyContact: Contact = { firstName: "", lastName: "", phone: "" };
+export const emptyContact: Contact = { fullName: "", phone: "" };
 
 export const isNonEmpty = (s?: string) => !!s && s.trim().length > 0;
 export const isPostcode = (s?: string) => !!s && /^\d{4}$/.test(s);

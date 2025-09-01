@@ -90,8 +90,7 @@ export default function CheckoutPage() {
     !!checkoutEmail &&
     hideShipping &&
     items.length > 0 &&
-    summaryContact.firstName &&
-    summaryContact.lastName &&
+    summaryContact.fullName &&
     summaryContact.phone &&
     summaryAddress.address &&
     summaryAddress.suburb &&
@@ -204,8 +203,8 @@ export default function CheckoutPage() {
               (hideShipping ? (
                 <section className="rounded-md border border-gray-200 p-4 space-y-2">
                   <P>
-                    <span className="font-semibold">Name: </span>
-                    {summaryContact.firstName} {summaryContact.lastName}
+                    <span className="font-semibold">Full Name: </span>
+                    {summaryContact.fullName} 
                   </P>
                   <P>
                     <span className="font-semibold">Contact: </span>

@@ -1,8 +1,10 @@
 // app/shop/ui/ContactFields.tsx
 "use client";
 
-import { Input } from "@/app/ui/global/components";
 import type { Contact } from "@/app/shop/lib/definitions";
+import { Input } from "@/app/ui/global/components";
+import { CiUser } from "react-icons/ci";
+import { IoIosPhonePortrait } from "react-icons/io";
 
 type Props = {
   value: Contact;
@@ -10,38 +12,30 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function ContactFields({ value, onChange, disabled = false }: Props) {
+export default function ContactFields({
+  value,
+  onChange,
+  disabled = false,
+}: Props) {
   return (
     <>
       <Input
-        id="firstName"
-        label="First Name"
-        placeholder="Enter your first name"
+        id="fullName"
+        label="Full name"
+        placeholder="Your full name"
         type="text"
-        autoComplete="given-name"
+        Icon={CiUser}
         required
-        value={value.firstName}
-        onChange={(v) => onChange({ ...value, firstName: v })}
-        inputProps={{ disabled }}
-      />
-
-      <Input
-        id="lastName"
-        label="Last Name"
-        placeholder="Enter your last name"
-        type="text"
-        autoComplete="family-name"
-        required
-        value={value.lastName}
-        onChange={(v) => onChange({ ...value, lastName: v })}
-        inputProps={{ disabled }}
+        value={value.fullName}
+        onChange={(v) => onChange({ ...value, fullName: v })}
+        inputProps={{ autoComplete: "name" }}
       />
 
       <Input
         id="contactNumber"
         label="Contact Number"
         placeholder="Enter your mobile number"
-        autoComplete="tel"
+        Icon={IoIosPhonePortrait}
         type="tel"
         required
         value={value.phone}

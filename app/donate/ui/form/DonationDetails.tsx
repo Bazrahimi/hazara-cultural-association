@@ -26,7 +26,7 @@ export default function DonationDetails({ state, onBack }: Props) {
       <Input
         id="fullName"
         label="Full name"
-        type="text"
+        type="tel"
         placeholder="Your full name"
         Icon={CiUser}
         defaultValue={state?.data?.fullName ?? ""}

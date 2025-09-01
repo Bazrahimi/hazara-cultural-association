@@ -51,8 +51,8 @@ const ShippingDetails = ({ onContinue }: { onContinue: () => void }) => {
   const canContinue = useMemo(() => {
     const stateLike = (fullAddress.stateCode || fullAddress.state || "").trim();
     return (
-      isNonEmpty(contact.firstName) &&
-      isNonEmpty(contact.lastName) &&
+ 
+      isNonEmpty(contact.fullName) &&
       isNonEmpty(contact.phone) &&
       isNonEmpty(fullAddress.address) &&
       isNonEmpty(fullAddress.suburb) &&

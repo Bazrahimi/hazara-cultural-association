@@ -30,4 +30,4 @@ export type FullAddress = Pick<
   | "postcode"
 >;
 
-export type Contact = { firstName: string; lastName: string; phone: string };
+export type Contact = { fullName:string, phone: string };

@@ -119,7 +119,7 @@ type Props = {
 };
 
 const AuAddressAutocomplete = ({
-  label = "Address",
+  label = "Search you address",
   placeholder = "Start typing your address (AU only)…",
   defaultValue = "",
   onSelect,
