@@ -92,7 +92,7 @@ export async function submitDonation(
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
     customer: customer.id, // ✅ ties to customer (name/address on receipt)
-    billing_address_collection: "required", // ✅ ask/confirm billing address
+    // billing_address_collection: "required", 
     customer_update: { name: "auto", address: "auto" },
 
     payment_method_types: ["card"],

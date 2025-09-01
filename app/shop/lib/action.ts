@@ -136,9 +136,9 @@ export async function createCheckoutSession(
       mode: "payment",
       customer: customer.id,
       payment_method_types: ["card"],
-      billing_address_collection: "required",
+      // billing_address_collection: "required",
       customer_update: { name: "auto", address: "auto" },
-      allow_promotion_codes: true,
+      // allow_promotion_codes: true,
       line_items,
       metadata: {
         fullName: buyer.fullName,
