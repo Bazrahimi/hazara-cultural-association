@@ -16,7 +16,6 @@ import {
   postalLabelFromFull,
 } from "../../lib/helper";
 
-import { useCart } from "../../ui/cart/CartContext";
 import CheckoutPayForm from "./ui/CheckoutPayForm";
 import GuestCheckout from "./ui/GuestCheckout";
 import OrderSummary from "./ui/OrderSummary";
@@ -30,7 +29,6 @@ export default function CheckoutPage() {
     useState<FullAddress>(emptyAddress);
   const [summaryContact, setSummaryContact] = useState<Contact>(emptyContact);
   const [hideShipping, setHideShipping] = useState(false);
-  const { items } = useCart();
 
   // Hydrate shipping summary + decide whether to hide shipping form
   useEffect(() => {
@@ -84,20 +82,6 @@ export default function CheckoutPage() {
     setCheckoutEmail(null);
     setActiveMethod("guest");
   };
-
-  // ✅ compute canPay using first & last (your stored Contact shape)
-  const hasName =
-    isNonEmpty(summaryContact.firstName) && isNonEmpty(summaryContact.lastName);
-  const canPay =
-    !!checkoutEmail &&
-    hideShipping &&
-    items.length > 0 &&
-    hasName &&
-    isNonEmpty(summaryContact.phone) &&
-    isNonEmpty(summaryAddress.address) &&
-    isNonEmpty(summaryAddress.suburb) &&
-    isNonEmpty(summaryAddress.stateCode || summaryAddress.state) &&
-    isPostcode(summaryAddress.postcode);
 
   return (
     <div className="mx-auto max-w-5xl p-6 md:p-8 space-y-8">
@@ -203,7 +187,7 @@ export default function CheckoutPage() {
                 <section className="rounded-md border border-gray-200 p-4 space-y-2">
                   <P>
                     <span className="font-semibold">Name: </span>
-                    {summaryContact.fullName} 
+                    {summaryContact.fullName}
                   </P>
                   <P>
                     <span className="font-semibold">Contact: </span>

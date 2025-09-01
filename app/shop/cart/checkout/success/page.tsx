@@ -18,7 +18,20 @@ const formatCurrency = (amount?: number | null, currency?: string | null) => {
   }).format(amount / 100);
 };
 
+type LineItemWithTotals = Stripe.LineItem & {
+  amount_total?: number | null;
+  amount_subtotal?: number | null;
+};
+
 type SearchParamsShape = { session_id?: string | string[] };
+
+/** Type guard: exclude DeletedCustomer so TS knows email/name/address exist */
+function asActiveCustomer(
+  c: Stripe.Customer | Stripe.DeletedCustomer | null | undefined
+): Stripe.Customer | null {
+  if (!c) return null;
+  return "deleted" in c && c.deleted ? null : (c as Stripe.Customer);
+}
 
 // Simple helper to render a postal-style address block
 function AddressBlock({
@@ -63,14 +76,12 @@ function AddressBlock({
 export default async function CheckoutSuccessPage({
   searchParams,
 }: {
-  // Next.js 15: searchParams is a Promise
-  searchParams: Promise<SearchParamsShape>;
+  searchParams: Promise<SearchParamsShape>; // Next.js 15
 }) {
   const sp = await searchParams;
   const rawId = sp?.session_id;
   const sessionId = Array.isArray(rawId) ? rawId[0] : rawId;
 
-  // Missing session id case
   if (!sessionId) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
@@ -92,7 +103,7 @@ export default async function CheckoutSuccessPage({
     );
   }
 
-  // Defaults for safe rendering if retrieval fails
+  // Defaults
   let email = "";
   let name = "";
   let amountText = "";
@@ -101,7 +112,7 @@ export default async function CheckoutSuccessPage({
   let items: Stripe.ApiList<Stripe.LineItem>["data"] = [];
   let paymentStatus: Stripe.Checkout.Session.PaymentStatus | undefined;
 
-  // NEW: addresses
+  // Addresses
   let billingAddress: Stripe.Address | null | undefined;
   let shippingName: string | null | undefined;
   let shippingPhone: string | null | undefined;
@@ -120,28 +131,23 @@ export default async function CheckoutSuccessPage({
     amountText = formatCurrency(session.amount_total, session.currency);
     paymentStatus = session.payment_status;
 
+    const customerObj =
+      typeof session.customer === "object"
+        ? asActiveCustomer(session.customer)
+        : null;
+
     // Identity
     email =
       session.customer_details?.email ||
-      (typeof session.customer === "object"
-        ? (session.customer?.email ?? "")
-        : "") ||
+      customerObj?.email ||
       session.customer_email ||
       "";
 
-    name =
-      session.customer_details?.name ||
-      (typeof session.customer === "object"
-        ? (session.customer?.name ?? "")
-        : "") ||
-      "";
+    name = session.customer_details?.name || customerObj?.name || "";
 
-    // Billing address: prefer customer_details.address, fall back to Customer.address
+    // Billing address: prefer customer_details.address, fallback to Customer.address
     billingAddress =
-      session.customer_details?.address ||
-      (typeof session.customer === "object"
-        ? session.customer?.address
-        : null);
+      session.customer_details?.address || customerObj?.address || null;
 
     // Receipt
     const pi = session.payment_intent as Stripe.PaymentIntent | null;
@@ -151,7 +157,7 @@ export default async function CheckoutSuccessPage({
         : null;
     receiptUrl = latestCharge?.receipt_url ?? undefined;
 
-    // Shipping: prefer PaymentIntent.shipping, fall back to Charge.shipping
+    // Shipping: prefer PaymentIntent.shipping, then Charge.shipping
     if (pi?.shipping) {
       shippingName = pi.shipping.name;
       shippingPhone = pi.shipping.phone;
@@ -165,14 +171,13 @@ export default async function CheckoutSuccessPage({
     // Items
     items = session.line_items?.data ?? [];
   } catch (err) {
-    // Still render a generic success UI below
     console.error("Checkout success retrieval failed:", err);
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-3xl rounded-2xl border border-slate-200 bg-white shadow-xl p-6 sm:p-8">
-        {/* Title + Test badge (hide if you like) */}
+        {/* Title + Test badge */}
         <div className="mb-2 flex items-start justify-between gap-3">
           <Header as="h2" size="md" className="mb-0">
             Thanks for your order! 🎉
@@ -212,7 +217,7 @@ export default async function CheckoutSuccessPage({
             <div className="mb-2 text-sm font-semibold text-slate-800">
               Billing Address
             </div>
-            <AddressBlock name={name} phone={undefined} address={billingAddress ?? null} />
+            <AddressBlock name={name} address={billingAddress ?? null} />
           </div>
 
           <div className="rounded-lg border border-slate-200 p-4">
@@ -228,55 +233,39 @@ export default async function CheckoutSuccessPage({
         </div>
 
         {/* Items */}
-        {!!items.length && (
-          <div className="mt-6 rounded-lg border border-slate-200">
-            <div className="border-b border-slate-200 px-4 py-3 font-semibold">
-              Order Items
-            </div>
-            <ul className="divide-y divide-slate-200">
-              {items.map((it) => {
-                const p = it.price;
-                const productName =
-                  (p?.product as Stripe.Product | undefined)?.name ||
-                  it.description ||
-                  "Item";
-                const unitText = formatCurrency(
-                  p?.unit_amount ?? null,
-                  currency
-                );
-                const lineText = formatCurrency(
-                  // Stripe returns amount_total on line items (cents)
-                  (it as any).amount_total ??
-                    (p?.unit_amount ?? 0) * (it.quantity ?? 1),
-                  currency
-                );
+        {items.map((it) => {
+          const p = it.price;
+          const productName =
+            (p?.product as Stripe.Product | undefined)?.name ||
+            it.description ||
+            "Item";
 
-                return (
-                  <li
-                    key={it.id}
-                    className="px-4 py-3 text-sm flex items-center justify-between"
-                  >
-                    <div className="min-w-0">
-                      <div className="truncate">{productName}</div>
-                      <div className="text-xs text-slate-500">
-                        Qty {it.quantity} @ {unitText || "—"}
-                      </div>
-                    </div>
-                    <div className="ml-4 font-medium">{lineText || "—"}</div>
-                  </li>
-                );
-              })}
-            </ul>
+          const unitText = formatCurrency(p?.unit_amount ?? null, currency);
 
-            {/* Total */}
-            <div className="flex items-center justify-between px-4 py-3">
-              <span className="text-sm text-slate-600">Total</span>
-              <span className="text-base font-semibold">
-                {amountText || "—"}
-              </span>
-            </div>
-          </div>
-        )}
+          // ✅ no `any` — narrow to a type that includes the optional Stripe fields
+          const li = it as LineItemWithTotals;
+          const lineAmount =
+            typeof li.amount_total === "number"
+              ? li.amount_total
+              : (p?.unit_amount ?? 0) * (it.quantity ?? 1);
+
+          const lineText = formatCurrency(lineAmount, currency);
+
+          return (
+            <li
+              key={it.id}
+              className="px-4 py-3 text-sm flex items-center justify-between"
+            >
+              <div className="min-w-0">
+                <div className="truncate">{productName}</div>
+                <div className="text-xs text-slate-500">
+                  Qty {it.quantity} @ {unitText || "—"}
+                </div>
+              </div>
+              <div className="ml-4 font-medium">{lineText || "—"}</div>
+            </li>
+          );
+        })}
 
         {/* Actions */}
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">

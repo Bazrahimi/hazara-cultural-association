@@ -5,9 +5,8 @@ import type { Breadcrumb } from "../lib/definitions";
 import Breadcrumbs from "../ui/global/Breadcrumbs";
 import { Header } from "../ui/global/Header";
 import { P } from "../ui/global/paragraph";
-import ProductCard from "./ui/ProductCard";
 import { Product } from "./lib/definitions";
-import CartBadge from "./ui/cart/CartBadge";
+import ProductCard from "./ui/ProductCard";
 
 const breadcrumbs: Breadcrumb[] = [
   {
@@ -45,7 +44,6 @@ const PRODUCTS: Product[] = [
 export default function ShopPage() {
   return (
     <>
-
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <section className="space-y-8">
         {/* Page header */}
