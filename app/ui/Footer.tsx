@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { BsFillCartFill } from "react-icons/bs";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaTiktok, FaWpforms } from "react-icons/fa6";
 import { HiLocationMarker, HiMail, HiPhone } from "react-icons/hi";
-import { MdDeveloperMode } from "react-icons/md";
-import { RiAdminLine } from "react-icons/ri";
+import { IoIosLogIn } from "react-icons/io";
+import { MdDeveloperMode, MdOutlineJoinInner } from "react-icons/md";
 import { Header } from "./global/Header";
 import { P } from "./global/paragraph";
 
@@ -166,15 +167,27 @@ const Footer = () => {
 
         {/* Administration & Credits */}
 
-        <nav aria-labelledby="admin-credits">
-          <Header as="h4" id="admin-credits" size="sm">
+        <nav aria-labelledby="account">
+          <Header as="h4" id="account" size="sm">
             Administration & Developer Credit
           </Header>
           <ul className={CN.list}>
             <li className={CN.Item}>
-              <RiAdminLine className={CN.Icon} aria-hidden="true" />
+              <IoIosLogIn className={CN.Icon} aria-hidden="true" />
               <Link href="/u/login" className={CN.link}>
-                Admin Login
+                Login
+              </Link>
+            </li>
+            <li className={CN.Item}>
+              <MdOutlineJoinInner className={CN.Icon} aria-hidden="true" />
+              <Link href="/u/sign-up" className={CN.link}>
+                Sign Up
+              </Link>
+            </li>
+            <li className={CN.Item}>
+              <BsFillCartFill className={CN.Icon} aria-hidden="true" />
+              <Link href="/shop/cart" className={CN.link}>
+                My Cart
               </Link>
             </li>
             <li className={CN.Item}>
@@ -223,11 +236,8 @@ const Footer = () => {
 
       {/* Copyright */}
       <div className={CN.copy}>
-        © {new Date().getFullYear()} {ORG.name}. All rights reserved.{" "}
-        <Link href="/login" className={CN.link}>
-          Admin Login
-        </Link>{" "}
-        | Built by{" "}
+        © {new Date().getFullYear()} {ORG.name}. All rights reserved. | Powered
+        by{" "}
         <a
           href="https://github.com/Bazrahimi"
           target="_blank"

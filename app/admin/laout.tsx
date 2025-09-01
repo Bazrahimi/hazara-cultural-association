@@ -15,8 +15,9 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   const session = sessionCookie ? await decrypt(sessionCookie) : null;
 
   if (!session?.isAdmin) {
-    redirect("/login");
+    redirect("/u/login");
   }
+  
   return <>{children}</>;
 };
 

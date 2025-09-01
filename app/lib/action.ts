@@ -22,10 +22,8 @@ export const submitEnquiry = async (
     contactNumber: formData.get("contactNumber") as string,
     queryType: formData.get("queryType"),
     qMessage: formData.get("qMessage") as string,
-    queryLabel: formData.get('queryTypeLabel') as string
+    queryLabel: formData.get("queryTypeLabel") as string,
   };
-
-
 
   const validated = QuickEnquirySchema.safeParse({
     fullName: rawData.fullName,
@@ -54,14 +52,12 @@ export const submitEnquiry = async (
 
   const data = validated.data;
 
- 
   try {
-     await sql<[{ id: number }]>`
+    await sql<[{ id: number }]>`
       INSERT INTO quick_enquiries (full_name, email, contact_number, query_type, message)
       VALUES (${data.fullName}, ${data.email}, ${data.contactNumber || null}, ${data.queryType}, ${data.qMessage})
       RETURNING id
     `;
-
   } catch (err) {
     console.error("Failed to submit the enquiry:", err);
     return {
@@ -74,7 +70,10 @@ export const submitEnquiry = async (
 
   // 2) Send admin + user emails in parallel (non-critical)
   const adminEmailPromise = sendAdminEmail({ ...data }, rawData.queryLabel);
-  const userEmailPromise = sendUserConfirmationEmail({ ...data }, rawData.queryLabel);
+  const userEmailPromise = sendUserConfirmationEmail(
+    { ...data },
+    rawData.queryLabel
+  );
 
   const [adminRes, userRes] = await Promise.allSettled([
     adminEmailPromise,
@@ -107,44 +106,31 @@ export const submitEnquiry = async (
 };
 
 export const auth = async (
-  prevState: AuthState | undefined,
+  _prevState: AuthState | undefined,
   formData: FormData
-) => {
-  const rawEmail = formData.get("email") as string;
-  const rawPassword = formData.get("password") as string;
+): Promise<AuthState | never> => {
+  const rawEmail = String(formData.get("email") ?? "");
+  const rawPassword = String(formData.get("password") ?? "");
 
-  const validated = AuthSchema.safeParse({
+  const parsed = AuthSchema.safeParse({
     email: rawEmail,
     password: rawPassword,
   });
 
-  // if form field invalid, return early
-  if (!validated.success) {
-    const tree = z.treeifyError(validated.error);
-    // Map to your expected fieldErrors shape
-
+  if (!parsed.success) {
+    const fe = parsed.error.flatten().fieldErrors;
     return {
-      email: rawEmail,
-      password: rawPassword,
-      errors: {
-        email: tree.properties?.email?.errors,
-        password: tree.properties?.password?.errors,
-      },
+      ok: false,
+      message: "Please fix the errors above.",
+      data: { email: rawEmail }, // never return password
+      errors: fe as AuthState["errors"], // compatible shape
     };
   }
 
-  // if form field invalid, return early
-  // if (!validated.success) {
-  //   return {
-  //     email: rawEmail,
-  //     password: rawPassword,
-  //     errors: validated.error.flatten().fieldErrors,
-  //   };
-  // }
-
-  const { email, password } = validated.data;
+  const { email, password } = parsed.data;
 
   try {
+    // citext makes this case-insensitive, so direct compare is fine
     const result = await sql<
       { userId: number; hashedPassword: string; isAdmin: boolean }[]
     >`
@@ -154,35 +140,39 @@ export const auth = async (
         is_admin AS "isAdmin" 
       FROM users 
       WHERE email = ${email}
+      LIMIT 1
     `;
     const user = result[0];
 
-    if (!user)
+    if (!user) {
       return {
-        email,
-        password,
+        ok: false,
         message: "No account found with the provided email address.",
+        data: { email },
       };
+    }
 
     const matched = await bcrypt.compare(password, user.hashedPassword);
-
-    if (!matched)
+    if (!matched) {
       return {
-        email,
-        password,
+        ok: false,
         message: "Incorrect password. Please try again.",
+        data: { email },
       };
-    if (user.isAdmin) {
-      await createSession(String(user.userId), user.isAdmin);
     }
+
+    // ✅ Create a session for both admin and non-admin users
+    await createSession(String(user.userId), user.isAdmin);
+
+    // Hand control to Next.js to redirect
+    redirect("/account");
   } catch (error) {
     console.error("Failed to login", error);
     return {
-      email,
-      password,
+      ok: false,
       message:
         "An error occurred while processing your request. Please try again.",
+      data: { email },
     };
   }
-  redirect("/admin");
 };
