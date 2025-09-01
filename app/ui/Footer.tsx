@@ -4,7 +4,7 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaTiktok, FaWpforms } from "react-icons/fa6";
 import { HiLocationMarker, HiMail, HiPhone } from "react-icons/hi";
 import { IoIosLogIn } from "react-icons/io";
-import { MdDeveloperMode, MdOutlineJoinInner } from "react-icons/md";
+import { MdOutlineJoinInner } from "react-icons/md";
 import { Header } from "./global/Header";
 import { P } from "./global/paragraph";
 
@@ -169,7 +169,7 @@ const Footer = () => {
 
         <nav aria-labelledby="account">
           <Header as="h4" id="account" size="sm">
-            Administration & Developer Credit
+            Account
           </Header>
           <ul className={CN.list}>
             <li className={CN.Item}>
@@ -189,17 +189,6 @@ const Footer = () => {
               <Link href="/shop/cart" className={CN.link}>
                 My Cart
               </Link>
-            </li>
-            <li className={CN.Item}>
-              <MdDeveloperMode className={CN.Icon} aria-hidden="true" />
-              <a
-                href="https://github.com/Bazrahimi"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={CN.link}
-              >
-                Baz Rahimi
-              </a>
             </li>
           </ul>
         </nav>

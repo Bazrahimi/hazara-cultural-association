@@ -37,7 +37,7 @@ export default function DonationAmount({
           }}
           className={`w-1/2 border-b-2 py-2 rounded-none ${
             tab === "once"
-              ? "border-blue-600 text-blue-700"
+              ? "border-hca-blue-main text-hca-yellow-main"
               : "border-transparent"
           }`}
         >
@@ -51,7 +51,7 @@ export default function DonationAmount({
           }}
           className={`w-1/2 border-b-2 py-2 rounded-none ${
             tab === "regular"
-              ? "border-blue-600 text-blue-700"
+              ? "border-hca-blue-main text-hca-yellow-main"
               : "border-transparent"
           }`}
         >
