@@ -2,6 +2,8 @@
 
 import { sql } from "@/app/lib/db"; // must return { rows: T[] }
 import bcrypt from "bcrypt"; // or see note below for bcryptjs
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { SignupStep1Schema, type SignupStep1State } from "./schema";
 import { issueVerificationCode } from "./verification";
 
@@ -65,12 +67,26 @@ export async function signupStep1(
 
     const userId = Number(inserted[0]?.id);
 
-    const sent = await issueVerificationCode({ userId, email });
-    return {
-      ok: true,
-      message: "Account created. Continue to the next step.",
-      data: { email },
-    };
+    // set short-lived verify cookie (httpOnly)
+    const jar = await cookies();
+    const maxAge = 10 * 60;
+    jar.set("verify_uid", String(userId), {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: true,
+      path: "/",
+      maxAge,
+    });
+
+    jar.set("verify_email", email, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: true,
+      path: "/",
+      maxAge,
+    });
+
+    await issueVerificationCode({ userId, email });
   } catch (err) {
     console.error("signupStep1 error:", err);
     return {
@@ -79,4 +95,6 @@ export async function signupStep1(
       data: { email },
     };
   }
+
+  redirect("/u/verify");
 }
