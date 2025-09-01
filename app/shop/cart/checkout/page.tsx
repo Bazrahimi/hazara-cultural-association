@@ -104,8 +104,8 @@ export default function CheckoutPage() {
       {/* Main layout: left = methods + shipping, right = sticky summary */}
       <div className="grid gap-8 md:grid-cols-[1fr_1fr] items-start">
         {/* EMAIL (spans both columns on md+) */}
-        <div className="md:col-span-1">
-          <section className="space-y-3">
+        <div className="md:col-span-1 space-y-5">
+          <section className="space-y-1">
             <div className="flex items-center justify-between">
               <Header as="h2" size="sm">
                 Email
@@ -132,8 +132,8 @@ export default function CheckoutPage() {
             )}
           </section>
 
-          {/* LEFT: methods + shipping */}
-          <section className="space-y-6">
+          {/* LEFT: shipping */}
+          <section className="space-y-1">
             {/* Methods panel (hide if email already chosen) */}
             {!checkoutEmail && (
               <section
@@ -208,11 +208,25 @@ export default function CheckoutPage() {
                 <ShippingDetails onContinue={handleShippingContinue} />
               ))}
           </section>
+
+          <section className="space-y-1">
+            <div className="flex items-center justify-between">
+              <Header as="h2" size="sm">
+                Proceed with Payment
+              </Header>
+              {checkoutEmail && (
+                hideShipping && (
+                  <Button>
+                    Pay
+                  </Button>
+                )
+              )}
+            </div>
+          </section>
         </div>
         {/* RIGHT: desktop sticky Order Summary */}
         <aside className="hidden md:block self-start">
           <div className="sticky top-0">
-
             <OrderSummary />
           </div>
         </aside>
