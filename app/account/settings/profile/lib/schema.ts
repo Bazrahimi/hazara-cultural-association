@@ -14,10 +14,12 @@ export const ProfileSchema = z.object({
   contactNumber: z
     .string()
     .trim()
-    .min(6, { message: "Enter a valid phone number" })
-    .refine((v) => v === undefined || /^\+?\d{6,15}$/.test(v), {
-      message: "Enter a valid phone number (e.g. +61412345678)",
-    }),
+      .min(6, { message: "Contact is required" })
+    .transform((v) => (v === "" ? undefined : v))
+    .refine(
+      (v) => v === undefined || /^\+?\d{6,15}$/.test(v),
+      { message: "Enter a valid phone number (e.g. +61412345678)" }
+    ),
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;

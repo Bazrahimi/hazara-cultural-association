@@ -17,7 +17,6 @@ export default function ProfileForm({
     FormData
   >(updateProfileAction, undefined);
 
-  const err = state?.errors ?? {};
   const data = state?.data ?? initial;
 
   return (
@@ -29,8 +28,8 @@ export default function ProfileForm({
           type="text"
           label="First name"
           placeholder="Enter your first name"
-          defaultValue={data.firstName || ""}
-          error={err.firstName}
+          defaultValue={data?.firstName || ""}
+          error={state?.errors?.firstName}
           required
         />
         <Input
@@ -38,21 +37,20 @@ export default function ProfileForm({
           autoComplete="family-name"
           type="text"
           label="Last name"
-          defaultValue={data.lastName ?? ""}
+          defaultValue={data?.lastName ?? ""}
           placeholder="Enter your last name"
-          error={err.lastName}
+          error={state?.errors?.lastName}
           required
- 
         />
       </div>
 
       <Input
         id="contactNumber"
         type="tel"
-        label="Phone number"
+        label="Contact number"
         placeholder="Enter your contact number"
         defaultValue={data?.contactNumber ?? ""}
-        error={err.contactNumber}
+        error={state?.errors?.contactNumber}
         required
       />
 
