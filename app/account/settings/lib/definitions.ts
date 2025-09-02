@@ -1,3 +1,7 @@
+
+export type userRecord = {
+  email:string;
+}
 export type ProfileRecord = {
   firstName: string | null;
   lastName: string | null;
@@ -17,3 +21,4 @@ export type AddressRecord = {
   postcode: string;
   country: string;
 };
+

@@ -1,59 +1,42 @@
-// app/account/settings/ui/ProfileCard.tsx
-import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
+import { Button } from "@/app/ui/global/components";
+import { use } from "react";
+import { userRecord, ProfileRecord } from "../lib/definitions";
 
-type Props = {
-  email: string;
-  profile: {
-    firstName: string | null;
-    lastName: string | null;
-    contactNumber: string | null;
-  };
-};
 
-export default function ProfileCard({ email, profile }: Props) {
-  const profileComplete =
-    !!profile.firstName && !!profile.lastName && !!profile.contactNumber;
+
+export default function ProfileCard({
+  userPromise,
+  profilePromise,
+}: {
+  userPromise: Promise<userRecord[]>;
+  profilePromise: Promise<ProfileRecord[]>;
+}) {
+  const userRows = use(userPromise);
+  const profileRows = use(profilePromise);
+
+  const email = userRows[0]?.email ?? "";
+  const profile = profileRows[0] ?? { firstName: null, lastName: null, contactNumber: null };
+  const profileComplete = !!profile.firstName && !!profile.lastName && !!profile.contactNumber;
 
   return (
     <section className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
       <div className="flex items-start justify-between gap-3">
-        <Header as="h2" size="sm">
-          Profile
-        </Header>
-        <Button
-          as="link"
-          href="/account/settings/profile"
-          variant="outline"
-          size="sm"
-        >
+        <Header as="h2" size="sm">Profile</Header>
+        <Button as="link" href="/account/settings/profile" variant="outline" size="sm">
           {profileComplete ? "Edit" : "Add details"}
         </Button>
       </div>
 
       <div className="mt-4 space-y-2 text-sm">
-        <div>
-          <span className="font-medium">Email: </span>
-          <span className="text-gray-700">{email || "—"}</span>
-        </div>
-        <div>
-          <span className="font-medium">First name: </span>
-          <span className="text-gray-700">{profile.firstName || "—"}</span>
-        </div>
-        <div>
-          <span className="font-medium">Last name: </span>
-          <span className="text-gray-700">{profile.lastName || "—"}</span>
-        </div>
-        <div>
-          <span className="font-medium">Phone: </span>
-          <span className="text-gray-700">{profile.contactNumber || "—"}</span>
-        </div>
+        <div><span className="font-medium">Email: </span>{email || "—"}</div>
+        <div><span className="font-medium">First name: </span>{profile.firstName || "—"}</div>
+        <div><span className="font-medium">Last name: </span>{profile.lastName || "—"}</div>
+        <div><span className="font-medium">Phone: </span>{profile.contactNumber || "—"}</div>
       </div>
 
       {!profileComplete && (
-        <p className="mt-3 text-xs text-amber-700">
-          Add your name and phone so we can contact you about orders if needed.
-        </p>
+        <p className="mt-3 text-xs text-amber-700">Add your name and phone so we can contact you about orders if needed.</p>
       )}
     </section>
   );
