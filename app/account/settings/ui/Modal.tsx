@@ -39,14 +39,13 @@ export default function Modal({
         <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl border border-gray-200">
           <div className="flex items-center justify-between border-b px-4 py-3">
             <h2 className="text-sm font-semibold">{title}</h2>
-            <Header as="h2">{children}</Header>
+            
             <button
               onClick={() => router.back()}
               className="rounded-md px-2 py-1 text-sm text-gray-600 hover:bg-gray-100"
             >
               Close
             </button>
-            
           </div>
           <div className="p-4">{children}</div>
         </div>
