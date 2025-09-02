@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { SignupStep1Schema, type SignupStep1State } from "./schema";
 import { issueVerificationCode } from "./verification";
+import { VERIFY_EMAIL_COOKIE_PATH } from "../verify/lib/helper";
 
 /**
  * Step 1 of signup: validate email/password, ensure email is free,
@@ -68,21 +69,21 @@ export async function signupStep1(
     const userId = Number(inserted[0]?.id);
 
     // set short-lived verify cookie (httpOnly)
-    const jar = await cookies();
+    const sessionCookie = await cookies();
     const maxAge = 10 * 60;
-    jar.set("verify_uid", String(userId), {
+    sessionCookie.set("verify_uid", String(userId), {
       httpOnly: true,
       sameSite: "lax",
       secure: true,
-      path: "/",
+      path: VERIFY_EMAIL_COOKIE_PATH,
       maxAge,
     });
 
-    jar.set("verify_email", email, {
+    sessionCookie.set("verify_email", email, {
       httpOnly: true,
       sameSite: "lax",
       secure: true,
-      path: "/",
+      path: VERIFY_EMAIL_COOKIE_PATH,
       maxAge,
     });
 

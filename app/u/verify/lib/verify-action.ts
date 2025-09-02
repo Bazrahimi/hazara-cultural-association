@@ -4,26 +4,26 @@
 import { createSession } from "@/app/lib/session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-
-import {
-  issueVerificationCode,
-  verifyEmailCode,
-} from "@/app/u/lib/verification";
-
-// (Optional) If you want a type:
-type CookieJar = Awaited<ReturnType<typeof cookies>>;
+import { issueVerificationCode, verifyEmailCode } from "@/app/u/lib/verification";
+import { VERIFY_EMAIL_COOKIE_PATH } from "./helper";
 
 export type VerifyState = {
   ok?: boolean;
   message?: string;
 };
 
+// If you like a local type alias:
+type CookieStore = Awaited<ReturnType<typeof cookies>>;
+
+// Keep this in sync with where you originally set the cookies
+
+
 async function getVerifyContext() {
-  const jar: CookieJar = await cookies(); // ✅ must await
-  const uidRaw = jar.get("verify_uid")?.value;
-  const email = jar.get("verify_email")?.value;
+  const sessionCookie: CookieStore = await cookies(); // ✅ await required
+  const uidRaw = sessionCookie.get("verify_uid")?.value;
+  const email = sessionCookie.get("verify_email")?.value;
   const userId = uidRaw ? Number(uidRaw) : undefined;
-  return { userId, email, jar };
+  return { userId, email, sessionCookie };
 }
 
 export async function verifyCodeAction(
@@ -31,13 +31,10 @@ export async function verifyCodeAction(
   formData: FormData
 ): Promise<VerifyState | never> {
   const code = String(formData.get("code") ?? "").trim();
-  const { userId, email, jar } = await getVerifyContext(); // ✅ await
+  const { userId, email, sessionCookie } = await getVerifyContext();
 
   if (!userId || !email) {
-    return {
-      ok: false,
-      message: "Verification session expired. Please sign up again.",
-    };
+    return { ok: false, message: "Verification session expired. Please sign up again." };
   }
   if (!/^\d{6}$/.test(code)) {
     return { ok: false, message: "Enter the 6-digit code." };
@@ -46,21 +43,19 @@ export async function verifyCodeAction(
   const res = await verifyEmailCode({ userId, code });
   if (!res.ok) return { ok: false, message: res.message };
 
-  // clear verify cookies (server action, so set() is allowed)
-  jar.set("verify_uid", "", { path: "/", maxAge: 0 });
-  jar.set("verify_email", "", { path: "/", maxAge: 0 });
+  // Clear short-lived verification cookies (path MUST match how they were set)
+  sessionCookie.set("verify_uid", "", { path: VERIFY_EMAIL_COOKIE_PATH, maxAge: 0 });
+  sessionCookie.set("verify_email", "", { path: VERIFY_EMAIL_COOKIE_PATH, maxAge: 0 });
 
-  await createSession(String(userId), false);
-  redirect("/"); // or wherever
+  // Create the real session and go
+  await createSession(String(userId), /* isAdmin */ false);
+  redirect("/account/settings"); // or "/account"
 }
 
 export async function resendCodeAction(): Promise<VerifyState> {
-  const { userId, email } = await getVerifyContext(); // ✅ await
+  const { userId, email } = await getVerifyContext();
   if (!userId || !email) {
-    return {
-      ok: false,
-      message: "Verification session expired. Please sign up again.",
-    };
+    return { ok: false, message: "Verification session expired. Please sign up again." };
   }
   return issueVerificationCode({ userId, email });
 }
