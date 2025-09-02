@@ -9,3 +9,4 @@ export async function requireUser() {
   if (!session?.userId) redirect("/u/login");
   return { userId: Number(session.userId), isAdmin: !!session.isAdmin };
 }
+

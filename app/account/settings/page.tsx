@@ -27,8 +27,6 @@ const breadcrumbs: Breadcrumb[] = [
 
 export default async function Page() {
   const user = await requireUser();
-  console.log("user", user);
-
   if (!user.userId) redirect("/u/login");
 
   // Kick off queries in parallel, but DON'T await here
