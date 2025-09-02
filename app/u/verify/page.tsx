@@ -7,12 +7,15 @@ import { Header } from "@/app/ui/global/Header";
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import type { VerifyState } from "./lib/verify-action";
+
+import { ActionButton } from "@/app/ui/global/clientComponent";
 import { resendCodeAction, verifyCodeAction } from "./lib/verify-action";
 
 export default function VerifyEmailForm({ email }: { email: string }) {
-  const [state, formAction, isPending] = useActionState<VerifyState, FormData>(
-    verifyCodeAction,undefined
-  );
+  const [state, formAction, isPending] = useActionState<
+    VerifyState | undefined,
+    FormData
+  >(verifyCodeAction, undefined);
   const [cooldown, setCooldown] = useState(0);
 
   useEffect(() => {
@@ -24,7 +27,7 @@ export default function VerifyEmailForm({ email }: { email: string }) {
   const mask = email ? email.replace(/(.{2}).+(@.+)/, "$1••••••$2") : "";
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-b from-blue-600 to-white flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-xl p-6 sm:p-8">
         <Header as="h1" size="sm" className="mb-2">
           Verify your email
@@ -37,6 +40,7 @@ export default function VerifyEmailForm({ email }: { email: string }) {
 
         <form action={formAction} className="space-y-4" noValidate>
           <Input
+            type="text"
             id="code"
             label="Verification code"
             placeholder="123456"
@@ -47,9 +51,9 @@ export default function VerifyEmailForm({ email }: { email: string }) {
             }}
             required
           />
-          <Button type="submit" fullWidth disabled={isPending}>
+          <ActionButton type="submit" fullWidth disabled={isPending}>
             {isPending ? "Verifying…" : "Verify"}
-          </Button>
+          </ActionButton>
         </form>
 
         {state?.message && (

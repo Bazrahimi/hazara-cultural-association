@@ -3,13 +3,10 @@
 
 import { sql } from "@/app/lib/db";
 import bcrypt from "bcrypt"; // or: import bcrypt from "bcrypt";
-import { randomInt } from "crypto";
 import { FROM_EMAIL, resend } from "../ui/resend/email";
 import VerifyEmailCode from "../ui/resend/VerifyEmailCode";
 
-
 type VerifyRow = { code_hash: string; expires_at: string; attempts: number };
-
 
 // export const CODE_TTL_MINUTES = 10;
 // export const RESEND_COOLDOWN_SECONDS = 60;
@@ -17,8 +14,6 @@ type VerifyRow = { code_hash: string; expires_at: string; attempts: number };
 // export function generate6DigitCode(): string {
 //   return String(randomInt(0, 1_000_000)).padStart(6, "0");
 // }
-
-
 
 export async function issueVerificationCode({
   userId,

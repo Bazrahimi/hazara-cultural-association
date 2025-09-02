@@ -4,7 +4,11 @@
 import { createSession } from "@/app/lib/session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { issueVerificationCode, verifyEmailCode } from "../../lib/verification";
+
+import {
+  issueVerificationCode,
+  verifyEmailCode,
+} from "@/app/u/lib/verification";
 
 // (Optional) If you want a type:
 type CookieJar = Awaited<ReturnType<typeof cookies>>;

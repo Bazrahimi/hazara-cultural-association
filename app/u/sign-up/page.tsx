@@ -14,7 +14,7 @@ export default function Page() {
   const [state, formAction, isPending] = useActionState(signupStep1, undefined);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-b from-blue-600 to-white flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white/90 shadow-xl backdrop-blur-sm p-5 sm:p-7 md:p-8">
         <Header as="h1" size="sm" align="center" className="mb-10">
           Create your HCA account
