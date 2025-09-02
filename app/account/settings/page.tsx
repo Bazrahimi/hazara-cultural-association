@@ -1,63 +1,77 @@
 import { sql } from "@/app/lib/db";
-import { decrypt } from "@/app/lib/session";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
+import type { Breadcrumb } from "@/app/lib/definitions";
 import AddressesCard from "./ui/AddressesCard";
 
 import ProfileCard from "./ui/ProfileCard";
 
+import { requireUser } from "@/app/lib/auth";
+import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
+import { Header } from "@/app/ui/global/Header";
+import { AddressRecord, ProfileRecord, userRecord } from "./lib/definitions";
 import { AddressesCardSkeleton, ProfileCardSkeleton } from "./ui/Skeleton";
 
+const breadcrumbs: Breadcrumb[] = [
+  {
+    label: "Dashboard",
+    href: "/account",
+  },
+  {
+    label: "Settings",
+    href: "/account/settings",
+    active: true,
+  },
+];
+
 export default async function Page() {
-  const jar = await cookies();
-  const sessionCookie = jar.get("session")?.value;
-  const session = sessionCookie ? await decrypt(sessionCookie) : null;
-  const userId = session?.userId ? Number(session.userId) : undefined;
-  if (!userId) redirect("/u/login");
+  const user = await requireUser();
+  console.log("user", user);
+
+  if (!user.userId) redirect("/u/login");
 
   // Kick off queries in parallel, but DON'T await here
-  const userPromise = sql<{ email: string }[]>`
-    SELECT email FROM users WHERE id = ${userId} LIMIT 1;
+  const userPromise = sql<userRecord[]>`
+    SELECT email FROM users WHERE id = ${user.userId} LIMIT 1;
   `;
-  const profilePromise = sql<
-    {
-      firstName: string | null;
-      lastName: string | null;
-      contactNumber: string | null;
-    }[]
-  >`
+  const profilePromise = sql<ProfileRecord[]>`
     SELECT
       first_name AS "firstName",
       last_name  AS "lastName",
       phone      AS "contactNumber"
-    FROM user_profiles WHERE user_id = ${userId} LIMIT 1;
+    FROM user_profiles WHERE user_id = ${user.userId} LIMIT 1;
   `;
-  const addressesPromise = sql<any[]>`
+  const addressesPromise = sql<AddressRecord[]>`
     SELECT id::int, label, type, is_default, address1 AS address, address2, suburb,
            state_code AS "stateCode", postcode, country
     FROM user_addresses
-    WHERE user_id = ${userId}
+    WHERE user_id = ${user.userId}
     ORDER BY is_default DESC, created_at DESC;
   `;
 
   return (
-    <div className="mx-auto max-w-5xl p-6 md:p-8 space-y-8">
-      {/* … header … */}
+    <>
+      {" "}
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
+      <div className="mx-auto max-w-5xl p-6 md:p-8 space-y-8">
+        <Header as="h1" className="my-3">
+          Account Setting
+        </Header>
 
-      <div className="grid gap-8 md:grid-cols-2">
-        <Suspense fallback={<ProfileCardSkeleton />}>
-          <ProfileCard
-            userPromise={userPromise}
-            profilePromise={profilePromise}
-          />
-        </Suspense>
+        <div className="grid gap-8 md:grid-cols-2">
+          <Suspense fallback={<ProfileCardSkeleton />}>
+            <ProfileCard
+              userPromise={userPromise}
+              profilePromise={profilePromise}
+            />
+          </Suspense>
 
-        <Suspense fallback={<AddressesCardSkeleton />}>
-          <AddressesCard addressesPromise={addressesPromise} />
-        </Suspense>
+          <Suspense fallback={<AddressesCardSkeleton />}>
+            <AddressesCard addressesPromise={addressesPromise} />
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
