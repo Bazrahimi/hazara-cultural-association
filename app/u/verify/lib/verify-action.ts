@@ -49,7 +49,7 @@ export async function verifyCodeAction(
 
   // Create the real session and go
   await createSession(String(userId), /* isAdmin */ false);
-  redirect("/account/settings"); // or "/account"
+  redirect("/account/settings/profile"); // or "/account"
 }
 
 export async function resendCodeAction(): Promise<VerifyState> {

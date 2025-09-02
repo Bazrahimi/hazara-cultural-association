@@ -1,14 +1,14 @@
 import { sql } from "@/app/lib/db";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-
+import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import type { Breadcrumb } from "@/app/lib/definitions";
 import AddressesCard from "./ui/AddressesCard";
 
 import ProfileCard from "./ui/ProfileCard";
 
 import { requireUser } from "@/app/lib/auth";
-import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
+
 import { Header } from "@/app/ui/global/Header";
 import { AddressRecord, ProfileRecord, userRecord } from "./lib/definitions";
 import { AddressesCardSkeleton, ProfileCardSkeleton } from "./ui/Skeleton";
