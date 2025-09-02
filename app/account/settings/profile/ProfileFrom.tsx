@@ -1,7 +1,8 @@
 // app/account/settings/profile/ProfileForm.tsx
 "use client";
 
-import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 
 import { Button, Input } from "@/app/ui/global/components";
 import { Profile, ProfileState, updateProfileAction } from "./action";
@@ -15,9 +16,14 @@ export default function ProfileForm({
     ProfileState | undefined,
     FormData
   >(updateProfileAction, undefined);
+  const router = useRouter();
 
   const err = state?.errors ?? {};
   const data = state?.data ?? initial;
+
+  useEffect(() => {
+    if (state?.ok) router.back();
+  }, [state?.ok, router]);
 
   return (
     <form action={formAction} className="space-y-5" noValidate>

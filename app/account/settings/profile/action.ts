@@ -1,23 +1,30 @@
 // app/account/settings/profile/actions.ts
 "use server";
 
-import { z } from "zod";
 import { requireUser } from "@/app/lib/auth";
 import { sql } from "@/app/lib/db";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 const ProfileSchema = z.object({
-  firstName: z.string().trim().min(1, { message: "First name is required" }).max(80),
-  lastName: z.string().trim().min(1, { message: "Last name is required" }).max(80),
+  firstName: z
+    .string()
+    .trim()
+    .min(1, { message: "First name is required" })
+    .max(80),
+  lastName: z
+    .string()
+    .trim()
+    .min(1, { message: "Last name is required" })
+    .max(80),
   contactNumber: z
     .string()
     .trim()
     .optional()
     .transform((v) => (v === "" ? undefined : v))
-    .refine(
-      (v) => v === undefined || /^\+?\d{6,15}$/.test(v),
-      { message: "Enter a valid phone number (e.g. +61412345678)" }
-    ),
+    .refine((v) => v === undefined || /^\+?\d{6,15}$/.test(v), {
+      message: "Enter a valid phone number (e.g. +61412345678)",
+    }),
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;
@@ -65,6 +72,6 @@ export async function updateProfileAction(
           updated_at = now()
   `;
 
-  // Redirect back with a success hint (optional)
-  redirect("/account/settings?updated=1");
+  revalidatePath("/account/settings");
+  return { ok: true, message: "Profile updated." };
 }
