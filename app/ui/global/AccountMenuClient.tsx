@@ -100,7 +100,7 @@ export default function AccountMenuClient({ isLoggedIn, isAdmin }: Props) {
                 role="menuitem"
                 onClick={() => setOpen(false)}
               >
-                Edit account
+                Account Setting
               </Link>
 
               {/* Logout via server action */}
