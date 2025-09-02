@@ -1,8 +1,7 @@
 // app/account/settings/profile/ProfileForm.tsx
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 
 import { Button, Input } from "@/app/ui/global/components";
 import { updateProfileAction } from "../lib/action";
@@ -17,56 +16,54 @@ export default function ProfileForm({
     ProfileState | undefined,
     FormData
   >(updateProfileAction, undefined);
-  const router = useRouter();
 
   const err = state?.errors ?? {};
   const data = state?.data ?? initial;
 
-  useEffect(() => {
-    if (state?.ok) router.back();
-  }, [state?.ok, router]);
-
   return (
-    <form action={formAction} className="space-y-5" noValidate>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Input
-          id="firstName"
-          type="text"
-          label="First name"
-          defaultValue={data.firstName ?? ""}
-          error={err.firstName}
-          required
-        />
-        <Input
-          id="lastName"
-          type="text"
-          label="Last name"
-          defaultValue={data.lastName ?? ""}
-          error={err.lastName}
-          required
-        />
-      </div>
+   
+        <form action={formAction} className="space-y-5" noValidate>
+          <Input
+            id="firstName"
+            type="text"
+            label="First name"
+                 placeholder="Enter your first name"
+            defaultValue={data.firstName || ""}
+            error={err.firstName}
+            required
+          />
+          <Input
+            id="lastName"
+            type="text"
+            label="Last name"
+            defaultValue={data.lastName ?? ""}
+              placeholder="Enter your last name"
+            error={err.lastName}
+            required
+          />
 
-      <Input
-        id="contactNumber"
-        type="tel"
-        label="Phone number"
-        placeholder="Enter your contact number"
-        defaultValue={data.contactNumber ?? ""}
-        error={err.contactNumber}
-      />
+          <Input
+            id="contactNumber"
+            type="tel"
+            label="Phone number"
+            placeholder="Enter your contact number"
+            defaultValue={data?.contactNumber ?? ""}
+            error={err.contactNumber}
+            required
+          />
 
-      <Button type="submit" disabled={isPending}>
-        {isPending ? "Saving…" : "Save changes"}
-      </Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Saving…" : "Save changes"}
+          </Button>
 
-      {state?.message && (
-        <p
-          className={`text-sm ${state.ok ? "text-green-700" : "text-red-600"}`}
-        >
-          {state.message}
-        </p>
-      )}
-    </form>
+          {state?.message && (
+            <p
+              className={`text-sm ${state.ok ? "text-green-700" : "text-red-600"}`}
+            >
+              {state.message}
+            </p>
+          )}
+        </form>
+    
   );
 }

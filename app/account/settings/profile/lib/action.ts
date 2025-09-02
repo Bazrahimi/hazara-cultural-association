@@ -1,3 +1,4 @@
+"use server"
 import { requireUser } from "@/app/lib/auth";
 import { sql } from "@/app/lib/db";
 import { revalidatePath } from "next/cache";
