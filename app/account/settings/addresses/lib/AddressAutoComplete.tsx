@@ -33,7 +33,7 @@ type NominatimSuggestion = {
   extratags?: Record<string, string>;
 };
 
-export default function AddressAutoComplete({ placeholder, onSelect }: Props) {
+export default function AddressAutoComplete({label, placeholder, onSelect }: Props) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -140,8 +140,8 @@ export default function AddressAutoComplete({ placeholder, onSelect }: Props) {
         htmlFor={inputId}
         className="mb-1 ml-3 text-sm font-medium text-gray-700"
       >
-        Search location {/* 👀 what Chrome sees in the DOM */}
-        <span className="sr-only">Addresses</span>{" "}
+        {label}
+        <span className="sr-only">search-addresses</span>{" "}
         {/* 👂 what screen readers announce */}
       </label>
       <input

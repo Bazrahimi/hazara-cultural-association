@@ -7,12 +7,7 @@ import { useState } from "react";
 import AddressAutoComplete from "../lib/AddressAutoComplete";
 import { BillingAddressInput } from "../lib/schema";
 
-
-const AddressForm = ({
-  initial,
-}: {
-  initial: Partial<BillingAddressInput>;
-}) => {
+const AddressForm = ({ initial }: { initial: BillingAddressInput }) => {
   // const [state, formAction, isPending] = useActionState<
   //   BillingAddressInputState | undefined
   // >(billingAddressInput, undefined);
@@ -22,7 +17,7 @@ const AddressForm = ({
   //   emptyAddress
   // );
 
-  const [address, setAddress] = useState<BillingAddressInput>(initial);
+  const [address, setAddress] = useState(initial);
 
   return (
     <>
@@ -41,15 +36,25 @@ const AddressForm = ({
           })
         }
       />
+      <div className="relative my-6">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-300" />
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="bg-white px-2 text-gray-500">
+            or fill in details below
+          </span>
+        </div>
+      </div>
 
       <AddressFields value={address} onChange={setAddress} />
 
       <Button
-        type="button"
+        fullWidth
         // onClick={handleContinue}
         // disabled={!canContinue}
       >
-        Continue to payment details
+        Save your Address
       </Button>
     </>
   );

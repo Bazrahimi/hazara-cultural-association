@@ -16,7 +16,7 @@ const AddressFields = ({ value, onChange }: Props) => {
       <div className="gap-2 md:gap-4 grid grid-cols-2">
         <Input
           id="address"
-          label="Address"
+          label="street Address"
           type="text"
           value={value.address}
           onChange={(v) => set({ address: v })}
