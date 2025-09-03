@@ -14,7 +14,7 @@ const AddressFields = ({ value, onChange }: Props) => {
 
   return (
     <div className="mt-4 space-y-4">
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="gap-2 md:gap-4 grid grid-cols-2">
         <Input
           id="address"
           label="Address"
@@ -22,7 +22,7 @@ const AddressFields = ({ value, onChange }: Props) => {
           value={value.address}
           onChange={(v) => set({ address: v })}
           placeholder="e.g. 12 Smith Street"
-          autoComplete="street-address"
+          // autoComplete="street-address"
           required
         />
         <Input
@@ -35,7 +35,7 @@ const AddressFields = ({ value, onChange }: Props) => {
         />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="gap-2 md:gap-4 grid grid-cols-2">
         <Input
           id="suburb"
           label="Suburb"
@@ -47,13 +47,16 @@ const AddressFields = ({ value, onChange }: Props) => {
         />
         <Input
           id="state"
-          label="Australia state"
+          label="Your State"
           type="text"
           value={value.state}
           onChange={(v) => set({ state: v })}
           placeholder="e.g. VIC"
           required
         />
+      </div>
+
+      <div className="gap-2 md:gap-4 grid grid-cols-2">
         <Input
           id="postcode"
           label="Postcode"
@@ -64,9 +67,17 @@ const AddressFields = ({ value, onChange }: Props) => {
           placeholder="e.g. 3177"
           required
         />
+
+        <Input
+          id="country"
+          label="country"
+          type="text"
+          value={value.country}
+          onChange={(v) => set({ country: v })}
+          placeholder="Australia"
+          required
+        />
       </div>
-      {value.state}
-      {value.country}
     </div>
   );
 };
