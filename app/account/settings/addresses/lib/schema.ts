@@ -25,10 +25,10 @@ export const BillingAddressSchema = z.object({
     }),
 
   // Keep it simple: default to AU if empty, uppercase if provided
-  country: z
-    .string()
-    .trim()
-    .transform((c) => (c ? c.toUpperCase() : "AU")),
+  // country: z
+  //   .string()
+  //   .trim()
+  //   .transform((c) => (c ? c.toUpperCase() : "AU")),
 });
 
 export type BillingAddressInput = z.infer<typeof BillingAddressSchema>;

@@ -22,7 +22,6 @@ export const postalLabelFromFull = (a: FullAddress) => {
   return a.address && tail ? `${a.address}, ${tail}` : a.address || "";
 };
 
-
 export function isAddressComplete(a: FullAddress) {
   const stateLike = (a.stateCode || a.state || "").trim();
   return (
