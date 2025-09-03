@@ -41,7 +41,7 @@ export async function updateProfileAction(
     `;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    console.error("failed to update Profile", err);
+    console.error("failed to create Profile", err);
     return {
       ok: false,
       message: "Something went wrong while saving your profile.",
