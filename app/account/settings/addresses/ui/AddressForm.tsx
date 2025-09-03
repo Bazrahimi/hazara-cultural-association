@@ -1,92 +1,55 @@
 "use client";
-import usePersistedState from "@/app/shop/cart/checkout/hooks/usePersistedState";
-import AuAddressAutocomplete from "@/app/shop/cart/checkout/ui/AuAddressAutocomplete";
 import AddressFields from "@/app/shop/cart/checkout/ui/shipping-details/AddressFields";
-import ManualAddressToggle from "@/app/shop/cart/checkout/ui/shipping-details/ManualAddressToggle";
-import { FullAddress } from "@/app/shop/lib/definitions";
-import {
-  ADDRESS_KEY,
-  emptyAddress,
-  postalLabelFromFull,
-} from "@/app/shop/lib/helper";
+
 import { Button } from "@/app/ui/global/components";
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import AddressAutoComplete from "../lib/AddressAutoComplete";
+import { BillingAddressInput } from "../lib/schema";
 
-// const initial:FullAddress  = {
-//     address: undefined,
-//     address2: undefined,
-//     suburb: undefined,
-//     postcode: undefined,
-//     stateCode: undefined,
-//     full: undefined,
-//   };
 
-const AddressForm = () => {
+const AddressForm = ({
+  initial,
+}: {
+  initial: Partial<BillingAddressInput>;
+}) => {
   // const [state, formAction, isPending] = useActionState<
   //   BillingAddressInputState | undefined
   // >(billingAddressInput, undefined);
   const [manually, setManually] = useState(false);
-  // const [fullAddress, setFullAddress] = usePersistedState<FullAddress>(
+  // const [address, setAddress] = usePersistedState<Address>(
   //   ADDRESS_KEY,
   //   emptyAddress
   // );
 
-  // const [fullAddress,setFullAddress  ] = useState(initial)
+  const [address, setAddress] = useState(initial);
 
-  const [fullAddress, setFullAddress] = usePersistedState<FullAddress>(
-    ADDRESS_KEY,
-    emptyAddress
-  );
-
-  // Show fields if user chose manual entry OR has saved/selected parts
-  const showFields = useMemo(
-    () =>
-      manually ||
-      !!fullAddress.address ||
-      !!fullAddress.suburb ||
-      !!fullAddress.postcode,
-    [manually, fullAddress]
-  );
-
-  const defaultAutoLabel = useMemo(
-    () => postalLabelFromFull(fullAddress),
-    [fullAddress]
-  );
   return (
     <>
-      {!manually && (
-        <AuAddressAutocomplete
-          defaultValue={defaultAutoLabel}
-          onSelect={(a) =>
-            setFullAddress({
-              ...fullAddress,
-              full: a.full,
-              address: a.address,
-              address2: a.address2,
-              suburb: a.suburb,
-              state: a.state,
-              stateCode: a.stateCode,
-              postcode: a.postcode,
-            })
-          }
-        />
-      )}
+      <AddressAutoComplete
+        label="Search your address"
+        placeholder="Start typing your address (AU only)…"
+        onSelect={(a) =>
+          setAddress({
+            ...address,
+            address: a.address,
+            address2: a.address2,
+            suburb: a.suburb,
+            stateCode: a.stateCode,
+            postcode: a.postcode,
+            country: a.country,
+          })
+        }
+      />
 
-      <ManualAddressToggle manually={manually} setManually={setManually} />
+      <AddressFields value={address} onChange={setAddress} />
 
-      {showFields && (
-        <>
-          <AddressFields value={fullAddress} onChange={setFullAddress} />
-
-          <Button
-            type="button"
-            // onClick={handleContinue}
-            // disabled={!canContinue}
-          >
-            Continue to payment details
-          </Button>
-        </>
-      )}
+      <Button
+        type="button"
+        // onClick={handleContinue}
+        // disabled={!canContinue}
+      >
+        Continue to payment details
+      </Button>
     </>
   );
 };
