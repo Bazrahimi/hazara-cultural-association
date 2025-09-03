@@ -10,7 +10,6 @@ type Props = {
 const AddressFields = ({ value, onChange }: Props) => {
   const set = (patch: Partial<BillingAddressInput>) =>
     onChange({ ...value, ...patch });
-  console.log(value);
 
   return (
     <div className="mt-4 space-y-4">
@@ -29,7 +28,7 @@ const AddressFields = ({ value, onChange }: Props) => {
           id="address2"
           label="Address line 2"
           type="text"
-          value={value.address2}
+          value={value.address2 ?? undefined}
           onChange={(v) => set({ address2: v })}
           placeholder="Unit, Level, Building (optional)"
         />

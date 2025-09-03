@@ -6,8 +6,8 @@ export const BillingAddressSchema = z.object({
   address2: z
     .string()
     .trim()
-    .transform((v) => (v === "" ? undefined : v))
-    .optional(),
+    .transform((v) => (v === "" ? undefined : v)),
+   
 
   suburb: z.string().trim().min(1, { message: "Suburb is required" }),
 

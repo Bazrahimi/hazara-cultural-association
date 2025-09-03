@@ -22,7 +22,7 @@ const AddressForm = ({
   //   emptyAddress
   // );
 
-  const [address, setAddress] = useState(initial);
+  const [address, setAddress] = useState<BillingAddressInput>(initial);
 
   return (
     <>
@@ -33,10 +33,10 @@ const AddressForm = ({
           setAddress({
             ...address,
             address: a.address,
-            address2: a.address2,
+            address2: a.address2 ?? "",
             suburb: a.suburb,
             state: a.state,
-            postcode: a.postcode,
+            postcode: a.postcode ?? "",
             country: a.country,
           })
         }

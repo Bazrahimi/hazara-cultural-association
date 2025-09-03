@@ -4,6 +4,15 @@ import { Header } from "@/app/ui/global/Header";
 import { BillingAddressInput } from "../lib/schema";
 import AddressForm from "../ui/AddressForm";
 
+const initial:BillingAddressInput = {
+  address: "",
+  suburb: "",
+  state: "",
+  postcode: "",
+  country: "",
+  address2: "",
+};
+
 const breadcrumbs: Breadcrumb[] = [
   {
     label: "Dashboard",
@@ -24,14 +33,7 @@ const breadcrumbs: Breadcrumb[] = [
   },
 ];
 
-const initial: Partial<BillingAddressInput> = {
-  address: " ",
-  suburb: " ",
-  state: " ",
-  postcode: " ",
-  country: " ",
-  address2: " ",
-};
+
 
 const page = () => {
   return (
