@@ -1,5 +1,6 @@
 "use client";
-import AddressFields from "@/app/shop/cart/checkout/ui/shipping-details/AddressFields";
+// import AddressFields from "@/app/shop/cart/checkout/ui/shipping-details/AddressFields";
+import AddressFields from "./AddressFields";
 
 import { Button } from "@/app/ui/global/components";
 import { useState } from "react";
@@ -34,7 +35,7 @@ const AddressForm = ({
             address: a.address,
             address2: a.address2,
             suburb: a.suburb,
-            stateCode: a.stateCode,
+            state: a.state,
             postcode: a.postcode,
             country: a.country,
           })

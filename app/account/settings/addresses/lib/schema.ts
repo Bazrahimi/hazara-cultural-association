@@ -11,7 +11,7 @@ export const BillingAddressSchema = z.object({
 
   suburb: z.string().trim().min(1, { message: "Suburb is required" }),
 
-  stateCode: z
+  state: z
     .string()
     .trim()
     .min(2, { message: "State-code is required" })

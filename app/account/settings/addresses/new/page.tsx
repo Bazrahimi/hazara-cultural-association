@@ -27,7 +27,7 @@ const breadcrumbs: Breadcrumb[] = [
 const initial: Partial<BillingAddressInput> = {
   address: " ",
   suburb: " ",
-  stateCode: " ",
+  state: " ",
   postcode: " ",
   country: " ",
   address2: " ",

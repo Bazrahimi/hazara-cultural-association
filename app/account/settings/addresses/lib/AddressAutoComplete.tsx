@@ -33,11 +33,7 @@ type NominatimSuggestion = {
   extratags?: Record<string, string>;
 };
 
-export default function AddressAutoComplete({
-  label,
-  placeholder,
-  onSelect,
-}: Props) {
+export default function AddressAutoComplete({ placeholder, onSelect }: Props) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -109,9 +105,9 @@ export default function AddressAutoComplete({
       address: addressLine,
       address2,
       suburb,
-      stateCode: a.state_code || "",
+      state: a.state || "",
       postcode: a.postcode || "",
-      country: a.country || "Australia",
+      country: a.country || "",
     };
   };
 
@@ -180,7 +176,7 @@ export default function AddressAutoComplete({
             const a = it.address ?? {};
             const line1 = [a.house_number, a.road].filter(Boolean).join(" ");
             const suburb = a.suburb || a.city || a.town || a.village || "";
-            const tail = [suburb.toUpperCase(), a.state_code, a.postcode]
+            const tail = [suburb.toUpperCase(), a.state, a.postcode, a.country]
               .filter(Boolean)
               .join(" ");
             const active = i === activeIndex;
