@@ -4,18 +4,15 @@ import { Button } from "@/app/ui/global/components";
 import { useActionState, useState } from "react";
 import { billingAddressInput } from "../lib/action";
 import AddressAutoComplete from "../lib/AddressAutoComplete";
-import type {
-  BillingAddressInput,
-  BillingAddressInputState,
-} from "../lib/schema";
+import type { BillingAddressInput } from "../lib/schema";
 import AddressFields from "./AddressFields";
 
 const AddressForm = ({ initial }: { initial: BillingAddressInput }) => {
   // Server action state must match the action's return type
-  const [actionState, formAction, isPending] =
-    useActionState<BillingAddressInputState>(billingAddressInput, {
-      data: initial,
-    });
+  const [actionState, formAction, isPending] = useActionState(
+    billingAddressInput,
+    undefined
+  );
 
   // Local controlled state that drives the inputs
   const [address, setAddress] = useState<BillingAddressInput>(initial);
@@ -59,7 +56,7 @@ const AddressForm = ({ initial }: { initial: BillingAddressInput }) => {
         />
 
         {actionState?.message && (
-          <p className="text-sm text-gray-600">{actionState.message}</p>
+          <p className="text-sm text-red-600">{actionState.message}</p>
         )}
 
         <Button fullWidth type="submit" disabled={isPending}>
