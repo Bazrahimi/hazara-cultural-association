@@ -8,6 +8,7 @@ import {
   BillingAddressSchema,
   FieldErrors,
 } from "./schema";
+import { redirect } from "next/navigation";
 
 type PgError = {
   code?: string;
@@ -64,11 +65,7 @@ export const billingAddressInput = async (
       RETURNING id
     `;
 
-    return {
-      ok: true,
-      message: "Billing address saved.",
-      data: data,
-    };
+
   } catch (e: unknown) {
     const err = e as PgError;
     console.error("Failed to create address", err);
@@ -104,4 +101,6 @@ export const billingAddressInput = async (
       data: raw, // echo back user input
     };
   }
+
+  redirect('/account')
 };
