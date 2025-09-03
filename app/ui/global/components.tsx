@@ -26,6 +26,9 @@ export type BaseInputProps = {
   required?: boolean;
   autoComplete?: string;
   inputClassName?: string;
+  min?: number | string;
+  max?: number | string;
+  step?: number | string;
 
   /** Extra props to apply to the underlying <input> (handlers/ARIA, etc.) */
   inputProps?: Omit<
@@ -60,6 +63,9 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
       inputProps,
       inputClassName,
       endAdornment,
+      min,
+      max,
+      step,
     },
     ref
   ) {
@@ -94,6 +100,9 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
       inputMode,
       autoComplete:
         autoComplete ?? (type === "password" ? "current-password" : "off"),
+      min,
+      max,
+      step,
       className: clsx(
         "peer block w-full rounded-md border border-gray-200",
         "py-2 pr-10 text-sm sm:text-base outline-1 placeholder:text-gray-500 placeholder:text-xs",

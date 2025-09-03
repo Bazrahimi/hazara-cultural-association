@@ -1,3 +1,4 @@
+//app/acount/setting/page.tsx
 import { sql } from "@/app/lib/db";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
