@@ -2,13 +2,15 @@ import z from "zod";
 
 export const BillingAddressSchema = z.object({
   address: z.string().trim().min(1, { message: "Address line 1 is required" }),
-  // accept empty string from form, convert to undefined
+
   address2: z
     .string()
     .trim()
     .transform((v) => (v === "" ? undefined : v))
     .optional(),
+
   suburb: z.string().trim().min(1, { message: "Suburb is required" }),
+
   stateCode: z
     .string()
     .trim()
@@ -21,7 +23,12 @@ export const BillingAddressSchema = z.object({
     .regex(/^[0-9A-Za-z -]{3,10}$/, {
       message: "Enter a valid postcode (3–10 chars, digits/letters/space/-)",
     }),
-  country: z.string().trim(),
+
+  // Keep it simple: default to AU if empty, uppercase if provided
+  country: z
+    .string()
+    .trim()
+    .transform((c) => (c ? c.toUpperCase() : "AU")),
 });
 
 export type BillingAddressInput = z.infer<typeof BillingAddressSchema>;

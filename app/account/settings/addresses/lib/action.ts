@@ -16,7 +16,7 @@ type PgError = {
   message?: string;
 };
 
-export const addressInput = async (
+export const billingAddressInput = async (
   _prev: BillingAddressInputState | undefined,
   formData: FormData
 ): Promise<BillingAddressInputState> => {

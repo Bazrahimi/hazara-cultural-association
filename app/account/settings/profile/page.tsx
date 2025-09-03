@@ -1,10 +1,11 @@
 import { requireUser } from "@/app/lib/auth";
 import { sql } from "@/app/lib/db";
 import type { Breadcrumb } from "@/app/lib/definitions";
+import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import { Profile } from "./lib/schema";
 import ProfileForm from "./ui/ProfileForm";
-import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
+
 
 const breadcrumbs: Breadcrumb[] = [
   {
