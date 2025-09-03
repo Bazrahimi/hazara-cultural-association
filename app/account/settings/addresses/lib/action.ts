@@ -27,7 +27,7 @@ export const billingAddressInput = async (
     address: String(formData.get("address") ?? ""),
     address2: String(formData.get("address2") ?? ""),
     suburb: String(formData.get("suburb") ?? ""),
-    stateCode: String(formData.get("stateCode") ?? ""),
+    state: String(formData.get("state") ?? ""),
     postcode: String(formData.get("postcode") ?? ""),
     country: String(formData.get("country") ?? "AU"),
   };
@@ -35,7 +35,8 @@ export const billingAddressInput = async (
   // Validate + normalize
   const parsed = BillingAddressSchema.safeParse(raw);
   if (!parsed.success) {
-    const fe = parsed.error.flatten().fieldErrors as FieldErrors<BillingAddressInput>;
+    const fe = parsed.error.flatten()
+      .fieldErrors as FieldErrors<BillingAddressInput>;
     return {
       ok: false,
       message: "Please fix the above errors.",
@@ -59,7 +60,7 @@ export const billingAddressInput = async (
         (user_id, type, is_default, address1, address2, suburb, state_code, postcode, country)
       VALUES
         (${userId}, 'billing', true, ${data.address}, ${data.address2 ?? null},
-         ${data.suburb}, ${data.stateCode}, ${data.postcode}, ${data.country})
+         ${data.suburb}, ${data.state}, ${data.postcode}, ${data.country})
       RETURNING id
     `;
 
@@ -73,7 +74,10 @@ export const billingAddressInput = async (
     console.error("Failed to create address", err);
 
     // Friendly mapping for common DB errors
-    if (err.code === "23514" && err.constraint === "user_addresses_postcode_format") {
+    if (
+      err.code === "23514" &&
+      err.constraint === "user_addresses_postcode_format"
+    ) {
       return {
         ok: false,
         message: "Invalid postcode format.",
@@ -81,7 +85,10 @@ export const billingAddressInput = async (
         data: data,
       };
     }
-    if (err.code === "23505" && err.constraint === "user_addresses_one_default_per_user") {
+    if (
+      err.code === "23505" &&
+      err.constraint === "user_addresses_one_default_per_user"
+    ) {
       // Race condition safety: someone saved another default just now
       return {
         ok: false,
@@ -92,7 +99,8 @@ export const billingAddressInput = async (
 
     return {
       ok: false,
-      message: "Something went wrong while saving your address. Please try later.",
+      message:
+        "Something went wrong while saving your address. Please try later.",
       data: raw, // echo back user input
     };
   }

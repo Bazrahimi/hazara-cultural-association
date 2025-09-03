@@ -1,23 +1,24 @@
 "use client";
-// import AddressFields from "@/app/shop/cart/checkout/ui/shipping-details/AddressFields";
-import AddressFields from "./AddressFields";
 
 import { Button } from "@/app/ui/global/components";
-import { useState } from "react";
+import { useActionState, useState } from "react";
+import { billingAddressInput } from "../lib/action";
 import AddressAutoComplete from "../lib/AddressAutoComplete";
-import { BillingAddressInput } from "../lib/schema";
+import type {
+  BillingAddressInput,
+  BillingAddressInputState,
+} from "../lib/schema";
+import AddressFields from "./AddressFields";
 
 const AddressForm = ({ initial }: { initial: BillingAddressInput }) => {
-  // const [state, formAction, isPending] = useActionState<
-  //   BillingAddressInputState | undefined
-  // >(billingAddressInput, undefined);
-  const [manually, setManually] = useState(false);
-  // const [address, setAddress] = usePersistedState<Address>(
-  //   ADDRESS_KEY,
-  //   emptyAddress
-  // );
+  // Server action state must match the action's return type
+  const [actionState, formAction, isPending] =
+    useActionState<BillingAddressInputState>(billingAddressInput, {
+      data: initial,
+    });
 
-  const [address, setAddress] = useState(initial);
+  // Local controlled state that drives the inputs
+  const [address, setAddress] = useState<BillingAddressInput>(initial);
 
   return (
     <>
@@ -30,12 +31,14 @@ const AddressForm = ({ initial }: { initial: BillingAddressInput }) => {
             address: a.address,
             address2: a.address2 ?? "",
             suburb: a.suburb,
-            state: a.state,
+            state: a.state, // make sure AddressAutoComplete returns `state`
             postcode: a.postcode ?? "",
-            country: a.country,
+            country: "AU", // store code; schema uppercases anyway
           })
         }
       />
+
+      {/* Divider */}
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-gray-300" />
@@ -47,15 +50,22 @@ const AddressForm = ({ initial }: { initial: BillingAddressInput }) => {
         </div>
       </div>
 
-      <AddressFields value={address} onChange={setAddress} />
+      {/* Native form submit: inputs must have `name`s so FormData works */}
+      <form action={formAction} className="space-y-4">
+        <AddressFields
+          value={address}
+          onChange={setAddress}
+          errors={actionState?.errors}
+        />
 
-      <Button
-        fullWidth
-        // onClick={handleContinue}
-        // disabled={!canContinue}
-      >
-        Save your Address
-      </Button>
+        {actionState?.message && (
+          <p className="text-sm text-gray-600">{actionState.message}</p>
+        )}
+
+        <Button fullWidth type="submit" disabled={isPending}>
+          {isPending ? "Saving…" : "Save your Address"}
+        </Button>
+      </form>
     </>
   );
 };
