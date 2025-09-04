@@ -1,39 +1,45 @@
-"use client"
+// app/ui/shop/ProductCard.tsx
+"use client";
+import { cldCardHeroAuto } from "@/app/lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
-import { Button } from "@/app/ui/global/components";
 import Image from "next/image";
 import type { Product } from "../lib/definitions";
+import ProductPriceTag from "./ProductPriceTag";
 import { useCart } from "./cart/CartContext";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const { add } = useCart();
+  const {add} = useCart()
   return (
-    <>
-      <article
-        key={product.id}
-        className="rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md transition p-4"
+    <article
+      key={product.id}
+      className="flex flex-col rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md"
+    >
+      <div className="relative h-64 w-full overflow-hidden rounded-xl">
+        <Image
+          src={cldCardHeroAuto(product.mainImgPath)}
+          alt={product.title}
+          fill
+          className="object-cover"
+        />
+      </div>
+
+      <Header
+        as="h4"
+        size="xs"
+        className="mt-4 text-xl font-semibold text-gray-800"
       >
-        <div className="relative h-40 w-full overflow-hidden rounded-md">
-          <Image
-            src={product.img}
-            alt={product.name}
-            fill
-            className="object-cover"
-          />
-        </div>
-        <Header
-          as="h4"
-          size="xs"
-          className="mt-3 text-lg font-semibold text-gray-800"
-        >
-          {product.name}
-        </Header>
-        <p className="mt-1 text-gray-600">{ `AUD ${product.price}`}</p>
-        <Button fullWidth onClick={() => add(product)}>
-          Add to Cart
-        </Button>
-      </article>
-    </>
+        {product.title}
+      </Header>
+
+      <div className="mt-2">
+        {/* Use total price (price + postage) from your query */}
+        <ProductPriceTag
+          priceCents={product.priceCents}
+          postageCents={product.postageCents}
+          size="lg"
+        />
+      </div>
+    </article>
   );
 };
 

@@ -5,7 +5,7 @@ import { Header } from "../ui/global/Header";
 import { P } from "../ui/global/paragraph";
 import ProductCard from "./ui/ProductCard";
 import { sql } from "../lib/db";
-import type { Product } from "./lib/definitions";
+import type { Product} from "./lib/definitions";
 import { cldCardHeroAuto } from "../lib/cloudinary"; // ✅ import your helper
 
 const breadcrumbs: Breadcrumb[] = [
@@ -14,24 +14,19 @@ const breadcrumbs: Breadcrumb[] = [
 ];
 
 export default async function ShopPage() {
-  const rows = await sql<{
-    id: number;
-    title: string;
-    price_cents: number;
-    main_img_path: string; // ✅ matches your DB column
-  }[]>`
-    SELECT id, title, price_cents, main_img_path
+  const products = await sql<Product[]>`
+    SELECT 
+      id ::int , 
+      title, 
+      price_cents                        AS "priceCents",
+      postage_cents                      AS "postageCents",
+      main_img_path                      AS "mainImgPath"
     FROM shop_listings
     ORDER BY created_at DESC
     LIMIT 30
   `;
 
-  const products: Product[] = rows.map((row) => ({
-    id: String(row.id),
-    name: row.title,
-    price: row.price_cents / 100,
-    img: cldCardHeroAuto(row.main_img_path), // ✅ append Cloudinary URL + transform
-  }));
+
 
   return (
     <>
@@ -49,9 +44,9 @@ export default async function ShopPage() {
         {products.length === 0 ? (
           <P className="text-center text-gray-500">No products available yet.</P>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {products.map((p) => (
-              <ProductCard key={p.id} product={p} />
+          <div className="grid grid-cols-1 gap-3 md:gap-6 sm:grid-cols-2 md:grid-cols-3">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}
