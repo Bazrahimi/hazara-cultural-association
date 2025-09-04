@@ -11,8 +11,6 @@ import AccountMenu from "./ui/global/AccountMenu";
 const navLinkBase =
   "group flex flex-col items-center gap-1 text-white hover:text-hca-yellow-main flex-1";
 const navIcon = "text-2xl sm:text-xl opacity-80 group-hover:opacity-100"; // bigger on mobile
-const donateBtn =
-  "inline-flex items-center rounded-md border border-gray-100 px-3 py-1.5 font-medium text-gray-100 hover:bg-gray-50 hover:text-blue-500";
 
 const NavBar = () => {
   return (
