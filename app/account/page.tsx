@@ -63,7 +63,7 @@ export default async function AccountDashboardPage() {
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
-              href="/shop/listing/new"
+              href="/account/listing/new"
               className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500"
             >
               Start a cultural listing
