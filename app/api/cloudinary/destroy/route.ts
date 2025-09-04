@@ -40,6 +40,7 @@ function publicIdFromPath(pathIn: string): string {
 }
 
 export async function POST(req: Request) {
+
   try {
     if (!cloudName || !apiKey || !apiSecret) {
       return NextResponse.json(
@@ -49,6 +50,7 @@ export async function POST(req: Request) {
     }
 
     const { path, resourceType = "image" } = (await req.json()) as DestroyBody;
+
 
     if (!path || typeof path !== "string") {
       return NextResponse.json(
@@ -67,7 +69,7 @@ export async function POST(req: Request) {
 
     // Optional safety: only allow deletes inside your folder.
     // Remove this if you truly want no restriction.
-    const SAFE_PREFIX = "little-bamiyan/";
+    const SAFE_PREFIX = "hca/";
     if (!publicId.startsWith(SAFE_PREFIX)) {
       return NextResponse.json(
         { ok: false, message: "Refused to delete outside allowed folder." },
