@@ -1,53 +1,42 @@
 // app/shop/page.tsx
-"use client";
-
 import type { Breadcrumb } from "../lib/definitions";
 import Breadcrumbs from "../ui/global/Breadcrumbs";
 import { Header } from "../ui/global/Header";
 import { P } from "../ui/global/paragraph";
-import { Product } from "./lib/definitions";
 import ProductCard from "./ui/ProductCard";
+import { sql } from "../lib/db";
+import type { Product } from "./lib/definitions";
+import { cldCardHeroAuto } from "../lib/cloudinary"; // ✅ import your helper
 
 const breadcrumbs: Breadcrumb[] = [
-  {
-    label: "Home",
-    href: "/",
-  },
-  {
-    label: "HCA Shop",
-    href: "/shop",
-    active: true,
-  },
+  { label: "Home", href: "/" },
+  { label: "HCA Shop", href: "/shop", active: true },
 ];
 
-const PRODUCTS: Product[] = [
-  {
-    id: "flag",
-    name: "Hazaristan Flag",
-    price: 25,
-    img: "/images/sample/hazaristan-flag.png",
-  },
-  {
-    id: "book",
-    name: "Hazara Cultural Book",
-    price: 35,
-    img: "https://picsum.photos/400/300?random=2",
-  },
-  {
-    id: "ornament",
-    name: "Hazara Traditional Ornament",
-    price: 45,
-    img: "https://picsum.photos/400/300?random=3",
-  },
-];
+export default async function ShopPage() {
+  const rows = await sql<{
+    id: number;
+    title: string;
+    price_cents: number;
+    main_img_path: string; // ✅ matches your DB column
+  }[]>`
+    SELECT id, title, price_cents, main_img_path
+    FROM shop_listings
+    ORDER BY created_at DESC
+    LIMIT 30
+  `;
 
-export default function ShopPage() {
+  const products: Product[] = rows.map((row) => ({
+    id: String(row.id),
+    name: row.title,
+    price: row.price_cents / 100,
+    img: cldCardHeroAuto(row.main_img_path), // ✅ append Cloudinary URL + transform
+  }));
+
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <section className="space-y-8">
-        {/* Page header */}
-
         <Header as="h1" align="center" className="m-3">
           HCA Shop
         </Header>
@@ -57,12 +46,15 @@ export default function ShopPage() {
           programs.
         </P>
 
-        {/* Product grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-          {PRODUCTS.map((p) => (
-            <ProductCard product={p} key={p.id} />
-          ))}
-        </div>
+        {products.length === 0 ? (
+          <P className="text-center text-gray-500">No products available yet.</P>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+            {products.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

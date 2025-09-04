@@ -158,13 +158,16 @@ export default function CheckoutPage() {
 
                   {!activeMethod && (
                     <>
-                      <SocialAccount onEmailSaved = {(email) => {
-                        setCheckoutEmail(email);
-                        setActiveMethod(null);
-                      }} />
+                      <SocialAccount
+                        onProviderSelect={(provider) => {
+                          // start your OAuth flow here (e.g., next-auth signIn(provider))
+                          // signIn(provider)
+                        }}
+                      />
                       <Button
                         variant="outline"
                         fullWidth
+                        type="button"
                         onClick={() => setActiveMethod("guest")}
                       >
                         Continue with Email

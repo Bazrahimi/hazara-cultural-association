@@ -38,6 +38,7 @@ export default function VerifyEmailForm({ email }: { email: string }) {
         <form action={formAction} className="space-y-4" noValidate>
           <Input
             id="code"
+            type="text"
             label="Verification code"
             placeholder="123456"
             inputProps={{

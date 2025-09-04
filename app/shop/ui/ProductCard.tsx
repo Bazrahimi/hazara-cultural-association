@@ -1,3 +1,4 @@
+"use client"
 import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
 import Image from "next/image";
@@ -27,7 +28,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         >
           {product.name}
         </Header>
-        <p className="mt-1 text-gray-600">{product.price}</p>
+        <p className="mt-1 text-gray-600">{ `AUD ${product.price}`}</p>
         <Button fullWidth onClick={() => add(product)}>
           Add to Cart
         </Button>

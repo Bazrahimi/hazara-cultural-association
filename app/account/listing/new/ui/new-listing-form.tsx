@@ -5,7 +5,6 @@ import { Button, Input } from "@/app/ui/global/components";
 
 import Modal from "@/app/ui/global/modal";
 import QuillEditor from "@/app/ui/global/QuillEditor";
-import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useRef, useState } from "react";
 
 import { createListing } from "../lib/action";
@@ -30,7 +29,6 @@ const NewListingForm = () => {
   // success modal
   const [showSuccess, setShowSuccess] = useState(false);
   const formRef = useRef<HTMLFormElement | null>(null);
-  const router = useRouter();
 
   // When the server action returns success, open modal and reset fields
   useEffect(() => {
