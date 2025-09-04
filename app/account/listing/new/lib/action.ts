@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import { requireUser } from "@/app/lib/auth";
 import { sql } from "@/app/lib/db";
 import { sanitizeHtml } from "@/app/lib/sanitize";
@@ -10,7 +10,6 @@ export async function createListing(
 ): Promise<ListingActionState> {
   const { userId } = await requireUser();
 
-  // collect raw values from the form
   const raw: ListingInput = {
     title: String(formData.get("title") ?? ""),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,8 +22,6 @@ export async function createListing(
     mainImg: String(formData.get("mainImg") ?? ""),
     otherImgs: String(formData.get("otherImgs") ?? ""),
   };
-
-  console.log(raw)
 
   const parsed = ListingSchema.safeParse(raw);
   if (!parsed.success) {
@@ -39,16 +36,24 @@ export async function createListing(
 
   const d = parsed.data;
 
+  try {
+    await sql /* sql */ `
+      INSERT INTO shop_listings
+        (user_id, title, description_html, price_cents, postage_cents, category, origin, main_img_path, hero_img_path)
+      VALUES
+        (${userId}, ${d.title}, ${d.description},
+         ${Math.round(d.price * 100)}, ${Math.round(d.postage * 100)},
+         ${d.category}, ${d.origin || null}, ${d.mainImg}, ${d.otherImgs || null})
+    `;
 
-  // Insert into DB — adjust table/columns to yours
-  await sql /* sql */ `
-    INSERT INTO shop_listings
-      (user_id, title, description_html, price_cents, postage_cents, category, origin, main_img_url, hero_img_url)
-    VALUES
-      (${userId}, ${d.title}, ${d.description},
-       ${Math.round(d.price * 100)}, ${Math.round(d.postage * 100)},
-       ${d.category}, ${d.origin || null}, ${d.mainImg}, ${d.otherImgs || null})
-  `;
+    return { ok: true, message: "Listing created successfully." };
+  } catch (err: unknown) {
+    console.error("DB error inserting listing:", err);
 
-  return { ok: true, message: "Listing created successfully." };
+    return {
+      ok: false,
+      message: "Something went wrong while creating the listing.",
+      data: raw,
+    };
+  }
 }
