@@ -24,7 +24,7 @@ type Props = {
   userId: number;
   email: string;
   profile: { firstName: string; lastName: string; phone: string };
-  defaultAddress: (FullAddress & { id: number; label?: string }) | null;
+  defaultAddress: (FullAddress & { id: number; label?: string }) | null; // ← allow null
 };
 
 type Step = "shipping" | "pay";
