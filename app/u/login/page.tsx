@@ -13,7 +13,15 @@ const LoginPage = () => {
   const [state, formAction, isPending] = useActionState(auth, undefined);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex flex-col items-center px-4 py-10">
+      {/* Development Banner */}
+      <div className="w-full max-w-3xl mb-6 rounded-md bg-yellow-100 border border-yellow-300 p-3 text-center">
+        <p className="text-yellow-800 font-semibold">
+          🚧 This website is currently under development. Some features may not
+          work as expected.
+        </p>
+      </div>
+
       <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white/90 shadow-xl backdrop-blur-sm p-5 sm:p-7 md:p-8">
         <Header as="h2" size="md" align="center" className="mb-10">
           Login in to HCA Account
@@ -56,6 +64,7 @@ const LoginPage = () => {
 
           <FormErrorMessage message={state?.message} />
         </form>
+
         <Button
           fullWidth
           variant="outline"

@@ -39,7 +39,7 @@ export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
 
   // Allow the login page to load, but still block crawlers
-  if (pathname === "/u/login") {
+  if (pathname === "/u/login" || pathname === "/u/sign-up") {
     return disallowCrawlers(NextResponse.next());
   }
 
