@@ -50,7 +50,7 @@ export const billingAddressInput = async (
 
   try {
     // One statement: clear old default, then insert new default
-    const inserted = await sql<[{ id: number }]>`
+    await sql<[{ id: number }]>`
       WITH cleared AS (
         UPDATE user_addresses
         SET is_default = false, updated_at = now()

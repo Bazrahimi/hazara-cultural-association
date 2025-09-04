@@ -1,5 +1,4 @@
 //app/account/listing/new/page.tsx
-import { requireUser } from "@/app/lib/auth";
 import type { Breadcrumb } from "@/app/lib/definitions";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
@@ -14,7 +13,6 @@ const breadcrumbs: Breadcrumb[] = [
 ];
 
 const page = async () => {
-  const { userId } = await requireUser();
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
@@ -28,7 +26,7 @@ const page = async () => {
             cultural heritage (e.g., textiles, crafts, calligraphy, literature,
             instruments).
           </P>
-          <NewListingForm userId={userId} />
+          <NewListingForm />
         </div>
       </div>
     </>
