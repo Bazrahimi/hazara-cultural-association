@@ -11,7 +11,7 @@ import { ListingActionState } from "../lib/schema";
 
 const initialState: ListingActionState = {};
 
-const NewListingForm = () => {
+const NewListingForm = () => { 
   const [state, formAction, isPending] = useActionState(
     createListing,
     initialState
