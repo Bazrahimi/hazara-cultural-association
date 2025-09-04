@@ -38,7 +38,7 @@ export async function createListing(
   }
 
   const d = parsed.data;
-  console.log(d)
+
 
   // Insert into DB — adjust table/columns to yours
   await sql /* sql */ `

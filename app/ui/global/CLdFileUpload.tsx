@@ -1,6 +1,7 @@
 // components/CldFileUpload.tsx
 "use client";
 
+import { cldLogoSharp } from "@/app/lib/cloudinary";
 import {
   CldUploadWidget,
   type CloudinaryUploadWidgetInfo,
@@ -8,7 +9,6 @@ import {
 import Image from "next/image";
 import * as React from "react";
 import { FiTrash2, FiUploadCloud } from "react-icons/fi";
-import { cldLogoSharp } from "@/app/lib/cloudinary";
 import { Button } from "./components";
 import Spinner from "./skeleton/spinner";
 
@@ -57,11 +57,8 @@ export default function CldFileUpload({
     }
   }
 
-
   return (
     <div className="mt-2">
- 
-
       {value ? (
         <div className="mt-3 flex items-center gap-3">
           <div className="relative h-16 w-16 overflow-hidden rounded bg-gray-100">
@@ -79,7 +76,10 @@ export default function CldFileUpload({
             type="button"
             variant="danger"
             size="sm"
-            onClick={handleRemove}
+            onClick={(e) => {
+              e.preventDefault();
+              handleRemove();
+            }}
             disabled={removing}
             className="inline-flex items-center gap-2"
           >
@@ -87,38 +87,41 @@ export default function CldFileUpload({
             {removing ? <Spinner /> : "Remove & upload new"}
           </Button>
         </div>
-      ):(
-     <CldUploadWidget
-        uploadPreset={uploadPreset}
-        signatureEndpoint={SIGNATURE_ENDPOINT}
-        onSuccess={(result) => {
-          const info = result?.info as CloudinaryUploadWidgetInfo | undefined;
-          // The widget gives a nice `path`: "v123/folder/file.png"
-          if (!info?.path) return;
-          onChange(info.path);
-        }}
-        options={{
-          resourceType,
-          clientAllowedFormats: allowedFormats,
-          multiple: false,
-          maxFiles: 1,
-          sources: ["local", "url", "camera"],
-          language: "en",
-        }}
-      >
-        {({ open }) => (
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => open()}
-            className="inline-flex items-center gap-2"
-            size="sm"
-          >
-            <FiUploadCloud className="h-5 w-5" />
-            {`${title} Image`}
-          </Button>
-        )}
-      </CldUploadWidget>
+      ) : (
+        <CldUploadWidget
+          uploadPreset={uploadPreset}
+          signatureEndpoint={SIGNATURE_ENDPOINT}
+          onSuccess={(result) => {
+            const info = result?.info as CloudinaryUploadWidgetInfo | undefined;
+            // The widget gives a nice `path`: "v123/folder/file.png"
+            if (!info?.path) return;
+            onChange(info.path);
+          }}
+          options={{
+            resourceType,
+            clientAllowedFormats: allowedFormats,
+            multiple: false,
+            maxFiles: 1,
+            sources: ["local", "url", "camera"],
+            language: "en",
+          }}
+        >
+          {({ open }) => (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={(e) => {
+                e.preventDefault();
+                open();
+              }}
+              className="inline-flex items-center gap-2"
+              size="sm"
+            >
+              <FiUploadCloud className="h-5 w-5" />
+              {`${title} Image`}
+            </Button>
+          )}
+        </CldUploadWidget>
       )}
 
       {removeError && (
