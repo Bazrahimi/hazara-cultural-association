@@ -2,9 +2,31 @@
 import { Button, Input } from "@/app/ui/global/components";
 import QuillEditor from "@/app/ui/global/QuillEditor";
 import { useState } from "react";
+import ProductImgUpload from "./ProductImgUpload";
+
+type FieldErrors = Partial<Record<"mainImg" | "otherImgs", string[]>>;
 
 const NewListingForm = ({ userId }: { userId: number }) => {
   const [descriptionHTML, setDescriptionHTML] = useState("");
+  const [mainImg, setMainImg] = useState("");
+  const [otherImgs, setOtherImgs] = useState("");
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const errs: FieldErrors = {};
+
+    if (!mainImg) errs.mainImg = ["Main image is required."];
+    if (!otherImgs) errs.otherImgs = ["Hero image is required."];
+
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
+
+    // ✅ submit form here
+  };
+
   return (
     <form className="space-y-6">
       <Input
@@ -64,6 +86,14 @@ const NewListingForm = ({ userId }: { userId: number }) => {
         placeholder="Describe the item and cultural context…"
         maxChars={2000}
         className="min-h-[200px] max-h-[400px]"
+      />
+
+      <ProductImgUpload
+        mainImg={mainImg}
+        otherImgs={otherImgs}
+        setMainImg={setMainImg}
+        setOtherImgs={setOtherImgs}
+        errors={errors}
       />
 
       {/* <textarea
