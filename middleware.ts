@@ -38,8 +38,9 @@ function disallowCrawlers(res: NextResponse) {
 export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
 
-  // Allow the login page to load, but still block crawlers
-  if (pathname === "/u/login" || pathname === "/u/sign-up") {
+  // 1) Allow any auth/account routes under /u/* without requiring a session
+  //    (login, sign-up, forgot-password, etc), but still block crawlers.
+  if (pathname.startsWith("/u/")) {
     return disallowCrawlers(NextResponse.next());
   }
 
