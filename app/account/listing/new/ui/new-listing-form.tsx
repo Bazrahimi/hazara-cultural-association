@@ -1,7 +1,10 @@
 "use client";
 import { Button, Input } from "@/app/ui/global/components";
+import QuillEditor from "@/app/ui/global/QuillEditor";
+import { useState } from "react";
 
 const NewListingForm = ({ userId }: { userId: number }) => {
+  const [descriptionHTML, setDescriptionHTML] = useState("");
   return (
     <form className="space-y-6">
       <Input
@@ -12,11 +15,14 @@ const NewListingForm = ({ userId }: { userId: number }) => {
         required
       />
 
-      <textarea
-        name="description"
-        placeholder="Describe the item, its cultural context, and any special meaning…"
-        rows={5}
-        required
+      <label className="block text-sm font-medium text-gray-700">
+        Description
+      </label>
+      <QuillEditor
+        value={descriptionHTML}
+        onChange={setDescriptionHTML}
+        placeholder="Describe the item and cultural context…"
+        maxChars={2000}
       />
 
       <Input
