@@ -49,5 +49,5 @@ export async function updateProfileAction(
     };
   }
 
-  redirect("/account/settings/addresses");
+  redirect("/account/settings/addresses/new");
 }
