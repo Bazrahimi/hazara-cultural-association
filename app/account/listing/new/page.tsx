@@ -23,7 +23,7 @@ const page = async () => {
           <Header as="h1" className="mb-2">
             Create a new Cultural Listing
           </Header>
-          <P className="text-gray-700">
+          <P className="text-gray-700 mb-10">
             Please only list items that preserve, celebrate, or share Hazara
             cultural heritage (e.g., textiles, crafts, calligraphy, literature,
             instruments).

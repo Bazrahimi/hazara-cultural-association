@@ -8,6 +8,8 @@ import "react-quill-new/dist/quill.snow.css";
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 type Props = {
+  id?: string;
+  label: string;
   value: string;
   onChange: (html: string) => void;
   placeholder?: string;
@@ -22,12 +24,15 @@ const textLength = (html: string) =>
     .trim().length;
 
 export default function QuillEditor({
+  id,
+  label,
   value,
   onChange,
   placeholder,
   maxChars,
   className,
 }: Props) {
+  const inputId = id;
   const modules = useMemo(
     () => ({
       toolbar: [
@@ -56,6 +61,12 @@ export default function QuillEditor({
 
   return (
     <div className={className}>
+      <label
+        htmlFor={inputId}
+        className="mb-1 block text-sm font-medium text-gray-700"
+      >
+        {label}
+      </label>
       <ReactQuill
         theme="snow"
         value={value}
@@ -64,6 +75,14 @@ export default function QuillEditor({
         formats={formats}
         placeholder={placeholder}
       />
+
+      <style jsx>{`
+        :global(.ql-editor) {
+          min-height: 200px;
+          max-height: 400px;
+          overflow-y: auto;
+        }
+      `}</style>
       {typeof maxChars === "number" && (
         <div className="mt-1 text-right text-xs text-gray-500">
           {textLength(value)}/{maxChars} characters
