@@ -11,8 +11,12 @@ const SummaryRow = ({ item }: { item: CartItem }) => {
 
   return (
     <tr className="border-t border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-      <Link href={`/shop/${item.slug}-${item.id}`}>
-        <td className="py-4 px-6 flex items-center gap-4 hover:cursor-pointer">
+      {/* ✅ Link goes INSIDE the td */}
+      <td className="py-4 px-6">
+        <Link
+          href={`/shop/${item.slug}-${item.id}`}
+          className="flex items-center gap-4 hover:opacity-90 focus:outline-none focus:ring-4 focus:ring-blue-100 rounded-md"
+        >
           <Image
             alt={`${item.title}'s Image`}
             src={cldCardHeroAuto(item.mainImgPath)}
@@ -33,12 +37,13 @@ const SummaryRow = ({ item }: { item: CartItem }) => {
               ${lineDollar.toFixed(2)}
             </P>
           </div>
-        </td>
-      </Link>
+        </Link>
+      </td>
 
       <td className="py-4 px-6 text-center text-gray-700 font-medium tabular-nums">
         {item.qty}
       </td>
+
       <td className="py-4 px-6 text-right text-hca-blue-main font-semibold tabular-nums">
         ${lineDollar.toFixed(2)}
       </td>
