@@ -78,11 +78,25 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const totalItems = state.items.reduce((s, i) => s + i.qty, 0);
     const subtotal = state.items.reduce(
-      (s, i) => s + i.qty * (i.priceCents + i.postageCents),
+      (s, i) => s + (i.qty * i.priceCents) / 100,
       0
     );
 
-    return { ...state, add, remove, updateQty, clear, totalItems, subtotal };
+    const postageTotal = state.items.reduce(
+      (p, i) => p + (i.qty * i.postageCents) / 100,
+      0
+    );
+
+    return {
+      ...state,
+      add,
+      remove,
+      updateQty,
+      clear,
+      totalItems,
+      subtotal,
+      postageTotal,
+    };
   }, [state]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

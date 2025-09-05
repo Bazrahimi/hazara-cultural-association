@@ -6,9 +6,10 @@ import Image from "next/image";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import type { CartItem } from "../lib/definitions";
 import { useCart } from "../ui/cart/CartContext";
+import { cldCardHeroAuto } from "@/app/lib/cloudinary";
 
 export default function CartPage() {
-  const { items, subtotal, updateQty, remove } = useCart();
+  const { items, subtotal, updateQty, remove, postageTotal } = useCart();
 
   if (!items.length) {
     return (
@@ -32,12 +33,12 @@ export default function CartPage() {
           <P className="tabular-nums">${subtotal.toFixed(2)}</P>
         </div>
         <div className="flex w-full max-w-xs items-center justify-between">
-          <P className="font-bold">GST:</P>
-          <P className="tabular-nums">0</P>
+          <P className="font-bold">Postage:</P>
+          <P className="tabular-nums">${postageTotal.toFixed(2)}</P>
         </div>
         <div className="flex w-full max-w-xs items-center justify-between">
           <P className="font-bold">Total:</P>
-          <P className="tabular-nums">${(subtotal + 0).toFixed(2)}</P>
+          <P className="tabular-nums">${(subtotal + postageTotal).toFixed(2)}</P>
         </div>
       </div>
 
@@ -57,8 +58,8 @@ function CartTable({
   remove,
 }: {
   items: CartItem[];
-  updateQty: (id: string, qty: number) => void;
-  remove: (id: string) => void;
+  updateQty: (id: number, qty: number) => void;
+  remove: (id: number) => void;
 }) {
   return (
     <div className="overflow-x-auto rounded-md border border-gray-200">
@@ -104,10 +105,10 @@ function CartRow({
   remove,
 }: {
   item: CartItem;
-  updateQty: (id: string, qty: number) => void;
-  remove: (id: string) => void;
+  updateQty: (id: number, qty: number) => void;
+  remove: (id: number) => void;
 }) {
-  const lineTotal = item.qty * item.price;
+  const lineTotal = item.qty * (item.priceCents + item.postageCents) / 100;
 
   return (
     <tr className="border-t">
@@ -117,8 +118,8 @@ function CartRow({
           {/* Square thumbnail with stable layout */}
           <div className="relative h-12 w-12 overflow-hidden rounded">
             <Image
-              src={item.img}
-              alt={item.name}
+              src={cldCardHeroAuto(item.mainImgPath) }
+              alt={item.title}
               fill
               className="object-cover"
               sizes="48px"
@@ -127,8 +128,8 @@ function CartRow({
           </div>
 
           <div className="min-w-0">
-            <p className="font-semibold truncate">{item.name}</p>
-            <p className="text-gray-500">${item.price.toFixed(2)} each</p>
+            <p className="font-semibold truncate">{item.title}</p>
+            <p className="text-gray-500">${(item.priceCents + item.postageCents).toFixed(2)} each</p>
           </div>
         </div>
       </td>
@@ -169,7 +170,7 @@ function CartRow({
           size="xs"
           variant="danger"
           onClick={() => remove(item.id)}
-          aria-label={`Remove ${item.name}`}
+          aria-label={`Remove ${item.title}`}
         >
           x
         </Button>
