@@ -4,20 +4,21 @@ import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
-import { ProductHead, ProductRecord } from "../../lib/definitions";
+import { CartItem, ProductHead, ProductRecord } from "../../lib/definitions";
 import { useCart } from "../../ui/cart/CartContext";
 
 const ProductDetails = ({ product }: { product: ProductRecord }) => {
   const { add } = useCart();
 
   const totalPriceCents = product.priceCents + product.postageCents;
-  const productHead: ProductHead = {
+  const productHead: CartItem = {
     id: product.id,
     slug: product.slug,
     title: product.title,
     mainImgPath: product.mainImgPath,
     priceCents: product.priceCents,
     postageCents: product.postageCents,
+    qty: 1
   };
 
   return (

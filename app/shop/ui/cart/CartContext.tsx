@@ -7,24 +7,17 @@ import React, {
   useMemo,
   useReducer,
 } from "react";
-import { CartState, ProductHead } from "../../lib/definitions";
-
-type Action =
-  | { type: "HYDRATE"; payload: CartState }
-  | { type: "ADD"; payload: ProductHead; qty?: number }
-  | { type: "REMOVE"; payload: { id: string } }
-  | { type: "UPDATE_QTY"; payload: { id: string; qty: number } }
-  | { type: "CLEAR" };
+import { CartAction, CartItem, CartState, Ctx } from "../../lib/definitions";
 
 const initial: CartState = { items: [] };
 
-function reducer(state: CartState, action: Action): CartState {
+function reducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case "HYDRATE":
       return action.payload;
 
     case "ADD": {
-      const qty = Math.max(1, action.qty ?? 1);
+      const qty = Math.max(1, action.payload.qty ?? 1);
       const idx = state.items.findIndex((i) => i.id === action.payload.id);
       if (idx >= 0) {
         const items = [...state.items];
@@ -54,15 +47,6 @@ function reducer(state: CartState, action: Action): CartState {
   }
 }
 
-type Ctx = CartState & {
-  add: (p: ProductHead, qty?: number) => void;
-  remove: (id: string) => void;
-  updateQty: (id: string, qty: number) => void;
-  clear: () => void;
-  totalItems: number;
-  subtotal: number;
-};
-
 const CartContext = createContext<Ctx | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
@@ -85,16 +69,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [state]);
 
   const value = useMemo<Ctx>(() => {
-    const add = (p: ProductHead, qty?: number) =>
-      dispatch({ type: "ADD", payload: p, qty });
-    const remove = (id: string) =>
+    const add = (p: CartItem) => dispatch({ type: "ADD", payload: p });
+    const remove = (id: number) =>
       dispatch({ type: "REMOVE", payload: { id } });
-    const updateQty = (id: string, qty: number) =>
+    const updateQty = (id: number, qty: number) =>
       dispatch({ type: "UPDATE_QTY", payload: { id, qty } });
     const clear = () => dispatch({ type: "CLEAR" });
 
     const totalItems = state.items.reduce((s, i) => s + i.qty, 0);
-    const subtotal = state.items.reduce((s, i) => s + i.qty * i.price, 0);
+    const subtotal = state.items.reduce(
+      (s, i) => s + i.qty * (i.priceCents + i.postageCents),
+      0
+    );
 
     return { ...state, add, remove, updateQty, clear, totalItems, subtotal };
   }, [state]);

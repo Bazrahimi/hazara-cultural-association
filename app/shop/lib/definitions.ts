@@ -18,14 +18,20 @@ export type ProductHead = Pick<
   "id" | "slug" | "title" | "mainImgPath" | "priceCents" | "postageCents"
 >;
 
-
 export type CartItem = ProductHead & { qty: number };
 export type CartState = { items: CartItem[] };
 
+export type CartAction =
+  | { type: "HYDRATE"; payload: CartState }
+  | { type: "ADD"; payload: CartItem }
+  | { type: "REMOVE"; payload: { id: number } }
+  | { type: "UPDATE_QTY"; payload: { id: number; qty: number } }
+  | { type: "CLEAR" };
+
 export type Ctx = CartState & {
-  add: (p: ProductHead, qty?: number) => void;
-  remove: (id: string) => void;
-  updateQty: (id: string, qty: number) => void;
+  add: (p: CartItem) => void;
+  remove: (id: number) => void;
+  updateQty: (id: number, qty: number) => void;
   clear: () => void;
   totalItems: number;
   subtotal: number;
