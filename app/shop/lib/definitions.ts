@@ -9,20 +9,21 @@ export type ProductRecord = {
   category: string;
   origin?: string;
   mainImgPath: string;
-  otherImgPath: string[];
+  otherImgPaths: string[];
   createdAt: string;
 };
 
-export type Product = Pick<
+export type ProductHead = Pick<
   ProductRecord,
   "id" | "slug" | "title" | "mainImgPath" | "priceCents" | "postageCents"
 >;
 
-export type CartItem = Product & { qty: number };
+
+export type CartItem = ProductHead & { qty: number };
 export type CartState = { items: CartItem[] };
 
 export type Ctx = CartState & {
-  add: (p: Product, qty?: number) => void;
+  add: (p: ProductHead, qty?: number) => void;
   remove: (id: string) => void;
   updateQty: (id: string, qty: number) => void;
   clear: () => void;

@@ -5,7 +5,7 @@ import { Header } from "../ui/global/Header";
 import { P } from "../ui/global/paragraph";
 import ProductCard from "./ui/ProductCard";
 import { sql } from "../lib/db";
-import type { Product} from "./lib/definitions";
+import type { ProductHead} from "./lib/definitions";
 import { cldCardHeroAuto } from "../lib/cloudinary"; // ✅ import your helper
 
 const breadcrumbs: Breadcrumb[] = [
@@ -14,9 +14,10 @@ const breadcrumbs: Breadcrumb[] = [
 ];
 
 export default async function ShopPage() {
-  const products = await sql<Product[]>`
+  const products = await sql<ProductHead[]>`
     SELECT 
       id ::int , 
+      slug,
       title, 
       price_cents                        AS "priceCents",
       postage_cents                      AS "postageCents",
