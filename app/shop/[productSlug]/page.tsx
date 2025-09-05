@@ -36,7 +36,7 @@ const page = async ({
   const product = rows[0];
   if (!product) notFound();
 
-  const totalPriceCents = product.priceCents + product.postageCents;
+  console.log("Page rendered_______")
 
   return (
     <div className="mx-auto p-4 md:p-6">

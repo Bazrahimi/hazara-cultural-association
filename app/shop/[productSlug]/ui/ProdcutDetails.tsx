@@ -1,10 +1,15 @@
+"use client";
 import { cldCardHeroAuto } from "@/app/lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
+import { Button } from "@/app/ui/global/components";
+import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import { ProductRecord } from "../../lib/definitions";
-import ProductPriceTag from "../../ui/ProductPriceTag";
+import { useCart } from "../../ui/cart/CartContext";
 
 const ProductDetails = ({ product }: { product: ProductRecord }) => {
+  const { add } = useCart();
+
   const totalPriceCents = product.priceCents + product.postageCents;
 
   return (
@@ -25,13 +30,11 @@ const ProductDetails = ({ product }: { product: ProductRecord }) => {
           {product.title}
         </Header>
 
-        <div className="mt-3">
-          {/* Single total price (price + postage) */}
-          <ProductPriceTag
-            priceCents={product.priceCents}
-            postageCents={product.postageCents}
-            size="lg"
-          />
+        <P size="lg" >${(totalPriceCents / 100).toFixed(2)}</P>
+
+        <div className="grid grid-cols-2 gap-3">
+          <Button variant="outline">Buy Now</Button>
+          <Button onClick={add}>Add to Cart</Button>
         </div>
 
         <dl className="mt-4 grid grid-cols-2 gap-4 text-sm">
