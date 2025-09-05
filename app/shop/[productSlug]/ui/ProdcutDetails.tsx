@@ -4,13 +4,21 @@ import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
-import { ProductRecord } from "../../lib/definitions";
+import { ProductHead, ProductRecord } from "../../lib/definitions";
 import { useCart } from "../../ui/cart/CartContext";
 
 const ProductDetails = ({ product }: { product: ProductRecord }) => {
   const { add } = useCart();
 
   const totalPriceCents = product.priceCents + product.postageCents;
+  const productHead: ProductHead = {
+    id: product.id,
+    slug: product.slug,
+    title: product.title,
+    mainImgPath: product.mainImgPath,
+    priceCents: product.priceCents,
+    postageCents: product.postageCents,
+  };
 
   return (
     <>
@@ -30,11 +38,11 @@ const ProductDetails = ({ product }: { product: ProductRecord }) => {
           {product.title}
         </Header>
 
-        <P size="lg" >${(totalPriceCents / 100).toFixed(2)}</P>
+        <P size="lg">${(totalPriceCents / 100).toFixed(2)}</P>
 
         <div className="grid grid-cols-2 gap-3">
           <Button variant="outline">Buy Now</Button>
-          <Button onClick={add}>Add to Cart</Button>
+          <Button onClick={() => add(productHead)}>Add to Cart</Button>
         </div>
 
         <dl className="mt-4 grid grid-cols-2 gap-4 text-sm">

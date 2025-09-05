@@ -7,11 +7,11 @@ import React, {
   useMemo,
   useReducer,
 } from "react";
-import { CartState, Product } from "../../lib/definitions";
+import { CartState, ProductHead } from "../../lib/definitions";
 
 type Action =
   | { type: "HYDRATE"; payload: CartState }
-  | { type: "ADD"; payload: Product; qty?: number }
+  | { type: "ADD"; payload: ProductHead; qty?: number }
   | { type: "REMOVE"; payload: { id: string } }
   | { type: "UPDATE_QTY"; payload: { id: string; qty: number } }
   | { type: "CLEAR" };
@@ -55,7 +55,7 @@ function reducer(state: CartState, action: Action): CartState {
 }
 
 type Ctx = CartState & {
-  add: (p: Product, qty?: number) => void;
+  add: (p: ProductHead, qty?: number) => void;
   remove: (id: string) => void;
   updateQty: (id: string, qty: number) => void;
   clear: () => void;
@@ -85,7 +85,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [state]);
 
   const value = useMemo<Ctx>(() => {
-    const add = (p: Product, qty?: number) =>
+    const add = (p: ProductHead, qty?: number) =>
       dispatch({ type: "ADD", payload: p, qty });
     const remove = (id: string) =>
       dispatch({ type: "REMOVE", payload: { id } });
