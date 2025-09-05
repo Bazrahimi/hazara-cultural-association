@@ -7,7 +7,7 @@ import Row from "./order-summary/Row";
 import SummaryRow from "./order-summary/SummaryRow";
 
 const OrderSummary = () => {
-  const { items, subtotal } = useCart();
+  const { items, subtotal, postageTotal } = useCart();
 
   if (!items.length) {
     return (
@@ -20,9 +20,8 @@ const OrderSummary = () => {
     );
   }
 
-  const GST_RATE = 0;
-  const gst = subtotal * GST_RATE;
-  const total = subtotal + gst;
+
+
   return (
     <div aria-labelledby="order-summary" className="space-y-3">
       <Header as="h2" size="xs" id="order-summary">
@@ -37,8 +36,8 @@ const OrderSummary = () => {
         </Header>
         <div className="flex flex-col items-end gap-2">
           <Row label="Sub-total" value={`$${subtotal.toFixed(2)}`} />
-          <Row label="GST:" value={`$${gst.toFixed(2)}`} />
-          <Row label="Total:" value={`$${total.toFixed(2)}`} bold />
+          <Row label="Postage:" value={`$${postageTotal.toFixed(2)}`} />
+          <Row label="Total:" value={`$${subtotal + postageTotal}`} bold />
         </div>
       </section>
 

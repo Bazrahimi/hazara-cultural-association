@@ -35,6 +35,7 @@ export type Ctx = CartState & {
   clear: () => void;
   totalItems: number;
   subtotal: number;
+  postageTotal: number;
 };
 
 export type FullAddress = Pick<

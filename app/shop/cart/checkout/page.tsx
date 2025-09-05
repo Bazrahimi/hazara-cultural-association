@@ -17,7 +17,10 @@ export default async function Page() {
   const profiles = await sql<
     { first_name: string | null; last_name: string | null; phone: string | null }[]
   >`
-    SELECT first_name, last_name, phone
+    SELECT 
+      first_name           AS "firstName", 
+      last_name            AS "lastName", 
+      phone                AS "ContactNumber"
     FROM user_profiles
     WHERE user_id = ${userId}
     LIMIT 1
