@@ -28,6 +28,7 @@ const page = async ({
       other_img_paths         AS "otherImgPaths",
       created_At              AS "createdAt"
     FROM shop_listings
+    WHERE id = ${idFromSlug}
     ORDER BY created_at DESC
     LIMIT 1
   `;
@@ -36,7 +37,7 @@ const page = async ({
   const product = rows[0];
   if (!product) notFound();
 
-  console.log("Page rendered_______")
+  console.log("Page rendered_______");
 
   return (
     <div className="mx-auto p-4 md:p-6">
