@@ -5,13 +5,14 @@ import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { CartItem, ProductHead, ProductRecord } from "../../lib/definitions";
+import { CartItem, ProductDetailsData } from "../../lib/definitions";
 import { useCart } from "../../ui/cart/CartContext";
+import Link from "next/link";
 
 const QTY_MIN = 1;
 const QTY_MAX = 10;
 
-const ProductDetails = ({ product }: { product: ProductRecord }) => {
+const ProductDetails = ({ product }: { product: ProductDetailsData }) => {
   const { add } = useCart();
 
   // local qty selection (defaults to 1)
@@ -25,7 +26,7 @@ const ProductDetails = ({ product }: { product: ProductRecord }) => {
     mainImgPath: product.mainImgPath,
     priceCents: product.priceCents,
     postageCents: product.postageCents,
-    qty: qty
+    qty: qty,
   };
 
   const unitTotalCents = product.priceCents + product.postageCents;
@@ -63,7 +64,6 @@ const ProductDetails = ({ product }: { product: ProductRecord }) => {
         <Header as="h1" size="md" className="text-3xl text-gray-900">
           {product.title}
         </Header>
-
         {/* Price: per-unit and selected total */}
         <div className="mt-2">
           <P size="lg">
@@ -81,7 +81,22 @@ const ProductDetails = ({ product }: { product: ProductRecord }) => {
             </p>
           )}
         </div>
-
+        {/* Seller */}
+        {product.sellerFullName && (
+          <div className="mt-3 text-sm text-gray-700">
+            <span className="font-medium text-gray-800">Seller:</span>{" "}
+            {product.userId ? (
+              <Link
+                href={`/shop/seller/${product.userId}`}
+                className="underline decoration-blue-600/30 underline-offset-4 hover:text-blue-700"
+              >
+                {product.sellerFullName}
+              </Link>
+            ) : (
+              product.sellerFullName
+            )}
+          </div>
+        )}
         {/* Qty + Actions */}
         <div className="mt-4 grid grid-cols-2 gap-3">
           <div className="col-span-2 flex items-center gap-3">
@@ -106,27 +121,7 @@ const ProductDetails = ({ product }: { product: ProductRecord }) => {
           <Button variant="outline">Buy Now</Button>
           <Button onClick={() => add(cartItem)}>Add to Cart</Button>
         </div>
-
-        <dl className="mt-4 grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <dt className="font-medium text-gray-700">Category</dt>
-            <dd className="mt-1 capitalize text-gray-600">
-              {product.category}
-            </dd>
-          </div>
-          {product.origin && (
-            <div>
-              <dt className="font-medium text-gray-700">Origin</dt>
-              <dd className="mt-1 text-gray-600">{product.origin}</dd>
-            </div>
-          )}
-        </dl>
-
-        <div
-          className="prose mt-6 max-w-none prose-p:my-2 prose-headings:mt-6 prose-a:text-blue-600"
-          // description_html is already sanitized on write; otherwise sanitize here.
-          dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-        />
+        …
       </div>
 
       {/* Gallery */}

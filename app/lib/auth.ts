@@ -10,3 +10,9 @@ export async function requireUser() {
   return { userId: Number(session.userId), isAdmin: !!session.isAdmin };
 }
 
+export const getUserId = async() => {
+  const cookie = (await cookies()).get("session")?.value;
+  const session = cookie ? await decrypt(cookie) : null;
+  if (session?.userId) return session.userId;
+}
+

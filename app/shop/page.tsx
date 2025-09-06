@@ -1,12 +1,11 @@
 // app/shop/page.tsx
+import { sql } from "../lib/db";
 import type { Breadcrumb } from "../lib/definitions";
 import Breadcrumbs from "../ui/global/Breadcrumbs";
 import { Header } from "../ui/global/Header";
 import { P } from "../ui/global/paragraph";
+import type { ProductHead } from "./lib/definitions";
 import ProductCard from "./ui/ProductCard";
-import { sql } from "../lib/db";
-import type { ProductHead} from "./lib/definitions";
-import { cldCardHeroAuto } from "../lib/cloudinary"; // ✅ import your helper
 
 const breadcrumbs: Breadcrumb[] = [
   { label: "Home", href: "/" },
@@ -27,8 +26,6 @@ export default async function ShopPage() {
     LIMIT 30
   `;
 
-
-
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
@@ -43,7 +40,9 @@ export default async function ShopPage() {
         </P>
 
         {products.length === 0 ? (
-          <P className="text-center text-gray-500">No products available yet.</P>
+          <P className="text-center text-gray-500">
+            No products available yet.
+          </P>
         ) : (
           <div className="grid grid-cols-1 gap-3 md:gap-6 sm:grid-cols-2 md:grid-cols-3">
             {products.map((product) => (

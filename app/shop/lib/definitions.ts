@@ -1,6 +1,7 @@
 import { ParsedAuAddress } from "../cart/checkout/ui/AuAddressAutocomplete";
 export type ProductRecord = {
   id: number;
+  userId: number;
   slug: string;
   title: string;
   descriptionHtml: string;
@@ -17,7 +18,7 @@ export type ProductHead = Pick<
   ProductRecord,
   "id" | "slug" | "title" | "mainImgPath" | "priceCents" | "postageCents"
 >;
-
+export type ProductDetailsData = ProductRecord & { sellerFullName: string };
 export type CartItem = ProductHead & { qty: number };
 export type CartState = { items: CartItem[] };
 

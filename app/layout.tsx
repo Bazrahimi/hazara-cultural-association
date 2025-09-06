@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 import { Geist, Geist_Mono } from "next/font/google";
+import { cookies } from "next/headers";
+import { decrypt } from "./lib/session";
 
 import "./globals.css";
 
@@ -68,11 +70,13 @@ export const metadata: Metadata = {
 };
 
 // Root layout component wraps all pages.
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode; // Ensures children can be any valid React content
 }>) {
+  const cookie = (await cookies()).get("session")?.value;
+  const session = cookie ? await decrypt(cookie) : null;
   return (
     // Root <html> element with language set to English.
     <html lang="en">
@@ -81,7 +85,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* Global navigation bar at the top of every page */}
-        <CartProvider>
+        <CartProvider userId={Number(session?.userId)}>
           <NavBar />
 
           {/* Main content wrapper with responsive max width */}
