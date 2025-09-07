@@ -132,15 +132,19 @@ export const auth = async (
   try {
     // citext makes this case-insensitive, so direct compare is fine
     const result = await sql<
-      { userId: number; hashedPassword: string; isAdmin: boolean }[]
+      { userId: number; hashedPassword: string; roles: string[] }[]
     >`
-      SELECT 
-        id AS "userId", 
-        password AS "hashedPassword", 
-        is_admin AS "isAdmin" 
-      FROM users 
-      WHERE email = ${email}
-      LIMIT 1
+        SELECT
+          u.id AS "userId",
+          u.password AS "hashedPassword",
+          COALESCE(array_agg(r.name ORDER BY r.name)
+                  FILTER (WHERE r.name IS NOT NULL), '{}') AS roles
+        FROM users u
+        LEFT JOIN user_roles ur ON ur.user_id = u.id
+        LEFT JOIN roles r       ON r.id = ur.role_id
+        WHERE u.email = ${email}
+        GROUP BY u.id
+        LIMIT 1
     `;
     const user = result[0];
 
@@ -162,7 +166,7 @@ export const auth = async (
     }
 
     // ✅ Create a session for both admin and non-admin users
-    await createSession(user.userId, user.isAdmin);
+    await createSession(Number(user.userId), user.roles);
 
     // Hand control to Next.js to redirect
     redirect("/account");

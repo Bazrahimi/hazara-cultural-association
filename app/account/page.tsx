@@ -1,5 +1,5 @@
 // app/account/page.tsx
-import { requireUser } from "@/app/lib/auth";
+import { requireUser } from "../lib/session";
 import { sql } from "@/app/lib/db";
 import type { Breadcrumb } from "@/app/lib/definitions";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";

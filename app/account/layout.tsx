@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
-import { decrypt } from "../lib/session";
 import { redirect } from "next/navigation";
+import { requireUser } from "../lib/session";
 
 export const metaData: Metadata = {
   title: "Account Dashboard | HCA",
@@ -9,12 +8,11 @@ export const metaData: Metadata = {
 };
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const sessionCookie = (await cookies()).get("session")?.value;
-  const session = sessionCookie ? await decrypt(sessionCookie) : null;
+  const session = await requireUser();
+  console.log(session)
 
-  if (!session) redirect("/u/login");
-  if (session.isAdmin) redirect("/admin");
-  
+  if (session.roles.includes("admin")) redirect("/admin");
+
   return <>{children}</>;
 };
 

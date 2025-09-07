@@ -14,13 +14,14 @@ import { z } from "zod";
 /* ============ Single source of truth (schema) ============ */
 
 const ROLES = ["seller", "volunteer", "blogger", "admin"] as const;
-export type SessionRole = (typeof ROLES)[number];
+const ROLE_SET = new Set<string>(ROLES);
+type SessionRole = (typeof ROLES)[number];
 
 const SessionSchema = z.object({
   userId: z.number(),
   roles: z.array(z.enum(ROLES)).default([]), // buyers have []
   expiresAt: z
-    .union([z.string().datetime(), z.date()])
+    .union([z.iso.datetime(), z.date()])
     .transform((v) => (typeof v === "string" ? new Date(v) : v)),
   extra: z.record(z.string(), z.unknown()).optional().default({}),
 });
@@ -70,15 +71,42 @@ const verifySession = async (token: string): Promise<DecodedSession | null> => {
   }
 };
 
+/* ============ Public API Helper ============ */
+// Canonicalize roles coming from DB or call sites.
+const normalizeRoles = (
+  roles:
+    | SessionRole
+    | string
+    | ReadonlyArray<SessionRole | string>
+    | null
+    | undefined
+): SessionRole[] => {
+  const arr = roles == null ? [] : Array.isArray(roles) ? roles : [roles];
+  return Array.from(
+    new Set(
+      arr
+        .map((r) => (typeof r === "string" ? r.toLowerCase() : r))
+        .filter((r): r is SessionRole => ROLE_SET.has(r as string))
+    )
+  ).sort((a, b) => ROLES.indexOf(a) - ROLES.indexOf(b));
+};
+
 /* ============ Public API ============ */
 
 export const createSession = async (
-  userId: number,
-  roles: SessionRole[] = [],
+  userId: number | string, // allow raw '10' from DB
+  roles: SessionRole | string | ReadonlyArray<SessionRole | string> = [],
   extra: Record<string, unknown> = {}
 ): Promise<void> => {
   const expiresAt = new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000);
-  const payload = SessionSchema.parse({ userId, roles, expiresAt, extra });
+
+  const payload = SessionSchema.parse({
+    userId, // z.coerce.number() will normalize
+    roles: normalizeRoles(roles), // sanitize/dedupe/filter/sort roles
+    expiresAt,
+    extra,
+  });
+
   const token = await signSession(payload);
   const jar = await cookies();
   jar.set(SESSION_COOKIE, token, {
@@ -136,6 +164,15 @@ export const requireUser = async (): Promise<DecodedSession> => {
 export const getUserId = async (): Promise<number | null> => {
   const s = await getSession();
   return s?.userId ?? null;
+};
+
+// auth helper
+export const requireAdmin = async () => {
+  const s = await requireUser(); // redirects to /u/login if missing
+  console.log(s)
+
+  if (!s.roles.includes("admin")) redirect("/account"); // or "/not-authorized"
+  return s;
 };
 
 /* ============ Role helpers ============ */

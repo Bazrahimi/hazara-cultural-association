@@ -1,5 +1,5 @@
 "use server";
-import { requireUser } from "@/app/lib/auth";
+import { requireUser } from "@/app/lib/session";
 import { sql } from "@/app/lib/db";
 import { redirect } from "next/navigation";
 import { FieldErrors, Profile, ProfileSchema, ProfileState } from "./schema";

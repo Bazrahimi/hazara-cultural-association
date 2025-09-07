@@ -11,7 +11,7 @@ export const middleware = async (req: NextRequest) => {
   const cookie = req.cookies.get("session")?.value;
   const session = cookie ? await decrypt(cookie) : null;
 
-  if (!session?.isAdmin) {
+  if (!session?.roles.includes("admin")) {
     const url = req.nextUrl.clone();
     url.pathname = "/u/login";
     url.searchParams.set("next", pathname);
