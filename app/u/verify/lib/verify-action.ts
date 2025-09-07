@@ -48,7 +48,7 @@ export async function verifyCodeAction(
   sessionCookie.set("verify_email", "", { path: VERIFY_EMAIL_COOKIE_PATH, maxAge: 0 });
 
   // Create the real session and go
-  await createSession(String(userId), /* isAdmin */ false);
+  await createSession(userId);
   redirect("/account/settings/profile"); // or "/account"
 }
 

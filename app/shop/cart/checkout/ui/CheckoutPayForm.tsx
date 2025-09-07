@@ -21,8 +21,8 @@ export default function CheckoutPayForm({ email, contact, address, disabled }: P
   // ✅ Cart payload must include `id`
   const payload = items.map((it) => ({
     id: it.id,            // make sure your cart items have `id`
-    name: it.name,
-    price: it.price,
+    name: it.title,
+    price: (it.priceCents + it.postageCents),
     qty: it.qty,
     // image: it.image,    // optional if you keep it in the schema
   }));

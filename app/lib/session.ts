@@ -1,65 +1,150 @@
 "use server";
-import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
-import { Session, SessionPayload } from "./definitions";
-import { redirect } from "next/navigation";
 
-const secretKey = process.env.SESSION_SECRET;
+import { SignJWT, jwtVerify, type JWTPayload } from "jose";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+
+/* ================================
+   Single Source of Truth (Schema)
+   ================================ */
+
+const SessionSchema = z.object({
+  userId: z.number(), // strictly number
+  isAdmin: z.boolean().default(false),
+  expiresAt: z
+    .union([z.string().datetime(), z.date()])
+    .transform((v) => (typeof v === "string" ? new Date(v) : v)),
+  extra: z.record(z.string(), z.unknown()).optional().default({}), // Zod 4 form
+});
+
+type SessionInput = z.input<typeof SessionSchema>;
+type SessionNormalized = z.output<typeof SessionSchema>;
+type DecodedSession = SessionNormalized &
+  Required<Pick<JWTPayload, "iat" | "exp">>;
+
+/* ================
+   Config & helpers
+   ================ */
+
+const SESSION_COOKIE = "session";
+const SESSION_DAYS = 7;
+const alg = "HS256";
+
+const secretKey = process.env.SESSION_SECRET ?? "dev-insecure-secret";
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export const encrypt = async (payload: SessionPayload): Promise<string> => {
-  return new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
+/* ===================
+   Sign / Verify token
+   =================== */
+
+const signSession = async (payload: SessionNormalized): Promise<string> =>
+  new SignJWT({
+    userId: payload.userId,
+    isAdmin: payload.isAdmin,
+    expiresAt: payload.expiresAt.toISOString(),
+    extra: payload.extra ?? {},
+  })
+    .setProtectedHeader({ alg })
     .setIssuedAt()
-    .setExpirationTime("7day")
+    .setExpirationTime(`${SESSION_DAYS}d`)
     .sign(encodedKey);
+
+const verifySession = async (token: string): Promise<DecodedSession | null> => {
+  try {
+    const { payload } = await jwtVerify(token, encodedKey, {
+      algorithms: [alg],
+    });
+
+    const parsed = SessionSchema.parse({
+      userId: payload.userId,
+      isAdmin: payload.isAdmin,
+      expiresAt: payload.expiresAt,
+      extra: payload.extra,
+    });
+
+    return {
+      ...parsed,
+      iat: payload.iat ?? 0,
+      exp: payload.exp ?? 0,
+    };
+  } catch {
+    return null;
+  }
 };
 
-export const createSession = async (userId: string, isAdmin: boolean) => {
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+/* =============
+   Public API
+   ============= */
 
-  const sessionPayload: SessionPayload = { userId, expiresAt };
-  if (isAdmin) {
-    sessionPayload.isAdmin = true;
-  }
+export const createSession = async (
+  userId: number, // strictly number
+  isAdmin = false,
+  extra: Record<string, unknown> = {}
+): Promise<void> => {
+  const expiresAt = new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000);
+  const payload = SessionSchema.parse({ userId, isAdmin, expiresAt, extra });
 
-  const session = await encrypt(sessionPayload);
+  const token = await signSession(payload);
   const cookieStore = await cookies();
 
-  // Set the session cookie with security options
-  cookieStore.set("session", session, {
-    httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
-    secure: true, // Send cookie only over HTTPS
-    expires: expiresAt, // Expiry date for the session
-    sameSite: "lax", // Restrict cross-site cookie usage (safe default)
-    path: "/", // Make the cookie accessible site-wide
+  cookieStore.set(SESSION_COOKIE, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // friendlier for local dev
+    sameSite: "lax",
+    path: "/",
+    expires: payload.expiresAt,
   });
 };
 
-export const destroySession = async() => {
+export const destroySession = async (): Promise<void> => {
   const cookieStore = await cookies();
-
-   cookieStore.set("session", "", {
+  cookieStore.set(SESSION_COOKIE, "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    expires: new Date(0), // Expire the cookie
+    expires: new Date(0),
   });
-  redirect("/")
-}
+  redirect("/");
+};
 
+// Keep encrypt/decrypt for compatibility with existing call-sites
+export const encrypt = async (payload: SessionInput): Promise<string> => {
+  const normalized = SessionSchema.parse(payload);
+  return signSession(normalized);
+};
 
-
-export async function decrypt(
+export const decrypt = async (
   session: string | undefined = ""
-): Promise<Session | undefined> {
-  try {
-    const { payload } = await jwtVerify(session, encodedKey, {
-      algorithms: ["HS256"],
-    });
-    return payload as Session;
-  } catch (error) {
-    console.log("Failed to verify session", error);
-  }
-}
+): Promise<DecodedSession | undefined> => {
+  if (!session) return undefined;
+  const v = await verifySession(session);
+  return v ?? undefined;
+};
+
+/* =======================
+   High-level auth helpers
+   ======================= */
+
+export const getSession = async (): Promise<DecodedSession | null> => {
+  const token = (await cookies()).get(SESSION_COOKIE)?.value;
+  if (!token) return null;
+
+  const session = await verifySession(token);
+  if (!session) return null;
+
+  if (session.expiresAt.getTime() <= Date.now()) return null;
+  return session;
+};
+
+export const requireUser = async (): Promise<DecodedSession> => {
+  const s = await getSession();
+  if (!s?.userId) redirect("/u/login");
+  return s;
+};
+
+export const getUserId = async (): Promise<number | null> => {
+  const s = await getSession();
+  return s?.userId ?? null;
+};

@@ -162,7 +162,7 @@ export const auth = async (
     }
 
     // ✅ Create a session for both admin and non-admin users
-    await createSession(String(user.userId), user.isAdmin);
+    await createSession(user.userId, user.isAdmin);
 
     // Hand control to Next.js to redirect
     redirect("/account");

@@ -1,20 +1,20 @@
 import z from "zod";
 import { AuthSchema, QuickEnquirySchema } from "./schema";
 
-export type SessionPayload = {
-  userId: string; // required
-  isAdmin?: boolean; // optional
-  expiresAt: Date; // required
-  [key: string]: unknown; // index signature
-};
+// export type SessionPayload = {
+//   userId: string; // required
+//   isAdmin?: boolean; // optional
+//   expiresAt: Date; // required
+//   [key: string]: unknown; // index signature
+// };
 
-export type Session = {
-  userId: string;
-  isAdmin: boolean;
-  expiresAt: string;
-  iat: number;
-  exp: number;
-};
+// export type Session = {
+//   userId: string;
+//   isAdmin: boolean;
+//   expiresAt: string;
+//   iat: number;
+//   exp: number;
+// };
 
 export type Breadcrumb = {
   label: string;
