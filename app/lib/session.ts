@@ -1,21 +1,28 @@
 "use server";
 
+/**
+ * Session (multi-role)
+ * - userId: number
+ * - roles: ['seller'|'volunteer'|'blogger'|'admin'][]   (empty [] = authenticated buyer)
+ */
+
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-/* ================================
-   Single Source of Truth (Schema)
-   ================================ */
+/* ============ Single source of truth (schema) ============ */
+
+const ROLES = ["seller", "volunteer", "blogger", "admin"] as const;
+export type SessionRole = (typeof ROLES)[number];
 
 const SessionSchema = z.object({
-  userId: z.number(), // strictly number
-  isAdmin: z.boolean().default(false),
+  userId: z.number(),
+  roles: z.array(z.enum(ROLES)).default([]), // buyers have []
   expiresAt: z
     .union([z.string().datetime(), z.date()])
     .transform((v) => (typeof v === "string" ? new Date(v) : v)),
-  extra: z.record(z.string(), z.unknown()).optional().default({}), // Zod 4 form
+  extra: z.record(z.string(), z.unknown()).optional().default({}),
 });
 
 type SessionInput = z.input<typeof SessionSchema>;
@@ -23,25 +30,21 @@ type SessionNormalized = z.output<typeof SessionSchema>;
 type DecodedSession = SessionNormalized &
   Required<Pick<JWTPayload, "iat" | "exp">>;
 
-/* ================
-   Config & helpers
-   ================ */
+/* ================= Config ================= */
 
 const SESSION_COOKIE = "session";
 const SESSION_DAYS = 7;
 const alg = "HS256";
+const encodedKey = new TextEncoder().encode(
+  process.env.SESSION_SECRET ?? "dev-insecure-secret"
+);
 
-const secretKey = process.env.SESSION_SECRET ?? "dev-insecure-secret";
-const encodedKey = new TextEncoder().encode(secretKey);
-
-/* ===================
-   Sign / Verify token
-   =================== */
+/* ============ Sign / Verify ============ */
 
 const signSession = async (payload: SessionNormalized): Promise<string> =>
   new SignJWT({
     userId: payload.userId,
-    isAdmin: payload.isAdmin,
+    roles: payload.roles,
     expiresAt: payload.expiresAt.toISOString(),
     extra: payload.extra ?? {},
   })
@@ -55,42 +58,32 @@ const verifySession = async (token: string): Promise<DecodedSession | null> => {
     const { payload } = await jwtVerify(token, encodedKey, {
       algorithms: [alg],
     });
-
     const parsed = SessionSchema.parse({
       userId: payload.userId,
-      isAdmin: payload.isAdmin,
+      roles: payload.roles,
       expiresAt: payload.expiresAt,
       extra: payload.extra,
     });
-
-    return {
-      ...parsed,
-      iat: payload.iat ?? 0,
-      exp: payload.exp ?? 0,
-    };
+    return { ...parsed, iat: payload.iat ?? 0, exp: payload.exp ?? 0 };
   } catch {
     return null;
   }
 };
 
-/* =============
-   Public API
-   ============= */
+/* ============ Public API ============ */
 
 export const createSession = async (
-  userId: number, // strictly number
-  isAdmin = false,
+  userId: number,
+  roles: SessionRole[] = [],
   extra: Record<string, unknown> = {}
 ): Promise<void> => {
   const expiresAt = new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000);
-  const payload = SessionSchema.parse({ userId, isAdmin, expiresAt, extra });
-
+  const payload = SessionSchema.parse({ userId, roles, expiresAt, extra });
   const token = await signSession(payload);
-  const cookieStore = await cookies();
-
-  cookieStore.set(SESSION_COOKIE, token, {
+  const jar = await cookies();
+  jar.set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // friendlier for local dev
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     expires: payload.expiresAt,
@@ -98,8 +91,8 @@ export const createSession = async (
 };
 
 export const destroySession = async (): Promise<void> => {
-  const cookieStore = await cookies();
-  cookieStore.set(SESSION_COOKIE, "", {
+  const jar = await cookies();
+  jar.set(SESSION_COOKIE, "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -109,7 +102,7 @@ export const destroySession = async (): Promise<void> => {
   redirect("/");
 };
 
-// Keep encrypt/decrypt for compatibility with existing call-sites
+// Optional: keep these if other code calls them (no legacy mapping)
 export const encrypt = async (payload: SessionInput): Promise<string> => {
   const normalized = SessionSchema.parse(payload);
   return signSession(normalized);
@@ -123,19 +116,15 @@ export const decrypt = async (
   return v ?? undefined;
 };
 
-/* =======================
-   High-level auth helpers
-   ======================= */
+/* ============ High-level helpers ============ */
 
 export const getSession = async (): Promise<DecodedSession | null> => {
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!token) return null;
-
-  const session = await verifySession(token);
-  if (!session) return null;
-
-  if (session.expiresAt.getTime() <= Date.now()) return null;
-  return session;
+  const s = await verifySession(token);
+  if (!s) return null;
+  if (s.expiresAt.getTime() <= Date.now()) return null;
+  return s;
 };
 
 export const requireUser = async (): Promise<DecodedSession> => {
@@ -147,4 +136,34 @@ export const requireUser = async (): Promise<DecodedSession> => {
 export const getUserId = async (): Promise<number | null> => {
   const s = await getSession();
   return s?.userId ?? null;
+};
+
+/* ============ Role helpers ============ */
+
+export const isAdmin = async (): Promise<boolean> => {
+  const s = await getSession();
+  return !!s?.roles.includes("admin");
+};
+
+export const hasAnyRole = async (
+  required: SessionRole | SessionRole[]
+): Promise<boolean> => {
+  const req = Array.isArray(required) ? required : [required];
+  const s = await getSession();
+  if (!s) return false;
+  return s.roles.some((r) => req.includes(r));
+};
+
+export const hasAllRoles = async (
+  required: SessionRole | SessionRole[]
+): Promise<boolean> => {
+  const req = Array.isArray(required) ? required : [required];
+  const s = await getSession();
+  if (!s) return false;
+  return req.every((r) => s.roles.includes(r));
+};
+
+export const isBuyer = async (): Promise<boolean> => {
+  const s = await getSession();
+  return !!s && s.roles.length === 0;
 };
