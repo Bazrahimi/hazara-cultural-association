@@ -28,7 +28,7 @@ export type Buyer = z.infer<typeof BuyerSchema>;
 
 /** Cart item(s) for PURCHASE checkout */
 export const CartItemSchema = z.object({
-  id: z.string(), // your SKU / product id
+  id: z.number(), // your SKU / product id
   name: z.string().min(1),
   // coerce in case values arrive as strings from form/localStorage
   price: z.coerce.number().nonnegative(), // AUD dollars
