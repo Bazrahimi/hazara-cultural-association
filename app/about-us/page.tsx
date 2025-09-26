@@ -27,7 +27,7 @@ const MANAGEMENT: Person[] = [
   },
   {
     name: "Baz Rahimi",
-    role: "Software Engineer",
+    role: "Governance Advisor | Software Engineer",
     img: "/images/member/rahimi.jpg",
   },
   {
