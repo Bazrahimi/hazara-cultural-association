@@ -8,17 +8,18 @@ const MANAGEMENT: Person[] = [
     role: "President",
     img: "/images/member/batoor.png",
   },
+  {
+    name: "Yasin Hazara",
+    role: "Vice President | Senior Public Liaison officer",
+    img: "/images/member/yasin.png",
+  },
   { name: "Zabih Rezai", role: "Secretary", img: "/images/member/zabi.png" },
   {
     name: "Liaquat Ali",
     role: "Treasurer",
     img: "/images/member/Liaquat.jpeg",
   },
-  {
-    name: "Yasin Hazara",
-    role: "Media Officer",
-    img: "/images/member/yasin.png",
-  },
+
   {
     name: "Ali Khan",
     role: "Policy & Strategic Advisor",
@@ -35,9 +36,9 @@ const MANAGEMENT: Person[] = [
     img: "/images/member/latif.png",
   },
 
-  { name: "Jawad Ahmad Nairan", img: "/images/member/nairan.png" },
+  { name: "Jawid Ahmad Nairan", img: "/images/member/nairan.png" },
 
-  { name: "Abul Ali", img: "/images/member/abul.png" },
+  { name: "Abulfazl Zaki", img: "/images/member/abul.png" },
   { name: "Ahmad Reza Fayaz", img: "/images/member/fayaz.png" },
 ];
 
