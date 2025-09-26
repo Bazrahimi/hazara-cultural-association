@@ -20,23 +20,48 @@ const MANAGEMENT: Person[] = [
     img: "/images/member/yasin.png",
   },
   {
+    name: "Ali Khan",
+    role: "Policy & Strategic Advisor",
+    img: "/images/member/khan.png",
+  },
+  {
     name: "Baz Rahimi",
     role: "Software Engineer",
     img: "/images/member/baz.jpg",
   },
   {
-    name: "Ali Khan",
-    role: "Legal Advisor | Lawyer",
-    img: "/images/member/khan.png",
+    name: "Latif Mahmoodi",
+    role: "Assistant Public Liaison officer",
+    img: "/images/member/latif.png",
   },
-];
 
-const MEMBERS: Person[] = [
   { name: "Jawad Ahmad Nairan", img: "/images/member/nairan.png" },
-  { name: "Latif Mahmoodi", img: "/images/member/latif.png" },
+
   { name: "Abul Ali", img: "/images/member/abul.png" },
   { name: "Fayaz", img: "/images/member/fayaz.png" },
 ];
+
+// const MEMBERS: Person[] = [
+//   // {
+//   //   name: "Ali Khan",
+//   //   role: "Legal Advisor | Lawyer",
+//   //   img: "/images/member/khan.png",
+//   // },
+//   // { name: "Jawad Ahmad Nairan", img: "/images/member/nairan.png" },
+
+//   // {
+//   //   name: "Latif Mahmoodi",
+//   //   role: "Assistant Public Liaison officer",
+//   //   img: "/images/member/latif.png",
+//   // },
+//   // {
+//   //   name: "Baz Rahimi",
+//   //   role: "Software Engineer",
+//   //   img: "/images/member/baz.jpg",
+//   // },
+//   // { name: "Abul Ali", img: "/images/member/abul.png" },
+//   // { name: "Fayaz", img: "/images/member/fayaz.png" },
+// ];
 
 export default function AboutUsPage() {
   return (
@@ -104,8 +129,8 @@ export default function AboutUsPage() {
           </P>
 
           <div className="mt-6 space-y-12">
-            <TeamGrid title="Management Team" people={MANAGEMENT} />
-            <TeamGrid title="Members" people={MEMBERS} />
+            <TeamGrid title="Executive Members" people={MANAGEMENT} />
+            {/* <TeamGrid title="Members" people={MEMBERS} /> */}
           </div>
         </section>
       </section>
