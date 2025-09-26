@@ -38,7 +38,7 @@ const MANAGEMENT: Person[] = [
   { name: "Jawad Ahmad Nairan", img: "/images/member/nairan.png" },
 
   { name: "Abul Ali", img: "/images/member/abul.png" },
-  { name: "Fayaz", img: "/images/member/fayaz.png" },
+  { name: "Ahmad Reza Fayaz", img: "/images/member/fayaz.png" },
 ];
 
 // const MEMBERS: Person[] = [
