@@ -2,7 +2,11 @@ import Link from "next/link";
 import { BsFillCartFill } from "react-icons/bs";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaTiktok, FaWpforms } from "react-icons/fa6";
-import { HiLocationMarker, HiMail, HiPhone } from "react-icons/hi";
+import {
+  // HiLocationMarker,
+  HiMail,
+  HiPhone,
+} from "react-icons/hi";
 import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineJoinInner } from "react-icons/md";
 import { Header } from "./global/Header";

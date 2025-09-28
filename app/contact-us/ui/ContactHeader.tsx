@@ -8,7 +8,7 @@ import {
   MdEmail,
   MdEvent,
   MdFavorite,
-  MdLocationOn,
+  // MdLocationOn,
   MdPeople,
   MdPhone,
   MdSchool,
@@ -72,7 +72,7 @@ export default function ContactHeader({
   blurb,
   phone,
   email,
-  address,
+  // address,
 }: HeaderProps) {
   return (
     <>
@@ -96,13 +96,13 @@ export default function ContactHeader({
           <MdEmail className="text-gray-600" aria-hidden />
           <span>Email: {email}</span>
         </P>
-        <P
+        {/* <P
           size="sm"
           className="col-span-1 flex items-center gap-2 sm:col-span-2"
         >
           <MdLocationOn className="text-gray-600" aria-hidden />
           <span>{address}</span>
-        </P>
+        </P> */}
       </div>
 
       {/* Non-profit support message */}
