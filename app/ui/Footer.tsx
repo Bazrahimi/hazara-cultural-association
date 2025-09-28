@@ -121,10 +121,10 @@ const Footer = () => {
                 Quick Enquiry
               </Link>
             </li>
-            <li className={CN.Item}>
+            {/* <li className={CN.Item}>
               <HiLocationMarker className={CN.Icon} aria-hidden="true" />
               <span>{CONTACT.location}</span>
-            </li>
+            </li> */}
             <li className={CN.Item}>
               <HiMail className={CN.Icon} aria-hidden="true" />
               <a href={`mailto:${CONTACT.email}`} className={CN.link}>
