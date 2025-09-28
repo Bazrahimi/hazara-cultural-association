@@ -40,7 +40,7 @@ export async function middleware(req: NextRequest) {
 
   // 1) Allow any auth/account routes under /u/* without requiring a session
   //    (login, sign-up, forgot-password, etc), but still block crawlers.
-  if (pathname.startsWith("/u/") || pathname === "/about-us") {
+  if (pathname.startsWith("/u/") || pathname === "/about-us" || pathname === "/contact-us") {
     return disallowCrawlers(NextResponse.next());
   }
 

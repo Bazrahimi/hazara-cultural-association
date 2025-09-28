@@ -8,62 +8,67 @@ const MANAGEMENT: Person[] = [
     name: "Barat Ali Batoor",
     role: "President",
     img: "/images/member/batoor.png",
-    bio: "An award-winning photojournalist and community leader, Batoor brings years of advocacy experience to HCA. He is committed to preserving Hazara heritage and amplifying the voices of his community.",
+    bio: "Award-winning photojournalist and community leader dedicated to preserving Hazara heritage and amplifying community voices at HCA.",
     contact: "+61 469 813 842",
   },
   {
     name: "Yasin Hazara",
     role: "Vice President | Senior Public Liaison officer",
     img: "/images/member/yasin.png",
-    contact: "+61 423 536 719",
+    bio: "Long-time host of community events and noted Hazara advocate in Australia, leading public outreach and partnerships for HCA.",
+    contact: "+61 423 536 719",
   },
   {
     name: "Zabih Rezai",
     role: "Secretary",
     img: "/images/member/zabi.png",
+    bio: "Community organiser with NGO experience (incl. ARC); supports governance, member services, and community assistance at HCA.",
     contact: "+61 412 984 700",
   },
   {
     name: "Liaquat Ali",
     role: "Treasurer",
     img: "/images/member/Liaquat.jpeg",
+    bio: "Treasurer focused on transparent, community-first finances and responsible stewardship to sustain HCA’s programs.",
     contact: "+61 420 910 786",
   },
-
   {
     name: "Ali Khan",
     role: "Policy & Strategic Advisor",
     img: "/images/member/khan.png",
-    contact: "+61 401 824 640",
+    bio: "Lawyer and policy advisor providing strategic guidance on advocacy, governance, and community legal awareness for HCA.",
+    // contact: "+61 401 824 640",
   },
   {
     name: "Baz Rahimi",
     role: "Governance Advisor | Full Stack Web Developer",
     img: "/images/member/rahimi.jpg",
+    bio: "Governance advisor and full-stack developer; BA (Science), MIT data-science certification, and Monash bootcamp graduate building HCA’s digital tools.",
   },
-
   {
     name: "Latif Mahmoodi",
     role: "Assistant Public Liaison officer",
     img: "/images/member/latif.png",
-    contact: "+61 450 108 322",
+    bio: "Connects community members with services, supports events, and strengthens engagement across Melbourne’s South-East.",
+    // contact: "+61 450 108 322",
   },
-
   {
     name: "Jawid Ahmad Nairan",
     img: "/images/member/nairan.png",
-    contact: "+61 468 855 007",
+    bio: "Committee member supporting operations and event logistics, linking volunteers with programs across the South-East.",
+    // contact: "+61 468 855 007",
   },
-
   {
     name: "Abulfazl Zaki",
     img: "/images/member/abul.png",
-    contact: "+61 404 333 764",
+    bio: "Committee member focused on outreach and member support, assisting with events, referrals, and local engagement.",
+    // contact: "+61 404 333 764",
   },
   {
     name: "Ahmad Reza Fayaz",
     img: "/images/member/fayaz.png",
-    contact: "+61 482 668 596",
+    bio: "Committee member assisting youth and cultural programs, helping deliver events and resources for families in the South-East.",
+    // contact: "+61 482 668 596",
   },
 ];
 
