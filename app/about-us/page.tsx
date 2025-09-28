@@ -8,6 +8,8 @@ const MANAGEMENT: Person[] = [
     name: "Barat Ali Batoor",
     role: "President",
     img: "/images/member/batoor.png",
+    bio: "An award-winning photojournalist and community leader, Batoor brings years of advocacy experience to HCA. He is committed to preserving Hazara heritage and amplifying the voices of his community.",
+    contact: "+61 469 813 842"
   },
   {
     name: "Yasin Hazara",
