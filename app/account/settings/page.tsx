@@ -1,9 +1,8 @@
 //app/acount/setting/page.tsx
 import { sql } from "@/app/lib/db";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import type { Breadcrumb } from "@/app/lib/definitions";
+import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
+import { Suspense } from "react";
 import AddressesCard from "./ui/AddressesCard";
 
 import ProfileCard from "./ui/ProfileCard";
@@ -27,8 +26,7 @@ const breadcrumbs: Breadcrumb[] = [
 ];
 
 export default async function Page() {
-  const {userId} = await requireUser();
-
+  const { userId } = await requireUser();
 
   // Kick off queries in parallel, but DON'T await here
   const userPromise = sql<userRecord[]>`
