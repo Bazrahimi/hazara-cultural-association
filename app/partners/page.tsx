@@ -1,4 +1,4 @@
-import { LogoGrid, type LogoItem } from "./ui/LogoGrid";
+import { LogoGrid, type LogoItem, type CTA } from "./ui/LogoGrid";
 
 const PARTNERS: LogoItem[] = [
   {
