@@ -1,4 +1,4 @@
-import { LogoGrid, type LogoItem, type CTA } from "./ui/LogoGrid";
+import { LogoGrid, type CTA, type LogoItem } from "./ui/LogoGrid";
 
 const PARTNERS: LogoItem[] = [
   {
@@ -37,12 +37,12 @@ const SUPPORTERS: LogoItem[] = [
   {
     name: "World Connect Travel",
     logo: "/images/supporters/World-Connect-Travels.png",
-    href: "https://example.org",
+    href: "https://worldconnecttravels.com.au/",
   },
   {
     name: "Fatima Yazdani",
     logo: "/images/supporters/fatima-yazdani.jpg",
-    href: "https://example.com",
+    href: "https://www.realestate.com.au/agent/fatima-yazdani-3342044",
   },
   {
     name: "Brother's Rendering",
@@ -71,7 +71,12 @@ export default function Page() {
       </h1>
 
       {/* Partners (values-aligned) */}
-      <LogoGrid title="Partners" items={PARTNERS} cta={PARTNERS_CTA} nameWrap="wrap" />
+      <LogoGrid
+        title="Partners"
+        items={PARTNERS}
+        cta={PARTNERS_CTA}
+        nameWrap="wrap"
+      />
 
       {/* Supporters (financial via donate) */}
       <LogoGrid title="Supporters" items={SUPPORTERS} cta={SUPPORTERS_CTA} />
