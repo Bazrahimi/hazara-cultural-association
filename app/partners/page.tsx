@@ -1,3 +1,5 @@
+import { Header } from "../ui/global/Header";
+import { P } from "../ui/global/paragraph";
 import { LogoGrid, type CTA, type LogoItem } from "./ui/LogoGrid";
 
 const PARTNERS: LogoItem[] = [
@@ -66,9 +68,16 @@ const SUPPORTERS_CTA: CTA = {
 export default function Page() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-center text-2xl font-semibold">
+      <Header as="h1" align="center">
         Partners & Supporters
-      </h1>
+      </Header>
+
+      <P>
+        We partner with organisations that actively advocate for the official
+        recognition of the Hazara genocide and the protection of human rights,
+        and we co-host events that educate, mobilise, and celebrate our
+        community in Melbourne’s South-East.
+      </P>
 
       {/* Partners (values-aligned) */}
       <LogoGrid
@@ -80,6 +89,15 @@ export default function Page() {
 
       {/* Supporters (financial via donate) */}
       <LogoGrid title="Supporters" items={SUPPORTERS} cta={SUPPORTERS_CTA} />
+
+      {/* Tiny footer note, no extra CTA */}
+      <p className="mt-12 text-center text-sm text-gray-500">
+        Missing your logo or details?{" "}
+        <a href="/contact-us" className="text-blue-600 hover:underline">
+          Contact us
+        </a>{" "}
+        and we’ll add it.
+      </p>
     </main>
   );
 }

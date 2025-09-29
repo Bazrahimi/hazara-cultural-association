@@ -1,5 +1,7 @@
 // LogoGrid.tsx
 import { Button } from "@/app/ui/global/components";
+import { Header } from "@/app/ui/global/Header";
+import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 
 export type LogoItem = {
@@ -32,11 +34,7 @@ export function LogoGrid({
 
   return (
     <section aria-labelledby={id} className="mt-10">
-      {title && (
-        <h2 id={id} className="text-lg font-semibold tracking-tight">
-          {title}
-        </h2>
-      )}
+      {title && <Header as="h2">{title}</Header>}
 
       <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {items.map((p) => (
@@ -78,7 +76,10 @@ export function LogoGrid({
 
       {cta && (
         <div className="mt-8 text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-400">{cta.text}</p>
+          <P size="sm" className="text-gray-500">
+            {cta.text}
+          </P>
+
           <Button as="link" href={cta.href} className="mt-3">
             {cta.buttonLabel}
           </Button>
