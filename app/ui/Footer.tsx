@@ -75,7 +75,7 @@ const SOCIAL_LINKS = [
 const CONTACT = {
   // location: "Melbourne, Victoria, Australia",
   email: "info@hazara.org.au",
-  phone: "+61 469 813 842",
+  phone: "+61 400 00 0 00 ",
 };
 
 const Footer = () => {

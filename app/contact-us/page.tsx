@@ -28,7 +28,7 @@ const ContactUsPage = () => {
                 <ContactHeader
                   title="Contact Hazara Cultural Association"
                   blurb="We usually reply within 1–2 business days. Reach out about cultural programs, community events, volunteering, donations, or advocacy support."
-                  phone="+61 469 813 842"
+                  phone="+61 4100  00 00 0 "
                   email="info@hazara.org.au"
                   // address="Melbourne, Victoria, Australia"
                 />
