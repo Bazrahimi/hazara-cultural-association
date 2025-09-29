@@ -19,6 +19,11 @@ const PARTNERS: LogoItem[] = [
     href: "https://www.hazaragenocide.com/",
   },
   {
+    name: "Huma Media",
+    logo: "/images/partners/huma-media.png",
+    href: "https://www.facebook.com/HumaMedia",
+  },
+  {
     name: "Federation of Hazara Councils of Australia (FHCA)",
     logo: "/images/partners/fhca.png",
     href: "https://hazaracouncil.org.au/",

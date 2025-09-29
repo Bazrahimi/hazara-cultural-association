@@ -55,7 +55,7 @@ export function LogoGrid({
                 alt={p.name}
                 width={220}
                 height={80}
-                className="max-h-16 w-auto object-contain"
+                className="max-h-16 w-auto object-contain rounded-xl"
               />
             </a>
 
