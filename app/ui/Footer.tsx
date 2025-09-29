@@ -44,7 +44,7 @@ const QUICK_LINKS = [
   { href: "/blogs", label: "News & Blogs" },
   { href: "/shop", label: "Shop Merchandise" },
   { href: "/privacy-policy", label: "Privacy Policy" },
-  { href: "//terms-of-service", label: "Terms of Service" },
+  { href: "/terms-of-service", label: "Terms of Service" },
   { href: "/donate", label: "Support HCA" },
 ];
 
