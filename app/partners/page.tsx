@@ -1,9 +1,9 @@
-import { LogoGrid, LogoItem } from "./ui/LogoGrid";
+import { LogoGrid, type LogoItem } from "./ui/LogoGrid";
 
 const PARTNERS: LogoItem[] = [
   {
     name: "BOLAQ",
-    logo: "/images/partners/bolag.png",
+    logo: "/images/partners/bolaq.png", // <- check filename
     href: "https://www.bolaq.org/",
   },
   {
@@ -11,27 +11,26 @@ const PARTNERS: LogoItem[] = [
     logo: "/images/partners/hazara-archives.webp",
     href: "https://hazaraarchives.com/",
   },
-    {
+  {
     name: "Hazara Genocide Archive",
     logo: "/images/partners/hazara-genocide.png",
     href: "https://www.hazaragenocide.com/",
   },
   {
-    name: "federation of hazara council of australia",
+    name: "Federation of Hazara Councils of Australia (FHCA)",
     logo: "/images/partners/fhca.png",
     href: "https://hazaracouncil.org.au/",
   },
   {
     name: "Hazara Shamama Association of Victoria Inc.",
-    logo: "/images/partners/shammama.png",
+    logo: "/images/partners/shamama.png", // <- check filename
     href: "https://hazarashamama.org.au/",
   },
   {
-    name: "Australian Afghanistan Initiative Inc",
+    name: "Australian Afghanistan Initiative Inc.",
     logo: "/images/partners/australian-afghanistan.png",
     href: "https://afghanaustralianinitiative.weebly.com/",
   },
-  // add more…
 ];
 
 const SUPPORTERS: LogoItem[] = [
@@ -45,13 +44,24 @@ const SUPPORTERS: LogoItem[] = [
     logo: "/images/supporters/fatima-yazdani.jpg",
     href: "https://example.com",
   },
-    {
+  {
     name: "Brother's Rendering",
     logo: "/images/supporters/brothers-rendering.png",
     href: "https://www.facebook.com/brothersrendering.com.au/",
   },
-  // add more…
 ];
+
+const PARTNERS_CTA: CTA = {
+  href: "/contact-us",
+  text: "Share our vision and values? Explore partnership opportunities with HCA.",
+  buttonLabel: "Become a Partner",
+};
+
+const SUPPORTERS_CTA: CTA = {
+  href: "/donate",
+  text: "Believe in our work? Your contribution funds our programs and community services.",
+  buttonLabel: "Donate",
+};
 
 export default function Page() {
   return (
@@ -60,11 +70,11 @@ export default function Page() {
         Partners & Supporters
       </h1>
 
-      {/* Top: Partners */}
-      <LogoGrid title="Partners" items={PARTNERS} />
+      {/* Partners (values-aligned) */}
+      <LogoGrid title="Partners" items={PARTNERS} cta={PARTNERS_CTA} />
 
-      {/* Bottom: Supporters */}
-      <LogoGrid title="Supporters" items={SUPPORTERS} />
+      {/* Supporters (financial via donate) */}
+      <LogoGrid title="Supporters" items={SUPPORTERS} cta={SUPPORTERS_CTA} />
     </main>
   );
 }
