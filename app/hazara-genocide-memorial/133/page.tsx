@@ -1,9 +1,10 @@
-// app/events/133rd-hazara-genocide-memorial/page.tsx
+// app/events/133rd-hazara-genocide-memorial/memoMemorial133.tsx
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import { P } from "@/app/ui/global/paragraph";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Gallery from "./ui/Gallery";
 
 export const metadata: Metadata = {
   title: "133rd Hazara Genocide Memorial — Event Report | HCA",
@@ -32,7 +33,7 @@ const GALLERY: GalleryImage[] = [
     src: "/images/memorial/133/full-house.jpg",
     alt: "Audience filling all seats at Drum Theatre during the memorial.",
     caption:
-      "Full house: all 360 seats at Drum Theatre, Dandenong. A collective remembrance of genocide and colonisation (1891–1893), with losses documented by Faiz Mohammad Katib in Siraj al-Tawarikh (vol. 4) as affecting over 400,000 Hazara families (~2.4 million people).",
+      "Full house: all 360 seats at Drum Theatre, Dandenong. A collective remembrance of genocide and colonisation (1891–1893), with losses recorded by Faiz Mohammad Katib in *Siraj al-Tawarikh* (vol. 4) as affecting over 400,000 Hazara families (~2.4 million people).",
   },
   {
     src: "/images/memorial/133/mazari-bamiyan.jpg",
@@ -57,23 +58,24 @@ const GALLERY: GalleryImage[] = [
 
 const SPEAKERS = [
   {
-    name: "Dr. Grace Sultani",
-    role: "Researcher on Hazara post-traumatic experiences & wellbeing",
-    img: "/images/memorial/133/speaker/grace-sultani.png", // replace if available
-    bio: "Keynote on trauma, resilience, and wellbeing within Hazara communities.",
+    name: "Grace Sultani",
+    role: "Social worker & PhD candidate (University of Newcastle) — refugee trauma, post-traumatic growth & wellbeing",
+    img: "/images/memorial/133/speaker/grace-sultani.png",
+    bio: "PhD candidate researching post-traumatic growth and wellbeing among refugees; keynote on trauma, resilience, and Hazara community wellbeing.",
   },
+
   {
-    name: "Mohammad J Gulzari",
-    role: "Historian & archivist",
+    name: "Mohammad J. Gulzari",
+    role: "Independent historian & archivist (Hazara history; British archives)",
     img: "/images/memorial/133/speaker/gulzari.png",
-    bio: "Presented findings from thousands of primary-source manuscripts gathered from British archives.",
+    bio: "Researcher of Hazara history drawing on British colonial records and declassified documents; speaker on the 1891–93 events and the Hazara Pioneers; contributor to Hazara Archives.",
   },
 ];
 
 // ---------------------------
-// Page
+// Memorial133
 // ---------------------------
-export default function Page() {
+export default function Memorial133() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
       {/* Title */}
@@ -85,6 +87,7 @@ export default function Page() {
         queue
       </P>
 
+      {/* Overview */}
       {/* Overview */}
       <section className="mt-10 space-y-4">
         <Header as="h2" size="sm">
@@ -99,6 +102,11 @@ export default function Page() {
           peak arrival. Alongside the memorial program, an exhibition documented
           the loss of <strong>innocent Hazara civilian lives</strong> over the
           past 25 years in Afghanistan and Quetta.
+        </P>
+        <P>
+          This strong turnout reflects the Hazara community’s deep memory of
+          persecution and dispossession in our ancestral homeland, and a shared
+          commitment to remembrance, dignity, and justice.
         </P>
       </section>
 
@@ -121,8 +129,8 @@ export default function Page() {
             lives.
           </li>
           <li>
-            Keynotes by <strong>Dr. Grace Sultani</strong> (trauma & wellbeing)
-            and <strong>Mohammad Ali Gulzari</strong> (archival research from
+            Keynotes by <strong>Grace Sultani</strong> (trauma & wellbeing) and{" "}
+            <strong>Mohammad Ali Gulzari</strong> (archival research from
             British sources).
           </li>
         </ul>
@@ -174,10 +182,6 @@ export default function Page() {
           personal stories, and historical timelines to honour their memory and
           educate attendees.
         </P>
-        <P className="text-sm text-gray-500">
-          <em>Content note:</em> Some images and descriptions may be
-          distressing.
-        </P>
       </section>
 
       {/* Photo Gallery */}
@@ -185,31 +189,7 @@ export default function Page() {
         <Header as="h2" size="sm">
           Photo Gallery
         </Header>
-        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-          {GALLERY.map((img) => (
-            <figure
-              key={img.src}
-              className="group relative overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm"
-            >
-              <div className="relative h-40 w-full sm:h-44 md:h-48">
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  placeholder="blur"
-                  blurDataURL={IMAGE_DEFAULT_BLUR}
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                />
-              </div>
-              {img.caption && (
-                <figcaption className="px-3 py-2 text-xs text-gray-700">
-                  {img.caption}
-                </figcaption>
-              )}
-            </figure>
-          ))}
-        </div>
+        <Gallery images={GALLERY} />
       </section>
     </main>
   );
