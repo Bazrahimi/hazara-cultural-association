@@ -44,7 +44,9 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/u/") ||
     pathname === "/about-us" ||
     pathname === "/contact-us" ||
-    pathname === "/partners"
+    pathname === "/terms-of-service" ||
+    pathname === "/privacy-policy" ||
+    pathname === "/contact-us"
   ) {
     return disallowCrawlers(NextResponse.next());
   }

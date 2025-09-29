@@ -5,7 +5,7 @@ import { P } from "@/app/ui/global/paragraph";
 export const metadata = {
   title: "Privacy Policy | Hazara Cultural Association (HCA)",
   description:
-    "Explains what we collect, how we use it, and your choices. We don’t store card data and we hash passwords.",
+    "What we collect, how we use it, where we store it (Neon Postgres), password hashing, and breach response.",
 };
 
 export default function Page() {
@@ -32,11 +32,11 @@ export default function Page() {
 
         <div>
           <Header as="h2" size="sm">
-            2) What Information We Collect
+            2) What We Collect
           </Header>
           <ul className="list-disc pl-6 text-gray-700">
             <li>
-              <strong>Contact details:</strong> name, email address, and contact
+              <strong>Contact details:</strong> name, email address, contact
               number.
             </li>
             <li>
@@ -44,136 +44,126 @@ export default function Page() {
               <em>Passwords are hashed</em> and never stored in plain text.
             </li>
             <li>
-              <strong>Donations:</strong> processed by third-party providers
-              (e.g., Stripe). We receive transaction references and amounts but
-              <em> not full card numbers</em>.
+              <strong>Donations:</strong> processed off-site by payment
+              providers (e.g., Stripe). We receive transaction refs/amounts, not
+              full card numbers.
             </li>
             <li>
-              <strong>Usage data:</strong> basic analytics and cookies to
-              improve site performance (non-sensitive).
+              <strong>Usage data:</strong> basic analytics/cookies to improve
+              performance (non-sensitive).
             </li>
           </ul>
         </div>
 
         <div>
           <Header as="h2" size="sm">
-            3) How We Use Your Information
-          </Header>
-          <ul className="list-disc pl-6 text-gray-700">
-            <li>To provide our website, programs, and member services.</li>
-            <li>To manage donations, receipts, and acknowledgements.</li>
-            <li>To communicate updates, events, and opportunities.</li>
-            <li>To maintain security and prevent fraud or misuse.</li>
-            <li>To improve the site and user experience.</li>
-          </ul>
-        </div>
-
-        <div>
-          <Header as="h2" size="sm">
-            4) Payment Processing (Stripe)
+            3) Where Your Data Is Stored (Neon Postgres)
           </Header>
           <P>
-            Donations are completed off-site on Stripe’s secure checkout. Stripe
-            collects and processes your payment details and may store your data
-            on servers outside Australia. HCA does not store card numbers.
+            We store personal data (e.g., names, emails, phone numbers,
+            account/profile records) in a managed{" "}
+            <strong>PostgreSQL database hosted by Neon</strong>. Passwords are
+            stored as cryptographic hashes using a modern, industry-standard
+            algorithm (e.g., bcrypt/Argon2); we do not keep plaintext passwords.
+          </P>
+          <P className="mt-2">
+            Database access is restricted via least-privilege roles and
+            environment-scoped credentials. Data is transmitted over HTTPS/TLS.
+            We perform routine maintenance and keep system packages up to date.
           </P>
         </div>
 
         <div>
           <Header as="h2" size="sm">
-            5) Sharing Your Information
+            4) Payments (Stripe)
           </Header>
           <P>
-            We do <strong>not</strong> sell your personal information. We may
-            share limited data with trusted service providers (e.g., email,
-            hosting, analytics, payment processors) solely to operate our
-            services, under appropriate safeguards.
+            Donations are completed on Stripe’s secure checkout pages. Stripe
+            collects and processes payment details and may store data on servers
+            outside Australia. HCA never stores card numbers.
           </P>
         </div>
 
         <div>
           <Header as="h2" size="sm">
-            6) Data Security
+            5) Risks & Breach Response
           </Header>
-          <ul className="list-disc pl-6 text-gray-700">
-            <li>Passwords are hashed; access is role-based and limited.</li>
-            <li>Transport security (HTTPS) and routine maintenance.</li>
-            <li>
-              We only retain data as long as needed for our purposes or as
-              required by law.
-            </li>
-          </ul>
+          <P>
+            No method of storage or transmission is 100% secure. Risks can
+            include unauthorised access due to software vulnerabilities,
+            credential compromise, misconfiguration, or third-party provider
+            incidents.
+          </P>
+          <P className="mt-2">
+            If we suspect a data breach, we will investigate, contain, and
+            assess impact. Where required, we will notify affected individuals
+            and relevant authorities under applicable laws (including
+            Australia’s Notifiable Data Breaches scheme).
+          </P>
         </div>
 
         <div>
           <Header as="h2" size="sm">
-            7) Your Choices & Rights
+            6) Sharing Your Information
           </Header>
-          <ul className="list-disc pl-6 text-gray-700">
-            <li>Access, update, or delete your personal information.</li>
-            <li>Opt out of non-essential communications.</li>
-            <li>
-              To exercise these rights, contact{" "}
-              <a
-                className="text-blue-600 hover:underline"
-                href="mailto:info@hazara.org.au"
-              >
-                info@hazara.org.au
-              </a>
-              .
-            </li>
-          </ul>
+          <P>
+            We do <strong>not</strong> sell personal information. We may share
+            limited data with trusted service providers (e.g., email, hosting,
+            analytics, payment processors) solely to operate our services, under
+            appropriate safeguards.
+          </P>
         </div>
 
         <div>
           <Header as="h2" size="sm">
-            8) Cookies & Analytics
+            7) Data Retention & Deletion
+          </Header>
+          <P>
+            We retain data only as long as needed for our purposes or as
+            required by law. You may request access, correction, or deletion of
+            your personal information; we will action requests subject to legal
+            obligations and technical feasibility.
+          </P>
+        </div>
+
+        <div>
+          <Header as="h2" size="sm">
+            8) International Transfers
+          </Header>
+          <P>
+            Some providers (e.g., payment, email, analytics) may process data
+            outside Australia. We take reasonable steps to ensure appropriate
+            protections for such transfers.
+          </P>
+        </div>
+
+        <div>
+          <Header as="h2" size="sm">
+            9) Cookies & Analytics
           </Header>
           <P>
             We may use essential cookies for site operation and lightweight
-            analytics to understand usage patterns. You can adjust cookie
-            settings in your browser.
+            analytics to understand usage. You can control cookies via your
+            browser settings.
           </P>
         </div>
 
         <div>
           <Header as="h2" size="sm">
-            9) International Transfers
+            10) Changes
           </Header>
           <P>
-            Some providers (e.g., payment processors) may store or process
-            information outside Australia. We take reasonable steps to ensure
-            appropriate protections for such transfers.
+            We may update this Policy periodically. The “Last updated” date
+            reflects the latest changes.
           </P>
         </div>
 
         <div>
           <Header as="h2" size="sm">
-            10) Children
+            11) Contact
           </Header>
           <P>
-            Our site is intended for general audiences. If you believe a child
-            has provided personal information without consent, please contact us
-            and we will take appropriate steps.
-          </P>
-        </div>
-
-        <div>
-          <Header as="h2" size="sm">
-            11) Changes to This Policy
-          </Header>
-          <P>
-            We may update this Privacy Policy from time to time. The “Last
-            updated” date will reflect the latest changes.
-          </P>
-        </div>
-
-        <div>
-          <Header as="h2" size="sm">
-            12) Contact
-          </Header>
-          <P>
-            Questions or requests? Contact{" "}
+            Questions or requests? Email{" "}
             <a
               className="text-blue-600 hover:underline"
               href="mailto:info@hazara.org.au"
@@ -183,6 +173,7 @@ export default function Page() {
             .
           </P>
         </div>
+
       </section>
     </main>
   );

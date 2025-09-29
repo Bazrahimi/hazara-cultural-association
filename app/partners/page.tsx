@@ -23,21 +23,21 @@ const PARTNERS: LogoItem[] = [
     logo: "/images/partners/huma-media.png",
     href: "https://www.facebook.com/HumaMedia",
   },
-  {
-    name: "Federation of Hazara Councils of Australia (FHCA)",
-    logo: "/images/partners/fhca.png",
-    href: "https://hazaracouncil.org.au/",
-  },
-  {
-    name: "Hazara Shamama Association of Victoria Inc.",
-    logo: "/images/partners/shamama.png", // <- check filename
-    href: "https://hazarashamama.org.au/",
-  },
-  {
-    name: "Australian Afghanistan Initiative Inc.",
-    logo: "/images/partners/australian-afghanistan.png",
-    href: "https://afghanaustralianinitiative.weebly.com/",
-  },
+  // {
+  //   name: "Federation of Hazara Councils of Australia (FHCA)",
+  //   logo: "/images/partners/fhca.png",
+  //   href: "https://hazaracouncil.org.au/",
+  // },
+  // {
+  //   name: "Hazara Shamama Association of Victoria Inc.",
+  //   logo: "/images/partners/shamama.png", // <- check filename
+  //   href: "https://hazarashamama.org.au/",
+  // },
+  // {
+  //   name: "Australian Afghanistan Initiative Inc.",
+  //   logo: "/images/partners/australian-afghanistan.png",
+  //   href: "https://afghanaustralianinitiative.weebly.com/",
+  // },
 ];
 
 const SUPPORTERS: LogoItem[] = [
