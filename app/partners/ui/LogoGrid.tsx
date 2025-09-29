@@ -1,31 +1,34 @@
+// LogoGrid.tsx
 import { Button } from "@/app/ui/global/components";
 import Image from "next/image";
 
 export type LogoItem = {
   name: string;
-  logo: string;               // e.g. "/images/partners/acme.svg"
-  href: string;               // website or social profile
-  bgClass?: string;           // optional per-item bg override
+  logo: string;
+  href: string;
+  bgClass?: string;
 };
 
-export type CTA = {
-  href: string;
-  text: string;
-  buttonLabel: string;
-};
+export type CTA = { href: string; text: string; buttonLabel: string };
 
 export function LogoGrid({
   title,
   items,
-  cta, // <- different per section
+  cta,
   defaultBgClass = "bg-gray-50 dark:bg-gray-800",
+  nameWrap = "truncate", // 'truncate' | 'wrap'
 }: {
   title?: string;
   items: LogoItem[];
   cta?: CTA;
   defaultBgClass?: string;
+  nameWrap?: "truncate" | "wrap";
 }) {
   const id = title ? title.toLowerCase().replace(/\s+/g, "-") : undefined;
+  const nameClass =
+    nameWrap === "wrap"
+      ? "mt-2 text-center text-sm font-medium text-gray-800 break-words"
+      : "mt-2 truncate text-center text-sm font-medium text-gray-800";
 
   return (
     <section aria-labelledby={id} className="mt-10">
@@ -42,7 +45,6 @@ export function LogoGrid({
             className="rounded-xl border border-gray-100 bg-white p-3 shadow-sm transition hover:shadow-md"
             title={p.name}
           >
-            {/* Logo area with background */}
             <a
               href={p.href}
               target="_blank"
@@ -59,8 +61,7 @@ export function LogoGrid({
               />
             </a>
 
-            {/* Name under logo */}
-            <h3 className="mt-2 truncate text-center text-sm font-medium text-gray-800">
+            <h3 className={nameClass}>
               <a
                 href={p.href}
                 target="_blank"
@@ -75,7 +76,6 @@ export function LogoGrid({
         ))}
       </div>
 
-      {/* Section-specific CTA */}
       {cta && (
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">{cta.text}</p>

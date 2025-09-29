@@ -60,7 +60,7 @@ const PARTNERS_CTA: CTA = {
 const SUPPORTERS_CTA: CTA = {
   href: "/donate",
   text: "Believe in our work? Your contribution funds our programs and community services.",
-  buttonLabel: "Donate",
+  buttonLabel: "Donate Now",
 };
 
 export default function Page() {
@@ -71,7 +71,7 @@ export default function Page() {
       </h1>
 
       {/* Partners (values-aligned) */}
-      <LogoGrid title="Partners" items={PARTNERS} cta={PARTNERS_CTA} />
+      <LogoGrid title="Partners" items={PARTNERS} cta={PARTNERS_CTA} nameWrap="wrap" />
 
       {/* Supporters (financial via donate) */}
       <LogoGrid title="Supporters" items={SUPPORTERS} cta={SUPPORTERS_CTA} />
