@@ -35,12 +35,14 @@ const GALLERY: GalleryImage[] = [
     caption:
       "Full house: all 360 seats at Drum Theatre, Dandenong. A collective remembrance of genocide and colonisation (1891–1893), with losses recorded by Faiz Mohammad Katib in *Siraj al-Tawarikh* (vol. 4) as affecting over 400,000 Hazara families (~2.4 million people).",
   },
+
   {
     src: "/images/memorial/133/mazari-bamiyan.jpg",
     alt: "Portrait of Abdul Ali 'Baba' Mazari on an easel beside a signed #HazarasForYes poster.",
     caption:
       "A tribute linking Hazara memory of Bamiyan with First Nations' connection to Country — standing together for dignity, truth, and rights.",
   },
+
   {
     src: "/images/memorial/133/girl-school.jpg",
     alt: "Exhibition panels showing names and photographs of Hazara students from a girls' school in West Kabul.",
@@ -53,6 +55,19 @@ const GALLERY: GalleryImage[] = [
     caption:
       "Memorial banner with names and images of Hazara civilians lost over the past 25 years; some researchers describe the Hazara genocide as among the longest-running.",
   },
+  {
+    src: "/images/memorial/133/grace-sultani.png",
+    alt: "Grace Sultani (PhD candidate) speaking at HCA’s 133rd Hazara Genocide Memorial.",
+    caption:
+      "Grace Sultani (PhD candidate) urged the Hazara community to wear their ancestral identity and traditions—and carry their language—with pride. She highlighted the long history of erasure; the memorial recognises more than a century of systematic erasure and dehumanisation of Hazaras under successive rulers in Kabul.",
+  },
+  {
+    src: "/images/memorial/133/huma-media-doc.jpg",
+    alt: "Projected black-and-white scene from a Huma Media documentary during the memorial at Drum Theatre; stage with HCA lectern and portrait, audience in the foreground.",
+    caption:
+      "Huma Media’s documentary reflected on Hazara resilience and the struggle for survival, recalling Shirin and her companions’ last stand—retreating to a mountain to avoid capture and enslavement—as preserved in community histories and early accounts.",
+  },
+
   // Add more…
 ];
 
@@ -181,6 +196,13 @@ export default function Memorial133() {
           their lives in the last 25 years. Panels and banners provided context,
           personal stories, and historical timelines to honour their memory and
           educate attendees.
+        </P>
+
+        <P className="text-sm text-gray-600">
+          Historical note: Sydney-born physician Lillias Anna Hamilton—formerly
+          court physician to Amir Abdur Rahman Khan—described the Hazara war as
+          a struggle for survival in{" "}
+          <em>A Vizier’s Daughter: A Tale of the Hazara War</em> (1900).
         </P>
       </section>
 
