@@ -77,7 +77,7 @@ const SPEAKERS = [
 // ---------------------------
 export default function Memorial133() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
+    <main className="mx-auto mt-5 md:mt-10 px-5 md:px-10 py-5 md:py-10 bg-gray-50">
       {/* Title */}
       <Header as="h1" align="center">
         133rd Hazara Genocide Memorial
