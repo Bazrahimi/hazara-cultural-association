@@ -67,6 +67,13 @@ const GALLERY: GalleryImage[] = [
     caption:
       "Huma Media’s documentary reflected on Hazara resilience and the struggle for survival, recalling Shirin and her companions’ last stand—retreating to a mountain to avoid capture and enslavement—as preserved in community histories and early accounts.",
   },
+  {
+  src: "/images/memorial/133/mohammad-j-gulzari.jpg",
+  alt: "Mohammad J. Gulzari speaking on stage at HCA’s 133rd Hazara Genocide Memorial, holding a microphone and a gift bag; event backdrop with sponsor logos.",
+  caption:
+    "Mohammad J. Gulzari, historian and archivist, cited British colonial records describing how Kabul authorities mobilised volunteer militias by enlisting religious authorities to brand Hazaras as ‘infidels,’ leading to indiscriminate shootings and the enslavement of Hazaras.",
+}
+
 
   // Add more…
 ];
