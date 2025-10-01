@@ -58,7 +58,7 @@ export const IMAGE_GALLERY: ImageGallery[] = [
     src: "/images/memorial/133/testimony-mazar.jpg",
     alt: "Hazara survivor giving testimony at the podium during HCA’s memorial; microphone on stand and HCA lectern logo visible.",
     caption:
-      "Testimony from a child’s memory of Mazar-i-Sharif (1998): house-to-house searches targeting Hazara families; a karachi (Wheel Borrow) bearing bodies—including infants—for burial; a fainting father given water—drinking it in one gulp; the mulla-kalāntar (Taliban commander) pushing the crowd back and hurling abuse; an old man crying, ‘Qazil Ābād has no one left alive’; and the cart’s toothed wheels—the only thing he could bear to watch.",
+      "Noor Ramazan's Testimony from his childhood memory of Mazar-i-Sharif (1998): house-to-house searches targeting Hazara families; a karachi (Wheel Borrow) bearing bodies—including infants—for burial; a fainting father given water—drinking it in one gulp; the mulla-kalāntar (Taliban commander) pushing the crowd back and hurling abuse; an old man crying, ‘Qazil Ābād has no one left alive’; and the cart’s toothed wheels—the only thing he could bear to watch.",
     // source: "Photo: HCA event photography",
   },
   {
