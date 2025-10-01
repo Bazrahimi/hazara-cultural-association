@@ -83,8 +83,14 @@ const GALLERY: GalleryImage[] = [
     src: "/images/memorial/133/testimony-mazar.jpg",
     alt: "Hazara survivor giving testimony at the podium during HCA’s memorial; microphone on stand and HCA lectern logo visible.",
     caption:
-      "Testimony from a child’s memory of Mazar-i-Sharif (1998): house-to-house searches targeting Hazara families; a four-wheeled karachi (handcart) bearing bodies—including infants—for burial; a fainting father given water—drinking it in one gulp; the mulla-kalāntar (Taliban commander) pushing the crowd back and hurling abuse; an old man crying, ‘Qazil Ābād has no one left alive’; and the cart’s toothed wheels—the only thing he could bear to watch.",
+      "Testimony from a child’s memory of Mazar-i-Sharif (1998): house-to-house searches targeting Hazara families; a karachi (Wheel Borrow) bearing bodies—including infants—for burial; a fainting father given water—drinking it in one gulp; the mulla-kalāntar (Taliban commander) pushing the crowd back and hurling abuse; an old man crying, ‘Qazil Ābād has no one left alive’; and the cart’s toothed wheels—the only thing he could bear to watch.",
     // source: "Photo: HCA event photography",
+  },
+  {
+    src: "/images/memorial/133/ali-khan.jpg",
+    alt: "Ali Khan, HCA’s Policy & Strategic Advisor, speaking at the lectern during the 133rd Hazara Genocide Memorial; HCA logo on the podium, sponsor backdrop and memorial candles visible.",
+    caption:
+      "Ali Khan, HCA’s Policy & Strategic Advisor, outlined the legal framing of the Hazara genocide and why official recognition matters—for justice, prevention, and community healing.",
   },
 
   // Add more…
