@@ -4,9 +4,9 @@ import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
-export type GalleryImage = { src: string; alt: string; caption?: string };
+import type { ImageGallery } from "../util/definitions";
 
-export default function Gallery({ images }: { images: GalleryImage[] }) {
+export default function ImageGallery({ images }: { images: ImageGallery[] }) {
   const [index, setIndex] = useState<number | null>(null);
 
   const open = (i: number) => setIndex(i);
