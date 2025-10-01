@@ -4,7 +4,8 @@ import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import ImageGallery from "./ui/ImageGallery";
-import { IMAGE_GALLERY, KEYNOTE_SPEAKERS } from "./util/helper";
+import { IMAGE_GALLERY, KEYNOTE_SPEAKERS, VIDEO_GALLERY } from "./util/helper";
+import VideoGalleries from "./ui/VideoGallery";
 
 // ---------------------------
 // Memorial133
@@ -134,6 +135,16 @@ export default function Memorial133() {
           images={IMAGE_GALLERY}
           defaultSource="HCA event photography"
         />
+      </section>
+
+            {/* Photo Highlights */}
+      <section className="mt-10">
+        <Header as="h2" size="sm">
+          Video Highlights
+        </Header>
+    
+           <VideoGalleries videos={VIDEO_GALLERY} overlaySource />
+      
       </section>
     </main>
   );

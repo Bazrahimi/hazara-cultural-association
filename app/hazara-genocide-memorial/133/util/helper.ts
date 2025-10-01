@@ -1,4 +1,4 @@
-import type { ImageGallery } from "./definitions";
+import type { ImageGallery, VideoGallery } from "./definitions";
 export const IMAGE_GALLERY: ImageGallery[] = [
   {
     src: "/images/memorial/133/full-house.jpg",
@@ -86,3 +86,58 @@ export const KEYNOTE_SPEAKERS = [
     bio: "Researcher of Hazara history drawing on British colonial records and declassified documents; speaker on the 1891–93 events and the Hazara Pioneers; contributor to Hazara Archives.",
   },
 ];
+
+export const VIDEO_GALLERY: VideoGallery[] = [
+  {
+    src: "https://res.cloudinary.com/drvh5xeuw/video/upload/vc_auto,q_auto/v1759304066/hca/hazara-genocide-memorial-133/full-house_cl3kij.mp4",
+    title: "Full house at Drum Theatre",
+    caption:
+      "Full house at Drum Theatre, Dandenong — a brief excerpt from Huma Media’s documentary.",
+    source: "Video: HCA media team",
+    posterSecond: 7, // grab frame at 7s
+  },
+];
+
+export const isCloudinaryVideo = (url: string) =>
+  /^https?:\/\/res\.cloudinary\.com\/[^/]+\/video\/upload\//.test(url);
+
+/** Insert Cloudinary transformations right after "/video/upload" */
+export function cldWithTransforms(url: string, transforms: string) {
+  if (!isCloudinaryVideo(url)) return url;
+  const u = new URL(url);
+  const parts = u.pathname.split("/"); // ["", "<cloud>", "video", "upload", "v123", ...]
+  const idx = parts.findIndex((p) => p === "upload");
+  if (idx === -1) return url;
+  // If transforms already present, keep them; else insert ours
+  if (!/,(?:[^/])+/.test(parts[idx + 1])) {
+    parts.splice(idx + 1, 0, transforms);
+  }
+  u.pathname = parts.join("/");
+  return u.toString();
+}
+
+/** Build a JPG poster from the video at second `so` (start offset) */
+export function cldPosterFromVideo(
+  url: string,
+  so = 2,
+  extra = "q_auto,f_jpg"
+) {
+  if (!isCloudinaryVideo(url)) return undefined;
+  const u = new URL(url);
+  const parts = u.pathname.split("/");
+  const idx = parts.findIndex((p) => p === "upload");
+  if (idx === -1) return undefined;
+  // Insert poster transforms: so_{sec}, plus any extras (quality/format)
+  parts.splice(idx + 1, 0, `so_${so}`, extra);
+  // swap extension to .jpg
+  parts[parts.length - 1] = parts[parts.length - 1].replace(/\.\w+$/, ".jpg");
+  u.pathname = parts.join("/");
+  return u.toString();
+}
+
+/** Detect MIME from file extension (mp4/webm) */
+export function mimeFromExt(url: string) {
+  const ext = (url.split(".").pop() || "").toLowerCase();
+  if (ext === "webm") return "video/webm";
+  return "video/mp4";
+}
