@@ -56,7 +56,7 @@ const GALLERY: GalleryImage[] = [
       "Memorial banner with names and images of Hazara civilians lost over the past 25 years; some researchers describe the Hazara genocide as among the longest-running.",
   },
   {
-    src: "/images/memorial/133/grace-sultani.png",
+    src: "/images/memorial/133/grace-sultani.jpeg",
     alt: "Grace Sultani (PhD candidate) speaking at HCA’s 133rd Hazara Genocide Memorial.",
     caption:
       "Grace Sultani (PhD candidate) urged the Hazara community to wear their ancestral identity and traditions—and carry their language—with pride. She highlighted the long history of erasure; the memorial recognises more than a century of systematic erasure and dehumanisation of Hazaras under successive rulers in Kabul.",
@@ -72,6 +72,19 @@ const GALLERY: GalleryImage[] = [
     alt: "Mohammad J. Gulzari speaking on stage at HCA’s 133rd Hazara Genocide Memorial, holding a microphone and a gift bag; event backdrop with sponsor logos.",
     caption:
       "Mohammad J. Gulzari, historian and archivist, cited British colonial records describing how Kabul authorities mobilised volunteer militias by enlisting religious authorities to brand Hazaras as ‘infidels,’ leading to indiscriminate shootings and the enslavement of Hazaras.",
+  },
+  {
+    src: "/images/memorial/133/quiz-panel.jpg",
+    alt: "Wide shot of a quiz panel on stage during the HCA memorial: six participants seated, a woman speaking with a microphone, moderator at a lectern, and a portrait of Baba Mazari beside a #HazarasForYes poster; audience visible in the foreground.",
+    caption:
+      "Interactive quiz on Hazara history and the genocide—designed to build cultural awareness among youth and challenge long-standing official narratives from Kabul, such as portraying Hazaras solely as recent Mongol-era arrivals rather than an Indigenous people of Hazaristan (noted in British-Indian records as “Hazara country” and in Persian sources as “Hazaristan” prior to the 1890s genocidal campaign).",
+  },
+  {
+    src: "/images/memorial/133/testimony-mazar.jpg",
+    alt: "Hazara survivor giving testimony at the podium during HCA’s memorial; microphone on stand and HCA lectern logo visible.",
+    caption:
+      "Testimony from a child’s memory of Mazar-i-Sharif (1998): house-to-house searches targeting Hazara families; a four-wheeled karachi (handcart) bearing bodies—including infants—for burial; a fainting father given water—drinking it in one gulp; the mulla-kalāntar (Taliban commander) pushing the crowd back and hurling abuse; an old man crying, ‘Qazil Ābād has no one left alive’; and the cart’s toothed wheels—the only thing he could bear to watch.",
+    // source: "Photo: HCA event photography",
   },
 
   // Add more…
