@@ -130,11 +130,6 @@ export default function ImageGallery({
                   {img.caption && (
                     <p className="text-sm text-gray-800">{img.caption}</p>
                   )}
-                  {credit && (
-                    <p className="mt-1 text-[11px] text-gray-500 italic">
-                      {renderSourceLink(credit)}
-                    </p>
-                  )}
                 </figcaption>
               )}
             </figure>
