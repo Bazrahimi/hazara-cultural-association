@@ -5,6 +5,7 @@ export const IMAGE_GALLERY: ImageGallery[] = [
     alt: "Audience filling all seats at Drum Theatre during the memorial.",
     caption:
       "Full house: all 360 seats at Drum Theatre, Dandenong. A collective remembrance of genocide and colonisation (1891–1893), with losses recorded by Faiz Mohammad Katib in *Siraj al-Tawarikh* (vol. 4) as affecting over 400,000 Hazara families (~2.4 million people).",
+    source: "Sumitra Vignaendra",
   },
 
   {
@@ -12,6 +13,7 @@ export const IMAGE_GALLERY: ImageGallery[] = [
     alt: "Portrait of Abdul Ali 'Baba' Mazari on an easel beside a signed #HazarasForYes poster.",
     caption:
       "A tribute linking Hazara memory of Bamiyan with First Nations' connection to Country — standing together for dignity, truth, and rights.",
+    source: "Sumitra Vignaendra",
   },
 
   {
@@ -19,12 +21,14 @@ export const IMAGE_GALLERY: ImageGallery[] = [
     alt: "Exhibition panels showing names and photographs of Hazara students from a girls' school in West Kabul.",
     caption:
       "Names and photos honouring Hazara teenagers killed in an attack on a girls’ school in West Kabul.",
+    source: "Sumitra Vignaendra",
   },
   {
     src: "/images/memorial/133/exhibition1.jpg",
     alt: "Memorial banner listing names and images of Hazara civilians.",
     caption:
       "Memorial banner with names and images of Hazara civilians lost over the past 25 years; some researchers describe the Hazara genocide as among the longest-running.",
+    source: "Sumitra Vignaendra",
   },
   {
     src: "/images/memorial/133/grace-sultani.jpeg",

@@ -130,7 +130,10 @@ export default function Memorial133() {
         <Header as="h2" size="sm">
           Photo Gallery
         </Header>
-        <ImageGallery images={IMAGE_GALLERY} />
+        <ImageGallery
+          images={IMAGE_GALLERY}
+          defaultSource="HCA event photography"
+        />
       </section>
     </main>
   );
