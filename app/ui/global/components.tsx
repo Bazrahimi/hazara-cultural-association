@@ -15,7 +15,7 @@ export type BaseInputProps = {
   id: string;
   label: string;
   placeholder?: string;
-  type: "text" | "number" | "email" | "password" | "tel";
+  type: "text" | "number" | "email" | "password" | "tel" | "date";
   /** Controlled or uncontrolled */
   value?: string | number;
   onChange?: (v: string) => void;
