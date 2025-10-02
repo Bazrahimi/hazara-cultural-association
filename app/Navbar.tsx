@@ -10,7 +10,7 @@ import AccountMenu from "./ui/global/AccountMenu";
 // Reusable styles
 const navLinkBase =
   "group flex flex-col items-center gap-1 text-white hover:text-hca-yellow-main flex-1";
-const navIcon = "text-2xl sm:text-xl opacity-80 group-hover:opacity-100"; // bigger on mobile
+const navIcon = "text-2xl sm:text-xl opacity-80 group-hover:opacity-100 md:hidden"; // bigger on mobile
 
 const NavBar = () => {
   return (
