@@ -56,7 +56,9 @@ export default function BlogMenuClient({
   };
 
   const onMenuKeyDown = (e: React.KeyboardEvent) => {
-    const idx = itemRefs.current.findIndex((el) => el === document.activeElement);
+    const idx = itemRefs.current.findIndex(
+      (el) => el === document.activeElement
+    );
     if (e.key === "Escape") {
       e.preventDefault();
       setOpen(false);
