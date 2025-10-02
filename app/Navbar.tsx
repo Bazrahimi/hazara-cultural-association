@@ -2,15 +2,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CiShoppingCart } from "react-icons/ci";
-import { HiCalendar, HiInformationCircle } from "react-icons/hi";
+import { HiInformationCircle } from "react-icons/hi";
 import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
+import BlogMenu from "./blog/ui/BlogMenu";
 import CartIcon from "./shop/ui/cart/CartBadge";
 import AccountMenu from "./ui/global/AccountMenu";
 
 // Reusable styles
 const navLinkBase =
   "group flex flex-col items-center gap-1 text-white hover:text-hca-yellow-main flex-1";
-const navIcon = "text-2xl sm:text-xl opacity-80 group-hover:opacity-100 md:hidden"; // bigger on mobile
+const navIcon =
+  "text-2xl sm:text-xl opacity-80 group-hover:opacity-100 md:hidden"; // bigger on mobile
 
 const NavBar = () => {
   return (
@@ -42,10 +44,13 @@ const NavBar = () => {
           <span className="hidden sm:inline">About Us</span>
         </Link>
 
-        <Link href="/blogs" className={navLinkBase} aria-label="Blogs">
+        {/* <Link href="/blog" className={navLinkBase} aria-label="Blog">
           <HiCalendar className={navIcon} />
-          <span className="hidden sm:inline">Blogs</span>
-        </Link>
+          <span className="hidden sm:inline">Blog</span>
+        </Link> */}
+        <nav>
+          <BlogMenu navLinkBase={navLinkBase} navIcon={navIcon} />
+        </nav>
 
         <Link href="/shop" className={navLinkBase} aria-label="Programs">
           <CiShoppingCart className={navIcon} />
