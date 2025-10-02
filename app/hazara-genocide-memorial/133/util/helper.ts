@@ -34,7 +34,7 @@ export const IMAGE_GALLERY: ImageGallery[] = [
     src: "/images/memorial/133/grace-sultani.jpeg",
     alt: "Grace Sultani speaking at HCA’s 133rd Hazara Genocide Memorial.",
     caption:
-      "Grace Sultani urged the Hazara community to wear their ancestral identity and traditions—and carry their language—with pride. She highlighted the long history of erasure; the memorial recognises more than a century of systematic erasure and dehumanisation of Hazaras under successive Afghan rulers.",
+      "Grace Sultani urged the Hazara community to wear their ancestral identity and traditions—and carry their language—with pride. She highlighted the long history of erasure; the memorial recognises more than a century of systematic erasure and dehumanisation of Hazaras under successive rulers in Kabul.",
   },
   {
     src: "/images/memorial/133/huma-media-doc.jpg",
@@ -46,7 +46,7 @@ export const IMAGE_GALLERY: ImageGallery[] = [
     src: "/images/memorial/133/gulzari.jpg",
     alt: "Mohammad J. Gulzari speaking on stage at HCA’s 133rd Hazara Genocide Memorial, holding a microphone and a gift bag; event backdrop with sponsor logos.",
     caption:
-      "Mohammad J. Gulzari, historian and archivist, cited British colonial records describing how Kabul authorities mobilised volunteer militias by enlisting religious authorities to brand Hazaras as ‘infidels,’ leading to indiscriminate shootings and the enslavement of Hazaras.",
+      "Mohammad J. Gulzari, historian and archivist, cited British colonial records describing how Afghan ruler (Abdur Rahman Khan) mobilised volunteer militias by enlisting religious authorities to brand Hazaras as ‘infidels,’ leading to indiscriminate shootings and the enslavement of Hazaras.",
   },
   {
     src: "/images/memorial/133/quiz-panel.jpg",
