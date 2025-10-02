@@ -11,7 +11,7 @@ type Props = {
 };
 
 const items = [
-  { label: "Hazara Genocide Memorial", href: "/hazara-genocide-memorial" },
+  { label: "Hazara Genocide Memorial", href: "/hazara-genocide-memorial/133" },
   { label: "Events", href: "/events" },
   { label: "News", href: "/news" },
 ];

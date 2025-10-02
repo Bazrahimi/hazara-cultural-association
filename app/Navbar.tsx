@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CiShoppingCart } from "react-icons/ci";
 import { HiInformationCircle } from "react-icons/hi";
 import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
-import BlogMenu from "./blog/ui/BlogMenu";
+import BlogMenu from "./(blog)/ui/BlogMenu";
 import CartIcon from "./shop/ui/cart/CartBadge";
 import AccountMenu from "./ui/global/AccountMenu";
 
