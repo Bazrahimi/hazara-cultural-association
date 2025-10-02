@@ -109,6 +109,14 @@ export const VIDEO_GALLERY: VideoGallery[] = [
     source: "Video: HCA media team",
     posterSecond: 7, // grab frame at 7s
   },
+  {
+    src: "https://res.cloudinary.com/drvh5xeuw/video/upload/vc_auto,q_auto/v1759375594/hca/hazara-genocide-memorial-133/sam-hashemi_n65alu.mp4",
+    title: "Memorial snapshot by Sam Hashemi",
+    caption:
+      "A short crowd-and-stage snapshot captured by community member Sam Hashemi during HCA’s 133rd Hazara Genocide Memorial.",
+    source: "Video: Sam Hashemi (community member)",
+    posterSecond: 28, // grab frame at 3s
+  },
 ];
 
 export const isCloudinaryVideo = (url: string) =>
