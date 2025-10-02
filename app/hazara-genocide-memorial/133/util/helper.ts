@@ -34,7 +34,7 @@ export const IMAGE_GALLERY: ImageGallery[] = [
     src: "/images/memorial/133/grace-sultani.jpeg",
     alt: "Grace Sultani speaking at HCA’s 133rd Hazara Genocide Memorial.",
     caption:
-      "Grace Sultani urged the Hazara community to wear their ancestral identity and traditions—and carry their language—with pride. She highlighted the long history of erasure; the memorial recognises more than a century of systematic erasure and dehumanisation of Hazaras under successive rulers in Kabul.",
+      "Grace Sultani urged the Hazara community to wear their ancestral identity and traditions—and carry their language—with pride. She highlighted the long history of erasure; the memorial recognises more than a century of systematic erasure and dehumanisation of Hazaras under successive Afghan rulers.",
   },
   {
     src: "/images/memorial/133/huma-media-doc.jpg",
@@ -52,7 +52,7 @@ export const IMAGE_GALLERY: ImageGallery[] = [
     src: "/images/memorial/133/quiz-panel.jpg",
     alt: "Wide shot of a quiz panel on stage during the HCA memorial: six participants seated, a woman speaking with a microphone, moderator at a lectern, and a portrait of Baba Mazari beside a #HazarasForYes poster; audience visible in the foreground.",
     caption:
-      "Interactive quiz on Hazara history and the genocide—designed to build cultural awareness among youth and challenge long-standing official narratives from Kabul, such as portraying Hazaras solely as recent Mongol-era arrivals rather than an Indigenous people of Hazaristan (noted in British-Indian records as “Hazara country” and in Persian sources as “Hazaristan” prior to the 1890s genocidal campaign).",
+      "Interactive quiz on Hazara history and the genocide—designed to build cultural awareness among youth and challenge long-standing official narratives from Afghan Rulers, such as portraying Hazaras solely as recent Mongol-era arrivals rather than an Indigenous people of Hazaristan (noted in British-Indian records as “Hazara country” and in Persian sources as “Hazaristan” prior to the 1890s genocidal campaign).",
   },
   {
     src: "/images/memorial/133/testimony-mazar.jpg",
