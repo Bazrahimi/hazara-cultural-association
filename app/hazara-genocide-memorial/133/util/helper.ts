@@ -32,9 +32,9 @@ export const IMAGE_GALLERY: ImageGallery[] = [
   },
   {
     src: "/images/memorial/133/grace-sultani.jpeg",
-    alt: "Grace Sultani (PhD candidate) speaking at HCA’s 133rd Hazara Genocide Memorial.",
+    alt: "Grace Sultani speaking at HCA’s 133rd Hazara Genocide Memorial.",
     caption:
-      "Grace Sultani (PhD candidate) urged the Hazara community to wear their ancestral identity and traditions—and carry their language—with pride. She highlighted the long history of erasure; the memorial recognises more than a century of systematic erasure and dehumanisation of Hazaras under successive rulers in Kabul.",
+      "Grace Sultani urged the Hazara community to wear their ancestral identity and traditions—and carry their language—with pride. She highlighted the long history of erasure; the memorial recognises more than a century of systematic erasure and dehumanisation of Hazaras under successive rulers in Kabul.",
   },
   {
     src: "/images/memorial/133/huma-media-doc.jpg",
@@ -58,7 +58,8 @@ export const IMAGE_GALLERY: ImageGallery[] = [
     src: "/images/memorial/133/testimony-mazar.jpg",
     alt: "Hazara survivor giving testimony at the podium during HCA’s memorial; microphone on stand and HCA lectern logo visible.",
     caption:
-      "Noor Ramazan's Testimony from his childhood memory of Mazar-i-Sharif (1998): house-to-house searches targeting Hazara families; a karachi (Wheel Borrow) bearing bodies—including infants—for burial; a fainting father given water—drinking it in one gulp; the mulla-kalāntar (Taliban commander) pushing the crowd back and hurling abuse; an old man crying, ‘Qazil Ābād has no one left alive’; and the cart’s toothed wheels—the only thing he could bear to watch.",
+      "Testimony from Mazar-i-Sharif (1998): house-to-house searches targeting Hazara families; a four-wheeled karachi (handcart) bearing bodies—including infants—for burial; a fainting father given water—drinking it in one gulp; the mulla-kalāntar (Taliban commander) pushing the crowd back and hurling abuse; an old man crying, ‘Qazil Ābād has no one left alive’; the cart’s toothed wheels the only thing he could bear to watch—and many bodies left unburied.",
+
     // source: "Photo: HCA event photography",
   },
   {
@@ -84,6 +85,18 @@ export const KEYNOTE_SPEAKERS = [
     role: "Independent historian & archivist (Hazara history; British archives)",
     img: "/images/memorial/133/speaker/gulzari.png",
     bio: "Researcher of Hazara history drawing on British colonial records and declassified documents; speaker on the 1891–93 events and the Hazara Pioneers; contributor to Hazara Archives.",
+  },
+  {
+    name: "Noor Mohammad Ramazan",
+    role: "Testimony: Hazara child survivor of the 1998 Mazar-i-Sharif massacre",
+    img: "/images/memorial/133/speaker/noor-ramazan.png",
+    bio: "Hazara child survivor of Mazar-i-Sharif (1998), recalling Taliban commanders urging house-to-house shootings targeting Hazaras. Now in Australia, he shares testimony for memory and justice.",
+  },
+  {
+    name: "Cr Jim Memeti",
+    role: "Mayor, City of Greater Dandenong",
+    img: "/images/memorial/133/speaker/jim-memeti.png", // replace with your asset path
+    bio: "Mayor of Greater Dandenong, which issued a formal statement recognising the ongoing Hazara genocide in Afghanistan and advocating federal action.",
   },
 ];
 

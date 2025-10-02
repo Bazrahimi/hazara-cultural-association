@@ -74,7 +74,7 @@ export default function Memorial133() {
       {/* Speakers */}
       <section className="mt-10">
         <Header as="h2" size="sm">
-          Speakers
+          Keynote Speakers
         </Header>
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {KEYNOTE_SPEAKERS.map((sp) => (
