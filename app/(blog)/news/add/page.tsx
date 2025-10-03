@@ -2,7 +2,7 @@
 import { getSession } from "@/app/lib/session";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import AddNewsForm from "./ui/AddNewsForm";
+import CreateNewsForm from "./ui/CreateNewsForm";
 
 export default async function Page() {
   const session = await getSession();
@@ -32,7 +32,7 @@ export default async function Page() {
       </P>
 
       <div className="mt-8">
-        <AddNewsForm />
+        <CreateNewsForm />
       </div>
     </main>
   );

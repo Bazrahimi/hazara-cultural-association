@@ -7,7 +7,7 @@ import { createNews } from "../lib/action";
 
 type AgendaItem = { text: string };
 
-export default function AddNewsForm() {
+export default function CreateNewsForm() {
   const [agenda, setAgenda] = useState<AgendaItem[]>([{ text: "" }]);
 
   const addAgenda = () => setAgenda((a) => [...a, { text: "" }]);
