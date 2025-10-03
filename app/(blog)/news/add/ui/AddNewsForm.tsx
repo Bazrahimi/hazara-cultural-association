@@ -3,7 +3,7 @@
 
 import { Button, Input } from "@/app/ui/global/components";
 import { useState } from "react";
-import { createNews } from "../util/action";
+import { createNews } from "../lib/action";
 
 type AgendaItem = { text: string };
 
