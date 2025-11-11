@@ -3,8 +3,8 @@ import { z } from "zod";
 export const CreateNewsSchema = z.object({
   title: z.string().min(8, "Title must be at least 8 characters."),
   date: z.string().min(1, "Date is required."),
-  location: z.string().optional().default(""),
-  meetingWith: z.string().min(3, "Please specify who you met."),
+  location: z.string().optional(),
+  meetingWith: z.string().optional(),
   agenda: z.string().optional().default("[]"), // JSON string array
   summary: z.string().min(10, "Summary is too short."),
   body: z.string().optional().default(""),

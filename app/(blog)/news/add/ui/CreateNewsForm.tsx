@@ -2,12 +2,20 @@
 "use client";
 
 import { Button, Input } from "@/app/ui/global/components";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { createNews } from "../lib/action";
 
 type AgendaItem = { text: string };
 
+type newsOptions = {
+  1: "Hazara Genocide";
+  2: "Official Recognition of Hazara genocide advocacy";
+  3: "Refugee and Advocacy";
+  4: "Hazara resilience and achievement";
+};
+
 export default function CreateNewsForm() {
+  const [state, formAction, isPending] = useActionState(createNews, undefined);
   const [agenda, setAgenda] = useState<AgendaItem[]>([{ text: "" }]);
 
   const addAgenda = () => setAgenda((a) => [...a, { text: "" }]);
@@ -17,33 +25,45 @@ export default function CreateNewsForm() {
     setAgenda((a) => a.map((it, i) => (i === idx ? { text: val } : it)));
 
   return (
-    <form
-      action={async (formData: FormData) => {
-        // flatten agenda into JSON
-        formData.set(
-          "agenda",
-          JSON.stringify(agenda.map((a) => a.text).filter(Boolean))
-        );
-        await createNews(formData);
-      }}
-      className="space-y-6"
-    >
+    <form action={formAction} className="space-y-6">
       {/* Title */}
 
       <Input
         id="title"
         label="title"
-        placeholder="Enter the title"
         type="text"
+        placeholder="Enter the title of the news"
+        defaultValue={state?.title}
+        error={state?.errors?.title}
       />
       {/* Date & Location */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Input id="date" type="date" label="Date" />
-        <Input id="location" type="text" label="Location" />
+        <Input
+          id="date"
+          type="date"
+          label="Date"
+          defaultValue={state?.date}
+          error={state?.errors?.date}
+        />
+        <Input
+          id="location"
+          type="text"
+          label="Location (Optional)"
+          placeholder="Enter location "
+          defaultValue={state?.location}
+          error={state?.errors?.location}
+        />
       </div>
 
       {/* Meeting With */}
-      <Input id="meetingWith" type="text" label="Meeting with" />
+      <Input
+        id="meetingWith"
+        type="text"
+        label="Meeting with (Optional)"
+        placeholder="meeting with"
+        defaultValue={state?.meetingWith}
+        error={state?.errors?.meetingWith}
+      />
 
       {/* Summary */}
       <Input

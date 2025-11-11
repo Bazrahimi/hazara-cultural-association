@@ -4,16 +4,6 @@ import { z } from "zod";
 
 import { CreateNewsSchema, CreateNewsState } from "./schema";
 
-function slugify(input: string) {
-  return input
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .slice(0, 80);
-}
-
 export async function createNews(
   prevState: CreateNewsState | undefined,
   formData: FormData
