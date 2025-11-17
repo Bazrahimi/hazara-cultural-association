@@ -1,4 +1,4 @@
-import Memorial133 from "./(blog)/hazara-genocide-memorial/133/page";
+import Memorial133 from "./blog/hazara-genocide-memorial/133/page";
 import PartnersAndSupporters from "./partners/page";
 import Hero from "./ui/Hero";
 

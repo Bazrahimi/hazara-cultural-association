@@ -4,7 +4,7 @@
 import { destroySession } from "@/app/lib/session";
 import Link from "next/link";
 import { HiChevronDown, HiUser } from "react-icons/hi";
-import { useDropdownMenu } from "../../(blog)/ui/useDropdownMenu";
+import { useDropdownMenu } from "../../blog/ui/useDropdownMenu";
 import { AccountMenuProps } from "./AccountMenu";
 
 type AccountMenuClientProps = AccountMenuProps & {
