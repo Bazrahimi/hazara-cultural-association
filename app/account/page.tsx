@@ -14,6 +14,7 @@ import {
 import { requireUser } from "../lib/session";
 
 import { getUserGreetingName } from "./lib/data";
+import RoleBanner from "./ui/RoleBanner";
 
 const breadcrumbs: Breadcrumb[] = [
   { label: "Home", href: "/" },
@@ -21,7 +22,7 @@ const breadcrumbs: Breadcrumb[] = [
 ];
 
 export default async function AccountDashboardPage() {
-  const { userId } = await requireUser();
+  const { userId, roles } = await requireUser();
 
   const { greetingName } = await getUserGreetingName(userId);
 
@@ -30,19 +31,10 @@ export default async function AccountDashboardPage() {
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
       <div className="mx-auto max-w-6xl p-4 md:p-8 space-y-8">
-        {/* Nonprofit mission banner */}
-        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          <span className="font-semibold">Hazara Cultural Association:</span> a
-          non-profit marketplace dedicated to preserving Hazaragi heritage.
-          Listings must be culturally related and community-respectful.{" "}
-          <Link
-            href="/shop/guidelines"
-            className="underline hover:no-underline"
-          >
-            Read guidelines
-          </Link>
-          .
-        </div>
+        {/* Role banner */}
+
+
+        <RoleBanner roles={roles} />
 
         {/* Welcome / hero */}
         <div className="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 md:p-8">

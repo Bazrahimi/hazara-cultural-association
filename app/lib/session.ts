@@ -13,9 +13,9 @@ import { z } from "zod";
 
 /* ============ Single source of truth (schema) ============ */
 
-const ROLES = ["seller", "member", "blogger", "admin"] as const;
+const ROLES = ["basic", "seller", "member", "blogger", "admin"] as const;
 const ROLE_SET = new Set<string>(ROLES);
-type SessionRole = (typeof ROLES)[number];
+export type SessionRole = (typeof ROLES)[number];
 
 const SessionSchema = z.object({
   userId: z.number(),
@@ -169,7 +169,7 @@ export const getUserId = async (): Promise<number | null> => {
 // auth helper
 export const requireAdmin = async () => {
   const s = await requireUser(); // redirects to /u/login if missing
-  console.log(s)
+  console.log(s);
 
   if (!s.roles.includes("admin")) redirect("/account"); // or "/not-authorized"
   return s;

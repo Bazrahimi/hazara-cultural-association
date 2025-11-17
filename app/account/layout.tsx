@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { requireUser } from "../lib/session";
 
 export const metaData: Metadata = {
@@ -8,10 +7,7 @@ export const metaData: Metadata = {
 };
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const session = await requireUser();
-  console.log(session)
-
-  if (session.roles.includes("admin")) redirect("/admin");
+  await requireUser();
 
   return <>{children}</>;
 };
