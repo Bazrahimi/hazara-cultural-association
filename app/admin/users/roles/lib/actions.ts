@@ -2,6 +2,7 @@
 
 import { sql } from "@/app/lib/db";
 import { requireUser } from "@/app/lib/session";
+import { revalidatePath } from "next/cache";
 
 export async function toggleUserRole(formData: FormData) {
   // Make sure only admins can change roles
@@ -39,4 +40,7 @@ export async function toggleUserRole(formData: FormData) {
       WHERE user_id = ${userId} AND role_id = ${roleId};
     `;
   }
+
+  // Revalidate pager after update roles
+  revalidatePath("/admin/users/roles");
 }

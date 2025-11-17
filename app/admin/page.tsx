@@ -1,7 +1,7 @@
 //app/admin/page.tsx
 import { Breadcrumb } from "../lib/definitions";
 import Breadcrumbs from "../ui/global/Breadcrumbs";
-import UserRoleAdminSection from "./users/page";
+import UserRoleAdminSection from "./users/roles/page";
 import QuickEnquiriesPage from "./website-queries/page";
 
 const breadcrumbs: Breadcrumb[] = [

@@ -93,7 +93,9 @@ export default async function UserRoleAdminSection() {
               return (
                 <tr key={user.id} className="hover:bg-slate-50/70">
                   <td className="px-3 py-2 text-slate-800">
-                    {fullName || <span className="italic text-slate-400">—</span>}
+                    {fullName || (
+                      <span className="italic text-slate-400">—</span>
+                    )}
                   </td>
                   <td className="px-3 py-2 text-slate-700">{user.email}</td>
 
