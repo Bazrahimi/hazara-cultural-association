@@ -1,7 +1,7 @@
+//app/admin/page.tsx
 import { Breadcrumb } from "../lib/definitions";
-import { destroySession } from "../lib/session";
 import Breadcrumbs from "../ui/global/Breadcrumbs";
-import { Button } from "../ui/global/components";
+import UserRoleAdminSection from "./users/page";
 import QuickEnquiriesPage from "./website-queries/page";
 
 const breadcrumbs: Breadcrumb[] = [
@@ -17,10 +17,10 @@ const page = () => {
     <>
       <div className="flex justify-between">
         <Breadcrumbs breadcrumbs={breadcrumbs} />
-        <form action={destroySession}>
-          <Button>Logout</Button>
-        </form>
       </div>
+
+      {/* Role Management */}
+      <UserRoleAdminSection />
 
       {/*  */}
       <QuickEnquiriesPage />
