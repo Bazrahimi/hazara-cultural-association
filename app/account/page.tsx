@@ -1,6 +1,4 @@
 // app/account/page.tsx
-import { requireUser } from "../lib/session";
-import { sql } from "@/app/lib/db";
 import type { Breadcrumb } from "@/app/lib/definitions";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
@@ -13,8 +11,9 @@ import {
   FaTags,
   FaUserCog,
 } from "react-icons/fa";
+import { requireUser } from "../lib/session";
 
-type ProfileRow = { firstName: string | null };
+import { getUserGreetingName } from "./lib/data";
 
 const breadcrumbs: Breadcrumb[] = [
   { label: "Home", href: "/" },
@@ -24,14 +23,7 @@ const breadcrumbs: Breadcrumb[] = [
 export default async function AccountDashboardPage() {
   const { userId } = await requireUser();
 
-  const profile = await sql<ProfileRow[]>`
-    SELECT first_name AS "firstName"
-    FROM user_profiles
-    WHERE user_id = ${userId}
-    LIMIT 1;
-  `;
-  const firstName = profile[0]?.firstName?.trim();
-  const greetingName = firstName && firstName.length > 0 ? firstName : "there";
+  const { greetingName } = await getUserGreetingName(userId);
 
   return (
     <>
