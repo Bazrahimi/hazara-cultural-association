@@ -52,7 +52,11 @@ const RoleBanner = ({ roles }: Props) => {
         <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
           <span className="font-semibold">Admin notice:</span> You’re seeing all
           role messages. Please review listings and content regularly and help
-          keep the marketplace safe and culturally respectful.
+          keep the marketplace safe and culturally respectful.{" "}
+          <Link href="/admin" className="underline hover:no-underline">
+            Admin console
+          </Link>
+          .
         </div>
       )}
     </div>
