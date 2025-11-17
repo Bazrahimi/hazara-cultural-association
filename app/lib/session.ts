@@ -13,7 +13,7 @@ import { z } from "zod";
 
 /* ============ Single source of truth (schema) ============ */
 
-const ROLES = ["seller", "volunteer", "blogger", "admin"] as const;
+const ROLES = ["seller", "member", "blogger", "admin"] as const;
 const ROLE_SET = new Set<string>(ROLES);
 type SessionRole = (typeof ROLES)[number];
 
