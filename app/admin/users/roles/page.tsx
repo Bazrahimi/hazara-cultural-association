@@ -20,8 +20,15 @@ export default async function UserRoleAdminSection() {
   const roleRows = await sql<RoleRow[]>`
     SELECT id, name
     FROM roles
-    ORDER BY name;
-  `;
+    ORDER BY CASE name
+      WHEN 'basic'   THEN 1
+      WHEN 'member'  THEN 2
+      WHEN 'blogger' THEN 3
+      WHEN 'seller'  THEN 4
+      WHEN 'admin'   THEN 5
+      ELSE 999
+    END;
+`;
 
   // Users + profile + aggregated roles
   const users = await sql<UserRow[]>`
