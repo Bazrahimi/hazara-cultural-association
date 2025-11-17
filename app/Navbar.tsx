@@ -6,7 +6,8 @@ import { HiInformationCircle } from "react-icons/hi";
 import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
 import BlogMenu from "./(blog)/ui/BlogMenu";
 import CartIcon from "./shop/ui/cart/CartBadge";
-import AccountMenu from "./ui/global/AccountMenu";
+// import AccountMenu from "./ui/global/AccountMenu";
+import AccountMenu from "./account/ui/AccountMenu";
 
 // Reusable styles
 const navLinkBase =
@@ -71,7 +72,7 @@ const NavBar = () => {
 
       {/* Right: Donate */}
       <div className="flex items-center gap-2">
-        <AccountMenu />
+        <AccountMenu navLinkBase={navLinkBase} navIcon={navIcon} />
       </div>
     </nav>
   );
