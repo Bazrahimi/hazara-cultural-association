@@ -8,14 +8,15 @@ import { useDropdownMenu } from "./useDropdownMenu";
 type BlogMenuClientProps = BlogMenuProps & { isAllowed: boolean };
 
 const baseItems = [
-  { label: "Hazara Genocide Memorial", href: "/hazara-genocide-memorial/133" },
-  { label: "Events", href: "/events" },
-  { label: "News", href: "/news" },
+  {
+    label: "Hazara Genocide Memorial",
+    href: "/blog/hazara-genocide-memorial/133",
+  },
+  { label: "Blogs", href: "/blog" },
 ];
 
 const manageItems = [
-  { label: "Add New Event", href: "/events/add" },
-  { label: "Add New News", href: "/news/add" },
+  { label: "Post  Blog (news, event, article)", href: "/blog/new" },
 ];
 
 export default function BlogMenuClient({
