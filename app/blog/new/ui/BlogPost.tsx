@@ -155,7 +155,7 @@ export default function BlogPost() {
         <div>
           <CldFileUpload
             title="Upload Image"
-            uploadPreset="hca-shop-images"
+            uploadPreset="hca-blog-post-hero"
             onChange={setHeroImage}
             value={heroImage}
           />
