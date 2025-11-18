@@ -1,26 +1,14 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { useFormStatus } from "react-dom";
-import { createBlogPost, type CreatePostState } from "../lib/action";
-
-const initialState: CreatePostState = {};
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-60"
-    >
-      {pending ? "Saving…" : "Save post"}
-    </button>
-  );
-}
+import { createBlogPost } from "../lib/action";
+import { ActionButton } from "@/app/ui/global/clientComponent";
 
 export default function BlogPost() {
-  const [state, formAction] = useActionState(createBlogPost, initialState);
+  const [state, formAction, isPending] = useActionState(
+    createBlogPost,
+    undefined
+  );
   const [category, setCategory] = useState<
     "news" | "advocacy_event" | "announcement"
   >("news");
@@ -34,7 +22,7 @@ export default function BlogPost() {
         </p>
       </header>
 
-      {state.error && (
+      {state?.error && (
         <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
           {state.error}
         </p>
@@ -191,7 +179,14 @@ export default function BlogPost() {
           <p className="text-xs text-gray-500">
             Posts can be edited later from the admin panel.
           </p>
-          <SubmitButton />
+          <ActionButton 
+          type="submit"
+          isLoading={isPending}
+          overlay
+          loadingText="Saving"
+          >
+            Save post
+          </ActionButton>
         </div>
       </form>
     </div>

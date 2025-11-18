@@ -14,4 +14,6 @@ export const getNum = (fd: FormData, key: string) => {
   return Number.isFinite(v) ? v : NaN; // let the schema catch invalids
 };
 
-
+export const delay = async (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};

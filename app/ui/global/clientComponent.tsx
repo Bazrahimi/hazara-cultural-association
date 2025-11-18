@@ -38,7 +38,11 @@ export function ActionButton({
 
   // Respect fullWidth if your Button supports it
   const fullWidth = (btnProps as { fullWidth?: boolean }).fullWidth;
-  const composedButtonClass = clsx(fullWidth && "w-full", buttonClassName);
+  const composedButtonClass = clsx(
+    fullWidth && "w-full",
+    buttonClassName,
+    overlay && isLoading && "text-transparent" // 👈 hide label under overlay
+  );
 
   return (
     <div className={clsx("relative", wrapperClassName)}>
@@ -55,18 +59,22 @@ export function ActionButton({
 
       <Button
         {...(btnProps as ButtonOnlyProps)}
-        as={as} // always "button"
+        as={as}
         disabled={effectiveDisabled}
         aria-disabled={effectiveDisabled}
+        aria-busy={isLoading}
         className={composedButtonClass}
       >
-        {/* Inline spinner if not using overlay */}
-        {!overlay && isLoading ? (
+        {isLoading ? (
+          // 🔁 Loading state: show ONLY loading text
           <span className="inline-flex items-center">
-            <ImSpinner10 className="mr-2 h-4 w-4 animate-spin" />
+            {/* If no overlay, show spinner next to text.
+                If overlay, spinner is already in the overlay above. */}
+            {!overlay && <ImSpinner10 className="mr-2 h-4 w-4 animate-spin" />}
             {loadingText}
           </span>
         ) : (
+          // ✅ Normal state: show original content
           <>
             {icon && <span className="flex-shrink-0">{icon}</span>}
             {children}
@@ -76,7 +84,6 @@ export function ActionButton({
     </div>
   );
 }
-
 
 export const FormErrorMessage = ({ message }: { message?: string }) => {
   if (!message) return null;

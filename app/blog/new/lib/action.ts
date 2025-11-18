@@ -9,7 +9,7 @@ export type CreatePostState = {
 };
 
 export async function createBlogPost(
-  prevState: CreatePostState,
+  prevState: CreatePostState | undefined,
   formData: FormData
 ): Promise<CreatePostState> {
   const session = await requireUser();
