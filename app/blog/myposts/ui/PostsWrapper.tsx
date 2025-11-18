@@ -4,17 +4,21 @@ import DraftPosts from "./DraftPosts";
 import NullPost from "./NullPost";
 import PublishedPosts from "./PublishedPosts";
 
-export default async function PostsWrapper({ userId }: { userId: number }) {
-  const posts = await getBlogPosts(userId);
+export default async function PostsWrapper({
+  userId,
+  isAdmin,
+}: {
+  userId: number;
+  isAdmin: boolean;
+}) {
+  const posts = await getBlogPosts({ userId, isAdmin });
 
   if (posts.length === 0) return <NullPost />;
 
   const drafts = posts.filter(
     (p) => p.status === "draft" || p.status === "scheduled"
   );
-
   const published = posts.filter((p) => p.status === "published");
-
   const archived = posts.filter((p) => p.status === "archived");
 
   return (
