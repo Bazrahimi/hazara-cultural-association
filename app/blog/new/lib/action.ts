@@ -3,65 +3,64 @@
 import { sql } from "@/app/lib/db";
 import { requireUser } from "@/app/lib/session";
 import { redirect } from "next/navigation";
-
-export type CreatePostState = {
-  error?: string;
-};
+import {
+  BlogPostSchema,
+  type BlogPostInput,
+  type BlogPostState,
+} from "./schema";
 
 export async function createBlogPost(
-  prevState: CreatePostState | undefined,
+  prevState: BlogPostState | undefined,
   formData: FormData
-): Promise<CreatePostState> {
+): Promise<BlogPostState> {
   const session = await requireUser();
 
   // Only admins & bloggers can create posts
-  if (
-    !session.roles.includes("admin") &&
-    !session.roles.includes("blogger")
-  ) {
-    return { error: "You are not allowed to create blog posts." };
+  if (!session.roles.includes("admin") && !session.roles.includes("blogger")) {
+    return {
+      ok: false,
+      message: "You are not allowed to create blog posts.",
+    };
   }
 
-  const title = (formData.get("title") as string | null)?.trim() ?? "";
-  const slugRaw = (formData.get("slug") as string | null)?.trim() ?? "";
-  const category = (formData.get("category") as string | null)?.trim() ?? "";
-  const status = (formData.get("status") as string | null)?.trim() ?? "draft";
-  const excerpt = (formData.get("excerpt") as string | null) ?? "";
-  const contentHtml =
-    (formData.get("content_html") as string | null)?.trim() ?? "";
-  const heroImgPath =
-    (formData.get("hero_img_path") as string | null)?.trim() || null;
-  const isFeatured = formData.get("is_featured") === "on";
-  const eventDateStr = (formData.get("event_date") as string | null) ?? "";
-  const eventLocation =
-    (formData.get("event_location") as string | null)?.trim() || null;
+  // 1) Convert FormData → plain object
+  const raw = Object.fromEntries(formData.entries());
 
-  if (!title || !contentHtml) {
-    return { error: "Title and content are required." };
+  // 2) Validate with Zod
+  const parsed = BlogPostSchema.safeParse(raw);
+
+  if (!parsed.success) {
+    const fieldErrors: BlogPostState["errors"] = {};
+
+    for (const issue of parsed.error.issues) {
+      const field = issue.path[0];
+      if (typeof field === "string") {
+        const key = field as keyof BlogPostInput;
+        if (!fieldErrors[key]) fieldErrors[key] = [];
+        fieldErrors[key]!.push(issue.message);
+      }
+    }
+
+    return {
+      ok: false,
+      message: "Please fix the errors below.",
+      errors: fieldErrors,
+      data: raw as Partial<BlogPostInput>,
+    };
   }
 
-  if (!["news", "advocacy_event", "announcement"].includes(category)) {
-    return { error: "Invalid category." };
-  }
+  const data = parsed.data;
 
-  if (!["draft", "published"].includes(status)) {
-    return { error: "Invalid status." };
-  }
+  // Slug is auto-generated in DB (trigger) → send NULL
+  const slug = null;
 
-  // Generate slug if empty
-  const slug =
-    slugRaw ||
-    title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+  // Only meaningful for advocacy events
+  const eventDate =
+    data.category === "advocacy_event" && data.event_date
+      ? new Date(data.event_date)
+      : null;
 
-  let eventDate: Date | null = null;
-  if (category === "advocacy_event" && eventDateStr) {
-    eventDate = new Date(eventDateStr);
-  }
-
-  const publishedAt = status === "published" ? new Date() : null;
+  const publishedAt = data.status === "published" ? new Date() : null;
 
   try {
     await sql`
@@ -69,7 +68,6 @@ export async function createBlogPost(
         user_id,
         title,
         slug,
-        excerpt,
         content_html,
         category,
         status,
@@ -81,28 +79,29 @@ export async function createBlogPost(
       )
       VALUES (
         ${session.userId},
-        ${title},
+        ${data.title},
         ${slug},
-        ${excerpt},
-        ${contentHtml},
-        ${category},
-        ${status},
-        ${heroImgPath},
-        ${isFeatured},
+        ${data.content_html},
+        ${data.category},
+        ${data.status},
+        ${data.hero_img_path ?? null},
+        ${data.is_featured},
         ${eventDate},
-        ${eventLocation},
+        ${data.event_location ?? null},
         ${publishedAt}
       );
     `;
-  } catch (err: any) {
-    // Unique slug violation
-    if (err?.code === "23505") {
-      return { error: "Slug already exists. Please choose another." };
-    }
-    console.error(err);
-    return { error: "Something went wrong while saving the post." };
+  } catch (err: unknown) {
+    console.error("DB error inserting Blog-post:", err);
+
+    // If you want to handle unique violations etc, you can inspect (err as any).code
+    return {
+      ok: false,
+      message: "Something went wrong while posting the blog.",
+      data,
+    };
   }
 
-  // After success, go to a listing page (adjust to whatever route you want)
+  // 3) Success → redirect (no success state is returned)
   redirect("/news");
 }
