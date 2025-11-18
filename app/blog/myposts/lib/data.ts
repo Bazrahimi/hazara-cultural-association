@@ -1,9 +1,7 @@
 import { sql } from "@/app/lib/db";
 import type { BlogPost } from "../../lib/definitions";
-import { delay } from "@/app/lib/helper";
 
 export const getBlogPosts = async (userId: number) => {
-  await delay(5000)
   const post = await sql<BlogPost[]>`
     SELECT
       id,
