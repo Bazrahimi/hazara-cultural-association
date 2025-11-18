@@ -1,9 +1,8 @@
-// app/blog/myposts/ui/PostsWrapper.tsx
-
 import { getBlogPosts } from "../lib/data";
+import ArchivedPosts from "./ArchivedPosts";
 import DraftPosts from "./DraftPosts";
-import PublishedPosts from "./PublishedPosts";
 import NullPost from "./NullPost";
+import PublishedPosts from "./PublishedPosts";
 
 export default async function PostsWrapper({ userId }: { userId: number }) {
   const posts = await getBlogPosts(userId);
@@ -16,10 +15,13 @@ export default async function PostsWrapper({ userId }: { userId: number }) {
 
   const published = posts.filter((p) => p.status === "published");
 
+  const archived = posts.filter((p) => p.status === "archived");
+
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid gap-6 md:grid-cols-3">
       <DraftPosts drafts={drafts} />
       <PublishedPosts published={published} />
+      <ArchivedPosts archived={archived} />
     </div>
   );
 }
