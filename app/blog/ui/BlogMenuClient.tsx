@@ -17,6 +17,7 @@ const baseItems = [
 
 const manageItems = [
   { label: "Post  Blog (news, event, article)", href: "/blog/new" },
+   { label: "My Posts", href: "/blog/myposts" },
 ];
 
 export default function BlogMenuClient({
