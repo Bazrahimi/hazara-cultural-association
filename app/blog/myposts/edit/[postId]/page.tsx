@@ -60,6 +60,14 @@ export default async function EditPostPage({ params }: PageProps) {
     redirect("/blog/myposts");
   }
 
+  // Normalise event_date for <input type="datetime-local">
+let eventDateForInput = "";
+if (post.event_date) {
+  const d = new Date(post.event_date as unknown as string);
+  // "YYYY-MM-DDTHH:MM"
+  eventDateForInput = d.toISOString().slice(0, 16);
+}
+
   const initialData = {
     id: post.id,
     title: post.title,
@@ -68,7 +76,7 @@ export default async function EditPostPage({ params }: PageProps) {
     status: post.status,
     hero_img_path: post.hero_img_path ?? "",
     is_featured: post.is_featured,
-    event_date: post.event_date ?? "",
+    event_date: eventDateForInput, 
     event_location: post.event_location ?? "",
   };
 
