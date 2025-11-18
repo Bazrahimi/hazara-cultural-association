@@ -30,9 +30,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
   const [contentHTML, setContentHTML] = useState(
     initialData?.content_html ?? ""
   );
-  const [heroImage, setHeroImage] = useState(
-    initialData?.hero_img_path ?? ""
-  );
+  const [heroImage, setHeroImage] = useState(initialData?.hero_img_path ?? "");
   const [category, setCategory] = useState<
     "news" | "advocacy_event" | "announcement"
   >(initialData?.category ?? "news");
@@ -80,9 +78,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           label="Title"
           placeholder="Enter a brief title for the post"
           type="text"
-          defaultValue={
-            state?.data?.title ?? initialData?.title ?? ""
-          }
+          defaultValue={state?.data?.title ?? initialData?.title ?? ""}
           error={state?.errors?.title}
           required
         />
@@ -109,9 +105,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
               <option value="advocacy_event">Advocacy event</option>
             </select>
             {state?.errors?.category && (
-              <p className="text-xs text-red-600">
-                {state.errors.category[0]}
-              </p>
+              <p className="text-xs text-red-600">{state.errors.category[0]}</p>
             )}
           </div>
 
@@ -120,7 +114,9 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
             <span className="block text-sm font-medium text-gray-700">
               Status
             </span>
-            <div className="mt-1 flex gap-3 text-sm">
+
+            <div className="mt-1 flex gap-4 text-sm">
+              {/* Draft */}
               <label className="inline-flex items-center gap-1">
                 <input
                   type="radio"
@@ -135,24 +131,40 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
                 Draft
               </label>
 
+              {/* Published */}
               <label className="inline-flex items-center gap-1">
                 <input
                   type="radio"
                   name="status"
                   value="published"
                   defaultChecked={
-                    (state?.data?.status ?? initialData?.status) ===
-                    "published"
+                    (state?.data?.status ?? initialData?.status) === "published"
                   }
                   className="h-4 w-4"
                 />
                 Published
               </label>
+
+              {/* Archived — ONLY for edit mode */}
+              {mode === "edit" && (
+                <label className="inline-flex items-center gap-1">
+                  <input
+                    type="radio"
+                    name="status"
+                    value="archived"
+                    defaultChecked={
+                      (state?.data?.status ?? initialData?.status) ===
+                      "archived"
+                    }
+                    className="h-4 w-4"
+                  />
+                  Archived
+                </label>
+              )}
             </div>
+
             {state?.errors?.status && (
-              <p className="text-xs text-red-600">
-                {state.errors.status[0]}
-              </p>
+              <p className="text-xs text-red-600">{state.errors.status[0]}</p>
             )}
           </div>
 
@@ -164,9 +176,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
                 name="is_featured"
                 className="h-4 w-4"
                 defaultChecked={
-                  state?.data?.is_featured ??
-                  initialData?.is_featured ??
-                  false
+                  state?.data?.is_featured ?? initialData?.is_featured ?? false
                 }
               />
               Featured on homepage

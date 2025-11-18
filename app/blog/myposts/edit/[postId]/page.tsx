@@ -28,7 +28,7 @@ export default async function EditPostPage({ params }: PageProps) {
     title: string;
     content_html: string;
     category: "news" | "advocacy_event" | "announcement";
-    status: "draft" | "scheduled" | "published" | "archived";
+    status: "draft" | "published" | "archived" ;
     hero_img_path: string | null;
     is_featured: boolean;
     event_date: string | null;

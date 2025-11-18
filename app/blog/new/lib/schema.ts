@@ -2,7 +2,7 @@
 import z from "zod";
 
 const CATEGORY_VALUES = ["news", "advocacy_event", "announcement"] as const;
-const STATUS_VALUES = ["draft", "published"] as const; // you can add scheduled/archived later
+const STATUS_VALUES = ["draft", "published", "archived"] as const; // you can add scheduled/archived later
 
 export const BlogPostSchema = z.object({
   title: z

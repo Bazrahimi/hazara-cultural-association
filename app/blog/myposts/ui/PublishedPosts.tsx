@@ -44,7 +44,7 @@ const PublishedPosts = ({ published }: { published: BlogPost[] }) => {
                 </Button>
                 <Button
                   as="link"
-                  href={`/blog/edit/${post.id}`}
+                  href={`/blog/myposts/edit/${post.id}`}
                   variant="outline"
                   size="xs"
                 >
