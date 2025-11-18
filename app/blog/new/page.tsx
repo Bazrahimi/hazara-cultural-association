@@ -1,6 +1,8 @@
+//app/blog/new/page.tsx
 import { requireUser } from "@/app/lib/session";
 import { notFound } from "next/navigation";
-import BlogPost from "./ui/BlogPost";
+import BlogPostForm from "./ui/BlogPostForm";
+import { createBlogPost } from "./lib/action";
 
 const NewBlog = async () => {
   const session = await requireUser();
@@ -12,7 +14,7 @@ const NewBlog = async () => {
     notFound();
   }
 
-  return <BlogPost />;
+  return <BlogPostForm mode="create" action={createBlogPost} />;
 };
 
 export default NewBlog;
