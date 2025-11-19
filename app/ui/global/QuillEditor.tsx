@@ -15,6 +15,8 @@ type Props = {
   placeholder?: string;
   maxChars?: number;
   className?: string;
+  /** Enable right-to-left layout for languages like Dari / Hazaragi */
+  isRTL?: boolean;
 };
 
 const textLength = (html: string) =>
@@ -31,14 +33,16 @@ export default function QuillEditor({
   placeholder,
   maxChars,
   className,
+  isRTL = false,
 }: Props) {
   const inputId = id;
+
   const modules = useMemo(
     () => ({
       toolbar: [
         [{ header: [3, 4, false] }],
         ["bold", "italic", "underline"],
-        [{ list: "ordered" }, { list: "bullet" }], // OK in toolbar
+        [{ list: "ordered" }, { list: "bullet" }],
         ["link"],
         [{ align: "" }, { align: "right" }],
         ["clean"],
@@ -48,7 +52,6 @@ export default function QuillEditor({
     []
   );
 
-  // ❗ No "bullet" here — only "list"
   const formats = useMemo(
     () => ["header", "bold", "italic", "underline", "list", "link", "align"],
     []
@@ -67,6 +70,7 @@ export default function QuillEditor({
       >
         {label}
       </label>
+
       <ReactQuill
         theme="snow"
         value={value}
@@ -74,6 +78,8 @@ export default function QuillEditor({
         modules={modules}
         formats={formats}
         placeholder={placeholder}
+        // This class controls RTL styling via the CSS below
+        className={isRTL ? "ql-rtl" : undefined}
       />
 
       <style jsx>{`
@@ -82,7 +88,19 @@ export default function QuillEditor({
           max-height: 400px;
           overflow-y: auto;
         }
+
+        /* RTL mode when container has .ql-rtl */
+        :global(.ql-rtl .ql-editor) {
+          direction: rtl;
+          text-align: right;
+        }
+
+        /* Optional: keep toolbar LTR so buttons feel normal */
+        :global(.ql-rtl .ql-toolbar) {
+          direction: ltr;
+        }
       `}</style>
+
       {typeof maxChars === "number" && (
         <div className="mt-1 text-right text-xs text-gray-500">
           {textLength(value)}/{maxChars} characters

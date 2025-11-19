@@ -3,24 +3,19 @@
 import { inter } from "@/app/lib/font";
 import { cn } from "@/app/lib/helper";
 import clsx from "clsx";
-import Link from "next/link";
-import React, { forwardRef, ReactNode, useState } from "react";
+import React, { forwardRef, useState } from "react";
 import { IconType } from "react-icons";
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import Link from "next/link";
 
-/* =========================
- * Input
- * =======================*/
 export type BaseInputProps = {
   id: string;
   label: string;
   placeholder?: string;
   type: "text" | "number" | "email" | "password" | "tel" | "date";
-  /** Controlled or uncontrolled */
   value?: string | number;
   onChange?: (v: string) => void;
   defaultValue?: string | number;
-
   error?: string[];
   Icon?: IconType;
   required?: boolean;
@@ -29,8 +24,6 @@ export type BaseInputProps = {
   min?: number | string;
   max?: number | string;
   step?: number | string;
-
-  /** Extra props to apply to the underlying <input> (handlers/ARIA, etc.) */
   inputProps?: Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
     | "id"
@@ -44,6 +37,9 @@ export type BaseInputProps = {
     | "onChange"
   >;
   endAdornment?: React.ReactNode;
+
+  /** NEW: Enable right-to-left layout for Hazaragi/Dari */
+  isRTL?: boolean;
 };
 
 export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
@@ -66,6 +62,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
       min,
       max,
       step,
+      isRTL = false, // <— NEW
     },
     ref
   ) {
@@ -85,38 +82,27 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
           : type === "number"
             ? "numeric"
             : type === "tel"
-              ? "tel" // <— add this
+              ? "tel"
               : undefined;
 
-    const leftPad = Icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4";
-
-    const common = {
-      id,
-      name: id,
-      type: inputType,
-      placeholder,
-      required,
-      "aria-required": required || undefined,
-      inputMode,
-      autoComplete:
-        autoComplete ?? (type === "password" ? "current-password" : "off"),
-      min,
-      max,
-      step,
-      className: clsx(
-        "peer block w-full rounded-md border border-gray-200",
-        "py-2 pr-10 text-sm sm:text-base outline-1 placeholder:text-gray-500 placeholder:text-xs",
-        "focus:border-hca-blue-main focus:ring-2 focus:ring-blue-100",
-        leftPad,
-        hasError && "border-red-300 focus:border-red-400 focus:ring-red-100",
-        inputClassName
-      ),
-      ...inputProps, // allow handlers/ARIA from parent
-    } as const;
+    // Padding: flip for RTL so text doesn't overlap the icons
+    const leftPad = Icon
+      ? isRTL
+        ? "pr-10 sm:pr-11"
+        : "pl-10 sm:pl-11"
+      : isRTL
+        ? "pr-3 sm:pr-4"
+        : "pl-3 sm:pl-4";
 
     return (
       <div className="mb-5" data-required={required || undefined}>
-        <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor={id}
+          className={clsx(
+            "block text-sm font-medium text-gray-700",
+            isRTL && "text-right" // <— label alignment
+          )}
+        >
           {label}
           {required && (
             <span className="ml-0.5 text-red-500" aria-hidden>
@@ -128,23 +114,82 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
         <div className="relative">
           {value !== undefined ? (
             <input
-              {...common}
-              ref={ref}
-              value={value}
-              onChange={(e) => onChange?.(e.currentTarget.value)}
+              {...{
+                id,
+                name: id,
+                type: inputType,
+                placeholder,
+                required,
+                min,
+                max,
+                step,
+                inputMode,
+                autoComplete:
+                  autoComplete ??
+                  (type === "password" ? "current-password" : "off"),
+                ref,
+                value,
+                onChange: (e) => onChange?.(e.currentTarget.value),
+              }}
+              {...inputProps}
+              className={clsx(
+                "peer block w-full rounded-md border border-gray-200",
+                "py-2 pr-10 text-sm sm:text-base outline-1 placeholder:text-gray-500 placeholder:text-xs",
+                "focus:border-hca-blue-main focus:ring-2 focus:ring-blue-100",
+                leftPad,
+                hasError &&
+                  "border-red-300 focus:border-red-400 focus:ring-red-100",
+                isRTL && "text-right",
+                isRTL && "direction-rtl", // <— make the input truly RTL
+                inputClassName
+              )}
             />
           ) : (
-            <input {...common} ref={ref} defaultValue={defaultValue} />
+            <input
+              {...{
+                id,
+                name: id,
+                type: inputType,
+                placeholder,
+                required,
+                min,
+                max,
+                step,
+                inputMode,
+                autoComplete:
+                  autoComplete ??
+                  (type === "password" ? "current-password" : "off"),
+                ref,
+                defaultValue,
+              }}
+              {...inputProps}
+              className={clsx(
+                "peer block w-full rounded-md border border-gray-200",
+                "py-2 pr-10 text-sm sm:text-base outline-1 placeholder:text-gray-500 placeholder:text-xs",
+                "focus:border-hca-blue-main focus:ring-2 focus:ring-blue-100",
+                leftPad,
+                hasError &&
+                  "border-red-300 focus:border-red-400 focus:ring-red-100",
+                isRTL && "text-right",
+                isRTL && "direction-rtl",
+                inputClassName
+              )}
+            />
           )}
 
+          {/* Left icon — stays LTR, even in RTL */}
           {Icon && (
             <Icon
-              className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 sm:h-6 sm:w-6 peer-focus:text-gray-900"
+              className={clsx(
+                "pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 sm:h-6 sm:w-6 peer-focus:text-gray-900",
+                isRTL ? "right-3" : "left-3" // <— flip icon position
+              )}
               aria-hidden
             />
           )}
 
-          {isPassword ? (
+          {/* Password visibility toggle — stays on the RIGHT (best UX) */}
+          {type === "password" ? (
             <button
               type="button"
               onClick={togglePasswordVisibility}
@@ -157,8 +202,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
                 <IoEye className="h-5 w-5 sm:h-6 sm:w-6" />
               )}
             </button>
-          ) : /* render any custom end adornment (e.g., clear button) */
-          endAdornment ? (
+          ) : endAdornment ? (
             <div className="absolute right-3 top-1/2 -translate-y-1/2">
               {endAdornment}
             </div>
@@ -170,7 +214,10 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
             id={`${id}-error`}
             aria-live="polite"
             aria-atomic="true"
-            className="mt-2 text-right text-xs text-red-600 sm:text-sm"
+            className={clsx(
+              "mt-2 text-xs text-red-600 sm:text-sm",
+              isRTL ? "text-left" : "text-right"
+            )}
           >
             {error!.map((msg, i) => (
               <p key={`${id}-error-${i}`}>{msg}</p>
@@ -181,6 +228,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
     );
   }
 );
+
 
 export type InputOption = string | { value: string; label?: string };
 

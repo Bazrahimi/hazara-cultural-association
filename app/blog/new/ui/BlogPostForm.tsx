@@ -26,7 +26,10 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
     FormData
   >(action, undefined);
 
-  // 1) Controlled fields: prefer latest state.data, else initialData, else default
+  // RTL toggle for Farsi / Hazaragi
+  const [isRTL, setIsRTL] = useState(false);
+
+  // Controlled fields
   const [contentHTML, setContentHTML] = useState(
     initialData?.content_html ?? ""
   );
@@ -35,7 +38,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
     "news" | "advocacy_event" | "announcement"
   >(initialData?.category ?? "news");
 
-  // When validation fails, state.data will have the submitted values – sync them
+  // Sync from validation state
   useEffect(() => {
     if (state?.data?.content_html !== undefined) {
       setContentHTML(state.data.content_html ?? "");
@@ -46,19 +49,43 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
     if (state?.data?.category) {
       setCategory(state.data.category);
     }
+
+    // Optional: if you later add language/rtl to state.data, you can sync here
+    // if (state?.data?.is_rtl !== undefined) {
+    //   setIsRTL(!!state.data.is_rtl);
+    // }
   }, [state]);
+
+  const isAdvocacyEvent = category === "advocacy_event";
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <header className="mt-10 md:mt-5">
-        <Header as="h1" size="md">
-          {mode === "create" ? "Create New Blog Post" : "Edit Blog Post"}
-        </Header>
-        <P>
-          {mode === "create"
-            ? "Share news, announcements, or advocacy events with the community."
-            : "Update your content and publish changes."}
-        </P>
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <Header as="h1" size="md">
+              {mode === "create" ? "Create New Blog Post" : "Edit Blog Post"}
+            </Header>
+            <P>
+              {mode === "create"
+                ? "Share news, announcements, or advocacy events with the community."
+                : "Update your content and publish changes."}
+            </P>
+          </div>
+
+          {/* RTL / Farsi toggle */}
+          <label className="mt-2 inline-flex items-center gap-2 text-sm text-gray-700 md:mt-0">
+            <input
+              type="checkbox"
+              className="h-4 w-4"
+              checked={isRTL}
+              onChange={(e) => setIsRTL(e.target.checked)}
+            />
+            <span>
+              نوشتن به فارسی / دری (RTL)
+            </span>
+          </label>
+        </div>
       </header>
 
       {state?.message && state.ok === false && (
@@ -72,23 +99,40 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           <input type="hidden" name="id" value={initialData.id} />
         )}
 
+        {/* Optional: send a language/rtl hint to the server */}
+        <input
+          type="hidden"
+          name="language"
+          value={isRTL ? "fa" : "en"}
+        />
+
         {/* Title */}
         <Input
           id="title"
-          label="Title"
-          placeholder="Enter a brief title for the post"
+          label={isRTL ? "عنوان مطلب" : "Title"}
+          placeholder={
+            isRTL
+              ? "یک عنوان کوتاه برای نوشته بنویسید"
+              : "Enter a brief title for the post"
+          }
           type="text"
           defaultValue={state?.data?.title ?? initialData?.title ?? ""}
           error={state?.errors?.title}
           required
+          isRTL={isRTL}
         />
 
         {/* Category + Status + Featured */}
-        <div className="grid gap-4 md:grid-cols-3 items-end">
+        <div
+          className={`grid items-end gap-4 md:grid-cols-3 ${
+            isRTL ? "text-right" : ""
+          }`}
+          dir={isRTL ? "rtl" : "ltr"}
+        >
           {/* Category */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-700">
-              Category
+              {isRTL ? "دسته‌بندی" : "Category"}
             </label>
             <select
               name="category"
@@ -100,22 +144,30 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
               }
               className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
             >
-              <option value="news">News</option>
-              <option value="announcement">Announcement</option>
-              <option value="advocacy_event">Advocacy event</option>
+              <option value="news">
+                {isRTL ? "خبر" : "News"}
+              </option>
+              <option value="announcement">
+                {isRTL ? "اعلان" : "Announcement"}
+              </option>
+              <option value="advocacy_event">
+                {isRTL ? "برنامه‌ی اعتراضی / مدافعانه" : "Advocacy event"}
+              </option>
             </select>
             {state?.errors?.category && (
-              <p className="text-xs text-red-600">{state.errors.category[0]}</p>
+              <p className="text-xs text-red-600">
+                {state.errors.category[0]}
+              </p>
             )}
           </div>
 
           {/* Status */}
           <div>
             <span className="block text-sm font-medium text-gray-700">
-              Status
+              {isRTL ? "وضعیت" : "Status"}
             </span>
 
-            <div className="mt-1 flex gap-4 text-sm">
+            <div className="mt-1 flex flex-wrap gap-4 text-sm">
               {/* Draft */}
               <label className="inline-flex items-center gap-1">
                 <input
@@ -128,7 +180,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
                   }
                   className="h-4 w-4"
                 />
-                Draft
+                {isRTL ? "پیش‌نویس" : "Draft"}
               </label>
 
               {/* Published */}
@@ -142,7 +194,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
                   }
                   className="h-4 w-4"
                 />
-                Published
+                {isRTL ? "منتشر شده" : "Published"}
               </label>
 
               {/* Archived — ONLY for edit mode */}
@@ -158,7 +210,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
                     }
                     className="h-4 w-4"
                   />
-                  Archived
+                  {isRTL ? "آرشیو شده" : "Archived"}
                 </label>
               )}
             </div>
@@ -179,17 +231,20 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
                   state?.data?.is_featured ?? initialData?.is_featured ?? false
                 }
               />
-              Featured on homepage
+              {isRTL ? "نمایش در صفحه اصلی" : "Featured on homepage"}
             </label>
           </div>
         </div>
 
         {/* Event fields */}
-        {category === "advocacy_event" && (
-          <div className="grid gap-4 md:grid-cols-2">
+        {isAdvocacyEvent && (
+          <div
+            className="grid gap-4 md:grid-cols-2"
+            dir={isRTL ? "rtl" : "ltr"}
+          >
             <div>
               <label className="text-sm font-medium text-gray-700">
-                Event date &amp; time
+                {isRTL ? "تاریخ و زمان برنامه" : "Event date & time"}
               </label>
               <input
                 type="datetime-local"
@@ -199,13 +254,15 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
                   (initialData?.event_date as string | undefined) ??
                   ""
                 }
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2"
+                className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
+                  isRTL ? "text-right" : ""
+                }`}
               />
             </div>
 
             <div>
               <label className="text-sm font-medium text-gray-700">
-                Event location
+                {isRTL ? "محل برگزاری" : "Event location"}
               </label>
               <input
                 name="event_location"
@@ -214,7 +271,9 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
                   initialData?.event_location ??
                   ""
                 }
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2"
+                className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
+                  isRTL ? "text-right" : ""
+                }`}
               />
             </div>
           </div>
@@ -223,9 +282,15 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
         {/* Content */}
         <QuillEditor
           id="content"
-          label="Content"
+          label={isRTL ? "متن مطلب" : "Content"}
           value={contentHTML}
           onChange={setContentHTML}
+          placeholder={
+            isRTL
+              ? "متن خبر یا اعلان خود را اینجا بنویسید…"
+              : "Write the body of your post here…"
+          }
+          isRTL={isRTL}
         />
         <input type="hidden" name="content_html" value={contentHTML} />
         {state?.errors?.content_html && (
@@ -236,7 +301,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
 
         {/* Hero image */}
         <CldFileUpload
-          title="Upload Image"
+          title={isRTL ? "آپلود تصویر" : "Upload Image"}
           uploadPreset="hca-blog-post-hero"
           onChange={setHeroImage}
           value={heroImage}
@@ -247,8 +312,12 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
         <div className="flex items-center justify-between">
           <p className="text-xs text-gray-500">
             {mode === "edit"
-              ? "Your changes will update immediately."
-              : "Posts can be edited later from the admin panel."}
+              ? isRTL
+                ? "تغییرات شما فوراً به‌روز می‌شوند."
+                : "Your changes will update immediately."
+              : isRTL
+                ? "بعداً می‌توانید نوشته‌ها را از پنل مدیریت ویرایش کنید."
+                : "Posts can be edited later from the admin panel."}
           </p>
           <ActionButton
             type="submit"
@@ -256,7 +325,13 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
             overlay
             loadingText={mode === "edit" ? "Updating…" : "Saving…"}
           >
-            {mode === "edit" ? "Update Post" : "Save Post"}
+            {mode === "edit"
+              ? isRTL
+                ? "به‌روزرسانی مطلب"
+                : "Update Post"
+              : isRTL
+                ? "ذخیره مطلب"
+                : "Save Post"}
           </ActionButton>
         </div>
       </form>
