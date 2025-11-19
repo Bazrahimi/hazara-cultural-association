@@ -1,47 +1,37 @@
+import * as React from "react";
 import { roboto } from "@/app/lib/font";
 import { cn } from "@/app/lib/helper";
-import * as React from "react";
-type ParaSize = "sm" | "md" | "lg";
 
-type PProps = React.HTMLAttributes<HTMLParagraphElement> & {
-  children: React.ReactNode;
-  size?: ParaSize;
-  className?: string; // ✅ optional now
-};
+type ParaSize = "sm" | "md" | "lg" | "xl";
 
-/**
- * Responsive sizes tuned for paragraph text (not headings).
- * - sm: slightly smaller on mobile, normal on larger screens
- * - md: good default paragraph size
- * - lg: larger body copy for emphasis/lead sections
- */
 const SIZE: Record<ParaSize, string> = {
   sm: "text-sm sm:text-base",
   md: "text-base sm:text-lg",
   lg: "text-lg sm:text-xl",
+  xl: "text-xl sm:text-2xl md:text-3xl",  // 🚀 Extra-large responsive text
 };
 
-/**
- * Matching line-heights for comfortable reading at each size.
- * Slightly looser leading improves legibility for longer text.
- */
 const LEADING: Record<ParaSize, string> = {
   sm: "leading-6 sm:leading-7",
   md: "leading-7 sm:leading-8",
   lg: "leading-8 sm:leading-9",
+  xl: "leading-9 sm:leading-10 md:leading-tight", // nice and balanced
 };
 
-export function P({ children, size = "md", className, ...rest }: PProps) {
+type PProps = React.ComponentPropsWithoutRef<"p"> & {
+  size?: ParaSize;
+};
+
+export function P({ size = "md", className, children, ...rest }: PProps) {
   return (
     <p
       className={cn(
-        roboto.className, // ✅ Roboto for clear reading
-        SIZE[size], // ✅ responsive font-size
-        LEADING[size], // ✅ matching line-height
-        "antialiased", // smooth edges
-        "text-gray-600", // high-contrast but not pure black
-        "break-words", // prevent overflow on long URLs/words
-        // "text-pretty",            // (optional if you're on Tailwind 3.3+) nicer wraps
+        roboto.className,
+        SIZE[size],
+        LEADING[size],
+        "antialiased",
+        "text-slate-800",
+        "break-words",
         className
       )}
       {...rest}
