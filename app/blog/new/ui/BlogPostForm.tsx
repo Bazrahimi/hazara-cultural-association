@@ -81,9 +81,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
               checked={isRTL}
               onChange={(e) => setIsRTL(e.target.checked)}
             />
-            <span>
-              نوشتن به فارسی / دری (RTL)
-            </span>
+            <span className="font-extrabold">فارسی / هزارگی</span>
           </label>
         </div>
       </header>
@@ -100,11 +98,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
         )}
 
         {/* Optional: send a language/rtl hint to the server */}
-        <input
-          type="hidden"
-          name="language"
-          value={isRTL ? "fa" : "en"}
-        />
+        <input type="hidden" name="language" value={isRTL ? "fa" : "en"} />
 
         {/* Title */}
         <Input
@@ -144,20 +138,16 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
               }
               className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
             >
-              <option value="news">
-                {isRTL ? "خبر" : "News"}
-              </option>
+              <option value="news">{isRTL ? "خبر" : "News"}</option>
               <option value="announcement">
                 {isRTL ? "اعلان" : "Announcement"}
               </option>
               <option value="advocacy_event">
-                {isRTL ? "برنامه‌ی اعتراضی / مدافعانه" : "Advocacy event"}
+                {isRTL ? "برنامه" : "Advocacy event"}
               </option>
             </select>
             {state?.errors?.category && (
-              <p className="text-xs text-red-600">
-                {state.errors.category[0]}
-              </p>
+              <p className="text-xs text-red-600">{state.errors.category[0]}</p>
             )}
           </div>
 
@@ -287,8 +277,8 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           onChange={setContentHTML}
           placeholder={
             isRTL
-              ? "متن خبر یا اعلان خود را اینجا بنویسید…"
-              : "Write the body of your post here…"
+              ? ""
+              : "Write the body of your post here متن خبر یا اعلان خود را اینجا بنویسید"
           }
           isRTL={isRTL}
         />
