@@ -16,24 +16,53 @@ export default function BlogPostDetail({
   canManage,
 }: BlogPostDetailProps) {
   const isEvent = post.category === "advocacy_event";
+  const isRTL = post.is_rtl === true;
 
   return (
-    <article className="mx-auto max-w-4xl px-4 py-10">
+    <article
+      dir={isRTL ? "rtl" : "ltr"}
+      className={`mx-auto max-w-4xl px-4 py-10 ${isRTL ? "text-right" : "text-left"}`}
+    >
       {/* Title */}
-      <Header as="h1" size="md" className="mb-3">
+      <Header
+        as="h1"
+        size="md"
+        className="mb-3"
+        align={isRTL ? "right" : "left"}
+      >
         {post.title}
       </Header>
 
       {/* Author + date */}
-      <div className="mb-6 flex flex-wrap items-center gap-3 text-sm text-gray-600">
+      <div
+        className={`mb-6 flex flex-wrap items-center gap-3 text-sm text-gray-600 ${
+          isRTL ? "justify-end" : ""
+        }`}
+      >
         {post.authorName && (
-          <span>
-            By <span className="font-semibold">{post.authorName}</span>
+          <span
+            className={`flex items-center gap-1 ${isRTL ? "flex-row-reverse" : ""}`}
+          >
+            {isRTL ? (
+              <>
+                <span className="font-semibold">{post.authorName}</span>
+                <span>نوشته</span>
+              </>
+            ) : (
+              <>
+                <span>By</span>
+                <span className="font-semibold">{post.authorName}</span>
+              </>
+            )}
           </span>
         )}
 
         {post.publishedAt && (
-          <span className="text-gray-500">• Published {post.publishedAt}</span>
+          <span className="text-gray-500">
+            {isRTL
+              ? `• منتشر شده در ${post.publishedAt}`
+              : `• Published ${post.publishedAt}`}
+          </span>
         )}
 
         <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700">
@@ -44,11 +73,15 @@ export default function BlogPostDetail({
       {/* Advocacy event meta */}
       {isEvent && (post.event_date || post.event_location) && (
         <div className="mb-6 rounded-lg border border-blue-100 bg-blue-50/60 p-4 text-sm text-blue-900">
-          <p className="font-semibold">Advocacy event details</p>
+          <p className="font-semibold">
+            {isRTL ? "جزییات برنامهٔ دادخواهی" : "Advocacy event details"}
+          </p>
 
           {post.event_date && (
             <p>
-              <span className="font-medium">Date & time: </span>
+              <span className="font-medium">
+                {isRTL ? "تاریخ و زمان: " : "Date & time: "}
+              </span>
               {new Date(post.event_date).toLocaleString("en-AU", {
                 timeZone: "Australia/Melbourne",
                 year: "numeric",
@@ -62,7 +95,9 @@ export default function BlogPostDetail({
 
           {post.event_location && (
             <p>
-              <span className="font-medium">Location: </span>
+              <span className="font-medium">
+                {isRTL ? "محل برگزاری: " : "Location: "}
+              </span>
               {post.event_location}
             </p>
           )}
@@ -87,9 +122,14 @@ export default function BlogPostDetail({
       )}
 
       {/* Content */}
-      <section className="prose prose-sm max-w-none sm:prose-base">
+      <section
+        className={`prose prose-sm max-w-none sm:prose-base prose-img:rounded-lg ${
+          isRTL ? "text-right" : ""
+        }`}
+        dir={isRTL ? "rtl" : "ltr"}
+      >
         <div
-          className="prose-headings:scroll-mt-24 prose-img:rounded-lg"
+          className="prose-headings:scroll-mt-24"
           dangerouslySetInnerHTML={{ __html: post.content_html }}
         />
       </section>
@@ -100,6 +140,7 @@ export default function BlogPostDetail({
           postId={post.id}
           status={post.status}
           isFeatured={post.is_featured}
+          isRTL={post.is_rtl}
         />
       )}
     </article>

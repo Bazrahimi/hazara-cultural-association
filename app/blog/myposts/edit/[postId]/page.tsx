@@ -45,6 +45,7 @@ export default async function EditPostPage({ params }: PageProps) {
       is_featured: boolean;
       event_date: string | null;
       event_location: string | null;
+      is_rtl: boolean;
     }[]
   >`
     SELECT
@@ -57,7 +58,8 @@ export default async function EditPostPage({ params }: PageProps) {
       hero_img_path,
       is_featured,
       event_date,
-      event_location
+      event_location,
+      is_rtl
     FROM blog_posts
     WHERE id = ${id}
     LIMIT 1;
@@ -91,6 +93,7 @@ export default async function EditPostPage({ params }: PageProps) {
     is_featured: post.is_featured,
     event_date: eventDateForInput,
     event_location: post.event_location ?? "",
+    is_rtl: post.is_rtl
   };
 
   return (

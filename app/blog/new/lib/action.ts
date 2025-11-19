@@ -73,6 +73,7 @@ export async function createBlogPost(
         status,
         hero_img_path,
         is_featured,
+        is_rtl,
         event_date,
         event_location,
         published_at
@@ -86,6 +87,7 @@ export async function createBlogPost(
         ${data.status},
         ${data.hero_img_path ?? null},
         ${data.is_featured},
+        ${data.is_rtl},
         ${eventDate},
         ${data.event_location ?? null},
         ${publishedAt}

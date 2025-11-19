@@ -111,7 +111,8 @@ export async function updateBlogPost(
         is_featured   = ${data.is_featured},
         event_date    = ${eventDate},
         event_location = ${data.event_location ?? null},
-        published_at  = ${publishedAt}
+        published_at  = ${publishedAt},
+        is_rtl = ${data.is_rtl}
       WHERE id = ${id};
     `;
   } catch (err: unknown) {

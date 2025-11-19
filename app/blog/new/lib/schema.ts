@@ -21,6 +21,7 @@ export const BlogPostSchema = z.object({
   hero_img_path: z.string().trim().optional().nullable(),
 
   is_featured: z.coerce.boolean().default(false),
+  is_rtl: z.coerce.boolean().default(false), 
 
   // datetime-local will submit a string like "2025-11-18T11:30"
   // we'll turn it into Date in the action

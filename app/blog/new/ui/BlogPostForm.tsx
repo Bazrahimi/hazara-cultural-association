@@ -27,7 +27,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
   >(action, undefined);
 
   // RTL toggle for Farsi / Hazaragi
-  const [isRTL, setIsRTL] = useState(false);
+  const [isRTL, setIsRTL] = useState(initialData?.is_rtl ?? false);
 
   // Controlled fields
   const [contentHTML, setContentHTML] = useState(
@@ -50,10 +50,9 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
       setCategory(state.data.category);
     }
 
-    // Optional: if you later add language/rtl to state.data, you can sync here
-    // if (state?.data?.is_rtl !== undefined) {
-    //   setIsRTL(!!state.data.is_rtl);
-    // }
+    if (state?.data?.is_rtl !== undefined) {
+      setIsRTL(state.data.is_rtl);
+    }
   }, [state]);
 
   const isAdvocacyEvent = category === "advocacy_event";
@@ -96,9 +95,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
         {mode === "edit" && initialData?.id && (
           <input type="hidden" name="id" value={initialData.id} />
         )}
-
-        {/* Optional: send a language/rtl hint to the server */}
-        <input type="hidden" name="language" value={isRTL ? "fa" : "en"} />
+        <input type="hidden" name="is_rtl" value={isRTL ? "true" : "false"} />
 
         {/* Title */}
         <Input
@@ -106,7 +103,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           label={isRTL ? "عنوان مطلب" : "Title"}
           placeholder={
             isRTL
-              ? "یک عنوان کوتاه برای نوشته بنویسید"
+              ? "یک عنوان کوتاه برای مطلب خو نوشته کید"
               : "Enter a brief title for the post"
           }
           type="text"

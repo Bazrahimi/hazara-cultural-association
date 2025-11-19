@@ -10,6 +10,7 @@ export type BlogPostDetail = {
   status: "draft" | "archived" | "published";
   category: "news" | "advocacy_event" | "announcement";
   hero_img_path: string | null;
+  is_rtl: boolean;
   event_date: string | null;
   event_location: string | null;
   is_featured: boolean;
@@ -29,6 +30,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
       p.category,
       p.hero_img_path,
       p.is_featured,
+      p.is_rtl,
       p.event_date,
       p.event_location,
       p.user_id AS "authorId",
@@ -58,7 +60,9 @@ export type FeaturedBlogPost = {
   slug: string;
   category: "news" | "advocacy_event" | "announcement";
   hero_img_path: string | null;
+  content_html: string;
   publishedAt: string | null;
+  is_rtl: boolean;
 };
 
 export async function getFeaturedBlogPosts(
@@ -71,6 +75,8 @@ export async function getFeaturedBlogPosts(
       p.slug,
       p.category,
       p.hero_img_path,
+      p.content_html, 
+      p.is_rtl,
       to_char(
         p.published_at AT TIME ZONE 'Australia/Melbourne',
         'Mon DD, YYYY'
