@@ -48,7 +48,7 @@ const DraftPosts = ({ drafts }: { drafts: BlogPost[] }) => {
                   as="link"
                   variant="outline"
                   size="xs"
-                  href={`/blog//${post.slug}`}
+                  href={`/blog/${post.slug}`}
                 >
                   Preview
                 </Button>

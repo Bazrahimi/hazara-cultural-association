@@ -1,12 +1,14 @@
-import { Suspense } from "react";
 import { requireUser } from "@/app/lib/session";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
-import PostsWrapper from "./ui/PostsWrapper";
+import { Suspense } from "react";
 import PostsLoadingFallback from "./ui/PostsLoadingFallback";
+import PostsWrapper from "./ui/PostsWrapper";
 
 export default async function MyPostsPage() {
-  const { userId } = await requireUser();
+  const { userId, roles } = await requireUser();
+
+  const isAdmin = roles.includes("admin");
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 py-8">
@@ -22,7 +24,7 @@ export default async function MyPostsPage() {
 
       {/* Suspense boundary */}
       <Suspense fallback={<PostsLoadingFallback />}>
-        <PostsWrapper userId={userId} />
+        <PostsWrapper userId={userId} isAdmin={isAdmin} />
       </Suspense>
     </div>
   );
