@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import { P } from "@/app/ui/global/paragraph";
+import Image from "next/image";
 
 export type Person = {
   name: string;
@@ -11,24 +11,81 @@ export type Person = {
   contact?: string; // phone or email; renders tel: or mailto: automatically
 };
 
-type TeamGridProps = {
-  title: string;
-  people: Person[];
-};
+const MANAGEMENT: Person[] = [
+  {
+    name: "Barat Ali Batoor",
+    role: "President",
+    img: "/images/member/batoor.png",
+    bio: "Award-winning photojournalist and community leader dedicated to preserving Hazara heritage and amplifying community voices at HCA.",
+    // contact: "+61 469 813 842",
+  },
+  {
+    name: "Yasin Hazara",
+    role: "Vice President | Senior Public Liaison officer",
+    img: "/images/member/yasin.png",
+    bio: "Long-time host of community events and noted Hazara advocate in Australia, leading public outreach and partnerships for HCA.",
+    // contact: "+61 423 536 719",
+  },
+  {
+    name: "Zabih Rezai",
+    role: "Secretary",
+    img: "/images/member/zabi.png",
+    bio: "Community organiser with NGO experience (incl. ARC); supports governance, member services, and community assistance at HCA.",
+    // contact: "+61 412 984 700",
+  },
+  {
+    name: "Liaquat Ali",
+    role: "Treasurer",
+    img: "/images/member/Liaquat.jpeg",
+    bio: "Treasurer focused on transparent, community-first finances and responsible stewardship to sustain HCA’s programs.",
+    // contact: "+61 420 910 786",
+  },
+  {
+    name: "Ali Khan",
+    role: "Policy & Strategic Advisor",
+    img: "/images/member/khan.png",
+    bio: "Lawyer and policy advisor providing strategic guidance on advocacy, governance, and community legal awareness for HCA.",
+    // contact: "+61 401 824 640",
+  },
+  {
+    name: "Baz Rahimi",
+    role: "Governance Advisor | Full Stack Web Developer",
+    img: "/images/member/rahimi.jpg",
+    bio: "Governance advisor and full-stack developer; BA (Science), MIT data-science certification, and Monash bootcamp graduate building HCA’s digital tools.",
+  },
+  {
+    name: "Latif Mahmoodi",
+    role: "Assistant Public Liaison officer",
+    img: "/images/member/latif.png",
+    bio: "Connects community members with services, supports events, and strengthens engagement across Melbourne’s South-East.",
+    // contact: "+61 450 108 322",
+  },
+  {
+    name: "Jawid Ahmad Nairan",
+    img: "/images/member/nairan.png",
+    bio: "Committee member supporting operations and event logistics, linking volunteers with programs across the South-East.",
+    // contact: "+61 468 855 007",
+  },
 
-export function TeamGrid({ title, people }: TeamGridProps) {
-  const sectionId = title.toLowerCase().replace(/\s+/g, "-");
+  {
+    name: "Ahmad Reza Fayaz",
+    img: "/images/member/fayaz.png",
+    bio: "Committee member assisting youth and cultural programs, helping deliver events and resources for families in the South-East.",
+    // contact: "+61 482 668 596",
+  },
+];
 
+export function TeamGrid() {
   const isEmail = (v: string) => v.includes("@");
 
   return (
-    <section aria-labelledby={sectionId}>
-      <Header as="h2" size="sm" id={sectionId}>
-        {title}
+    <section aria-labelledby="executive-members">
+      <Header as="h2" size="sm" id="executive-members">
+        Executive Members
       </Header>
 
       <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 sm:gap-x-3 sm:gap-y-7 md:grid-cols-3 md:gap-8">
-        {people.map((person) => (
+        {MANAGEMENT.map((person) => (
           <article
             key={person.name}
             className="mx-auto w-full max-w-sm rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition hover:shadow-md"
@@ -51,7 +108,9 @@ export function TeamGrid({ title, people }: TeamGridProps) {
               {person.name}
             </h3>
             {person.role && (
-              <P className="text-center text-sm text-gray-600">{person.role}</P>
+              <P className="text-center text-sm text-gray-600">
+                {person.role}
+              </P>
             )}
 
             {/* Divider */}
@@ -59,14 +118,14 @@ export function TeamGrid({ title, people }: TeamGridProps) {
               <div className="mx-auto mt-3 w-full max-w-[92%] border-t border-gray-100" />
             )}
 
-            {/* Bio (left aligned, compact) */}
+            {/* Bio */}
             {person.bio && (
               <P className="mt-3 text-left text-sm leading-snug text-gray-700">
                 {person.bio}
               </P>
             )}
 
-            {/* Contact (left aligned with icon) */}
+            {/* Contact */}
             {person.contact && (
               <div className="mt-2 text-left">
                 {isEmail(person.contact) ? (
@@ -115,3 +174,4 @@ export function TeamGrid({ title, people }: TeamGridProps) {
     </section>
   );
 }
+
