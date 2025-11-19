@@ -6,10 +6,10 @@ import Link from "next/link";
 
 type Props = {
   roles: SessionRole[];
-  greetingName: string;
+  fullName: string;
 };
 
-const RoleBanner = ({ roles, greetingName }: Props) => {
+const RoleBanner = ({ roles, fullName }: Props) => {
   const isAdmin = roles.includes("admin");
   const isSeller = roles.includes("seller");
   const isBlogger = roles.includes("blogger");
@@ -79,7 +79,7 @@ const RoleBanner = ({ roles, greetingName }: Props) => {
       {/* Welcome / hero */}
       <div className="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 md:p-8">
         <Header as="h1" className="mb-2">
-          Welcome back, {greetingName} 👋
+          Welcome back, {fullName} 👋
         </Header>
 
         <P className="mt-10">

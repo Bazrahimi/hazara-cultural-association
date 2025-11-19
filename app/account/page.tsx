@@ -1,10 +1,10 @@
 import type { Breadcrumb } from "@/app/lib/definitions";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { requireUser } from "../lib/session";
-import { getUserGreetingName } from "./lib/data";
-import RoleBanner from "./ui/RoleBanner";
-import RecentActivity from "./ui/RecentActivity";
+
 import QuickActions from "./ui/QuickActions";
+import RecentActivity from "./ui/RecentActivity";
+import RoleBanner from "./ui/RoleBanner";
 
 const breadcrumbs: Breadcrumb[] = [
   { label: "Home", href: "/" },
@@ -12,8 +12,7 @@ const breadcrumbs: Breadcrumb[] = [
 ];
 
 export default async function AccountDashboardPage() {
-  const { userId, roles } = await requireUser();
-  const { greetingName } = await getUserGreetingName(userId);
+  const { roles, extra } = await requireUser();
 
   return (
     <>
@@ -21,7 +20,7 @@ export default async function AccountDashboardPage() {
 
       <div className="mx-auto max-w-6xl p-4 md:p-8 space-y-8">
         {/* Role banner */}
-        <RoleBanner roles={roles} greetingName={greetingName} />
+        <RoleBanner roles={roles} fullName={String(extra.fullName)} />
 
         {/* Quick actions section */}
         <QuickActions roles={roles} />

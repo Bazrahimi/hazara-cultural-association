@@ -132,18 +132,31 @@ export const auth = async (
   try {
     // citext makes this case-insensitive, so direct compare is fine
     const result = await sql<
-      { userId: number; hashedPassword: string; roles: string[] }[]
+      {
+        userId: number;
+        hashedPassword: string;
+        roles: string[];
+        fullName: string | null;
+      }[]
     >`
         SELECT
           u.id AS "userId",
           u.password AS "hashedPassword",
-          COALESCE(array_agg(r.name ORDER BY r.name)
-                  FILTER (WHERE r.name IS NOT NULL), '{}') AS roles
+          COALESCE(
+            up.first_name || ' ' || up.last_name,
+            ''  
+          ) AS "fullName",
+          COALESCE(
+            array_agg(r.name ORDER BY r.name)
+          FILTER (WHERE r.name IS NOT NULL), 
+          '{}'
+          ) AS roles
         FROM users u
-        LEFT JOIN user_roles ur ON ur.user_id = u.id
-        LEFT JOIN roles r       ON r.id = ur.role_id
+        LEFT JOIN user_profiles up  ON up.user_id = u.id
+        LEFT JOIN user_roles ur     ON ur.user_id = u.id
+        LEFT JOIN roles r           ON r.id = ur.role_id
         WHERE u.email = ${email}
-        GROUP BY u.id
+        GROUP BY u.id, up.first_name, up.last_name
         LIMIT 1
     `;
     const user = result[0];
@@ -165,8 +178,14 @@ export const auth = async (
       };
     }
 
+    // Build a safe greeting/name value
+    const fullName =
+      user.fullName && user.fullName.trim().length > 0
+        ? user.fullName.trim()
+        : email.split("@")[0]; // fallback to email local-part
+
     // ✅ Create a session for both admin and non-admin users
-    await createSession(Number(user.userId), user.roles);
+    await createSession(Number(user.userId), user.roles, {fullName});
 
     // Hand control to Next.js to redirect
     redirect("/account");
