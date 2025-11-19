@@ -4,7 +4,6 @@
 import { Button } from "@/app/ui/global/components";
 
 import { toggleFeatured, updateStatus } from "../lib/action";
-import { size } from "zod";
 
 type Props = {
   postId: number;
@@ -23,14 +22,10 @@ export function ManagePostControls({ postId, status, isFeatured }: Props) {
       </Button>
       <form action={toggleFeatured}>
         <input type="hidden" name="postId" value={postId} />
-        <input
-          type="hidden"
-          name="feature"
-          value={(!isFeatured).toString()}
-        />
+        <input type="hidden" name="feature" value={(!isFeatured).toString()} />
         <Button
           type="submit"
-          size = 'xs'
+          size="xs"
           variant={isFeatured ? "danger" : "outline"}
         >
           {isFeatured ? "Remove from homepage" : "Feature on homepage"}

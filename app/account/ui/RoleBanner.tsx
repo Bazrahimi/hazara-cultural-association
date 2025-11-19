@@ -13,8 +13,8 @@ const RoleBanner = ({ roles, fullName }: Props) => {
   const isAdmin = roles.includes("admin");
   const isSeller = roles.includes("seller");
   const isBlogger = roles.includes("blogger");
-  const isMember = roles.includes("member");
-  const isBasic = roles.includes("basic");
+  // const isMember = roles.includes("member");
+  // const isBasic = roles.includes("basic");
 
   // Amin sees everything, so all the blocks below render for them.
   const showMarketplaceMsg = isAdmin || isSeller;

@@ -1,7 +1,6 @@
 // app/blog/[slug]/ui/BlogPostDetail.tsx
 import type { BlogPostDetail } from "@/app/blog/lib/data";
 import { cldDetailHeroAuto } from "@/app/lib/cloudinary";
-import { getSession } from "@/app/lib/session";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
@@ -12,9 +11,10 @@ type BlogPostDetailProps = {
   canManage: boolean;
 };
 
-export default function BlogPostDetail({ post, canManage }: BlogPostDetailProps) {
-  
-
+export default function BlogPostDetail({
+  post,
+  canManage,
+}: BlogPostDetailProps) {
   const isEvent = post.category === "advocacy_event";
 
   return (
@@ -33,9 +33,7 @@ export default function BlogPostDetail({ post, canManage }: BlogPostDetailProps)
         )}
 
         {post.publishedAt && (
-          <span className="text-gray-500">
-            • Published {post.publishedAt}
-          </span>
+          <span className="text-gray-500">• Published {post.publishedAt}</span>
         )}
 
         <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700">
@@ -96,7 +94,7 @@ export default function BlogPostDetail({ post, canManage }: BlogPostDetailProps)
         />
       </section>
 
-            {/* Owner/Admin controls */}
+      {/* Owner/Admin controls */}
       {canManage && (
         <ManagePostControls
           postId={post.id}

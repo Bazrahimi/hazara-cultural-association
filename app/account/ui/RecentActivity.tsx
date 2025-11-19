@@ -1,6 +1,5 @@
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
-import Link from "next/link";
 import { P } from "@/app/ui/global/paragraph";
 
 const RecentActivity = () => {
@@ -10,12 +9,8 @@ const RecentActivity = () => {
         <Header as="h2">Recent Activity</Header>
 
         <Button as="link" href="/shop/purchases" variant="outline" size="sm">
-        View all
-
+          View all
         </Button>
-
-
-
       </div>
       <P className="mt-2 text-sm text-gray-500">
         You don’t have any recent activity yet. Once you buy or list cultural

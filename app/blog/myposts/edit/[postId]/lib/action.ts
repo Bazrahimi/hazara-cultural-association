@@ -1,13 +1,13 @@
 // app/blog/edit/[postId]/lib/action.ts
 "use server";
 
-import { sql } from "@/app/lib/db";
-import { requireUser } from "@/app/lib/session";
 import {
   BlogPostSchema,
   type BlogPostInput,
   type BlogPostState,
 } from "@/app/blog/new/lib/schema";
+import { sql } from "@/app/lib/db";
+import { requireUser } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 
 export async function updateBlogPost(
@@ -63,6 +63,8 @@ export async function updateBlogPost(
 
   // --- 3) Validate rest of fields with Zod (remove id before parsing) ---
   const raw = Object.fromEntries(formData.entries());
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   delete (raw as any).id; // BlogPostSchema doesn’t include id
 
   const parsed = BlogPostSchema.safeParse(raw);

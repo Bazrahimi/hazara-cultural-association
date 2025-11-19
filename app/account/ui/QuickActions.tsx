@@ -15,11 +15,13 @@ import {
 import { Header } from "@/app/ui/global/Header";
 import { DashboardActionLink, DashboardCard } from "./DashboardCard";
 
-type Props = {
-  roles: string[];
-};
+// type Props = {
+//   roles?: string[];
+// };
 
-export default function QuickActions({ roles }: Props) {
+export default function QuickActions(
+  // { roles }: Props
+) {
   return (
     <>
       <Header as="h2" className="mt-8 mb-4">
