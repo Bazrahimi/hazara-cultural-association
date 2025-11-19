@@ -14,12 +14,20 @@ export default async function AccountMenu(props: AccountMenuProps) {
   const isAllowed = !!(session && session.roles.includes("admin"));
 
   const isLoggedIn = !!session;
+  const fullName = String(session?.extra.fullName ?? "");
+  const initials =
+    fullName
+      ?.split(" ")
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join("") || null;
 
   return (
     <AccountMenuClient
       {...props}
       isAllowed={isAllowed}
       isLoggedIn={isLoggedIn}
+      initials={initials}
     />
   );
 }

@@ -6,10 +6,12 @@ import Link from "next/link";
 import { HiChevronDown, HiUser } from "react-icons/hi";
 import { useDropdownMenu } from "../../blog/ui/useDropdownMenu";
 import { AccountMenuProps } from "./AccountMenu";
+import AvatarInitials from "./AvatarInitials";
 
 type AccountMenuClientProps = AccountMenuProps & {
   isAllowed: boolean;
   isLoggedIn: boolean;
+  initials: string | null;
 };
 
 const baseItems = [
@@ -22,9 +24,9 @@ const adminItems = [{ label: "Admin Console", href: "/admin" }];
 export default function AccountMenuClient({
   navLinkBase,
   navIcon,
-  label = "Account",
   isAllowed,
   isLoggedIn,
+  initials,
 }: AccountMenuClientProps) {
   const totalItems = isLoggedIn
     ? baseItems.length + (isAllowed ? adminItems.length : 0)
@@ -52,7 +54,7 @@ export default function AccountMenuClient({
         className={`${navLinkBase} inline-flex items-center gap-1`}
       >
         <HiUser className={navIcon} />
-        <span className="hidden sm:inline">{label}</span>
+        <div className="hidden sm:inline">{<AvatarInitials initials={initials} />}</div>
         <HiChevronDown className="ml-0.5 h-4 w-4 opacity-80" />
       </button>
 
