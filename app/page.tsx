@@ -1,15 +1,46 @@
-import Memorial133 from "./blog/hazara-genocide-memorial/133/page";
+import { Suspense } from "react";
+import Acknowledgements from "./about-us/ui/Acknowledgements";
 import PartnersAndSupporters from "./partners/page";
 import Hero from "./ui/Hero";
+import FeaturedBlogPosts from "./ui/homepage/FeaturedBlogPosts";
+import Memorial133Spotlight from "./ui/homepage/Memorial133Spotlight";
 
-const page = () => {
+export default function HomePage() {
   return (
-    <div>
-      <Hero />
-      <Memorial133 />
-      <PartnersAndSupporters />
+    <div className="flex flex-col">
+      <section className="w-full border-b border-gray-200 bg-white">
+        <Hero />
+      </section>
+
+      <section className="w-full bg-gray-50 border-b border-gray-200 py-12">
+        <div className="mx-auto max-w-6xl px-4">
+          <Acknowledgements />
+        </div>
+      </section>
+
+      <section className="w-full bg-white border-b border-gray-200 py-14">
+        <div className="mx-auto max-w-6xl px-4">
+          <Suspense fallback={null}>
+            <Memorial133Spotlight />
+          </Suspense>
+        </div>
+      </section>
+
+      <section className="w-full bg-gray-50 border-b border-gray-200 py-14">
+        <div className="mx-auto max-w-6xl px-4">
+          <Suspense fallback={null}>
+            <FeaturedBlogPosts />
+          </Suspense>
+        </div>
+      </section>
+
+      <section className="w-full bg-white py-16">
+        <div className="mx-auto max-w-6xl px-4">
+          <Suspense fallback={null}>
+            <PartnersAndSupporters />
+          </Suspense>
+        </div>
+      </section>
     </div>
   );
-};
-
-export default page;
+}

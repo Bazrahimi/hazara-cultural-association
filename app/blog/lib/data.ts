@@ -1,6 +1,5 @@
 // app/blog/lib/data.ts
 import { sql } from "@/app/lib/db";
-import { delay } from "@/app/lib/helper";
 import { notFound } from "next/navigation";
 
 export type BlogPostDetail = {
@@ -51,4 +50,39 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
   }
 
   return post;
+}
+
+export type FeaturedBlogPost = {
+  id: number;
+  title: string;
+  slug: string;
+  category: "news" | "advocacy_event" | "announcement";
+  hero_img_path: string | null;
+  publishedAt: string | null;
+};
+
+export async function getFeaturedBlogPosts(
+  limit: number = 4
+): Promise<FeaturedBlogPost[]> {
+  const rows = await sql<FeaturedBlogPost[]>`
+    SELECT
+      p.id,
+      p.title,
+      p.slug,
+      p.category,
+      p.hero_img_path,
+      to_char(
+        p.published_at AT TIME ZONE 'Australia/Melbourne',
+        'Mon DD, YYYY'
+      ) AS "publishedAt"
+    FROM blog_posts p
+    WHERE p.status = 'published'
+      AND p.is_featured = true
+    ORDER BY
+      p.published_at DESC NULLS LAST,
+      p.created_at DESC
+    LIMIT ${limit};
+  `;
+
+  return rows;
 }
