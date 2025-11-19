@@ -1,9 +1,9 @@
 // app/blog/[slug]/ui/BlogPostDetail.tsx
 import type { BlogPostDetail } from "@/app/blog/lib/data";
+import { cldDetailHeroAuto } from "@/app/lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
-import { cldDetailHeroAuto } from "@/app/lib/cloudinary";
 
 type BlogPostDetailProps = {
   post: BlogPostDetail;
@@ -55,6 +55,15 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
         </div>
       )}
 
+      {/* Content */}
+      <section className="prose prose-sm max-w-none sm:prose-base">
+        {/* If you want to keep your P component somewhere, you can wrap or style the prose */}
+        <div
+          className="prose-headings:scroll-mt-24 prose-img:rounded-lg"
+          dangerouslySetInnerHTML={{ __html: post.content_html }}
+        />
+      </section>
+
       {/* Hero image */}
       {post.hero_img_path && (
         <div className="mb-8 overflow-hidden rounded-xl border border-gray-100 bg-gray-50">
@@ -71,15 +80,6 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
           </div>
         </div>
       )}
-
-      {/* Content */}
-      <section className="prose prose-sm max-w-none sm:prose-base">
-        {/* If you want to keep your P component somewhere, you can wrap or style the prose */}
-        <div
-          className="prose-headings:scroll-mt-24 prose-img:rounded-lg"
-          dangerouslySetInnerHTML={{ __html: post.content_html }}
-        />
-      </section>
     </article>
   );
 }
