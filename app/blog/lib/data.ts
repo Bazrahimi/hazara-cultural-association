@@ -37,7 +37,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
       concat_ws(' ', up.first_name, up.last_name) AS "authorName",  -- 👈 NEW
       to_char(
         p.published_at AT TIME ZONE 'Australia/Melbourne',
-        'Mon DD, YYYY'
+        'DD MON YYYY'
       ) AS "publishedAt"
     FROM blog_posts p
     LEFT JOIN user_profiles up ON up.user_id = p.user_id
@@ -61,22 +61,48 @@ export type FeaturedBlogPost = {
   category: "news" | "advocacy_event" | "announcement";
   hero_img_path: string | null;
   content_html: string;
-  publishedAt: string | null;
   is_rtl: boolean;
+  publishedAt: string | null;
+  excerpt: string; // derived
 };
+
+function makeExcerpt(html: string, maxLength: number): string {
+  if (!html) return "";
+  const text = html
+    .replace(/<[^>]+>/g, " ") // strip tags
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!text) return "";
+
+  return text.length > maxLength
+    ? text.slice(0, maxLength - 1) + "…"
+    : text;
+}
 
 export async function getFeaturedBlogPosts(
   limit: number = 4
 ): Promise<FeaturedBlogPost[]> {
-  const rows = await sql<FeaturedBlogPost[]>`
+  const rows = await sql<
+    {
+      id: number;
+      title: string;
+      slug: string;
+      category: "news" | "advocacy_event" | "announcement";
+      hero_img_path: string | null;
+      content_html: string;
+      is_rtl: boolean;
+      publishedAt: string | null;
+    }[]
+  >`
     SELECT
       p.id,
       p.title,
       p.slug,
       p.category,
       p.hero_img_path,
-      p.content_html, 
-      p.is_rtl,
+      p.content_html,
+      COALESCE(p.is_rtl, false) AS "is_rtl",
       to_char(
         p.published_at AT TIME ZONE 'Australia/Melbourne',
         'Mon DD, YYYY'
@@ -90,5 +116,8 @@ export async function getFeaturedBlogPosts(
     LIMIT ${limit};
   `;
 
-  return rows;
+  return rows.map((row) => ({
+    ...row,
+    excerpt: makeExcerpt(row.content_html, 220),
+  }));
 }
