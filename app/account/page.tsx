@@ -23,7 +23,7 @@ export default async function AccountDashboardPage() {
         <RoleBanner roles={roles} fullName={String(extra.fullName)} />
 
         {/* Quick actions section */}
-        <QuickActions roles={roles} />
+        <QuickActions />
 
         {/* Recent Activity */}
         <RecentActivity />

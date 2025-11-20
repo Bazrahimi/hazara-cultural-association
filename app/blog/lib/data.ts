@@ -78,7 +78,19 @@ function makeExcerpt(html: string, maxLength: number): string {
   return text.length > maxLength ? text.slice(0, maxLength - 1) + "…" : text;
 }
 
-export async function getFeaturedBlogPosts(
+export type FeaturedBlogPost = {
+  id: number;
+  title: string;
+  slug: string;
+  category_id: number;
+  hero_img_path: string | null;
+  is_rtl: boolean;
+  publishedAt: string | null;
+  excerpt: string;
+};
+
+export async function getFeaturedPostsByCategory(
+  categoryId: number,
   limit: number = 4
 ): Promise<FeaturedBlogPost[]> {
   const rows = await sql<
@@ -103,11 +115,12 @@ export async function getFeaturedBlogPosts(
       COALESCE(p.is_rtl, false) AS "is_rtl",
       to_char(
         p.published_at AT TIME ZONE 'Australia/Melbourne',
-        'DD MON, YYYY'
+        'DD Mon YYYY'
       ) AS "publishedAt"
     FROM blog_posts p
     WHERE p.status = 'published'
       AND p.is_featured = true
+      AND p.category_id = ${categoryId}
     ORDER BY
       p.published_at DESC NULLS LAST,
       p.created_at DESC

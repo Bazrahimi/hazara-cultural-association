@@ -1,14 +1,16 @@
 // app/blog/(pages)/u/[userId]/page.tsx
+import { Suspense } from "react";
 import AuthorBlogPosts from "../../ui/AuthorBlogPosts";
+import PostCardSkeleton from "../../ui/PostCardSkeleton";
 
+const AuthorPublicPostsPage = async ({
+  params,
+}: {
+  params: Promise<{ userId: string }>;
+}) => {
+  const { userId } = await params;
 
-
-const  AuthorPublicPostsPage = async({ params }: { params: Promise<{ userId: string }> }) => {
-  const {userId} = await params;
-
-  const authorId = Number(userId)
-
-  console.log("authpage");
+  const authorId = Number(userId);
 
   // Very basic guard; you can add 404 handling if NaN
   if (Number.isNaN(authorId)) {
@@ -21,7 +23,11 @@ const  AuthorPublicPostsPage = async({ params }: { params: Promise<{ userId: str
     );
   }
 
-  return <AuthorBlogPosts authorId={authorId} />;
-}
+  return (
+    <Suspense fallback={<PostCardSkeleton />}>
+      <AuthorBlogPosts authorId={authorId} />;
+    </Suspense>
+  );
+};
 
-export default AuthorPublicPostsPage
+export default AuthorPublicPostsPage;
