@@ -30,6 +30,14 @@ export default async function ShopPage() {
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <section className="space-y-8">
+        {/* Maintenance Notice */}
+        <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-800">
+          <strong>Important Notice:</strong> The HCA Shop is currently in
+          maintenance/testing mode. Listed items are not yet available for sale,
+          and checkout/payment is disabled. Please do{" "}
+          <u>not attempt to make purchases</u>. We will notify the community
+          once the shop is officially launched.
+        </div>
         <Header as="h1" align="center" className="m-3">
           HCA Shop
         </Header>

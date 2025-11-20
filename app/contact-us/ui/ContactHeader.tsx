@@ -10,7 +10,6 @@ import {
   MdFavorite,
   // MdLocationOn,
   MdPeople,
-  MdPhone,
   MdSchool,
   MdVolunteerActivism,
 } from "react-icons/md";
@@ -70,7 +69,7 @@ const QUERY_INFO: {
 export default function ContactHeader({
   title,
   blurb,
-  phone,
+
   email,
   // address,
 }: HeaderProps) {
@@ -88,10 +87,10 @@ export default function ContactHeader({
 
       {/* Quick org details */}
       <div className="mt-3 grid grid-cols-1 gap-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-800 sm:grid-cols-2">
-        <P size="sm" className="flex items-center gap-2">
+        {/* <P size="sm" className="flex items-center gap-2">
           <MdPhone className="text-gray-600" aria-hidden />
           <span>Phone: {phone}</span>
-        </P>
+        </P> */}
         <P size="sm" className="flex items-center gap-2">
           <MdEmail className="text-gray-600" aria-hidden />
           <span>Email: {email}</span>

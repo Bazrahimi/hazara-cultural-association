@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BsFillCartFill } from "react-icons/bs";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
-import { FaTiktok, FaWpforms } from "react-icons/fa6";
+import { FaWpforms } from "react-icons/fa6";
 import {
   // HiLocationMarker,
   HiMail,
@@ -63,13 +63,13 @@ const SOCIAL_LINKS = [
     aria: "Open HCA Instagram (opens in new tab)",
     Icon: FaInstagram,
   },
-  {
-    href: "https://www.tiktok.com/@yourusername", // <-- replace with real TikTok URL
-    label: "TikTok",
-    iconClass: "text-black", // TikTok icon is usually black/white, you could style with gradient if desired
-    aria: "Open HCA TikTok (opens in new tab)",
-    Icon: FaTiktok,
-  },
+  // {
+  //   href: "https://www.tiktok.com/@yourusername", // <-- replace with real TikTok URL
+  //   label: "TikTok",
+  //   iconClass: "text-black", // TikTok icon is usually black/white, you could style with gradient if desired
+  //   aria: "Open HCA TikTok (opens in new tab)",
+  //   Icon: FaTiktok,
+  // },
 ];
 
 const CONTACT = {
@@ -135,15 +135,15 @@ const Footer = () => {
                 {CONTACT.email}
               </a>
             </li>
-            <li className={CN.Item}>
+            {/* <li className={CN.Item}>
               <HiPhone className={CN.Icon} aria-hidden="true" />
-              {/* <a
+              <a
                 href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
                 className={CN.link}
               >
                 {CONTACT.phone}
-              </a> */}
-            </li>
+              </a>
+            </li> */}
           </ul>
         </address>
 

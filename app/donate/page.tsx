@@ -6,11 +6,11 @@ export default function DonatePage() {
   return (
     <section className="space-y-10">
       {/* Note for HCA members */}
-      <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-800">
-        <strong>Note for HCA members:</strong> This page must prioritise
-        transparency and compliance with Australian nonprofit regulations.
-        Ensure clear reporting of donation use, legal accuracy, and community
-        accountability.
+      <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-800">
+        <strong>Important Notice:</strong> Our donation system is currently in
+        maintenance/testing mode. Please <u>do not enter real card details</u>{" "}
+        or attempt to make actual donations at this time. This feature will be
+        re-enabled once secure payment processing is fully live.
       </div>
 
       <DonateForm />
