@@ -1,7 +1,9 @@
 // app/blog/new/schema.ts
 import z from "zod";
+import { CATEGORY_MAP } from "../../lib/helper";
 
-const CATEGORY_VALUES = ["news", "advocacy_event", "announcement"] as const;
+const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
+
 const STATUS_VALUES = ["draft", "published", "archived"] as const; // you can add scheduled/archived later
 
 export const BlogPostSchema = z.object({
@@ -14,7 +16,12 @@ export const BlogPostSchema = z.object({
 
   content_html: z.string().min(10, "Content is required"),
 
-  category: z.enum(CATEGORY_VALUES, "Category is required"),
+   category_id: z.coerce
+    .number()
+    .int()
+    .refine((val) => allowedCategoryIds.includes(val), {
+      message: "Invalid category",
+    }),
 
   status: z.enum(STATUS_VALUES).default("draft"),
 

@@ -1,4 +1,5 @@
 import { getFeaturedBlogPosts } from "@/app/blog/lib/data";
+import { getCategoryLabel } from "@/app/blog/lib/helper";
 import { cldDetailHeroAuto } from "@/app/lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
@@ -62,9 +63,11 @@ const FeaturedBlogPosts = async () => {
               {/* Bottom: category + date + title (consistent) */}
               <div className="p-4" dir={isRTL ? "rtl" : "ltr"}>
                 <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-500">
-                  {post.category.replace("_", " ")}{" "}
+                  {getCategoryLabel(post.category_id, isRTL)}{" "}
                   {post.publishedAt && (
-                    <span className="text-gray-400">• {post.publishedAt}</span>
+                    <span className="text-gray-400" dir="ltr">
+                      • {post.publishedAt}
+                    </span>
                   )}
                 </p>
 

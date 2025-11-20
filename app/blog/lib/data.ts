@@ -8,7 +8,7 @@ export type BlogPostDetail = {
   slug: string;
   content_html: string;
   status: "draft" | "archived" | "published";
-  category: "news" | "advocacy_event" | "announcement";
+  category_id: number;
   hero_img_path: string | null;
   is_rtl: boolean;
   event_date: string | null;
@@ -27,7 +27,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
       p.slug,
       p.content_html,
       status,
-      p.category,
+      p.category_id,
       p.hero_img_path,
       p.is_featured,
       p.is_rtl,
@@ -60,7 +60,7 @@ export type FeaturedBlogPost = {
   id: number;
   title: string;
   slug: string;
-  category: "news" | "advocacy_event" | "announcement";
+  category_id: number;
   hero_img_path: string | null;
   is_rtl: boolean;
   publishedAt: string | null;
@@ -88,7 +88,7 @@ export async function getFeaturedBlogPosts(
       id: number;
       title: string;
       slug: string;
-      category: "news" | "advocacy_event" | "announcement";
+      category_id: number;
       hero_img_path: string | null;
       content_html: string;
       is_rtl: boolean | null;
@@ -99,7 +99,7 @@ export async function getFeaturedBlogPosts(
       p.id,
       p.title,
       p.slug,
-      p.category,
+      p.category_id,
       p.hero_img_path,
       p.content_html,
       COALESCE(p.is_rtl, false) AS "is_rtl",
@@ -120,7 +120,7 @@ export async function getFeaturedBlogPosts(
     id: row.id,
     title: row.title,
     slug: row.slug,
-    category: row.category,
+    category_id: row.category_id,
     hero_img_path: row.hero_img_path,
     is_rtl: !!row.is_rtl,
     publishedAt: row.publishedAt,

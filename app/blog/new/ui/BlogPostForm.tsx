@@ -9,6 +9,7 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import QuillEditor from "@/app/ui/global/QuillEditor";
 import { useActionState, useEffect, useState } from "react";
+import { CATEGORY_MAP, type CategoryId } from "../../lib/helper";
 import type { BlogPostInput, BlogPostState } from "../lib/schema";
 
 type Props = {
@@ -34,9 +35,9 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
     initialData?.content_html ?? ""
   );
   const [heroImage, setHeroImage] = useState(initialData?.hero_img_path ?? "");
-  const [category, setCategory] = useState<
-    "news" | "advocacy_event" | "announcement"
-  >(initialData?.category ?? "news");
+  const [categoryId, setCategoryId] = useState<CategoryId>(
+    (initialData?.category_id as CategoryId) ?? 1
+  );
 
   // Sync from validation state
   useEffect(() => {
@@ -46,16 +47,16 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
     if (state?.data?.hero_img_path !== undefined) {
       setHeroImage(state.data.hero_img_path ?? "");
     }
-    if (state?.data?.category) {
-      setCategory(state.data.category);
-    }
+    // if (state?.data?.category) {
+    //   setCategory(state.data.category);
+    // }
 
     if (state?.data?.is_rtl !== undefined) {
       setIsRTL(state.data.is_rtl);
     }
   }, [state]);
 
-  const isAdvocacyEvent = category === "advocacy_event";
+  const isAdvocacyEvent = categoryId === 2;
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -126,25 +127,23 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
               {isRTL ? "دسته‌بندی" : "Category"}
             </label>
             <select
-              name="category"
-              value={category}
+              name="category_id"
+              value={categoryId}
               onChange={(e) =>
-                setCategory(
-                  e.target.value as "news" | "advocacy_event" | "announcement"
-                )
+                setCategoryId(Number(e.target.value) as CategoryId)
               }
               className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
             >
-              <option value="news">{isRTL ? "خبر" : "News"}</option>
-              <option value="announcement">
-                {isRTL ? "اعلان" : "Announcement"}
-              </option>
-              <option value="advocacy_event">
-                {isRTL ? "برنامه" : "Advocacy event"}
-              </option>
+              {Object.entries(CATEGORY_MAP).map(([id, labels]) => (
+                <option key={id} value={id}>
+                  {isRTL ? labels.rtl : labels.en}
+                </option>
+              ))}
             </select>
-            {state?.errors?.category && (
-              <p className="text-xs text-red-600">{state.errors.category[0]}</p>
+            {state?.errors?.category_id && (
+              <p className="text-xs text-red-600">
+                {state.errors.category_id[0]}
+              </p>
             )}
           </div>
 

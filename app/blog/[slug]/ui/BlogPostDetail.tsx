@@ -6,6 +6,8 @@ import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
 import { ManagePostControls } from "./ManagePostControls";
 
+import { getCategoryLabel } from "../../lib/helper";
+
 type BlogPostDetailProps = {
   post: BlogPostDetail;
   canManage: boolean;
@@ -15,13 +17,16 @@ export default function BlogPostDetail({
   post,
   canManage,
 }: BlogPostDetailProps) {
-  const isEvent = post.category === "advocacy_event";
+  // category_id: 2 = advocacy event
+  const isEvent = post.category_id === 2;
   const isRTL = post.is_rtl === true;
 
   return (
     <article
       dir={isRTL ? "rtl" : "ltr"}
-      className={`mx-auto max-w-4xl px-4 py-10 ${isRTL ? "text-right" : "text-left"}`}
+      className={`mx-auto max-w-4xl px-4 py-10 ${
+        isRTL ? "text-right" : "text-left"
+      }`}
     >
       {/* Title */}
       <Header
@@ -33,15 +38,18 @@ export default function BlogPostDetail({
         {post.title}
       </Header>
 
-      {/* Author + date */}
+      {/* Author + date + category */}
       <div
         className={`mb-6 flex flex-wrap items-center gap-3 text-sm text-gray-600 ${
           isRTL ? "justify-end" : ""
         }`}
       >
+        {/* Author */}
         {post.authorName && (
           <span
-            className={`flex items-center gap-1 ${isRTL ? "flex-row-reverse" : ""}`}
+            className={`flex items-center gap-1 ${
+              isRTL ? "flex-row-reverse" : ""
+            }`}
           >
             {isRTL ? (
               <>
@@ -57,25 +65,30 @@ export default function BlogPostDetail({
           </span>
         )}
 
+        {/* Date – same format for RTL & LTR, always LTR for the date string */}
         {post.publishedAt && (
-          <>
-            <span className="text-gray-500">
-              {isRTL ? (
-                <>
-                  • منتشر شده در{" "}
-                  <span dir="ltr" className="inline-block">
-                    {post.publishedAt}
-                  </span>
-                </>
-              ) : (
-                <>• Published {post.publishedAt}</>
-              )}
-            </span>
-          </>
+          <span className="text-gray-500">
+            {isRTL ? (
+              <>
+                • منتشر شده در{" "}
+                <span dir="ltr" className="inline-block">
+                  {post.publishedAt}
+                </span>
+              </>
+            ) : (
+              <>
+                • Published{" "}
+                <span dir="ltr" className="inline-block">
+                  {post.publishedAt}
+                </span>
+              </>
+            )}
+          </span>
         )}
 
+        {/* Category badge using numeric category_id */}
         <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700">
-          {post.category.replace("_", " ")}
+          {getCategoryLabel(post.category_id, isRTL)}
         </span>
       </div>
 
