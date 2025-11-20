@@ -39,7 +39,7 @@ export default async function EditPostPage({ params }: PageProps) {
       user_id: number;
       title: string;
       content_html: string;
-      category: "news" | "advocacy_event" | "announcement";
+      category_id: number;
       status: "draft" | "published" | "archived";
       hero_img_path: string | null;
       is_featured: boolean;
@@ -53,7 +53,7 @@ export default async function EditPostPage({ params }: PageProps) {
       user_id,
       title,
       content_html,
-      category,
+      category_id,
       status,
       hero_img_path,
       is_featured,
@@ -87,7 +87,7 @@ export default async function EditPostPage({ params }: PageProps) {
     id: post.id,
     title: post.title,
     content_html: post.content_html,
-    category: post.category,
+    category: post.category_id,
     status: post.status,
     hero_img_path: post.hero_img_path ?? "",
     is_featured: post.is_featured,

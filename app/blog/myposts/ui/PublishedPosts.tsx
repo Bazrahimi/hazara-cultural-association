@@ -1,6 +1,7 @@
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { BlogPost } from "../../lib/definitions";
+import { getCategoryLabel } from "../../lib/helper";
 
 const PublishedPosts = ({ published }: { published: BlogPost[] }) => {
   return (
@@ -20,39 +21,64 @@ const PublishedPosts = ({ published }: { published: BlogPost[] }) => {
         </p>
       ) : (
         <div className="space-y-3">
-          {published.map((post) => (
-            <article
-              key={post.id}
-              className="rounded-lg border border-emerald-100 bg-white px-3 py-3 text-sm"
-            >
-              <h3 className="font-semibold text-emerald-900">{post.title}</h3>
-              <p className="mt-0.5 text-xs uppercase tracking-wide text-emerald-600">
-                {post.category.replace("_", " ")} • Published
-              </p>
-              <p className="mt-1 text-xs text-emerald-700">
-                Published on:{post.createdAt}
-              </p>
-              <div className="mt-3 flex gap-2">
-                {/* Adjust routes as needed */}
-                <Button
-                  as="link"
-                  size="xs"
-                  href={`/blog/${post.slug}`}
-                  variant="outline"
+          {published.map((post) => {
+            const isRTL = post.is_rtl === true;
+
+            return (
+              <article
+                key={post.id}
+                className="rounded-lg border border-emerald-100 bg-white px-3 py-3 text-sm"
+                dir={isRTL ? "rtl" : "ltr"}
+              >
+                {/* Title */}
+                <h3
+                  className={`font-semibold text-emerald-900 ${
+                    isRTL ? "text-right" : "text-left"
+                  }`}
                 >
-                  View Live
-                </Button>
-                <Button
-                  as="link"
-                  href={`/blog/myposts/edit/${post.id}`}
-                  variant="outline"
-                  size="xs"
+                  {post.title}
+                </h3>
+
+                {/* Category label */}
+                <p className="mt-0.5 text-xs uppercase tracking-wide text-emerald-600">
+                  {getCategoryLabel(post.category_id, isRTL)} • Published
+                </p>
+
+                {/* Published Date (always LTR) */}
+                <p className="mt-1 text-xs text-emerald-700">
+                  {isRTL ? "منتشر شده در: " : "Published on:"}{" "}
+                  <span dir="ltr" className="inline-block">
+                    {post.createdAt}
+                  </span>
+                </p>
+
+                {/* Buttons */}
+                <div
+                  className={`mt-3 flex gap-2 ${
+                    isRTL ? "justify-end" : "justify-start"
+                  }`}
                 >
-                  Edit
-                </Button>
-              </div>
-            </article>
-          ))}
+                  <Button
+                    as="link"
+                    size="xs"
+                    href={`/blog/${post.slug}`}
+                    variant="outline"
+                  >
+                    {isRTL ? "مشاهده" : "View Live"}
+                  </Button>
+
+                  <Button
+                    as="link"
+                    href={`/blog/myposts/edit/${post.id}`}
+                    variant="outline"
+                    size="xs"
+                  >
+                    {isRTL ? "ویرایش" : "Edit"}
+                  </Button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       )}
     </section>

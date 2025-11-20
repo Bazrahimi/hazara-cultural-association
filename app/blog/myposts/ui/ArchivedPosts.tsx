@@ -1,6 +1,8 @@
+
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { BlogPost } from "../../lib/definitions";
+import { getCategoryLabel } from "../../lib/helper";
 
 export default function ArchivedPosts({ archived }: { archived: BlogPost[] }) {
   return (
@@ -20,33 +22,55 @@ export default function ArchivedPosts({ archived }: { archived: BlogPost[] }) {
         </p>
       ) : (
         <div className="space-y-3">
-          {archived.map((post) => (
-            <article
-              key={post.id}
-              className="rounded-lg border border-red-100 bg-white px-3 py-3 text-sm"
-            >
-              <h3 className="font-semibold text-red-900">{post.title}</h3>
+          {archived.map((post) => {
+            const isRTL = post.is_rtl === true;
 
-              <p className="mt-0.5 text-xs uppercase tracking-wide text-red-600">
-                {post.category.replace("_", " ")} • Archived
-              </p>
-
-              <p className="mt-1 text-xs text-red-700">
-                Updated on: {post.updatedAt}
-              </p>
-
-              <div className="mt-3 flex gap-2">
-                <Button
-                  as="link"
-                  size="xs"
-                  href={`/blog/myposts/edit/${post.id}`}
-                  variant="outline"
+            return (
+              <article
+                key={post.id}
+                className="rounded-lg border border-red-100 bg-white px-3 py-3 text-sm"
+                dir={isRTL ? "rtl" : "ltr"}
+              >
+                {/* Title */}
+                <h3
+                  className={`font-semibold text-red-900 ${
+                    isRTL ? "text-right" : "text-left"
+                  }`}
                 >
-                  Restore / Edit
-                </Button>
-              </div>
-            </article>
-          ))}
+                  {post.title}
+                </h3>
+
+                {/* Category Label */}
+                <p className="mt-0.5 text-xs uppercase tracking-wide text-red-600">
+                  {getCategoryLabel(post.category_id, isRTL)} • Archived
+                </p>
+
+                {/* Updated Date (LTR always) */}
+                <p className="mt-1 text-xs text-red-700">
+                  {isRTL ? "به‌روزرسانی: " : "Updated on: "}
+                  <span dir="ltr" className="inline-block">
+                    {post.updatedAt}
+                  </span>
+                </p>
+
+                {/* Buttons */}
+                <div
+                  className={`mt-3 flex gap-2 ${
+                    isRTL ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <Button
+                    as="link"
+                    size="xs"
+                    href={`/blog/myposts/edit/${post.id}`}
+                    variant="outline"
+                  >
+                    {isRTL ? "بازگردانی / ویرایش" : "Restore / Edit"}
+                  </Button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       )}
     </section>

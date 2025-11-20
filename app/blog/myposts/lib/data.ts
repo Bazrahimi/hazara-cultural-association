@@ -15,9 +15,10 @@ export const getBlogPosts = async ({
       title,
       slug,
       status,
-      category,
-      to_char(created_at, 'Mon DD, YYYY') AS "createdAt",
-      to_char(updated_at, 'Mon DD, YYYY') AS "updatedAt"
+      category_id,
+      is_rtl,
+      to_char(created_at, 'DD MON YYY') AS "createdAt",
+      to_char(updated_at, 'DD MON YYYY') AS "updatedAt"
     FROM blog_posts
     ${isAdmin ? sql`` : sql`WHERE user_id = ${userId}`}
     ORDER BY created_at DESC;
