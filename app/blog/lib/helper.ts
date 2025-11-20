@@ -19,6 +19,10 @@ export const CATEGORY_MAP = {
     en: "hope & freedom",
     rtl: "امید و آزادی",
   },
+    99: {
+    en: "other (articles, books, 3rd-party links",
+    rtl: "سایر (مقالات، کتاب‌ها، لینک‌های خارجی)",
+  },
 } as const;
 
 export type CategoryId = keyof typeof CATEGORY_MAP; // 1 | 2 | 3 | 4

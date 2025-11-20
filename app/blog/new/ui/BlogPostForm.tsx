@@ -75,7 +75,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
   }, [state]);
 
   const isAdvocacyEvent = categoryId === 2;
-  console.log(initialData)
+  console.log(initialData);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -155,11 +155,13 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
               }
               className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
             >
-              {Object.entries(CATEGORY_MAP).map(([id, labels]) => (
-                <option key={id} value={id}>
-                  {isRTL ? labels.rtl : labels.en}
-                </option>
-              ))}
+              {(Object.keys(CATEGORY_MAP) as unknown as CategoryId[]).map(
+                (id) => (
+                  <option key={id} value={id}>
+                    {isRTL ? CATEGORY_MAP[id].rtl : CATEGORY_MAP[id].en}
+                  </option>
+                )
+              )}
             </select>
             {state?.errors?.category_id && (
               <p className="text-xs text-red-600">

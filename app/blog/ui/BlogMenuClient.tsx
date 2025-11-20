@@ -15,7 +15,15 @@ const baseItems = [
   { label: "Hope & Freedom", href: "/blog/5" },
   {
     label: "Hazara Genocide Memorial",
+    href: "/blog/99",
+  },
+  {
+    label: "Hazara Genocide Memorial",
     href: "/blog/hazara-genocide-memorial/133",
+  },
+  {
+    label: "Hazara Genocide Memorial",
+    href: "/blog/99",
   },
 ];
 
