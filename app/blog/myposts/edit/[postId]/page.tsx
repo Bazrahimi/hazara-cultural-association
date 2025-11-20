@@ -19,11 +19,11 @@ function toDatetimeLocalString(date: Date) {
 }
 
 type PageProps = {
-  params: { postId: string };
+  params: Promise<{ postId: string }>;
 };
 
 export default async function EditPostPage({ params }: PageProps) {
-  const { postId } = params;
+  const { postId } = await params;
   const id = Number(postId);
 
   if (!Number.isFinite(id) || id <= 0) {
@@ -93,7 +93,7 @@ export default async function EditPostPage({ params }: PageProps) {
     is_featured: post.is_featured,
     event_date: eventDateForInput,
     event_location: post.event_location ?? "",
-    is_rtl: post.is_rtl
+    is_rtl: post.is_rtl,
   };
 
   return (
