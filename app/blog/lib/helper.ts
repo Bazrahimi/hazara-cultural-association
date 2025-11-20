@@ -1,20 +1,24 @@
 export const CATEGORY_MAP = {
   1: {
     en: "news",
-    rtl: "اخبار"
+    rtl: "اخبار",
   },
   2: {
-    en: "advocacy event", 
-    rtl: "برنامه و گردهمایی"
+    en: "advocacy event",
+    rtl: "برنامه و گردهمایی",
   },
   3: {
     en: "hazaristan",
-    rtl: "هزارستان"
+    rtl: "هزارستان",
   },
   4: {
     en: "hazara persecution",
-    rtl: "آزار و آزیت هزاره"
-  }
+    rtl: "آزار و آزیت هزاره",
+  },
+  5: {
+    en: "hope & freedom",
+    rtl: "امید و آزادی",
+  },
 } as const;
 
 export type CategoryId = keyof typeof CATEGORY_MAP; // 1 | 2 | 3 | 4
