@@ -93,7 +93,7 @@ export async function updateBlogPost(
 
   // --- 4) Normalise event_date + published_at like in create ---
   const eventDate =
-    data.category === "advocacy_event" && data.event_date
+    data.category_id === 2 && data.event_date
       ? new Date(data.event_date)
       : null;
 
@@ -105,7 +105,7 @@ export async function updateBlogPost(
       SET
         title         = ${data.title},
         content_html  = ${data.content_html},
-        category      = ${data.category},
+        category_id      = ${data.category_id},
         status        = ${data.status},
         hero_img_path = ${data.hero_img_path ?? null},
         is_featured   = ${data.is_featured},

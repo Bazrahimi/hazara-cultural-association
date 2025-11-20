@@ -56,7 +56,7 @@ export async function createBlogPost(
 
   // Only meaningful for advocacy events
   const eventDate =
-    data.category === "advocacy_event" && data.event_date
+    data.category_id === 2 && data.event_date
       ? new Date(data.event_date)
       : null;
 
@@ -69,7 +69,7 @@ export async function createBlogPost(
         title,
         slug,
         content_html,
-        category,
+        category_id,
         status,
         hero_img_path,
         is_featured,
@@ -83,7 +83,7 @@ export async function createBlogPost(
         ${data.title},
         ${slug},
         ${data.content_html},
-        ${data.category},
+        ${data.category_id},
         ${data.status},
         ${data.hero_img_path ?? null},
         ${data.is_featured},

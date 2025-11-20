@@ -7,6 +7,7 @@ import React, { forwardRef, useState } from "react";
 import { IconType } from "react-icons";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 export type BaseInputProps = {
   id: string;

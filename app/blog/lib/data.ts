@@ -54,17 +54,6 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
   return post;
 }
 
-export type FeaturedBlogPost = {
-  id: number;
-  title: string;
-  slug: string;
-  category_id: number;
-  hero_img_path: string | null;
-  is_rtl: boolean;
-  publishedAt: string | null;
-  excerpt: string; // short plain-text teaser
-};
-
 function makeExcerpt(html: string, maxLength: number): string {
   if (!html) return "";
 

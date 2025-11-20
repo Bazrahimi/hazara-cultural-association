@@ -75,7 +75,7 @@ const SOCIAL_LINKS = [
 const CONTACT = {
   // location: "Melbourne, Victoria, Australia",
   email: "info@hazara.org.au",
-  phone: "+61 400 00 0 00 ",
+  // phone: "+61 400 00 0 00 ",
 };
 
 const Footer = () => {
@@ -137,12 +137,12 @@ const Footer = () => {
             </li>
             <li className={CN.Item}>
               <HiPhone className={CN.Icon} aria-hidden="true" />
-              <a
+              {/* <a
                 href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
                 className={CN.link}
               >
                 {CONTACT.phone}
-              </a>
+              </a> */}
             </li>
           </ul>
         </address>
