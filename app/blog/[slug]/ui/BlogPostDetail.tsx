@@ -58,11 +58,20 @@ export default function BlogPostDetail({
         )}
 
         {post.publishedAt && (
-          <span className="text-gray-500">
-            {isRTL
-              ? `• منتشر شده در ${post.publishedAt}`
-              : `• Published ${post.publishedAt}`}
-          </span>
+          <>
+            <span className="text-gray-500">
+              {isRTL ? (
+                <>
+                  • منتشر شده در{" "}
+                  <span dir="ltr" className="inline-block">
+                    {post.publishedAt}
+                  </span>
+                </>
+              ) : (
+                <>• Published {post.publishedAt}</>
+              )}
+            </span>
+          </>
         )}
 
         <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700">

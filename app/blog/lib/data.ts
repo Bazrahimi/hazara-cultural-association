@@ -54,30 +54,30 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
   return post;
 }
 
+
+
 export type FeaturedBlogPost = {
   id: number;
   title: string;
   slug: string;
   category: "news" | "advocacy_event" | "announcement";
   hero_img_path: string | null;
-  content_html: string;
   is_rtl: boolean;
   publishedAt: string | null;
-  excerpt: string; // derived
+  excerpt: string; // short plain-text teaser
 };
 
 function makeExcerpt(html: string, maxLength: number): string {
   if (!html) return "";
+
   const text = html
-    .replace(/<[^>]+>/g, " ") // strip tags
+    .replace(/<[^>]+>/g, " ") // strip HTML tags
     .replace(/\s+/g, " ")
     .trim();
 
   if (!text) return "";
 
-  return text.length > maxLength
-    ? text.slice(0, maxLength - 1) + "…"
-    : text;
+  return text.length > maxLength ? text.slice(0, maxLength - 1) + "…" : text;
 }
 
 export async function getFeaturedBlogPosts(
@@ -91,7 +91,7 @@ export async function getFeaturedBlogPosts(
       category: "news" | "advocacy_event" | "announcement";
       hero_img_path: string | null;
       content_html: string;
-      is_rtl: boolean;
+      is_rtl: boolean | null;
       publishedAt: string | null;
     }[]
   >`
@@ -105,7 +105,7 @@ export async function getFeaturedBlogPosts(
       COALESCE(p.is_rtl, false) AS "is_rtl",
       to_char(
         p.published_at AT TIME ZONE 'Australia/Melbourne',
-        'Mon DD, YYYY'
+        'DD MON, YYYY'
       ) AS "publishedAt"
     FROM blog_posts p
     WHERE p.status = 'published'
@@ -117,7 +117,14 @@ export async function getFeaturedBlogPosts(
   `;
 
   return rows.map((row) => ({
-    ...row,
+    id: row.id,
+    title: row.title,
+    slug: row.slug,
+    category: row.category,
+    hero_img_path: row.hero_img_path,
+    is_rtl: !!row.is_rtl,
+    publishedAt: row.publishedAt,
     excerpt: makeExcerpt(row.content_html, 220),
   }));
 }
+
