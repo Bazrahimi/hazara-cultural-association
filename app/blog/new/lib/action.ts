@@ -1,3 +1,5 @@
+// app/blog/new/lib/actions.ts (where createBlogPost lives)
+
 "use server";
 
 import { sql } from "@/app/lib/db";
@@ -9,13 +11,22 @@ import {
   type BlogPostState,
 } from "./schema";
 
+function toBoolean(raw: unknown): boolean {
+  if (typeof raw === "boolean") return raw;
+  if (typeof raw === "number") return raw === 1;
+  if (typeof raw === "string") {
+    const lower = raw.toLowerCase();
+    return lower === "true" || lower === "1" || lower === "on";
+  }
+  return false;
+}
+
 export async function createBlogPost(
   prevState: BlogPostState | undefined,
   formData: FormData
 ): Promise<BlogPostState> {
   const session = await requireUser();
 
-  // Only admins & bloggers can create posts
   if (!session.roles.includes("admin") && !session.roles.includes("blogger")) {
     return {
       ok: false,
@@ -23,10 +34,8 @@ export async function createBlogPost(
     };
   }
 
-  // 1) Convert FormData → plain object
   const raw = Object.fromEntries(formData.entries());
 
-  // 2) Validate with Zod
   const parsed = BlogPostSchema.safeParse(raw);
 
   if (!parsed.success) {
@@ -41,20 +50,36 @@ export async function createBlogPost(
       }
     }
 
+    // 🔧 Normalise what we send back to the client
+    const normalizedData: Partial<BlogPostInput> = {
+      title: (raw.title as string) ?? "",
+      content_html: (raw.content_html as string) ?? "",
+      hero_img_path: (raw.hero_img_path as string) ?? "",
+      event_date: (raw.event_date as string) ?? undefined,
+      event_location: (raw.event_location as string) ?? undefined,
+
+      category_id: raw.category_id
+        ? Number(raw.category_id as string)
+        : undefined,
+
+      status: (raw.status as BlogPostInput["status"]) ?? "draft",
+
+      is_featured: toBoolean(raw.is_featured),
+      is_rtl: toBoolean(raw.is_rtl),
+    };
+
     return {
       ok: false,
       message: "Please fix the errors below.",
       errors: fieldErrors,
-      data: raw as Partial<BlogPostInput>,
+      data: normalizedData,
     };
   }
 
   const data = parsed.data;
 
-  // Slug is auto-generated in DB (trigger) → send NULL
   const slug = null;
 
-  // Only meaningful for advocacy events
   const eventDate =
     data.category_id === 2 && data.event_date
       ? new Date(data.event_date)
@@ -96,7 +121,6 @@ export async function createBlogPost(
   } catch (err: unknown) {
     console.error("DB error inserting Blog-post:", err);
 
-    // If you want to handle unique violations etc, you can inspect (err as any).code
     return {
       ok: false,
       message: "Something went wrong while posting the blog.",
@@ -104,6 +128,5 @@ export async function createBlogPost(
     };
   }
 
-  // 3) Success → redirect (no success state is returned)
-  redirect("/news");
+  redirect("/blog/myposts");
 }

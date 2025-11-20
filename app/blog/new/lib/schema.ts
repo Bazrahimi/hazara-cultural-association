@@ -3,8 +3,21 @@ import z from "zod";
 import { CATEGORY_MAP } from "../../lib/helper";
 
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
+const STATUS_VALUES = ["draft", "published", "archived"] as const;
 
-const STATUS_VALUES = ["draft", "published", "archived"] as const; // you can add scheduled/archived later
+// Helper to handle "true"/"false", "on", 1/0, undefined
+const checkboxBoolean = z
+  .union([z.boolean(), z.string(), z.number(), z.undefined()])
+  .transform((val) => {
+    if (typeof val === "boolean") return val;
+    if (typeof val === "number") return val === 1;
+    if (typeof val === "string") {
+      const lower = val.toLowerCase();
+      return lower === "true" || lower === "1" || lower === "on";
+    }
+    // undefined → false
+    return false;
+  });
 
 export const BlogPostSchema = z.object({
   title: z
@@ -13,10 +26,9 @@ export const BlogPostSchema = z.object({
     .min(3, "Title is required and must be at least 3 characters")
     .max(120, "Title must be under 120 characters"),
 
-
   content_html: z.string().min(10, "Content is required"),
 
-   category_id: z.coerce
+  category_id: z.coerce
     .number()
     .int()
     .refine((val) => allowedCategoryIds.includes(val), {
@@ -27,11 +39,11 @@ export const BlogPostSchema = z.object({
 
   hero_img_path: z.string().trim().optional().nullable(),
 
-  is_featured: z.coerce.boolean().default(false),
-  is_rtl: z.coerce.boolean().default(false), 
+  // ✔️ now robust for checkboxes / hidden field
+  is_featured: checkboxBoolean,
+  is_rtl: checkboxBoolean,
 
   // datetime-local will submit a string like "2025-11-18T11:30"
-  // we'll turn it into Date in the action
   event_date: z.string().optional().nullable(),
 
   event_location: z.string().trim().optional().nullable(),

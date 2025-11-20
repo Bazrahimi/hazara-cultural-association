@@ -21,6 +21,13 @@ type Props = {
   initialData?: Partial<BlogPostInput> & { id?: number };
 };
 
+// Helper: coerce unknown value to boolean
+function toBoolean(raw: unknown): boolean {
+  return (
+    raw === true || raw === "true" || raw === 1 || raw === "1" || raw === "on" // just in case, from native inputs
+  );
+}
+
 export default function BlogPostForm({ mode, action, initialData }: Props) {
   const [state, formAction, isPending] = useActionState<
     BlogPostState | undefined,
@@ -28,35 +35,47 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
   >(action, undefined);
 
   // RTL toggle for Farsi / Hazaragi
-  const [isRTL, setIsRTL] = useState(initialData?.is_rtl ?? false);
+  const [isRTL, setIsRTL] = useState<boolean>(() => {
+    if (initialData?.is_rtl === undefined) return false; // default false
+    return toBoolean(initialData.is_rtl);
+  });
 
   // Controlled fields
   const [contentHTML, setContentHTML] = useState(
     initialData?.content_html ?? ""
   );
   const [heroImage, setHeroImage] = useState(initialData?.hero_img_path ?? "");
-  const [categoryId, setCategoryId] = useState<CategoryId>(
-    (initialData?.category_id as CategoryId) ?? 1
-  );
 
-  // Sync from validation state
+  // 🔹 Derive category from state or initialData (fallback 1 = news)
+  const derivedCategoryId: CategoryId = Number(
+    state?.data?.category_id ?? initialData?.category_id ?? 1
+  ) as CategoryId;
+
+  // Local state so the select is controlled immediately on change
+  const [categoryId, setCategoryId] = useState<CategoryId>(derivedCategoryId);
+
+  // Keep local categoryId in sync when server/initial data changes
+  useEffect(() => {
+    setCategoryId(derivedCategoryId);
+  }, [derivedCategoryId]);
+
+  // Sync from validation state for other controlled fields
   useEffect(() => {
     if (state?.data?.content_html !== undefined) {
       setContentHTML(state.data.content_html ?? "");
     }
+
     if (state?.data?.hero_img_path !== undefined) {
       setHeroImage(state.data.hero_img_path ?? "");
     }
-    // if (state?.data?.category) {
-    //   setCategory(state.data.category);
-    // }
 
     if (state?.data?.is_rtl !== undefined) {
-      setIsRTL(state.data.is_rtl);
+      setIsRTL(toBoolean(state.data.is_rtl));
     }
   }, [state]);
 
   const isAdvocacyEvent = categoryId === 2;
+  console.log(initialData)
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -96,6 +115,8 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
         {mode === "edit" && initialData?.id && (
           <input type="hidden" name="id" value={initialData.id} />
         )}
+
+        {/* is_rtl is always sent as "true"/"false" */}
         <input type="hidden" name="is_rtl" value={isRTL ? "true" : "false"} />
 
         {/* Title */}

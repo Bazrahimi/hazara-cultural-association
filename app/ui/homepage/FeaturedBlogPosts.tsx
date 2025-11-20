@@ -109,7 +109,7 @@ const FeaturedBlogPosts = async () => {
                         </p>
 
                         <h3
-                          className={`text-base font-semibold text-gray-900 line-clamp-2 transition group-hover:text-blue-600 ${
+                          className={`text-sm font-medium text-gray-900 line-clamp-2 transition group-hover:text-blue-600 ${
                             isRTL ? "text-right" : ""
                           }`}
                         >
