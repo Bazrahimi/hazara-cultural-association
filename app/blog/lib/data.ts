@@ -1,7 +1,6 @@
 // app/blog/lib/data.ts
 import { sql } from "@/app/lib/db";
 import { notFound } from "next/navigation";
-import type FeaturedBlogPosts from "@/app/ui/homepage/FeaturedBlogPosts";
 
 export type BlogPostDetail = {
   id: number;
@@ -54,8 +53,6 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
 
   return post;
 }
-
-
 
 export type FeaturedBlogPost = {
   id: number;
@@ -140,8 +137,6 @@ export type CategoryPost = {
   excerpt: string;
 };
 
-
-
 export async function getPublishedPostsByCategory(
   categoryId: number,
   limit: number = 20
@@ -187,6 +182,78 @@ export async function getPublishedPostsByCategory(
     hero_img_path: row.hero_img_path,
     is_rtl: !!row.is_rtl,
     publishedAt: row.publishedAt,
+    excerpt: makeExcerpt(row.content_html, 220),
+  }));
+}
+
+export type AuthorPost = {
+  id: number;
+  title: string;
+  slug: string;
+  category_id: number;
+  hero_img_path: string | null;
+  is_rtl: boolean;
+  publishedAt: string | null;
+  excerpt: string;
+  authorName: string | null;
+};
+
+export async function getPublishedPostsByAuthor(
+  authorId: number,
+  limit: number = 20
+): Promise<AuthorPost[]> {
+  const rows = await sql<
+    {
+      id: number;
+      title: string;
+      slug: string;
+      category_id: number;
+      hero_img_path: string | null;
+      content_html: string;
+      is_rtl: boolean | null;
+      publishedAt: string | null;
+      authorName: string | null;
+    }[]
+  >`
+    SELECT
+      p.id,
+      p.title,
+      p.slug,
+      p.category_id,
+      p.hero_img_path,
+      p.content_html,
+      COALESCE(p.is_rtl, false) AS "is_rtl",
+      to_char(
+        p.published_at AT TIME ZONE 'Australia/Melbourne',
+        'DD Mon YYYY'
+      ) AS "publishedAt",
+      -- Try full name from user_profiles, fallback to email
+      COALESCE(
+        CONCAT(up.first_name, ' ', up.last_name),
+        u.email
+      ) AS "authorName"
+    FROM blog_posts p
+    LEFT JOIN users u
+      ON u.id = p.user_id
+    LEFT JOIN user_profiles up
+      ON up.user_id = p.user_id
+    WHERE p.status = 'published'
+      AND p.user_id = ${authorId}
+    ORDER BY
+      p.published_at DESC NULLS LAST,
+      p.created_at DESC
+    LIMIT ${limit};
+  `;
+
+  return rows.map((row) => ({
+    id: row.id,
+    title: row.title,
+    slug: row.slug,
+    category_id: row.category_id,
+    hero_img_path: row.hero_img_path,
+    is_rtl: !!row.is_rtl,
+    publishedAt: row.publishedAt,
+    authorName: row.authorName,
     excerpt: makeExcerpt(row.content_html, 220),
   }));
 }

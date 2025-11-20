@@ -4,6 +4,7 @@ import { cldDetailHeroAuto } from "@/app/lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
+import Link from "next/link";
 import { ManagePostControls } from "./ManagePostControls";
 
 import { getCategoryLabel } from "../../lib/helper";
@@ -44,10 +45,11 @@ export default function BlogPostDetail({
           isRTL ? "justify-end" : ""
         }`}
       >
-        {/* Author */}
-        {post.authorName && (
-          <span
-            className={`flex items-center gap-1 ${
+        {/* Author – clickable, filtered by author + category */}
+        {post.authorName && post.authorId && (
+          <Link
+            href={`/blog/u/${post.authorId}`}
+            className={`flex items-center gap-1 underline-offset-2 hover:underline ${
               isRTL ? "flex-row-reverse" : ""
             }`}
           >
@@ -62,10 +64,10 @@ export default function BlogPostDetail({
                 <span className="font-semibold">{post.authorName}</span>
               </>
             )}
-          </span>
+          </Link>
         )}
 
-        {/* Date – same format for RTL & LTR, always LTR for the date string */}
+        {/* Date – same format, always LTR for the date string */}
         {post.publishedAt && (
           <span className="text-gray-500">
             {isRTL ? (
@@ -86,10 +88,13 @@ export default function BlogPostDetail({
           </span>
         )}
 
-        {/* Category badge using numeric category_id */}
-        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700">
+        {/* Category badge – clickable, goes to /blog/[categoryId] */}
+        <Link
+          href={`/blog/${post.category_id}`}
+          className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700 hover:bg-gray-200 transition"
+        >
           {getCategoryLabel(post.category_id, isRTL)}
-        </span>
+        </Link>
       </div>
 
       {/* Advocacy event meta */}
