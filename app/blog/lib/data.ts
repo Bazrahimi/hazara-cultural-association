@@ -54,19 +54,6 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
   return post;
 }
 
-function makeExcerpt(html: string, maxLength: number): string {
-  if (!html) return "";
-
-  const text = html
-    .replace(/<[^>]+>/g, " ") // strip HTML tags
-    .replace(/\s+/g, " ")
-    .trim();
-
-  if (!text) return "";
-
-  return text.length > maxLength ? text.slice(0, maxLength - 1) + "…" : text;
-}
-
 type BlogPostCard = {
   id: number;
   title: string;

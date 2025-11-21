@@ -6,11 +6,15 @@ import PostCardSkeleton from "../../ui/PostCardSkeleton";
 const AuthorPublicPostsPage = async ({
   params,
 }: {
-  params: Promise<{ userId: string }>;
+  params: Promise<{ namePlusId: string }>;
 }) => {
-  const { userId } = await params;
+  const { namePlusId } = await params;
 
-  const authorId = Number(userId);
+  // Split by hyphen
+  const parts = namePlusId.split("-");
+
+  // Last part is always the ID
+  const authorId = Number(parts[parts.length - 1]);
 
   // Very basic guard; you can add 404 handling if NaN
   if (Number.isNaN(authorId)) {

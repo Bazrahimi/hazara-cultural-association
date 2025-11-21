@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ManagePostControls } from "./ManagePostControls";
 
+import { slugify } from "@/app/shop/lib/helper";
 import { getCategoryLabel } from "../../lib/helper";
 
 type BlogPostDetailProps = {
@@ -48,7 +49,7 @@ export default function BlogPostDetail({
         {/* Author – clickable, filtered by author + category */}
         {post.authorName && post.authorId && (
           <Link
-            href={`/blog/p/u/${post.authorId}`}
+            href={`/blog/p/u/${slugify(post.authorName ?? "")}-${post.authorId}`}
             className={`flex items-center gap-1 underline-offset-2 hover:underline ${
               isRTL ? "flex-row-reverse" : ""
             }`}
@@ -141,7 +142,7 @@ export default function BlogPostDetail({
               fill
               placeholder="blur"
               blurDataURL={IMAGE_DEFAULT_BLUR}
-              className="object-cover"
+              className="object-contain" // ⬅️ was object-cover
               sizes="(min-width: 1024px) 800px, 100vw"
             />
           </div>
@@ -150,15 +151,36 @@ export default function BlogPostDetail({
 
       {/* Content */}
       <section
-        className={`prose prose-sm max-w-none sm:prose-base prose-img:rounded-lg ${
-          isRTL ? "text-right" : ""
-        }`}
-        dir={isRTL ? "rtl" : "ltr"}
+        className={`
+          mt-6
+          rounded-xl bg-white/90 px-4 py-5 shadow-sm ring-1 ring-gray-100
+        `}
       >
         <div
-          className="prose-headings:scroll-mt-24"
-          dangerouslySetInnerHTML={{ __html: post.content_html }}
-        />
+          className={`
+            prose prose-sm sm:prose-base max-w-none prose-img:rounded-lg
+            prose-headings:font-semibold prose-headings:text-gray-900
+            prose-p:text-gray-800 prose-p:leading-relaxed
+            prose-li:marker:text-gray-400
+
+            /* 🔗 Link styling */
+            prose-a:text-blue-700
+            prose-a:font-semibold
+            prose-a:no-underline
+            hover:prose-a:underline
+            prose-a:underline-offset-2
+            prose-a:transition-colors
+            hover:prose-a:text-blue-800
+
+            ${isRTL ? "text-right prose-headings:text-right" : "prose-headings:text-left"}
+          `}
+          dir={isRTL ? "rtl" : "ltr"}
+        >
+          <div
+            className="prose-headings:scroll-mt-24"
+            dangerouslySetInnerHTML={{ __html: post.content_html }}
+          />
+        </div>
       </section>
 
       {/* Owner/Admin controls */}

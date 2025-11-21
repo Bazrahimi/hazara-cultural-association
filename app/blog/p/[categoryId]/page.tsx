@@ -1,21 +1,19 @@
-import { getCategoryMeta } from "../../lib/helper";
-import { Suspense } from "react";
-import PostCardSkeleton from "../ui/PostCardSkeleton";
-import CategoryBlogPosts from "../ui/CategoryBlogPosts";
 import NotFound from "@/app/not-found";
+import { Suspense } from "react";
+import { getCategoryMeta } from "../../lib/helper";
+import CategoryBlogPosts from "../ui/CategoryBlogPosts";
+import PostCardSkeleton from "../ui/PostCardSkeleton";
 
 const BlogCategoryPage = async ({
   params,
 }: {
   params: Promise<{ categoryId: string }>;
 }) => {
-  const {categoryId} = await params;
+  const { categoryId } = await params;
   const id = Number(categoryId);
 
-
   const meta = getCategoryMeta(id);
- if (!meta) return NotFound
-
+  if (!meta) return NotFound();
 
   return (
     <Suspense fallback={<PostCardSkeleton />}>

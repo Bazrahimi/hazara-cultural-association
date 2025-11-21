@@ -28,54 +28,49 @@ export default function Hero() {
       />
 
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
+      <div className="absolute inset-0 bg-black/45" aria-hidden="true" />
 
-      {/* Logo placed in the niche */}
+      {/* Logo inside niche */}
       <Image
         src="/images/logo-transparent-hd.png"
         alt="Logo of Hazara Cultural Association"
         className="
-    absolute left-1/2
-    top-[45%]                /* base: move down a bit */
-    sm:top-[42%]             /* adjust back up on small tablets */
-    md:top-[41%]             /* fine tune for medium screens */
-    lg:top-[40%]             /* desktop stays centered */
-    -translate-x-1/2 -translate-y-1/2
-    h-auto
-    w-[clamp(18rem,60vw,28rem)]
-    sm:w-[clamp(20rem,50vw,30rem)]
-    md:w-[clamp(22rem,42vw,34rem)]
-    lg:w-[clamp(24rem,36vw,38rem)]
-    xl:w-[clamp(26rem,32vw,42rem)]
-  "
+          absolute left-1/2
+          top-[45%]
+          sm:top-[42%]
+          md:top-[41%]
+          lg:top-[40%]
+          -translate-x-1/2 -translate-y-1/2
+          h-auto
+          w-[clamp(18rem,60vw,28rem)]
+          sm:w-[clamp(20rem,50vw,30rem)]
+          md:w-[clamp(22rem,42vw,34rem)]
+          lg:w-[clamp(24rem,36vw,38rem)]
+          xl:w-[clamp(26rem,32vw,42rem)]
+        "
         width={800}
         height={800}
-        sizes="(max-width: 640px) 60vw,
-         (max-width: 1024px) 50vw,
-         (max-width: 1536px) 42vw,
-         32vw"
         priority
       />
 
-      {/* Bottom content pinned to bottom */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center px-4 pb-3 text-center">
-        <div className="max-w-3xl rounded-2xl bg-white/50 px-4 sm:px-6 py-3 sm:py-4 shadow-lg ring-1 ring-white/80 backdrop-blur">
+      {/* Slogan container */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center px-4 pb-4 text-center">
+        <div className="max-w-3xl rounded-2xl bg-white/30 px-5 py-4 shadow-lg ring-1 ring-white/50 backdrop-blur-md">
           <p
             id="hero-title"
             className={clsx(
               lusitana.className,
-              // Responsive, bigger typography using clamp + breakpoints
-              "font-extrabold leading-snug text-gray-100",
-              // base → xl font sizes
+              "font-extrabold leading-snug text-gray-900 drop-shadow-sm",
               "text-[clamp(1rem,4vw,1.5rem)] sm:text-[clamp(1.125rem,3vw,1.75rem)] md:text-[clamp(1.25rem,2.4vw,2rem)] lg:text-[clamp(1.375rem,2vw,2.25rem)] xl:text-[clamp(1.5rem,1.8vw,2.5rem)]"
             )}
           >
             <span className="text-hca-yellow-main">
-              Revival of Hazara heritage
+              
+               Social Cohesion
             </span>{" "}
-            — strengthening community{" "}
+            <span className="text-gray-200"> — Building Community Strength</span> {" "}
             <span className="text-hca-blue-main">
-              and advocating for justice.
+               — Revival of Hazara Identity.
             </span>
           </p>
         </div>
