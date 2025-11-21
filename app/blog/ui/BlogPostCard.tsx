@@ -3,6 +3,7 @@
 import { cldCardHeroAuto } from "@/app/lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
+import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,12 +21,10 @@ type BlogPostCardProps = {
 const BlogPostCard = ({ post }: BlogPostCardProps) => {
   const isRTL = post.is_rtl;
 
-  const byLabel = isRTL ? "منتشر شده توسط" : "Published by";
+  const byLabel = isRTL ? "نتشر شده توسط" : "Published by";
   const fallbackAuthor = "Unknown";
 
-  const ctaText = isRTL
-    ? "برای خواندن کامل مقاله کلیک یا تپ کنید"
-    : "Read full article";
+  const ctaText = isRTL ? "مطلب و مقاله را کامل بیخوانید" : "Read Full Article";
 
   return (
     <Link
@@ -52,8 +51,8 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
           </p>
         </div>
 
-        {/* Bottom: image or placeholder + CTA */}
-        <div className="relative h-44 w-full overflow-hidden">
+        {/* Bottom: media block anchored to the bottom of the card */}
+        <div className="relative mt-auto h-44 w-full overflow-hidden">
           {post.hero_img_path ? (
             <>
               <Image
@@ -64,19 +63,19 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
                 placeholder="blur"
                 blurDataURL={IMAGE_DEFAULT_BLUR}
               />
-              {/* Darker overlay with centered CTA */}
-              <div className="absolute inset-x-0 bottom-0 bg-black/40 px-3 py-2 flex items-center justify-center">
+
+              {/* Dark overlay bar with centered CTA at bottom */}
+              <div className="absolute inset-x-0 bottom-0 bg-black/40 backdrop-blur-sm px-3 py-2 flex items-center justify-center">
                 <span className="text-xs font-semibold text-white text-center">
                   {ctaText}
                 </span>
               </div>
             </>
           ) : (
-            // Grey placeholder with centered CTA
-            <div className="flex h-full w-full items-center justify-center bg-gray-300 px-3">
-              <span className="text-xs font-semibold text-gray-700 text-center">
-                {ctaText}
-              </span>
+            // Grey placeholder: CTA sits toward the bottom, not center
+            <div className="flex h-full w-full flex-col justify-end bg-gray-300 px-3 pb-3">
+      
+              <P className="text-center font-semibold text-blue-600 mb-15 hover:text-blue-800">{ctaText}</P>
             </div>
           )}
         </div>
