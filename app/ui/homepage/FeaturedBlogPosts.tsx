@@ -1,18 +1,24 @@
+// app/ui/global/FeaturedBlogPosts.tsx (or wherever you keep it)
+
 import { getFeaturedPostsByCategory } from "@/app/blog/lib/data";
-import { getCategoryLabel } from "@/app/blog/lib/helper";
-import { cldDetailHeroAuto } from "@/app/lib/cloudinary";
+import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/lib/helper"; // adjust path if needed
+import { cldCardHeroAuto } from "@/app/lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "../global/components";
 import { P } from "../global/paragraph";
 
-const CATEGORY_IDS = [1, 2, 3, 4, 5] as const;
+// Dynamically derive category IDs from CATEGORY_MAP (sorted 1..5,99)
+const CATEGORY_IDS = Object.keys(CATEGORY_MAP)
+  .map(Number)
+  .sort((a, b) => a - b) as readonly number[];
 
 const FeaturedBlogPosts = async () => {
-  // Fetch featured posts for each category in parallel
+  // Fetch up to 8 featured posts per category in parallel
   const results = await Promise.all(
-    CATEGORY_IDS.map((categoryId) => getFeaturedPostsByCategory(categoryId, 4))
+    CATEGORY_IDS.map((categoryId) => getFeaturedPostsByCategory(categoryId, 8))
   );
 
   const sections = CATEGORY_IDS.map((categoryId, index) => ({
@@ -28,34 +34,48 @@ const FeaturedBlogPosts = async () => {
     <section className="mx-auto mt-16 max-w-6xl px-4">
       {/* Overall heading for the whole block */}
       <Header as="h2" size="md" className="mb-8 text-center">
-        Latest News, Stories & Community Updates
+        Latest News, Stories &amp; Community Updates
       </Header>
 
       <div className="space-y-10">
         {sections.map(({ categoryId, posts }) => {
           if (posts.length === 0) return null;
 
-          const heading = getCategoryLabel(categoryId, false); // English label for section
-          const categoryLink = `/blog/${categoryId}`;
+          const meta = getCategoryMeta(categoryId);
+          if (!meta) return null;
+
+          // Category listing page link (your dynamic category route)
+          const categoryLink = `/blog/p/${categoryId}`;
+
+          // Split into main cards (first 4) + extra posts (next 4)
+          const mainPosts = posts.slice(0, 4);
+          const extraPosts = posts.slice(4);
 
           return (
             <section key={categoryId}>
-              {/* Section heading + "View all" link */}
-              <div className="mb-4 flex items-baseline justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {heading}
-                </h3>
-                <Link
+              {/* Section heading + short description + "More Posts" button */}
+              <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {meta.heading}
+                  </h3>
+                  {meta.shortDesc && (
+                    <p className="text-sm text-gray-600">{meta.shortDesc}</p>
+                  )}
+                </div>
+                <Button
+                  as="link"
                   href={categoryLink}
-                  className="text-xs font-medium uppercase tracking-wide text-blue-600 hover:text-blue-700"
+                  size="sm"
+                  variant="outline"
                 >
-                  View all →
-                </Link>
+                  More Posts →
+                </Button>
               </div>
 
-              {/* Cards */}
+              {/* Main cards (first row) */}
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post) => {
+                {mainPosts.map((post) => {
                   const isRTL = post.is_rtl;
 
                   return (
@@ -68,7 +88,7 @@ const FeaturedBlogPosts = async () => {
                       {post.hero_img_path ? (
                         <div className="relative h-44 w-full overflow-hidden">
                           <Image
-                            src={cldDetailHeroAuto(post.hero_img_path)}
+                            src={cldCardHeroAuto(post.hero_img_path)}
                             alt={post.title}
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -100,7 +120,7 @@ const FeaturedBlogPosts = async () => {
                       {/* Bottom: category + date + title */}
                       <div className="p-4" dir={isRTL ? "rtl" : "ltr"}>
                         <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-500">
-                          {getCategoryLabel(post.category_id, isRTL)}{" "}
+                          {meta.heading}{" "}
                           {post.publishedAt && (
                             <span className="text-gray-400" dir="ltr">
                               • {post.publishedAt}
@@ -120,6 +140,37 @@ const FeaturedBlogPosts = async () => {
                   );
                 })}
               </div>
+
+              {/* Extra posts (compact list underneath, optional) */}
+              {extraPosts.length > 0 && (
+                <div className="mt-4 border-t border-gray-100 pt-3">
+                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    More from {meta.heading}
+                  </h4>
+                  <ul className="space-y-1">
+                    {extraPosts.map((post) => (
+                      <li key={post.id}>
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          className="flex items-baseline justify-between text-sm text-blue-700 hover:text-blue-900"
+                        >
+                          <span className="line-clamp-1">{post.title}</span>
+                          {post.publishedAt && (
+                            <span className="ml-2 shrink-0 text-xs text-gray-400">
+                              {post.publishedAt}
+                            </span>
+                          )}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Divider between categories (works whether or not extra posts exist) */}
+              {categoryId !== CATEGORY_IDS[CATEGORY_IDS.length - 1] && (
+                <div className="my-10 border-t border-gray-200" />
+              )}
             </section>
           );
         })}

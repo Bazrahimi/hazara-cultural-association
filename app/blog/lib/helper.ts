@@ -58,37 +58,42 @@ type CategoryDescription = {
   shortDesc: string;
 };
 
-// ✅ This is your second object, type-linked to CATEGORY_MAP
 export const CATEGORY_DESCRIPTIONS = {
   1: {
     fullDesc:
-      "Latest news, statements, and updates from the Hazara community and Hazaristan—covering current affairs, advocacy, culture, and the ongoing struggle for safety and equal rights after generations of persecution under successive Afghan states.",
-    shortDesc: "",
+      "Latest news, statements, and updates from the Hazara community in Australia and Hazaristan—covering current affairs, advocacy, cultural life, and the ongoing struggle for safety and equal rights. Over the last two decades, thousands of Hazaras have made Australia their home, contributing to a stronger, more diverse society. This section highlights stories that promote dignity, recognition, and genuine social cohesion within our multicultural nation.",
+    shortDesc:
+      "News and updates from Hazara communities in Australia and Hazaristan, promoting dignity and cohesion.",
   },
   2: {
     fullDesc:
-      "Rallies, vigils, and advocacy events for Hazara justice and human rights.",
-    shortDesc: "",
+      "Announcements and coverage of advocacy events, rallies, vigils, and community gatherings organised in Australia and around the world in support of Hazara justice and human rights. Posts may include event invitations, logistical details, speaker profiles, photo essays, post-event summaries, personal reflections, and media coverage. These events not only raise awareness about global injustices but also strengthen social cohesion by uniting diverse communities around dignity, shared humanity, and recognition.",
+    shortDesc:
+      "Invitations, reports, and reflections on rallies and advocacy events that build awareness and social cohesion.",
   },
   3: {
     fullDesc:
-      "Hazaristan is the ancestral homeland of the Hazara people. Before the late 19th century, it functioned with its own autonomy and local leadership. British travellers and ethnographers described a Hazara country stretching from the vicinity of Kandahar towards Herat, Balkh, and Ghazni, with Hazaras controlling the valleys, waters, and rivers of these highlands—until conquest, displacement, and the settlement of Afghan nomadic groups forced many Hazaras from their lands.",
-    shortDesc: "",
+      "Hazaristan is the ancestral homeland of the Hazara people. Before the late 19th century, it held its own local governance and cultural autonomy. Historical accounts describe a Hazara land stretching across the central highlands, rich with valleys, rivers, and mountain life—until conquest, displacement, and forced migrations changed the region forever. This section preserves stories, memory, and heritage for both local and diaspora communities, including those now living in Australia.",
+    shortDesc:
+      "History and heritage of Hazaristan, preserved for Hazara communities in Australia and worldwide.",
   },
   4: {
     fullDesc:
-      "This section documents the long history of Hazara persecution under successive Afghan rulers since the creation of the modern Afghan state. From Abdur Rahman and Habibullah to Amanullah and later governments, many Hazaras were killed, displaced, or pushed into a scattered diaspora. Even during the eras of Karzai and Ghani—despite substantial international funding—Hazara communities continued to face marginalisation and attacks. Regimes and faces change, but the Afghan-centric exclusion of Hazaras, which began with the founding families of the state, has too often remained, and many Hazara activists describe the violence as an ongoing genocide.",
-    shortDesc: "",
+      "This section documents the long history of Hazara persecution—from Abdur Rahman’s reign to modern genocidal attacks—leading to displacement, diaspora, and generations of trauma. It examines structural discrimination, massacres, and targeted violence. For communities now rebuilding in Australia, remembering this history is essential for healing, recognition, and ensuring that these injustices are never ignored again.",
+    shortDesc:
+      "Documentation of historic and modern persecution of Hazaras, with focus on memory and recognition.",
   },
   5: {
     fullDesc:
-      "Despite generations of exclusion, the last two decades have seen Hazaras rise through education, community organising, and global advocacy. A significant Hazara diaspora has emerged around the world, building media, art, scholarship, and activism that finally brought Hazara voices to international attention. This category highlights stories of resilience, hope, and the ongoing struggle for freedom, dignity, and a future where Hazara lives are fully protected and valued.",
-    shortDesc: "",
+      "Despite generations of exclusion, Hazaras have risen through education, community organising, and global advocacy. In Australia, a vibrant Hazara community has grown over the last two decades, contributing to culture, academia, business, and civic life. This category highlights stories of resilience, hope, social contribution, and the continued pursuit of dignity, equality, and freedom—values at the heart of true social cohesion.",
+    shortDesc:
+      "Stories of resilience and contribution from Hazaras in Australia and worldwide, building a dignified future.",
   },
   99: {
     fullDesc:
-      "This category features external articles, historical documents, book excerpts,research papers, and third-party publications related to Hazara history,culture, politics, and global issues. These are curated references that help our community stay informed through broader sources beyond our own publications. All external links are credited to their original authors and publishers.",
-    shortDesc: "",
+      "This category features external articles, historical documents, book excerpts, research papers, and third-party publications related to Hazara history, culture, politics, and broader regional issues. Many of these works connect to the lived experiences of Hazara communities in Australia, their journey of rebuilding, and the national conversation around belonging, multiculturalism, and social cohesion. All sources are credited to their original authors.",
+    shortDesc:
+      "Curated external articles and research related to Hazara history, identity, and Australian social cohesion.",
   },
 } satisfies {
   [K in CategoryKey]: CategoryDescription;
@@ -107,5 +112,6 @@ export function getCategoryMeta(categoryId: number) {
     id: categoryId,
     heading: capitalizeCat(base.en),
     fullDesc: desc.fullDesc,
+    shortDesc: desc.shortDesc
   };
 }
