@@ -7,8 +7,8 @@ import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../global/components";
-import { P } from "../global/paragraph";
+import { Button } from "../../global/components";
+import { P } from "../../global/paragraph";
 
 // Dynamically derive category IDs from CATEGORY_MAP (sorted 1..5,99)
 const CATEGORY_IDS = Object.keys(CATEGORY_MAP)

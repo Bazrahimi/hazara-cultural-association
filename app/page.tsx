@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import Acknowledgements from "./about-us/ui/Acknowledgements";
 import PartnersAndSupporters from "./partners/page";
 import Hero from "./ui/Hero";
-import FeaturedBlogPosts from "./ui/homepage/FeaturedBlogPosts";
-import Memorial133Spotlight from "./ui/homepage/Memorial133Spotlight";
+import FeaturedBlogPosts from "./ui/homepage/blog/FeaturedBlogPosts";
+import Memorial133Spotlight from "./ui/homepage/blog/Memorial133Spotlight";
 
 export default function HomePage() {
   return (
