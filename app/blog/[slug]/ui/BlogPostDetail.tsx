@@ -48,7 +48,7 @@ export default function BlogPostDetail({
         {/* Author – clickable, filtered by author + category */}
         {post.authorName && post.authorId && (
           <Link
-            href={`/blog/u/${post.authorId}`}
+            href={`/blog/p/u/${post.authorId}`}
             className={`flex items-center gap-1 underline-offset-2 hover:underline ${
               isRTL ? "flex-row-reverse" : ""
             }`}
