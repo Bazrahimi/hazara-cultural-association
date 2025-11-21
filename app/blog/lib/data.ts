@@ -67,57 +67,41 @@ function makeExcerpt(html: string, maxLength: number): string {
   return text.length > maxLength ? text.slice(0, maxLength - 1) + "…" : text;
 }
 
-export type FeaturedBlogPost = {
+type BlogPostCard = {
   id: number;
   title: string;
   slug: string;
   hero_img_path: string | null;
   is_rtl: boolean;
-  excerpt: string;
+  authorName: string;
 };
-
 
 export async function getFeaturedPostsByCategory(
   categoryId: number,
   limit: number = 4
-): Promise<FeaturedBlogPost[]> {
-  const rows = await sql<
-    {
-      id: number;
-      title: string;
-      slug: string;
-      hero_img_path: string | null;
-      content_html: string;
-      is_rtl: boolean | null;
-    }[]
-  >`
+): Promise<BlogPostCard[]> {
+  const rows = await sql<BlogPostCard[]>`
     SELECT
       p.id,
       p.title,
       p.slug,
       p.hero_img_path,
-      p.content_html,
-      COALESCE(p.is_rtl, false) AS "is_rtl"
+      p.is_rtl,
+      CONCAT_WS(' ', up.first_name, up.last_name) AS "authorName"
+
     FROM blog_posts p
+    LEFT JOIN user_profiles up ON up.user_id = p.user_id
+
     WHERE p.status = 'published'
       AND p.is_featured = true
       AND p.category_id = ${categoryId}
-    ORDER BY
-      p.published_at DESC NULLS LAST,
-      p.created_at DESC
+
+    ORDER BY p.published_at DESC NULLS LAST, p.created_at DESC
     LIMIT ${limit};
   `;
 
-  return rows.map((row) => ({
-    id: row.id,
-    title: row.title,
-    slug: row.slug,
-    hero_img_path: row.hero_img_path,
-    is_rtl: !!row.is_rtl,
-    excerpt: makeExcerpt(row.content_html, 220),
-  }));
+  return rows;
 }
-
 
 export type CategoryPost = {
   id: number;

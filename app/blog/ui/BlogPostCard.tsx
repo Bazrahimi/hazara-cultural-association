@@ -1,8 +1,8 @@
 // app/blog/ui/BlogPostCard.tsx
 
 import { cldCardHeroAuto } from "@/app/lib/cloudinary";
+import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
-import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,15 +11,21 @@ type BlogPostCardProps = {
     id: number;
     slug: string;
     title: string;
-    excerpt: string;
     hero_img_path: string | null;
     is_rtl: boolean;
+    authorName: string;
   };
-  categoryLabel: string;
 };
 
-const BlogPostCard = ({ post, categoryLabel }: BlogPostCardProps) => {
+const BlogPostCard = ({ post }: BlogPostCardProps) => {
   const isRTL = post.is_rtl;
+
+  const byLabel = isRTL ? "منتشر شده توسط" : "Published by";
+  const fallbackAuthor = "Unknown";
+
+  const ctaText = isRTL
+    ? "برای خواندن کامل مقاله کلیک یا تپ کنید"
+    : "Read full article";
 
   return (
     <Link
@@ -27,53 +33,54 @@ const BlogPostCard = ({ post, categoryLabel }: BlogPostCardProps) => {
       href={`/blog/${post.slug}`}
       className="group overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
     >
-      {/* Top: image OR excerpt box */}
-      {post.hero_img_path ? (
-        <div className="relative h-44 w-full overflow-hidden">
-          <Image
-            src={cldCardHeroAuto(post.hero_img_path)}
-            alt={post.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            placeholder="blur"
-            blurDataURL={IMAGE_DEFAULT_BLUR}
-          />
-        </div>
-      ) : (
-        <div
-          className={`relative h-44 w-full bg-gray-900 p-4 flex flex-col justify-between overflow-hidden ${
-            isRTL ? "text-right" : "text-left"
-          }`}
-          dir={isRTL ? "rtl" : "ltr"}
-        >
-          <P className="line-clamp-4 text-sm leading-relaxed text-gray-50">
-            {post.excerpt}
-          </P>
-
-          <span
-            className={`mt-2 font-bold text-gray-300 opacity-80 transition group-hover:text-blue-600 group-hover:opacity-100 ${
-              isRTL ? "self-start" : "self-end"
-            }`}
+      <article className="flex h-full flex-col">
+        {/* Top: title + author */}
+        <div className="p-4" dir={isRTL ? "rtl" : "ltr"}>
+          <Header
+            as="h3"
+            size="sm"
+            className={`text-gray-700 ${isRTL ? "text-right" : ""}`}
           >
-            {isRTL ? "ادامه مطلب →" : "Read full article →"}
-          </span>
+            {post.title}
+          </Header>
+
+          <p className="mt-1 text-xs text-gray-500">
+            {byLabel}{" "}
+            <span className="font-semibold">
+              {post.authorName || fallbackAuthor}
+            </span>
+          </p>
         </div>
-      )}
 
-      {/* Bottom: category + date + title */}
-      <div className="p-4" dir={isRTL ? "rtl" : "ltr"}>
-        <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-500">
-          {categoryLabel}{" "}
-        </p>
-
-        <h3
-          className={`text-sm font-medium text-gray-900 line-clamp-2 transition group-hover:text-blue-600 ${
-            isRTL ? "text-right" : ""
-          }`}
-        >
-          {post.title}
-        </h3>
-      </div>
+        {/* Bottom: image or placeholder + CTA */}
+        <div className="relative h-44 w-full overflow-hidden">
+          {post.hero_img_path ? (
+            <>
+              <Image
+                src={cldCardHeroAuto(post.hero_img_path)}
+                alt={post.title}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                placeholder="blur"
+                blurDataURL={IMAGE_DEFAULT_BLUR}
+              />
+              {/* Darker overlay with centered CTA */}
+              <div className="absolute inset-x-0 bottom-0 bg-black/40 px-3 py-2 flex items-center justify-center">
+                <span className="text-xs font-semibold text-white text-center">
+                  {ctaText}
+                </span>
+              </div>
+            </>
+          ) : (
+            // Grey placeholder with centered CTA
+            <div className="flex h-full w-full items-center justify-center bg-gray-300 px-3">
+              <span className="text-xs font-semibold text-gray-700 text-center">
+                {ctaText}
+              </span>
+            </div>
+          )}
+        </div>
+      </article>
     </Link>
   );
 };
