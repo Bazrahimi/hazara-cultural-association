@@ -2,22 +2,17 @@
 
 import Link from "next/link";
 import { HiCalendar, HiChevronDown } from "react-icons/hi";
+import { catItems } from "../lib/helper";
 import { BlogMenuProps } from "./BlogMenu";
 import { useDropdownMenu } from "./useDropdownMenu";
 
 type BlogMenuClientProps = BlogMenuProps & { isAllowed: boolean };
 
 const baseItems = [
-  { label: "News", href: "blog/1" },
-  { label: "Advocacy Event", href: "/blog/2" },
-  { label: "Hazaristan", href: "/blog/3" },
-  { label: "Hazara Persecution", href: "/blog/4" },
-  { label: "Hope & Freedom", href: "/blog/5" },
-  {
-    label: "other (articles, books, 3rd-party links)",
-    href: "/blog/99",
-  },
+  ...catItems,
+  { label: "Hazara Genocide Memorial", href: "blog/hazara-genocide-memorial/133" },
 ];
+
 
 const manageItems = [
   { label: "Post  Blog (news, event, article)", href: "/blog/new" },

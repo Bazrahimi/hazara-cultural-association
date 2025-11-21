@@ -19,7 +19,7 @@ export const CATEGORY_MAP = {
     en: "hope & freedom",
     rtl: "امید و آزادی",
   },
-    99: {
+  99: {
     en: "other (articles, books, 3rd-party links)",
     rtl: "سایر (مقالات، کتاب‌ها، لینک‌های خارجی)",
   },
@@ -32,3 +32,20 @@ export function getCategoryLabel(categoryId: number, isRTL: boolean): string {
   if (!item) return "";
   return isRTL ? item.rtl : item.en;
 }
+
+const capitalizeCat = (label: string) => {
+  return label
+    .split(" ")
+    .map((w) => (w[0] ? w[0].toUpperCase() + w.slice(1) : w))
+    .join(" ");
+};
+
+export const getCategoryLinks = Object.entries(CATEGORY_MAP)
+  .sort(([a], [b]) => Number(a) - Number(b))
+  .map(([id, value]) => ({
+    id: Number(id),
+    href: `/blog/${id}`,
+    label: capitalizeCat(value.en),
+  }));
+
+export const catItems = getCategoryLinks;
