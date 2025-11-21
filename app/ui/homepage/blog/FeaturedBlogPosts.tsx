@@ -1,14 +1,12 @@
-// app/ui/global/FeaturedBlogPosts.tsx (or wherever you keep it)
+// app/ui/global/FeaturedBlogPosts.tsx
 
 import { getFeaturedPostsByCategory } from "@/app/blog/lib/data";
-import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/lib/helper"; // adjust path if needed
-import { cldCardHeroAuto } from "@/app/lib/cloudinary";
+import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/lib/helper";
 import { Header } from "@/app/ui/global/Header";
-import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../../global/components";
 import { P } from "../../global/paragraph";
+import BlogPostCard from "@/app/blog/ui/BlogPostCard";
 
 // Dynamically derive category IDs from CATEGORY_MAP (sorted 1..5,99)
 const CATEGORY_IDS = Object.keys(CATEGORY_MAP)
@@ -56,11 +54,11 @@ const FeaturedBlogPosts = async () => {
               {/* Section heading + short description + "More Posts" button */}
               <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <Header as="h3" size="sm">
                     {meta.heading}
-                  </h3>
+                  </Header>
                   {meta.shortDesc && (
-                    <p className="text-sm text-gray-600">{meta.shortDesc}</p>
+                    <P className="text-sm text-gray-600">{meta.shortDesc}</P>
                   )}
                 </div>
                 <Button
@@ -75,70 +73,13 @@ const FeaturedBlogPosts = async () => {
 
               {/* Main cards (first row) */}
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {mainPosts.map((post) => {
-                  const isRTL = post.is_rtl;
-
-                  return (
-                    <Link
-                      key={post.id}
-                      href={`/blog/${post.slug}`}
-                      className="group overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
-                    >
-                      {/* Top: image OR excerpt box */}
-                      {post.hero_img_path ? (
-                        <div className="relative h-44 w-full overflow-hidden">
-                          <Image
-                            src={cldCardHeroAuto(post.hero_img_path)}
-                            alt={post.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                            placeholder="blur"
-                            blurDataURL={IMAGE_DEFAULT_BLUR}
-                          />
-                        </div>
-                      ) : (
-                        <div
-                          className={`relative h-44 w-full bg-gray-900 p-4 overflow-hidden flex flex-col justify-between ${
-                            isRTL ? "text-right" : "text-left"
-                          }`}
-                          dir={isRTL ? "rtl" : "ltr"}
-                        >
-                          <P className="line-clamp-4 text-sm leading-relaxed text-gray-50">
-                            {post.excerpt}
-                          </P>
-
-                          <span
-                            className={`mt-2 font-bold text-gray-300 opacity-80 group-hover:text-blue-600 group-hover:opacity-100 transition ${
-                              isRTL ? "self-start" : "self-end"
-                            }`}
-                          >
-                            {isRTL ? "ادامه مطلب →" : "Read full article →"}
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Bottom: category + date + title */}
-                      <div className="p-4" dir={isRTL ? "rtl" : "ltr"}>
-                        <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-500">
-                          {meta.heading}{" "}
-                          {post.publishedAt && (
-                            <span className="text-gray-400" dir="ltr">
-                              • {post.publishedAt}
-                            </span>
-                          )}
-                        </p>
-
-                        <h3
-                          className={`text-sm font-medium text-gray-900 line-clamp-2 transition group-hover:text-blue-600 ${
-                            isRTL ? "text-right" : ""
-                          }`}
-                        >
-                          {post.title}
-                        </h3>
-                      </div>
-                    </Link>
-                  );
-                })}
+                {mainPosts.map((post) => (
+                  <BlogPostCard
+                    key={post.id}
+                    post={post}
+                    categoryLabel={meta.heading}
+                  />
+                ))}
               </div>
 
               {/* Extra posts (compact list underneath, optional) */}
