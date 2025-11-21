@@ -4,7 +4,7 @@ export const CATEGORY_MAP = {
     rtl: "اخبار",
   },
   2: {
-    en: "advocacy event",
+    en: "Events",
     rtl: "برنامه و گردهمایی",
   },
   3: {
@@ -112,6 +112,6 @@ export function getCategoryMeta(categoryId: number) {
     id: categoryId,
     heading: capitalizeCat(base.en),
     fullDesc: desc.fullDesc,
-    shortDesc: desc.shortDesc
+    shortDesc: desc.shortDesc,
   };
 }
