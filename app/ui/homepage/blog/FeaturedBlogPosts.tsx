@@ -96,11 +96,6 @@ const FeaturedBlogPosts = async () => {
                           className="flex items-baseline justify-between text-sm text-blue-700 hover:text-blue-900"
                         >
                           <span className="line-clamp-1">{post.title}</span>
-                          {post.publishedAt && (
-                            <span className="ml-2 shrink-0 text-xs text-gray-400">
-                              {post.publishedAt}
-                            </span>
-                          )}
                         </Link>
                       </li>
                     ))}

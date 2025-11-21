@@ -71,12 +71,11 @@ export type FeaturedBlogPost = {
   id: number;
   title: string;
   slug: string;
-  category_id: number;
   hero_img_path: string | null;
   is_rtl: boolean;
-  publishedAt: string | null;
   excerpt: string;
 };
+
 
 export async function getFeaturedPostsByCategory(
   categoryId: number,
@@ -87,25 +86,18 @@ export async function getFeaturedPostsByCategory(
       id: number;
       title: string;
       slug: string;
-      category_id: number;
       hero_img_path: string | null;
       content_html: string;
       is_rtl: boolean | null;
-      publishedAt: string | null;
     }[]
   >`
     SELECT
       p.id,
       p.title,
       p.slug,
-      p.category_id,
       p.hero_img_path,
       p.content_html,
-      COALESCE(p.is_rtl, false) AS "is_rtl",
-      to_char(
-        p.published_at AT TIME ZONE 'Australia/Melbourne',
-        'DD Mon YYYY'
-      ) AS "publishedAt"
+      COALESCE(p.is_rtl, false) AS "is_rtl"
     FROM blog_posts p
     WHERE p.status = 'published'
       AND p.is_featured = true
@@ -120,13 +112,12 @@ export async function getFeaturedPostsByCategory(
     id: row.id,
     title: row.title,
     slug: row.slug,
-    category_id: row.category_id,
     hero_img_path: row.hero_img_path,
     is_rtl: !!row.is_rtl,
-    publishedAt: row.publishedAt,
     excerpt: makeExcerpt(row.content_html, 220),
   }));
 }
+
 
 export type CategoryPost = {
   id: number;

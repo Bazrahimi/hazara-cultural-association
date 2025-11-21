@@ -14,7 +14,6 @@ type BlogPostCardProps = {
     excerpt: string;
     hero_img_path: string | null;
     is_rtl: boolean;
-    publishedAt?: string | null;
   };
   categoryLabel: string;
 };
@@ -65,11 +64,6 @@ const BlogPostCard = ({ post, categoryLabel }: BlogPostCardProps) => {
       <div className="p-4" dir={isRTL ? "rtl" : "ltr"}>
         <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-500">
           {categoryLabel}{" "}
-          {post.publishedAt && (
-            <span className="text-gray-400" dir="ltr">
-              • {post.publishedAt}
-            </span>
-          )}
         </p>
 
         <h3
