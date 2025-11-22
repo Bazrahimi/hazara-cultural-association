@@ -6,18 +6,23 @@ import { useActionState, useEffect, useState } from "react";
 import { Header } from "@/app/ui/global/Header";
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
-import type { VerifyState } from "./lib/verify-action";
-
 import { ActionButton } from "@/app/ui/global/clientComponent";
-import { resendCodeAction, verifyCodeAction } from "./lib/verify-action";
+import {
+  resendCodeAction,
+  verifyCodeAction,
+  type VerifyState,
+} from "./lib/verify-action";
+
 
 export default function VerifyEmailForm({ email }: { email: string }) {
   const [state, formAction, isPending] = useActionState<
     VerifyState | undefined,
     FormData
   >(verifyCodeAction, undefined);
+
   const [cooldown, setCooldown] = useState(0);
 
+  // Countdown for resend
   useEffect(() => {
     if (cooldown <= 0) return;
     const t = setInterval(() => setCooldown((s) => s - 1), 1000);
@@ -32,6 +37,7 @@ export default function VerifyEmailForm({ email }: { email: string }) {
         <Header as="h1" size="sm" className="mb-2">
           Verify your email
         </Header>
+
         <P className="text-slate-600 mb-4">
           Enter the 6-digit code we sent to{" "}
           <span className="font-medium">{mask || "your email"}</span>. It
@@ -48,36 +54,54 @@ export default function VerifyEmailForm({ email }: { email: string }) {
               inputMode: "numeric",
               pattern: "\\d{6}",
               maxLength: 6,
+              autoComplete: "one-time-code",
             }}
             required
           />
-          <ActionButton type="submit" fullWidth disabled={isPending}>
-            {isPending ? "Verifying…" : "Verify"}
+
+          <ActionButton
+            type="submit"
+            fullWidth
+            isLoading={isPending}
+            overlay
+            loadingText="Verifying..."
+          >
+            Verify
           </ActionButton>
         </form>
 
         {state?.message && (
           <P
-            className={`mt-3 text-sm ${state.ok ? "text-green-700" : "text-red-600"}`}
+            className={`mt-3 text-sm ${
+              state.ok ? "text-green-700" : "text-red-600"
+            }`}
           >
             {state.message}
           </P>
         )}
 
-        <div className="mt-4 flex items-center justify-between">
-          <P className="text-xs text-slate-500">Didn’t get a code?</P>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={async () => {
-              if (cooldown > 0) return;
-              const res = await resendCodeAction();
-              if (res.ok) setCooldown(60);
-            }}
-            disabled={cooldown > 0}
-          >
-            {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend code"}
-          </Button>
+        <div className="mt-4 flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <P className="text-xs text-slate-500">Didn’t get a code?</P>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={async () => {
+                if (cooldown > 0) return;
+                const res = await resendCodeAction();
+                if (res.ok) setCooldown(60);
+              }}
+              disabled={cooldown > 0}
+            >
+              {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend code"}
+            </Button>
+          </div>
+
+          {cooldown > 0 && (
+            <P className="text-xs text-slate-500 text-right">
+              You can request another code in <strong>{cooldown}s</strong>
+            </P>
+          )}
         </div>
       </div>
     </div>
