@@ -2,13 +2,14 @@
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
-import { auth } from "../../lib/action";
+
 import {
   ActionButton,
   FormErrorMessage,
 } from "../../ui/global/clientComponent";
 import { Button, Input } from "../../ui/global/components";
 import { Header } from "../../ui/global/Header";
+import { auth } from "../lib/action";
 
 const LoginPage = () => {
   const [state, formAction, isPending] = useActionState(auth, undefined);
@@ -85,13 +86,7 @@ const LoginPage = () => {
           </Button>
         </div>
 
-        <Button
-          fullWidth
-          variant="outline"
-          as="link"
-          href="/u/sign-up"
-  
-        >
+        <Button fullWidth variant="outline" as="link" href="/u/sign-up">
           New to HCA, Create account
         </Button>
       </div>

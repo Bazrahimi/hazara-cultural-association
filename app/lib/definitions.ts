@@ -1,20 +1,5 @@
 import z from "zod";
-import { AuthSchema, QuickEnquirySchema } from "./schema";
-
-// export type SessionPayload = {
-//   userId: string; // required
-//   isAdmin?: boolean; // optional
-//   expiresAt: Date; // required
-//   [key: string]: unknown; // index signature
-// };
-
-// export type Session = {
-//   userId: string;
-//   isAdmin: boolean;
-//   expiresAt: string;
-//   iat: number;
-//   exp: number;
-// };
+import { QuickEnquirySchema } from "./schema";
 
 export type Breadcrumb = {
   label: string;
@@ -36,13 +21,6 @@ export type ActionState<T> = {
   /** UI convenience flags/text */
   message?: string;
   ok?: boolean;
-
-  /** Optional redirect instruction for client-side navigation */
-  redirectTo?: string;
-  requiresVerification?: boolean;
 };
 
 export type QuickEnquiryState = ActionState<QuickEnquiry>;
-
-type Auth = z.infer<typeof AuthSchema>;
-export type AuthState = ActionState<Auth>;

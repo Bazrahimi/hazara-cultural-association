@@ -10,13 +10,12 @@ import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 
 import { resetPassword } from "../lib/action";
-import type { ResetPasswordState } from "../lib/schema";
 
 const ResetPasswordPage = () => {
-  const [state, formAction, isPending] = useActionState<
-    ResetPasswordState | undefined,
-    FormData
-  >(resetPassword, undefined);
+  const [state, formAction, isPending] = useActionState(
+    resetPassword,
+    undefined
+  );
 
   const router = useRouter();
   const isSuccess = Boolean(state?.ok);
@@ -29,7 +28,6 @@ const ResetPasswordPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex flex-col items-center px-4 py-10">
       <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white/90 shadow-xl backdrop-blur-sm p-5 sm:p-7 md:p-8">
-
         {/* 🔒 Hide the entire header + description on success */}
         {!isSuccess && (
           <>
