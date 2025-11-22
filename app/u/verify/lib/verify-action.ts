@@ -55,7 +55,7 @@ export async function verifyCodeAction(
 export async function resendCodeAction(): Promise<VerifyState> {
   const { userId, email } = await getVerifyContext();
   if (!userId || !email) {
-    return { ok: false, message: "Verification session expired. Please sign up again." };
+    return { ok: false, message: "Verification session expired. Please Try again or Login to get new code." };
   }
   return issueVerificationCode({ userId, email });
 }

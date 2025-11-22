@@ -34,7 +34,7 @@ type DecodedSession = SessionNormalized &
 /* ================= Config ================= */
 
 const SESSION_COOKIE = "session";
-const SESSION_DAYS = 7;
+const SESSION_DAYS = 0.5;
 const alg = "HS256";
 const encodedKey = new TextEncoder().encode(
   process.env.SESSION_SECRET ?? "dev-insecure-secret"
