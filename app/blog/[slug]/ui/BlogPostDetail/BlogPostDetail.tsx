@@ -1,14 +1,13 @@
 // app/blog/[slug]/ui/BlogPostDetail.tsx
 import type { BlogPostDetail } from "@/app/blog/lib/data";
-import { cldDetailHeroAuto } from "@/app/lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
-import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
-import Image from "next/image";
 import Link from "next/link";
-import { ManagePostControls } from "./ManagePostControls";
+import { ManagePostControls } from "../ManagePostControls";
+import HeroImage from "./HeroImage";
 
 import { slugify } from "@/app/shop/lib/helper";
-import { getCategoryLabel } from "../../lib/helper";
+import { getCategoryLabel } from "../../../lib/helper";
+import ContentSection from "./ContentSection";
 
 type BlogPostDetailProps = {
   post: BlogPostDetail;
@@ -133,55 +132,18 @@ export default function BlogPostDetail({
       )}
 
       {/* Hero Image */}
-      {post.hero_img_path && (
-        <div className="mb-8 overflow-hidden rounded-xl border border-gray-100 bg-gray-50">
-          <div className="relative h-64 w-full sm:h-80">
-            <Image
-              src={cldDetailHeroAuto(post.hero_img_path)}
-              alt={post.title}
-              fill
-              placeholder="blur"
-              blurDataURL={IMAGE_DEFAULT_BLUR}
-              className="object-contain" // ⬅️ was object-cover
-              sizes="(min-width: 1024px) 800px, 100vw"
-            />
-          </div>
-        </div>
-      )}
+      <HeroImage
+        src={post.hero_img_path}
+        alt={post.title}
+        categoryId={post.category_id}
+      />
 
       {/* Content */}
-      <section
-        className={`
-          mt-6
-          rounded-xl bg-white/90 px-4 py-5 shadow-sm ring-1 ring-gray-100
-        `}
-      >
-        <div
-          className={`
-            prose prose-sm sm:prose-base max-w-none prose-img:rounded-lg
-            prose-headings:font-semibold prose-headings:text-gray-900
-            prose-p:text-gray-800 prose-p:leading-relaxed
-            prose-li:marker:text-gray-400
-
-            /* 🔗 Link styling */
-            prose-a:text-blue-700
-            prose-a:font-semibold
-            prose-a:no-underline
-            hover:prose-a:underline
-            prose-a:underline-offset-2
-            prose-a:transition-colors
-            hover:prose-a:text-blue-800
-
-            ${isRTL ? "text-right prose-headings:text-right" : "prose-headings:text-left"}
-          `}
-          dir={isRTL ? "rtl" : "ltr"}
-        >
-          <div
-            className="prose-headings:scroll-mt-24"
-            dangerouslySetInnerHTML={{ __html: post.content_html }}
-          />
-        </div>
-      </section>
+      <ContentSection
+        isRTL={post.is_rtl}
+        content={post.content_html}
+        isLink={post.category_id === 99}
+      />
 
       {/* Owner/Admin controls */}
       {canManage && (

@@ -75,7 +75,11 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
   }, [state]);
 
   const isAdvocacyEvent = categoryId === 2;
-  console.log(initialData);
+  // Strip Quill's internal UI spans (like <span class="ql-ui">...</span>)
+  function cleanQuillHtml(html: string): string {
+    if (!html) return "";
+    return html.replace(/<span class="ql-ui"[^>]*><\/span>/g, "");
+  }
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -301,7 +305,14 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           }
           isRTL={isRTL}
         />
-        <input type="hidden" name="content_html" value={contentHTML} />
+
+        {/* Send cleaned HTML to the server */}
+        <input
+          type="hidden"
+          name="content_html"
+          value={cleanQuillHtml(contentHTML)}
+        />
+
         {state?.errors?.content_html && (
           <p className="mt-1 text-xs text-red-600">
             {state.errors.content_html[0]}

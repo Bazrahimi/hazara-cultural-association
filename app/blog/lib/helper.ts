@@ -20,8 +20,8 @@ export const CATEGORY_MAP = {
     rtl: "امید و آزادی",
   },
   99: {
-    en: "other (articles, books, 3rd-party links)",
-    rtl: "سایر (مقالات، کتاب‌ها، لینک‌های خارجی)",
+    en: "external resources & references",
+    rtl: "منابع و مطالب بیرونی",
   },
 } as const;
 
