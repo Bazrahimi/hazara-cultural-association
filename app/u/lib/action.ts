@@ -25,7 +25,7 @@ import type {
 export const auth = async (
   _prevState: AuthState | undefined,
   formData: FormData
-): Promise<AuthState | never> => {
+): Promise<AuthState> => {
   const rawEmail = String(formData.get("email") ?? "");
   const rawPassword = String(formData.get("password") ?? "");
 

@@ -1,38 +1,31 @@
-import { z } from "zod";
+// schema.ts
+import z from "zod";
+const EmailField = z
+  .email({ message: "Please enter a valid email address." })
+  .transform((v) => v.trim().toLowerCase());
+
+const PasswordField = z
+  .string()
+  .min(8, { message: "Password must be at least 8 characters long." });
+// ↑ recommend aligning login/signup/reset to same policy if you want consistency
 
 export const AuthSchema = z.object({
-  email: z
-    .email({ message: "Please enter a valid email address." })
-    .trim()
-    .transform((v) => v.toLowerCase()), // normalize
-
-  password: z
-    .string()
-    .min(3, { message: "Password must be at least 3 characters long." }),
+  email: EmailField,
+  password: PasswordField,
 });
 
 export const SignupSchema = z.object({
-  email: z
-    .email({ message: "Please enter a valid email address." })
-    .transform((v) => v.trim().toLowerCase()),
-  password: z
-    .string()
-    .min(3, { message: "Password must be at least 3 characters long." }),
+  email: EmailField,
+  password: PasswordField,
 });
 
 export const ForgotPasswordSchema = z.object({
-  email: z
-    .email({ message: "Please enter a valid email address." })
-    .transform((v) => v.trim().toLowerCase()),
+  email: EmailField,
 });
 
-// 🔹 New: Reset password schema
 export const ResetPasswordSchema = z
   .object({
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters long.")
-      .max(100, "Password is too long."),
+    password: PasswordField,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
