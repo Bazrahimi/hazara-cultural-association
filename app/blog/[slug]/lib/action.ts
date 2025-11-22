@@ -31,7 +31,6 @@ export async function toggleFeatured(formData: FormData) {
 
   // Revalidate homepage & news listing & this post
   revalidatePath("/");
-  revalidatePath("/news");
   revalidatePath(`/blog/${post.slug}`);
 }
 
@@ -59,6 +58,6 @@ export async function updateStatus(formData: FormData) {
     WHERE id = ${postId}
   `;
 
-  revalidatePath("/news");
+  revalidatePath("/");
   revalidatePath(`/blog/${post.slug}`);
 }

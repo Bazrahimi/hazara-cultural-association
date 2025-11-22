@@ -90,7 +90,7 @@ export default function BlogPostDetail({
 
         {/* Category badge – clickable, goes to /blog/[categoryId] */}
         <Link
-          href={`/blog/${post.category_id}`}
+          href={`/blog/p/${post.category_id}`}
           className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700 hover:bg-gray-200 transition"
         >
           {getCategoryLabel(post.category_id, isRTL)}
