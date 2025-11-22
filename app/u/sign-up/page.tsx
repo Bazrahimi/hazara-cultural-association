@@ -8,10 +8,10 @@ import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
-import { signupStep1 } from "../lib/action";
+import { signup } from "../lib/action";
 
 export default function Page() {
-  const [state, formAction, isPending] = useActionState(signupStep1, undefined);
+  const [state, formAction, isPending] = useActionState(signup, undefined);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-600 to-white flex items-center justify-center px-4 py-10">

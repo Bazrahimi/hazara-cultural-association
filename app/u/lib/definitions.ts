@@ -19,8 +19,8 @@ export type ActionState<T> = {
 type ResetPassword = z.infer<typeof ResetPasswordSchema>;
 export type ResetPasswordState = ActionState<ResetPassword>;
 
-type SignupStep1 = z.infer<typeof SignupSchema>;
-export type SignupStep1State = ActionState<SignupStep1>;
+type Signup = z.infer<typeof SignupSchema>;
+export type SignupState = ActionState<Signup>;
 
 type ForgotPassword = z.infer<typeof ForgotPasswordSchema>;
 export type ForgotPasswordState = ActionState<ForgotPassword>;

@@ -19,7 +19,7 @@ import type {
   AuthState,
   ForgotPasswordState,
   ResetPasswordState,
-  SignupStep1State,
+  SignupState,
 } from "./definitions";
 
 export const auth = async (
@@ -243,10 +243,10 @@ export const forgotPassword = async (
  * Step 1 of signup: validate email/password, ensure email is free,
  * create the user with a hashed password, send verification code.
  */
-export async function signupStep1(
-  _prevState: SignupStep1State | undefined,
+export async function signup(
+  _prevState: SignupState | undefined,
   formData: FormData
-): Promise<SignupStep1State> {
+): Promise<SignupState> {
   const rawEmail = String(formData.get("email") ?? "");
   const rawPassword = String(formData.get("password") ?? "");
 
