@@ -135,8 +135,6 @@ export const auth = async (
 
     // ✅ Only create session if verified
     await createSession(Number(user.userId), user.roles, { fullName });
-
-    redirect("/account");
   } catch (error) {
     console.error("Failed to login", error);
     return {
@@ -146,6 +144,7 @@ export const auth = async (
       data: { email },
     };
   }
+  redirect("/account");
 };
 
 /**
