@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 
 import { Geist, Geist_Mono } from "next/font/google";
@@ -6,7 +7,6 @@ import { decrypt } from "./lib/session";
 
 import "./globals.css";
 
-// Import layout components for consistent navigation and footer.
 import NavBar from "./Navbar";
 import { CartProvider } from "./shop/ui/cart/CartContext";
 import Footer from "./ui/Footer";
@@ -16,17 +16,13 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-// Configure Geist Mono font in the same way.
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
 export const metadata: Metadata = {
-  /* ─────────────────────────────────────────────
-     REMOVE WHEN PUBLIC:
-     Block search engines while the site is in testing/private mode.
-     Also see: middleware X-Robots-Tag + robots.txt for belt & braces.
-  ────────────────────────────────────────────── */
+  // TEMP: block search engines while in dev/test
   robots: {
     index: false,
     follow: false,
@@ -39,7 +35,6 @@ export const metadata: Metadata = {
       noarchive: true,
     },
   },
-  // ─────────────────────────────────────────────
 
   title: "Hazara Cultural Association",
   description:
@@ -69,31 +64,27 @@ export const metadata: Metadata = {
   },
 };
 
-// Root layout component wraps all pages.
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode; // Ensures children can be any valid React content
+  children: React.ReactNode;
 }>) {
   const cookie = (await cookies()).get("session")?.value;
   const session = cookie ? await decrypt(cookie) : null;
+
   return (
-    // Root <html> element with language set to English.
     <html lang="en">
       <body
-        // Apply both custom font variables and enable antialiasing for smoother text.
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Global navigation bar at the top of every page */}
         <CartProvider userId={Number(session?.userId)}>
           <NavBar />
 
-          {/* Main content wrapper with responsive max width */}
           <main className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             {children}
           </main>
         </CartProvider>
-        {/* Global footer at the bottom of every page */}
+
         <Footer />
       </body>
     </html>
