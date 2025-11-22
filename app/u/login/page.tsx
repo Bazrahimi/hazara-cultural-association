@@ -1,5 +1,6 @@
 "use client";
-import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
 import { auth } from "../../lib/action";
 import {
@@ -11,6 +12,13 @@ import { Header } from "../../ui/global/Header";
 
 const LoginPage = () => {
   const [state, formAction, isPending] = useActionState(auth, undefined);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.requiresVerification && state.redirectTo) {
+      router.push(state.redirectTo);
+    }
+  }, [state, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex flex-col items-center px-4 py-10">

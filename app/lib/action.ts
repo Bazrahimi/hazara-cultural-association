@@ -1,8 +1,10 @@
 "use server";
 import bcrypt from "bcrypt";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-
+import { issueVerificationCode } from "../u/lib/verification";
+import { VERIFY_EMAIL_COOKIE_PATH } from "../u/verify/lib/helper";
 import {
   sendAdminEmail,
   sendUserConfirmationEmail,
@@ -123,25 +125,26 @@ export const auth = async (
       ok: false,
       message: "Please fix the errors above.",
       data: { email: rawEmail }, // never return password
-      errors: fe as AuthState["errors"], // compatible shape
+      errors: fe as AuthState["errors"],
     };
   }
 
   const { email, password } = parsed.data;
 
   try {
-    // citext makes this case-insensitive, so direct compare is fine
     const result = await sql<
       {
         userId: number;
         hashedPassword: string;
         roles: string[];
         fullName: string | null;
+        emailVerifiedAt: Date | null;
       }[]
     >`
         SELECT
           u.id AS "userId",
           u.password AS "hashedPassword",
+          u.email_verified_at AS "emailVerifiedAt",
           COALESCE(
             up.first_name || ' ' || up.last_name,
             ''  
@@ -156,9 +159,10 @@ export const auth = async (
         LEFT JOIN user_roles ur     ON ur.user_id = u.id
         LEFT JOIN roles r           ON r.id = ur.role_id
         WHERE u.email = ${email}
-        GROUP BY u.id, up.first_name, up.last_name
+        GROUP BY u.id, up.first_name, up.last_name, u.email_verified_at
         LIMIT 1
     `;
+
     const user = result[0];
 
     if (!user) {
@@ -178,16 +182,45 @@ export const auth = async (
       };
     }
 
+    // 👇 NEW: require email verification before login
+    if (!user.emailVerifiedAt) {
+      const cookieStore = await cookies();
+      const maxAge = 10 * 60; // 10 minutes, same as signupStep1
+
+      cookieStore.set("verify_uid", String(user.userId), {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: true,
+        path: VERIFY_EMAIL_COOKIE_PATH,
+        maxAge,
+      });
+
+      cookieStore.set("verify_email", email, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: true,
+        path: VERIFY_EMAIL_COOKIE_PATH,
+        maxAge,
+      });
+
+      await issueVerificationCode({ userId: Number(user.userId), email });
+      return {
+        ok: true,
+        requiresVerification: true,
+        redirectTo: "/u/verify",
+        data: { email },
+      };
+    }
+
     // Build a safe greeting/name value
     const fullName =
       user.fullName && user.fullName.trim().length > 0
         ? user.fullName.trim()
-        : email.split("@")[0]; // fallback to email local-part
+        : email.split("@")[0];
 
-    // ✅ Create a session for both admin and non-admin users
-    await createSession(Number(user.userId), user.roles, {fullName});
+    // ✅ Only create session if verified
+    await createSession(Number(user.userId), user.roles, { fullName });
 
-    // Hand control to Next.js to redirect
     redirect("/account");
   } catch (error) {
     console.error("Failed to login", error);

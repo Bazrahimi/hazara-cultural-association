@@ -36,6 +36,10 @@ export type ActionState<T> = {
   /** UI convenience flags/text */
   message?: string;
   ok?: boolean;
+
+  /** Optional redirect instruction for client-side navigation */
+  redirectTo?: string;
+  requiresVerification?: boolean;
 };
 
 export type QuickEnquiryState = ActionState<QuickEnquiry>;

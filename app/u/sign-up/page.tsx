@@ -44,8 +44,8 @@ export default function Page() {
             />
           </div>
 
-          <ActionButton type="submit" fullWidth disabled={isPending}>
-            {isPending ? "Creating account…" : "Continue"}
+          <ActionButton type="submit" fullWidth isLoading={isPending} overlay loadingText="Signing Up...">
+            Sign Up
           </ActionButton>
 
           {state?.message && (
