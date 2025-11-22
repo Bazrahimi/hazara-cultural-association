@@ -21,7 +21,7 @@ const LoginPage = () => {
   }, [state, router]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex flex-col items-center px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex flex-col items-center justify-center">
       {/* Development Banner */}
       <div className="w-full max-w-3xl mb-6 rounded-md bg-yellow-100 border border-yellow-300 p-3 text-center">
         <p className="text-yellow-800 font-semibold">
@@ -32,7 +32,7 @@ const LoginPage = () => {
 
       <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white/90 shadow-xl backdrop-blur-sm p-5 sm:p-7 md:p-8">
         <Header as="h2" size="md" align="center" className="mb-10">
-          Login in to HCA Account
+          Login to HCA Account
         </Header>
 
         <form action={formAction} className="relative mt-6 space-y-6">
@@ -73,12 +73,24 @@ const LoginPage = () => {
           <FormErrorMessage message={state?.message} />
         </form>
 
+        {/* Forgot password link */}
+        <div className="flex justify-end">
+          <Button
+            as="link"
+            href="/u/forgot-password"
+            variant="outline"
+            className="!border-none !shadow-none text-xs text-slate-600 hover:text-slate-900 hover:bg-transparent underline"
+          >
+            Forgot password?
+          </Button>
+        </div>
+
         <Button
           fullWidth
           variant="outline"
           as="link"
           href="/u/sign-up"
-          className="mt-5"
+  
         >
           New to HCA, Create account
         </Button>

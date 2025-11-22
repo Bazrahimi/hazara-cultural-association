@@ -1,1 +1,1 @@
-export const VERIFY_EMAIL_COOKIE_PATH = "/u/verify";
+export const VERIFY_EMAIL_COOKIE_PATH = "/u";

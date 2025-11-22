@@ -1,5 +1,5 @@
-const page = () => {
-  return <div>Auth page</div>;
-};
+// const page = () => {
+//   return <div>Auth page</div>;
+// };
 
-export default page;
+// export default page;

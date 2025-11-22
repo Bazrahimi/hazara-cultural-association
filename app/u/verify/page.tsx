@@ -1,4 +1,4 @@
-// app/u/verify/verify-form.tsx
+// app/u/verify/page.tsx
 "use client";
 
 import { useActionState, useEffect, useState } from "react";

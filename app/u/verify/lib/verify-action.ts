@@ -4,7 +4,10 @@
 import { createSession } from "@/app/lib/session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { issueVerificationCode, verifyEmailCode } from "@/app/u/lib/verification";
+import {
+  issueVerificationCode,
+  verifyEmailCode,
+} from "@/app/u/lib/verification";
 import { VERIFY_EMAIL_COOKIE_PATH } from "./helper";
 
 export type VerifyState = {
@@ -15,15 +18,18 @@ export type VerifyState = {
 // If you like a local type alias:
 type CookieStore = Awaited<ReturnType<typeof cookies>>;
 
-// Keep this in sync with where you originally set the cookies
 
 
 async function getVerifyContext() {
-  const sessionCookie: CookieStore = await cookies(); // ✅ await required
+  const sessionCookie: CookieStore = await cookies();
+
   const uidRaw = sessionCookie.get("verify_uid")?.value;
   const email = sessionCookie.get("verify_email")?.value;
+  const mode = sessionCookie.get("verify_mode")?.value ?? "signup"; // "signup" | "reset"
+
   const userId = uidRaw ? Number(uidRaw) : undefined;
-  return { userId, email, sessionCookie };
+
+  return { userId, email, mode, sessionCookie };
 }
 
 export async function verifyCodeAction(
@@ -31,11 +37,15 @@ export async function verifyCodeAction(
   formData: FormData
 ): Promise<VerifyState | never> {
   const code = String(formData.get("code") ?? "").trim();
-  const { userId, email, sessionCookie } = await getVerifyContext();
+  const { userId, email, mode, sessionCookie } = await getVerifyContext();
 
   if (!userId || !email) {
-    return { ok: false, message: "Verification session expired. Please sign up again." };
+    return {
+      ok: false,
+      message: "Verification session expired. Please try again.",
+    };
   }
+
   if (!/^\d{6}$/.test(code)) {
     return { ok: false, message: "Enter the 6-digit code." };
   }
@@ -43,19 +53,41 @@ export async function verifyCodeAction(
   const res = await verifyEmailCode({ userId, code });
   if (!res.ok) return { ok: false, message: res.message };
 
-  // Clear short-lived verification cookies (path MUST match how they were set)
-  sessionCookie.set("verify_uid", "", { path: VERIFY_EMAIL_COOKIE_PATH, maxAge: 0 });
-  sessionCookie.set("verify_email", "", { path: VERIFY_EMAIL_COOKIE_PATH, maxAge: 0 });
+  // 👉 IMPORTANT: set reset_uid for reset mode
+  if (mode === "reset") {
+    const maxAge = 10 * 60; // 10 minutes
+    sessionCookie.set("reset_uid", String(userId), {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: true,
+      path: VERIFY_EMAIL_COOKIE_PATH,
+      maxAge,
+    });
+  }
 
-  // Create the real session and go
+  const clearOpts = { path: VERIFY_EMAIL_COOKIE_PATH, maxAge: 0 };
+  sessionCookie.set("verify_uid", "", clearOpts);
+  sessionCookie.set("verify_email", "", clearOpts);
+  sessionCookie.set("verify_mode", "", clearOpts);
+
+  if (mode === "reset") {
+    redirect("/u/reset-password");
+  }
+
   await createSession(userId);
-  redirect("/account/settings/profile"); // or "/account"
+  redirect("/account/settings/profile");
 }
 
 export async function resendCodeAction(): Promise<VerifyState> {
   const { userId, email } = await getVerifyContext();
+
   if (!userId || !email) {
-    return { ok: false, message: "Verification session expired. Please Try again or Login to get new code." };
+    return {
+      ok: false,
+      message:
+        "Verification session expired. Please try again or request a new code.",
+    };
   }
+
   return issueVerificationCode({ userId, email });
 }
