@@ -2,6 +2,7 @@ import { FieldErrors } from "@/app/lib/definitions";
 import z from "zod";
 import {
   AuthSchema,
+  ChangePasswordSchema,
   ForgotPasswordSchema,
   ResetPasswordSchema,
   SignupSchema,
@@ -27,3 +28,6 @@ export type ForgotPasswordState = ActionState<ForgotPassword>;
 
 type Auth = z.infer<typeof AuthSchema>;
 export type AuthState = ActionState<Auth>;
+
+type ChangePassword = z.infer<typeof ChangePasswordSchema>;
+export type ChangePasswordState = ActionState<ChangePassword>;

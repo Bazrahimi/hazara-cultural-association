@@ -1,5 +1,6 @@
 "use client";
 
+import { Header } from "@/app/ui/global/Header";
 import {
   FaAddressCard,
   FaBoxOpen,
@@ -11,17 +12,16 @@ import {
   FaTags,
   FaUserCog,
   FaUserPlus,
+  FaLock,
 } from "react-icons/fa";
-import { Header } from "@/app/ui/global/Header";
 import { DashboardActionLink, DashboardCard } from "./DashboardCard";
 
 // type Props = {
 //   roles?: string[];
 // };
 
-export default function QuickActions(
-  // { roles }: Props
-) {
+export default function QuickActions() {
+// { roles }: Props
   return (
     <>
       <Header as="h2" className="mt-8 mb-4">
@@ -108,6 +108,12 @@ export default function QuickActions(
             Icon={FaUserCog}
             label="Profile"
             desc="Update your personal details"
+          />
+          <DashboardActionLink
+            href="/account/settings/change-password"
+            Icon={FaLock}
+            label="Change password"
+            desc="Update your login password"
           />
           <DashboardActionLink
             href="/account/settings"

@@ -5,6 +5,7 @@ import { createSession } from "@/app/lib/session";
 import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getSession } from "@/app/lib/session";
 
 import {
   buildFullName,
@@ -15,6 +16,7 @@ import {
 } from "./helper";
 import {
   AuthSchema,
+  ChangePasswordSchema,
   ForgotPasswordSchema,
   ResetPasswordSchema,
   SignupSchema,
@@ -22,10 +24,95 @@ import {
 
 import type {
   AuthState,
+  ChangePasswordState,
   ForgotPasswordState,
   ResetPasswordState,
   SignupState,
 } from "./definitions";
+
+export const changePassword = async (
+  _prevState: ChangePasswordState | undefined,
+  formData: FormData
+): Promise<ChangePasswordState> => {
+  const rawCurrent = String(formData.get("currentPassword") ?? "");
+  const rawNew = String(formData.get("newPassword") ?? "");
+  const rawConfirm = String(formData.get("confirmNewPassword") ?? "");
+
+  const parsed = ChangePasswordSchema.safeParse({
+    currentPassword: rawCurrent,
+    newPassword: rawNew,
+    confirmNewPassword: rawConfirm,
+  });
+
+  if (!parsed.success) {
+    // Zod validation failed – return field-level errors
+    return toActionErrors<ChangePasswordState["errors"]>(parsed.error);
+  }
+
+  const { currentPassword, newPassword } = parsed.data;
+
+  // 1) Ensure user is logged in
+  const session = await getSession();
+  if (!session || !session.userId) {
+    return {
+      ok: false,
+      message: "You must be logged in to change your password.",
+    };
+  }
+
+  const userId = session.userId;
+
+  try {
+    // 2) Fetch current hashed password from DB
+    const rows = await sql<{ password: string }[]>`
+      SELECT password
+      FROM users
+      WHERE id = ${userId}
+      LIMIT 1;
+    `;
+
+    if (rows.length === 0) {
+      return {
+        ok: false,
+        message: "Account not found.",
+      };
+    }
+
+    const hashedPassword = rows[0].password;
+
+    // 3) Compare current password
+    const match = await bcrypt.compare(currentPassword, hashedPassword);
+    if (!match) {
+      return {
+        ok: false,
+        message: "Please check your current password and try again.",
+        errors: {
+          currentPassword: ["Current password is incorrect."],
+        } as ChangePasswordState["errors"],
+      };
+    }
+
+    // 4) Hash and update new password
+    const newHash = await bcrypt.hash(newPassword, 12);
+
+    await sql`
+      UPDATE users
+      SET password = ${newHash}
+      WHERE id = ${userId};
+    `;
+
+    return {
+      ok: true,
+      message: "Your password has been updated successfully.",
+    };
+  } catch (err) {
+    console.error("changePassword error:", err);
+    return {
+      ok: false,
+      message: "Something went wrong updating your password. Please try again.",
+    };
+  }
+};
 
 export const auth = async (
   _prevState: AuthState | undefined,

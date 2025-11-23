@@ -1,7 +1,6 @@
 // app/u/reset-password/page.tsx
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 
 import { Header } from "@/app/ui/global/Header";
@@ -17,13 +16,7 @@ const ResetPasswordPage = () => {
     undefined
   );
 
-  const router = useRouter();
   const isSuccess = Boolean(state?.ok);
-
-  const handleGoToLogin = () => {
-    const target = state?.redirectTo ?? "/u/login";
-    router.push(target);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex flex-col items-center px-4 py-10">
@@ -52,7 +45,7 @@ const ResetPasswordPage = () => {
               You can now log in with your new password.
             </P>
 
-            <Button fullWidth onClick={handleGoToLogin} className="mt-4">
+            <Button fullWidth as="link" href="/u/login" className="mt-4">
               Continue to Login
             </Button>
           </div>
