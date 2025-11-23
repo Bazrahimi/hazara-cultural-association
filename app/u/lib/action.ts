@@ -6,16 +6,20 @@ import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { setVerifyCookies, VERIFY_EMAIL_COOKIE_PATH } from "./helper";
+import {
+  buildFullName,
+  findUserIdByEmail,
+  startVerificationFlow,
+  toActionErrors,
+  VERIFY_EMAIL_COOKIE_PATH,
+} from "./helper";
 import {
   AuthSchema,
   ForgotPasswordSchema,
   ResetPasswordSchema,
   SignupSchema,
 } from "./schema";
-import { issueVerificationCode } from "./verification";
 
-import z from "zod";
 import type {
   AuthState,
   ForgotPasswordState,
@@ -36,12 +40,9 @@ export const auth = async (
   });
 
   if (!parsed.success) {
-    const { fieldErrors } = z.flattenError(parsed.error);
     return {
-      ok: false,
-      message: "Please fix the errors above.",
-      data: { email: rawEmail }, // never return password
-      errors: fieldErrors as AuthState["errors"],
+      ...toActionErrors<AuthState["errors"]>(parsed.error),
+      data: { email: rawEmail },
     };
   }
 
@@ -99,13 +100,11 @@ export const auth = async (
     }
 
     if (!user.emailVerifiedAt) {
-      await setVerifyCookies({
+      await startVerificationFlow({
         userId: user.userId,
         email,
         mode: "login",
       });
-
-      await issueVerificationCode({ userId: user.userId, email });
 
       return {
         ok: true,
@@ -115,11 +114,7 @@ export const auth = async (
       };
     }
 
-    // Build a safe greeting/name value
-    const fullName =
-      user.fullName && user.fullName.trim().length > 0
-        ? user.fullName.trim()
-        : email.split("@")[0];
+    const fullName = buildFullName(user.fullName, email);
 
     // ✅ Only create session if verified
     await createSession(Number(user.userId), user.roles, { fullName });
@@ -152,12 +147,8 @@ export const forgotPassword = async (
   const parsed = ForgotPasswordSchema.safeParse({ email: rawEmail });
 
   if (!parsed.success) {
-    const { fieldErrors } = z.flattenError(parsed.error);
-
     return {
-      ok: false,
-      message: "Please correct the errors below.",
-      errors: fieldErrors as ForgotPasswordState["errors"],
+      ...toActionErrors<ForgotPasswordState["errors"]>(parsed.error),
       data: { email: rawEmail },
     };
   }
@@ -165,23 +156,14 @@ export const forgotPassword = async (
   const { email } = parsed.data;
 
   try {
-    // 2) Check if the user exists (do NOT reveal result to client)
-    const rows = await sql<{ id: number }[]>`
-      SELECT id
-      FROM users
-      WHERE lower(email) = lower(${email})
-      LIMIT 1;
-    `;
+    const userId = await findUserIdByEmail(email);
 
-    if (rows.length > 0) {
-      const userId = rows[0].id;
-
-      await setVerifyCookies({
+    if (userId) {
+      await startVerificationFlow({
         userId,
         email,
         mode: "reset",
       });
-      await issueVerificationCode({ userId, email });
     }
 
     // 5) Always return the SAME message (don’t leak if email exists)
@@ -221,12 +203,8 @@ export async function signup(
   });
 
   if (!parsed.success) {
-    const { fieldErrors } = z.flattenError(parsed.error);
-
     return {
-      ok: false,
-      message: "Please fix the errors above.",
-      errors: fieldErrors as SignupState["errors"],
+      ...toActionErrors<SignupState["errors"]>(parsed.error),
       data: { email: rawEmail },
     };
   }
@@ -234,15 +212,9 @@ export async function signup(
   const { email, password } = parsed.data;
 
   try {
-    // 1) Does the email already exist?
-    const existing = await sql<{ id: string }[]>`
-      SELECT id
-      FROM users
-      WHERE lower(email) = lower(${email})
-      LIMIT 1;
-    `;
+    const existingId = await findUserIdByEmail(email);
 
-    if (existing.length > 0) {
+    if (existingId) {
       return {
         ok: false,
         message: "An account already exists with this email.",
@@ -262,12 +234,11 @@ export async function signup(
 
     const userId = inserted[0]?.id;
 
-    await setVerifyCookies({
+    await startVerificationFlow({
       userId,
       email,
       mode: "signup",
     });
-    await issueVerificationCode({ userId, email });
   } catch (err) {
     console.error("signup error:", err);
     return {
@@ -295,12 +266,9 @@ export const resetPassword = async (
   });
 
   if (!parsed.success) {
-    const { fieldErrors } = z.flattenError(parsed.error);
     return {
-      ok: false,
-      message: "Please correct the errors below.",
-      errors: fieldErrors as ResetPasswordState["errors"],
-      // never echo passwords back
+      ...toActionErrors<ResetPasswordState["errors"]>(parsed.error),
+      data: {},
     };
   }
 
