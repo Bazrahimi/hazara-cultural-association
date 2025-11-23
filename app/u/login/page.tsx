@@ -36,7 +36,7 @@ const LoginPage = () => {
           Login to HCA Account
         </Header>
 
-        <form action={formAction} className="relative mt-6 space-y-6">
+        <form action={formAction} className="relative mt-6 space-y-6" noValidate>
           <div className="space-y-5">
             <Input
               id="email"

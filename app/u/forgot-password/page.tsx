@@ -43,9 +43,9 @@ const ForgotPasswordPage = () => {
             type="email"
             label="Email Address"
             placeholder="you@example.com"
+            required
             defaultValue={state?.data?.email}
             error={state?.errors?.email}
-            required
           />
 
           <ActionButton

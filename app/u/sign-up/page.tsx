@@ -30,7 +30,7 @@ export default function Page() {
               defaultValue={state?.data?.email}
               Icon={MdEmail}
               error={state?.errors?.email}
-              required
+   
             />
             <Input
               id="password"
@@ -40,7 +40,7 @@ export default function Page() {
               defaultValue={state?.data?.password}
               Icon={MdPassword}
               error={state?.errors?.password}
-              required
+   
             />
           </div>
 

@@ -1,7 +1,10 @@
 // schema.ts
 import z from "zod";
 const EmailField = z
-  .email({ message: "Please enter a valid email address." })
+  .email({
+    message:
+      "That doesn’t look like a valid email. Please check the format (e.g., name@example.com).",
+  })
   .transform((v) => v.trim().toLowerCase());
 
 const PasswordField = z
