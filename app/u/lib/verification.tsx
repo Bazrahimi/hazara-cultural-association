@@ -7,8 +7,6 @@ import bcrypt from "bcrypt"; // or: import bcrypt from "bcrypt";
 import { FROM_EMAIL, resend } from "../ui/resend/email";
 import VerifyEmailCode from "../ui/resend/VerifyEmailCode";
 
-
-
 type VerifyRow = { code_hash: string; expires_at: string; attempts: number };
 
 // export const CODE_TTL_MINUTES = 10;
@@ -98,4 +96,3 @@ export async function verifyEmailCode({
 
   return { ok: true as const, message: "Email verified." };
 }
-
