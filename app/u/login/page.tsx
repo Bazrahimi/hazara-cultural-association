@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
+import { FaGoogle } from "react-icons/fa";
 import { MdEmail, MdPassword } from "react-icons/md";
 
 import {
@@ -36,7 +37,11 @@ const LoginPage = () => {
           Login to HCA Account
         </Header>
 
-        <form action={formAction} className="relative mt-6 space-y-6" noValidate>
+        <form
+          action={formAction}
+          className="relative mt-6 space-y-6"
+          noValidate
+        >
           <div className="space-y-5">
             <Input
               id="email"
@@ -88,6 +93,18 @@ const LoginPage = () => {
 
         <Button fullWidth variant="outline" as="link" href="/u/sign-up">
           New to HCA, Create account
+        </Button>
+
+        <Button
+          type="button"
+          fullWidth
+          as="link"
+          href="/u/oauth/google/start"
+          className="mb-4 flex items-center justify-center gap-2"
+          variant="outline"
+        >
+          <FaGoogle className="h-4 w-4" />
+          Continue with Google
         </Button>
       </div>
     </div>
