@@ -2,13 +2,13 @@
 "use server";
 
 import { createSession } from "@/app/lib/session";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import {
   issueVerificationCode,
   verifyEmailCode,
 } from "@/app/u/lib/verification";
-import { VERIFY_EMAIL_COOKIE_PATH } from "./helper";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { VERIFY_EMAIL_COOKIE_PATH } from "../../lib/helper";
 
 export type VerifyState = {
   ok?: boolean;
@@ -17,8 +17,6 @@ export type VerifyState = {
 
 // If you like a local type alias:
 type CookieStore = Awaited<ReturnType<typeof cookies>>;
-
-
 
 async function getVerifyContext() {
   const sessionCookie: CookieStore = await cookies();

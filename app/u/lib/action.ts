@@ -6,7 +6,7 @@ import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { VERIFY_EMAIL_COOKIE_PATH } from "../verify/lib/helper";
+import { setVerifyCookies, VERIFY_EMAIL_COOKIE_PATH } from "./helper";
 import {
   AuthSchema,
   ForgotPasswordSchema,
@@ -15,6 +15,7 @@ import {
 } from "./schema";
 import { issueVerificationCode } from "./verification";
 
+import z from "zod";
 import type {
   AuthState,
   ForgotPasswordState,
@@ -35,12 +36,12 @@ export const auth = async (
   });
 
   if (!parsed.success) {
-    const fe = parsed.error.flatten().fieldErrors;
+    const { fieldErrors } = z.flattenError(parsed.error);
     return {
       ok: false,
       message: "Please fix the errors above.",
       data: { email: rawEmail }, // never return password
-      errors: fe as AuthState["errors"],
+      errors: fieldErrors as AuthState["errors"],
     };
   }
 
@@ -97,28 +98,15 @@ export const auth = async (
       };
     }
 
-    // 👇 NEW: require email verification before login
     if (!user.emailVerifiedAt) {
-      const cookieStore = await cookies();
-      const maxAge = 10 * 60; // 10 minutes, same as signupStep1
-
-      cookieStore.set("verify_uid", String(user.userId), {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: true,
-        path: VERIFY_EMAIL_COOKIE_PATH,
-        maxAge,
+      await setVerifyCookies({
+        userId: user.userId,
+        email,
+        mode: "login",
       });
 
-      cookieStore.set("verify_email", email, {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: true,
-        path: VERIFY_EMAIL_COOKIE_PATH,
-        maxAge,
-      });
+      await issueVerificationCode({ userId: user.userId, email });
 
-      await issueVerificationCode({ userId: Number(user.userId), email });
       return {
         ok: true,
         requiresVerification: true,
@@ -164,11 +152,12 @@ export const forgotPassword = async (
   const parsed = ForgotPasswordSchema.safeParse({ email: rawEmail });
 
   if (!parsed.success) {
-    const fe = parsed.error.flatten().fieldErrors;
+    const { fieldErrors } = z.flattenError(parsed.error);
+
     return {
       ok: false,
       message: "Please correct the errors below.",
-      errors: fe as ForgotPasswordState["errors"],
+      errors: fieldErrors as ForgotPasswordState["errors"],
       data: { email: rawEmail },
     };
   }
@@ -185,38 +174,13 @@ export const forgotPassword = async (
     `;
 
     if (rows.length > 0) {
-      const userId = Number(rows[0].id);
+      const userId = rows[0].id;
 
-      // 3) Set short-lived verify cookies (similar to signupStep1)
-      const cookieStore = await cookies();
-      const maxAge = 10 * 60; // 10 minutes
-
-      cookieStore.set("verify_uid", String(userId), {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: true,
-        path: VERIFY_EMAIL_COOKIE_PATH,
-        maxAge,
+      await setVerifyCookies({
+        userId,
+        email,
+        mode: "reset",
       });
-
-      cookieStore.set("verify_email", email, {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: true,
-        path: VERIFY_EMAIL_COOKIE_PATH,
-        maxAge,
-      });
-
-      // mark this verification as coming from "reset password" flow
-      cookieStore.set("verify_mode", "reset", {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: true,
-        path: VERIFY_EMAIL_COOKIE_PATH,
-        maxAge,
-      });
-
-      // 4) Send a verification code email (reuses your existing logic)
       await issueVerificationCode({ userId, email });
     }
 
@@ -257,12 +221,12 @@ export async function signup(
   });
 
   if (!parsed.success) {
-    const fe = parsed.error.flatten().fieldErrors;
+    const { fieldErrors } = z.flattenError(parsed.error);
+
     return {
       ok: false,
       message: "Please fix the errors above.",
-      errors: fe,
-      // Never echo the password back; email is fine to re-fill the form
+      errors: fieldErrors as SignupState["errors"],
       data: { email: rawEmail },
     };
   }
@@ -290,47 +254,22 @@ export async function signup(
     // 2) Hash & create user
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const inserted = await sql<{ id: string }[]>`
+    const inserted = await sql`
       INSERT INTO users (email, password)
       VALUES (${email}, ${hashedPassword})
       RETURNING id;
     `;
 
-    const userId = Number(inserted[0]?.id);
+    const userId = inserted[0]?.id;
 
-    // 3) Set short-lived verify cookies (httpOnly)
-    const cookieStore = await cookies();
-    const maxAge = 10 * 60; // 10 minutes
-
-    cookieStore.set("verify_uid", String(userId), {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: true,
-      path: VERIFY_EMAIL_COOKIE_PATH,
-      maxAge,
+    await setVerifyCookies({
+      userId,
+      email,
+      mode: "signup",
     });
-
-    cookieStore.set("verify_email", email, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: true,
-      path: VERIFY_EMAIL_COOKIE_PATH,
-      maxAge,
-    });
-
-    // mark this verification as coming from "signup" flow
-    cookieStore.set("verify_mode", "signup", {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: true,
-      path: VERIFY_EMAIL_COOKIE_PATH,
-      maxAge,
-    });
-
-    // 4) Send verification code email
     await issueVerificationCode({ userId, email });
   } catch (err) {
-    console.error("signupStep1 error:", err);
+    console.error("signup error:", err);
     return {
       ok: false,
       message: "Something went wrong creating your account. Please try again.",
@@ -356,11 +295,11 @@ export const resetPassword = async (
   });
 
   if (!parsed.success) {
-    const fe = parsed.error.flatten().fieldErrors;
+    const { fieldErrors } = z.flattenError(parsed.error);
     return {
       ok: false,
       message: "Please correct the errors below.",
-      errors: fe as ResetPasswordState["errors"],
+      errors: fieldErrors as ResetPasswordState["errors"],
       // never echo passwords back
     };
   }
