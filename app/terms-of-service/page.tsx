@@ -45,9 +45,10 @@ export default function Page() {
             3) Accounts & Security
           </Header>
           <P>
-            If you create an account, you are responsible for keeping your
-            credentials confidential and for all activity under your account.
-            You agree to notify us of any unauthorised use.
+            If you create an account (including via social login such as Google
+            or Facebook), you are responsible for keeping your credentials and
+            device secure and for all activity under your account. You agree to
+            notify us of any unauthorised use.
           </P>
         </div>
 
@@ -159,7 +160,6 @@ export default function Page() {
             .
           </P>
         </div>
-
       </section>
     </main>
   );

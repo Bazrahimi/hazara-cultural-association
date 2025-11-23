@@ -57,6 +57,30 @@ export default function Page() {
 
         <div>
           <Header as="h2" size="sm">
+            2a) Social Logins (Google, Facebook)
+          </Header>
+          <P>
+            If you choose to sign in with a social account (for example Google
+            or Facebook), we receive limited profile information from that
+            provider – typically your name, email address, and a profile ID. We
+            do <strong>not</strong> receive your social account password.
+          </P>
+          <P className="mt-2">
+            We use this information to create or link your HCA account so you
+            can log in more easily. You can request deletion of your HCA account
+            and associated data at any time (see{" "}
+            <a
+              href="/privacy-policy/data-deletion"
+              className="text-blue-600 hover:underline"
+            >
+              Data Deletion
+            </a>{" "}
+            for details, including Facebook login requests).
+          </P>
+        </div>
+
+        <div>
+          <Header as="h2" size="sm">
             3) Where Your Data Is Stored (Neon Postgres)
           </Header>
           <P>
@@ -124,6 +148,17 @@ export default function Page() {
             your personal information; we will action requests subject to legal
             obligations and technical feasibility.
           </P>
+          <P className="mt-2">
+            For data deletion instructions – including for accounts created via
+            Facebook Login – please see our{" "}
+            <a
+              href="/privacy-policy/data-deletion"
+              className="text-blue-600 hover:underline"
+            >
+              Data Deletion page
+            </a>
+            .
+          </P>
         </div>
 
         <div>
@@ -173,7 +208,6 @@ export default function Page() {
             .
           </P>
         </div>
-
       </section>
     </main>
   );
