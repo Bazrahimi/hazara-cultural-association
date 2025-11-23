@@ -62,7 +62,7 @@ export const startVerificationFlow = async ({
 export const toActionErrors = <TErrors>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: z.ZodError<any>,
-  message = "Please fix the errors below."
+  message = "Please fix the errors above."
 ): { ok: false; message: string; errors: TErrors } => {
   const { fieldErrors } = z.flattenError(error);
 
