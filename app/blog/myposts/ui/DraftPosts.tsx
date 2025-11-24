@@ -1,25 +1,31 @@
 import { Header } from "@/app/ui/global/Header";
-import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/helper";
 import type { BloggerPostListRow } from "../lib/data";
+import { BLOGGER_POST_LIST_CONFIG } from "../lib/helper";
+import PostActionsMenu from "./PostActionsMenu";
+import PostHeader from "./PostHeader";
+const cfg = BLOGGER_POST_LIST_CONFIG.draft;
 
 const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-5">
-      <div className="mb-3">
-        <Header as="h2" size="sm">
-          Drafts
-        </Header>
-        <P className="text-slate-500">
-          Posts that are not yet visible to the public.
-        </P>
-      </div>
+      <PostHeader
+        title={cfg.title}
+        rtlTitle={cfg.rtlTitle}
+        description={cfg.description}
+        rtlDescription={cfg.rtlDescription}
+      />
 
       {drafts.length === 0 ? (
-        <P className="text-slate-500" size="sm">
-          You don&apos;t have any drafts yet.
-        </P>
+        <div>
+          <P className="text-slate-500" size="sm">
+            {cfg.empty}
+          </P>
+          <P className="text-slate-500" size="sm">
+            {cfg.rtlEmpty}
+          </P>
+        </div>
       ) : (
         <div className="space-y-3">
           {drafts.map((post) => {
@@ -31,15 +37,23 @@ const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
                 className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-3 text-sm"
                 dir={isRTL ? "rtl" : "ltr"}
               >
-                <Header
-                  as="h4"
-                  size="xs"
-                  className={`font-semibold text-slate-900 ${
-                    isRTL ? "text-right" : "text-left"
-                  }`}
-                >
-                  {post.title}
-                </Header>
+                <div className="flex items-start justify-between">
+                  <Header
+                    as="h4"
+                    size="xs"
+                    className={`font-semibold text-slate-900 ${
+                      isRTL ? "text-right" : "text-left"
+                    }`}
+                  >
+                    {post.title}
+                  </Header>
+
+                  <PostActionsMenu
+                    isRTL={isRTL}
+                    postId={post.id}
+                    slug={post.slug}
+                  />
+                </div>
 
                 <P
                   className="mt-0.5 text-xs uppercase tracking-wide text-slate-600"
@@ -54,30 +68,6 @@ const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
                     {post.updatedAt}
                   </span>
                 </P>
-
-                <div
-                  className={`mt-3 flex gap-2 ${
-                    isRTL ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <Button
-                    as="link"
-                    variant="outline"
-                    size="xs"
-                    href={`/blog/myposts/edit/${post.id}`}
-                  >
-                    {isRTL ? "ویرایش" : "Edit Draft"}
-                  </Button>
-
-                  <Button
-                    as="link"
-                    variant="outline"
-                    size="xs"
-                    href={`/blog/${post.slug}`}
-                  >
-                    {isRTL ? "پیش‌نمایش" : "Preview"}
-                  </Button>
-                </div>
               </article>
             );
           })}

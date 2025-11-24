@@ -1,8 +1,12 @@
-import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/helper";
 import type { BloggerPostListRow } from "../lib/data";
+import { BLOGGER_POST_LIST_CONFIG } from "../lib/helper";
+import PostHeader from "./PostHeader";
+import PostActionsMenu from "./PostActionsMenu";
+
+const cfg = BLOGGER_POST_LIST_CONFIG.archived;
 
 export default function ArchivedPosts({
   archived,
@@ -11,19 +15,18 @@ export default function ArchivedPosts({
 }) {
   return (
     <section className="rounded-xl border border-red-200 bg-red-50/60 p-5">
-      <div className="mb-3">
-        <Header as="h2" size="sm">
-          Archived
-        </Header>
-        <P className="text-xs text-red-700">
-          Posts that are hidden from the public but kept for your records.
-        </P>
-      </div>
+      <PostHeader
+        title={cfg.title}
+        rtlTitle={cfg.rtlTitle}
+        description={cfg.description}
+        rtlDescription={cfg.rtlDescription}
+      />
 
       {archived.length === 0 ? (
-        <P className="text-sm text-red-800">
-          You don&apos;t have any archived posts.
-        </P>
+        <div>
+          <P className="text-sm text-red-800">{cfg.empty}</P>
+          <P className="text-sm text-red-800">{cfg.rtlEmpty}</P>
+        </div>
       ) : (
         <div className="space-y-3">
           {archived.map((post) => {
@@ -35,15 +38,23 @@ export default function ArchivedPosts({
                 className="rounded-lg border border-red-100 bg-white px-3 py-3 text-sm"
                 dir={isRTL ? "rtl" : "ltr"}
               >
-                <Header
-                  as="h4"
-                  size="xs"
-                  className={`font-semibold tex-gray-900 ${
-                    isRTL ? "text-right" : "text-left"
-                  }`}
-                >
-                  {post.title}
-                </Header>
+                         <div className="flex items-start justify-between">
+                                  <Header
+                                    as="h4"
+                                    size="xs"
+                                    className={`font-semibold text-slate-900 ${
+                                      isRTL ? "text-right" : "text-left"
+                                    }`}
+                                  >
+                                    {post.title}
+                                  </Header>
+                
+                                  <PostActionsMenu
+                                    isRTL={isRTL}
+                                    postId={post.id}
+                                    slug={post.slug}
+                                  />
+                                </div>
 
                 <P className="mt-0.5 text-xs uppercase tracking-wide text-gray-600">
                   {getCategoryLabel(post.category_id, isRTL)}
@@ -55,21 +66,6 @@ export default function ArchivedPosts({
                     {post.updatedAt}
                   </span>
                 </P>
-
-                <div
-                  className={`mt-3 flex gap-2 ${
-                    isRTL ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <Button
-                    as="link"
-                    size="xs"
-                    href={`/blog/myposts/edit/${post.id}`}
-                    variant="outline"
-                  >
-                    {isRTL ? "بازگردانی / ویرایش" : "Restore / Edit"}
-                  </Button>
-                </div>
               </article>
             );
           })}

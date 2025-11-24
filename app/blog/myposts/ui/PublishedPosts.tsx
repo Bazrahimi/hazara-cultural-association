@@ -1,25 +1,28 @@
-import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/helper";
 import type { BloggerPostListRow } from "../lib/data";
+import { BLOGGER_POST_LIST_CONFIG } from "../lib/helper";
+import PostActionsMenu from "./PostActionsMenu";
+import PostHeader from "./PostHeader";
+
+const cfg = BLOGGER_POST_LIST_CONFIG.published;
 
 const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
   return (
     <section className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-5">
-      <div className="mb-3">
-        <Header as="h2" size="sm">
-          Published
-        </Header>
-        <P className="text-xs text-emerald-700">
-          Posts currently live and visible on the website.
-        </P>
-      </div>
+      <PostHeader
+        title={cfg.title}
+        rtlTitle={cfg.rtlTitle}
+        description={cfg.description}
+        rtlDescription={cfg.rtlDescription}
+      />
 
       {published.length === 0 ? (
-        <P className="text-sm text-emerald-800">
-          You haven&apos;t published any posts yet.
-        </P>
+        <div>
+          <P className="text-sm text-emerald-800">{cfg.empty}</P>
+          <P className="text-sm text-emerald-800">{cfg.rtlEmpty}</P>
+        </div>
       ) : (
         <div className="space-y-3">
           {published.map((post) => {
@@ -31,18 +34,31 @@ const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
                 className="rounded-lg border border-emerald-100 bg-white px-3 py-3 text-sm"
                 dir={isRTL ? "rtl" : "ltr"}
               >
-                <Header
-                  as="h4"
-                  size="xs"
-                  className={`font-semibold text-gray-900 ${
-                    isRTL ? "text-right" : "text-left"
-                  }`}
-                >
-                  {post.title}
-                </Header>
+                <div className="flex items-start justify-between"></div>
+                <div className="flex items-start justify-between">
+                  <Header
+                    as="h4"
+                    size="xs"
+                    className={`font-semibold text-slate-900 ${
+                      isRTL ? "text-right" : "text-left"
+                    }`}
+                  >
+                    {post.title}
+                  </Header>
 
-                <P className="mt-0.5 uppercase tracking-wide text-gray-600" size="sm">
-                  {getCategoryLabel(post.category_id, isRTL)} 
+                  <PostActionsMenu
+                    isRTL={isRTL}
+                    postId={post.id}
+                    slug={post.slug}
+              
+                  />
+                </div>
+
+                <P
+                  className="mt-0.5 uppercase tracking-wide text-gray-600"
+                  size="sm"
+                >
+                  {getCategoryLabel(post.category_id, isRTL)}
                 </P>
 
                 <P className="mt-1 text-xs text-gray-400">
@@ -51,30 +67,6 @@ const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
                     {post.createdAt}
                   </span>
                 </P>
-
-                <div
-                  className={`mt-3 flex gap-2 ${
-                    isRTL ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <Button
-                    as="link"
-                    size="xs"
-                    href={`/blog/${post.slug}`}
-                    variant="outline"
-                  >
-                    {isRTL ? "مشاهده" : "View Live"}
-                  </Button>
-
-                  <Button
-                    as="link"
-                    href={`/blog/myposts/edit/${post.id}`}
-                    variant="outline"
-                    size="xs"
-                  >
-                    {isRTL ? "ویرایش" : "Edit"}
-                  </Button>
-                </div>
               </article>
             );
           })}
