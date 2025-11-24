@@ -2,26 +2,61 @@ export const CATEGORY_MAP = {
   1: {
     en: "news",
     rtl: "اخبار",
+    theme: {
+      icon: "📰",
+      label: "News",
+      from: "#1d4ed8",
+      to: "#0ea5e9",
+    },
   },
   2: {
     en: "Events",
     rtl: "برنامه و گردهمایی",
+    theme: {
+      icon: "📣",
+      label: "Events",
+      from: "#7c2d12",
+      to: "#f97316",
+    },
   },
   3: {
     en: "hazaristan",
     rtl: "هزارستان",
+    theme: {
+      icon: "⛰️",
+      label: "Hazaristan",
+      from: "#047857",
+      to: "#22c55e",
+    },
   },
   4: {
     en: "hazara persecution",
     rtl: "آزار و آزیت هزاره",
+    theme: {
+      icon: "🕯️",
+      label: "Persecution",
+      from: "#111827",
+      to: "#4b5563",
+    },
   },
   5: {
     en: "hope & freedom",
     rtl: "امید و آزادی",
+    theme: {
+      icon: "🌅",
+      label: "Hope & Freedom",
+      from: "#7c3aed",
+      to: "#ec4899",
+    },
   },
   99: {
     en: "external resources & references",
     rtl: "منابع و مطالب بیرونی",
+    theme: {
+      icon: "📚",
+      from: "#334155",
+      to: "#0f172a",
+    },
   },
 } as const;
 
@@ -116,3 +151,57 @@ export function getCategoryMeta(categoryId: number) {
     shortDesc: desc.shortDesc,
   };
 }
+
+function escapeSvgText(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+
+export const cardImgPlaceholder = (categoryId: CategoryId, isRTL: boolean) => {
+  const category = CATEGORY_MAP[categoryId];
+  if (!category) {
+    console.warn("Invalid categoryId:", categoryId);
+    return "";
+  }
+
+  const w = 800;
+  const h = 400;
+
+  const label = isRTL ? category.rtl : category.en;
+  const safeLabel = escapeSvgText(label);
+
+  const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="${category.theme.from}" />
+      <stop offset="100%" stop-color="${category.theme.to}" />
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#g)" rx="24" ry="24"/>
+
+  <circle cx="${w * 0.18}" cy="${h * 0.35}" r="${h * 0.35}" fill="rgba(255,255,255,0.10)" />
+  <circle cx="${w * 0.85}" cy="${h * 0.85}" r="${h * 0.35}" fill="rgba(15,23,42,0.22)" />
+
+  <text x="12%" y="48%" font-size="96" dominant-baseline="middle" text-anchor="middle">
+    ${category.theme.icon}
+  </text>
+
+  <text x="${isRTL ? "90%" : "30%"}"
+        y="${h * 0.32}"
+        text-anchor="${isRTL ? "end" : "start"}"
+        font-family="-apple-system, Segoe UI, Inter, system-ui, sans-serif"
+        font-weight="600"
+        font-size="26"
+        fill="#e5e7eb">
+    ${safeLabel}
+  </text>
+</svg>
+`;
+
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+};

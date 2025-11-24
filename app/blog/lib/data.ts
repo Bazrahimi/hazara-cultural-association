@@ -54,11 +54,12 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
   return post;
 }
 
-type BlogPostCard = {
+export type BlogPostCard = {
   id: number;
   title: string;
   slug: string;
   hero_img_path: string | null;
+  category_id: number;
   is_rtl: boolean;
   authorName: string;
 };
@@ -73,6 +74,7 @@ export async function getFeaturedPostsByCategory(
       p.title,
       p.slug,
       p.hero_img_path,
+      p.category_id,
       p.is_rtl,
       CONCAT_WS(' ', up.first_name, up.last_name) AS "authorName"
 
@@ -100,6 +102,7 @@ export async function getPublishedPostsByCategory(
       p.title,
       p.slug,
       p.hero_img_path,
+      p.category_id,
       p.is_rtl,
       CONCAT_WS(' ', up.first_name, up.last_name) AS "authorName"
 
@@ -126,6 +129,7 @@ export async function getPublishedPostsByAuthor(
       p.title,
       p.slug,
       p.hero_img_path,
+      p.category_id,
       p.is_rtl,
       CONCAT_WS(' ', up.first_name, up.last_name) AS "authorName"
 

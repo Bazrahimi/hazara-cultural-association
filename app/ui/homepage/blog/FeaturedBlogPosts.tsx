@@ -5,7 +5,6 @@ import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/lib/helper";
 import BlogPostCard from "@/app/blog/ui/BlogPostCard";
 import { Header } from "@/app/ui/global/Header";
 import Link from "next/link";
-import { Button } from "../../global/components";
 import { P } from "../../global/paragraph";
 
 // Dynamically derive category IDs from CATEGORY_MAP (sorted 1..5,99)
@@ -43,7 +42,7 @@ const FeaturedBlogPosts = async () => {
           if (!meta) return null;
 
           // Category listing page link (your dynamic category route)
-          const categoryLink = `/blog/p/${categoryId}`;
+          // const categoryLink = `/blog/p/${categoryId}`;
 
           // Split into main cards (first 4) + extra posts (next 4)
           const mainPosts = posts.slice(0, 4);
@@ -78,7 +77,10 @@ const FeaturedBlogPosts = async () => {
               {/* Main cards (first row) */}
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {mainPosts.map((post) => (
-                  <BlogPostCard key={post.id} post={post} />
+                  <BlogPostCard
+                    key={post.id}
+                    post={post}
+                  />
                 ))}
               </div>
 

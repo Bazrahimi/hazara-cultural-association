@@ -3,32 +3,32 @@
 import { cldCardHeroAuto } from "@/app/lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
-import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import Link from "next/link";
+import type { BlogPostCard } from "../lib/data";
+import { cardImgPlaceholder, CategoryId } from "../lib/helper";
 
 type BlogPostCardProps = {
-  post: {
-    id: number;
-    slug: string;
-    title: string;
-    hero_img_path: string | null;
-    is_rtl: boolean;
-    authorName: string;
-  };
+  post: BlogPostCard;
 };
+
+// ----- Card component -----
 
 const BlogPostCard = ({ post }: BlogPostCardProps) => {
   const isRTL = post.is_rtl;
 
-  const byLabel = isRTL ? "نتشر شده توسط" : "Published by";
+  const byLabel = isRTL ? "منتشر شده توسط" : "Published by";
   const fallbackAuthor = "Unknown";
+  const ctaText = isRTL ? "مطلب و مقاله را کامل بخوانید" : "Read Full Article";
 
-  const ctaText = isRTL ? "مطلب و مقاله را کامل بیخوانید" : "Read Full Article";
+  const placeholderSrc = cardImgPlaceholder(
+    post.category_id as CategoryId,
+
+    isRTL
+  );
 
   return (
     <Link
-      key={post.id}
       href={`/blog/${post.slug}`}
       className="group overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
     >
@@ -51,7 +51,7 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
           </p>
         </div>
 
-        {/* Bottom: media block anchored to the bottom of the card */}
+        {/* Bottom: media block */}
         <div className="relative mt-auto h-44 w-full overflow-hidden">
           {post.hero_img_path ? (
             <>
@@ -63,20 +63,28 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
                 placeholder="blur"
                 blurDataURL={IMAGE_DEFAULT_BLUR}
               />
-
-              {/* Dark overlay bar with centered CTA at bottom */}
-              <div className="absolute inset-x-0 bottom-0 bg-black/40 backdrop-blur-sm px-3 py-2 flex items-center justify-center">
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-black/40 px-3 py-2 backdrop-blur-sm">
                 <span className="text-xs font-semibold text-white text-center">
                   {ctaText}
                 </span>
               </div>
             </>
           ) : (
-            // Grey placeholder: CTA sits toward the bottom, not center
-            <div className="flex h-full w-full flex-col justify-end bg-gray-300 px-3 pb-3">
-      
-              <P className="text-center font-semibold text-blue-600 mb-15 hover:text-blue-800">{ctaText}</P>
-            </div>
+            <>
+              {/* Category-based SVG poster */}
+              <Image
+                src={placeholderSrc}
+                alt={post.title}
+                fill
+                className="object-cover"
+                unoptimized
+              />
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-black/35 px-3 py-2 backdrop-blur-sm">
+                <span className="text-xs font-semibold text-white text-center">
+                  {ctaText}
+                </span>
+              </div>
+            </>
           )}
         </div>
       </article>
