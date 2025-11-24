@@ -111,6 +111,7 @@ export function getCategoryMeta(categoryId: number) {
   return {
     id: categoryId,
     heading: capitalizeCat(base.en),
+    rtlHeading: base.rtl,
     fullDesc: desc.fullDesc,
     shortDesc: desc.shortDesc,
   };

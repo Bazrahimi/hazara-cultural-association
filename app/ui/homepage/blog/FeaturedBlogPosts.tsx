@@ -54,21 +54,25 @@ const FeaturedBlogPosts = async () => {
               {/* Section heading + short description + "More Posts" button */}
               <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                 <div>
-                  <Header as="h3" size="sm">
-                    {meta.heading}
-                  </Header>
+                  <div className="flex items-center justify-between mb-3">
+                    {/* English heading (left side) */}
+                    <Header as="h3" size="sm" className="text-blue-900">
+                      {meta.heading}
+                    </Header>
+
+                    <Header
+                      as="h3"
+                      size="sm"
+                      className="text-blue-900"
+                      dir="rtl"
+                    >
+                      {meta.rtlHeading}
+                    </Header>
+                  </div>
                   {meta.shortDesc && (
                     <P className="text-sm text-gray-600">{meta.shortDesc}</P>
                   )}
                 </div>
-                <Button
-                  as="link"
-                  href={categoryLink}
-                  size="sm"
-                  variant="outline"
-                >
-                  More Posts →
-                </Button>
               </div>
 
               {/* Main cards (first row) */}
@@ -98,6 +102,10 @@ const FeaturedBlogPosts = async () => {
                   </ul>
                 </div>
               )}
+
+              {/* <Button as="link" href={categoryLink} size="sm" variant="outline">
+                More Posts →
+              </Button> */}
 
               {/* Divider between categories (works whether or not extra posts exist) */}
               {categoryId !== CATEGORY_IDS[CATEGORY_IDS.length - 1] && (
