@@ -1,10 +1,19 @@
-export type BlogPost = {
+export type BlogPostCard = {
   id: number;
   title: string;
   slug: string;
-  status: "draft" | "scheduled" | "published" | "archived";
+  hero_img_path: string | null;
   category_id: number;
-  createdAt: string; // or Date, depending on your db client
-  updatedAt: string;
   is_rtl: boolean;
+  authorName: string;
+};
+
+export type BlogPostDetail = BlogPostCard & {
+  content_html: string;
+  status: "draft" | "archived" | "published";
+  event_date: string | null;
+  event_location: string | null;
+  is_featured: boolean;
+  publishedAt: string | null;
+  authorId: number;
 };
