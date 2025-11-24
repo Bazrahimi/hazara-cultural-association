@@ -20,7 +20,7 @@ export default async function PostsWrapper({
   const archived = posts.filter((p) => p.status === "archived");
 
   return (
-    <div className="grid gap-6 md:grid-cols-3">
+    <div className="grid gap-6 md:grid-cols-2">
       <DraftPosts drafts={drafts} />
       <PublishedPosts published={published} />
       <ArchivedPosts archived={archived} />

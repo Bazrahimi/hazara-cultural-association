@@ -1,7 +1,8 @@
 import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
+import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/helper";
-import { BloggerPostListRow } from "../lib/data";
+import type { BloggerPostListRow } from "../lib/data";
 
 const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
   return (
@@ -10,15 +11,15 @@ const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
         <Header as="h2" size="sm">
           Drafts
         </Header>
-        <p className="text-xs text-slate-500">
+        <P className="text-slate-500">
           Posts that are not yet visible to the public.
-        </p>
+        </P>
       </div>
 
       {drafts.length === 0 ? (
-        <p className="text-sm text-slate-500">
+        <P className="text-slate-500" size="sm">
           You don&apos;t have any drafts yet.
-        </p>
+        </P>
       ) : (
         <div className="space-y-3">
           {drafts.map((post) => {
@@ -30,26 +31,29 @@ const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
                 className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-3 text-sm"
                 dir={isRTL ? "rtl" : "ltr"}
               >
-                <h3
+                <Header
+                  as="h4"
+                  size="xs"
                   className={`font-semibold text-slate-900 ${
                     isRTL ? "text-right" : "text-left"
                   }`}
                 >
                   {post.title}
-                </h3>
+                </Header>
 
-                {/* Category label using CATEGORY_MAP */}
-                <p className="mt-0.5 text-xs uppercase tracking-wide text-slate-500">
-                  {getCategoryLabel(post.category_id, isRTL)} • Draft
-                </p>
+                <P
+                  className="mt-0.5 text-xs uppercase tracking-wide text-slate-600"
+                  size="sm"
+                >
+                  {getCategoryLabel(post.category_id, isRTL)}
+                </P>
 
-                {/* Keep date LTR regardless of direction */}
-                <p className="mt-1 text-xs text-slate-500">
+                <P className="mt-1 text-slate-500" size="sm">
                   Last updated:{" "}
                   <span className="inline-block" dir="ltr">
                     {post.updatedAt}
                   </span>
-                </p>
+                </P>
 
                 <div
                   className={`mt-3 flex gap-2 ${

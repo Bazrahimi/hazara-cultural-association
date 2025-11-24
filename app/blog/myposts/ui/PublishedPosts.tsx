@@ -1,5 +1,6 @@
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
+import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/helper";
 import type { BloggerPostListRow } from "../lib/data";
 
@@ -10,15 +11,15 @@ const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
         <Header as="h2" size="sm">
           Published
         </Header>
-        <p className="text-xs text-emerald-700">
+        <P className="text-xs text-emerald-700">
           Posts currently live and visible on the website.
-        </p>
+        </P>
       </div>
 
       {published.length === 0 ? (
-        <p className="text-sm text-emerald-800">
+        <P className="text-sm text-emerald-800">
           You haven&apos;t published any posts yet.
-        </p>
+        </P>
       ) : (
         <div className="space-y-3">
           {published.map((post) => {
@@ -30,29 +31,27 @@ const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
                 className="rounded-lg border border-emerald-100 bg-white px-3 py-3 text-sm"
                 dir={isRTL ? "rtl" : "ltr"}
               >
-                {/* Title */}
-                <h3
-                  className={`font-semibold text-emerald-900 ${
+                <Header
+                  as="h4"
+                  size="xs"
+                  className={`font-semibold text-gray-900 ${
                     isRTL ? "text-right" : "text-left"
                   }`}
                 >
                   {post.title}
-                </h3>
+                </Header>
 
-                {/* Category label */}
-                <p className="mt-0.5 text-xs uppercase tracking-wide text-emerald-600">
-                  {getCategoryLabel(post.category_id, isRTL)} • Published
-                </p>
+                <P className="mt-0.5 uppercase tracking-wide text-gray-600" size="sm">
+                  {getCategoryLabel(post.category_id, isRTL)} 
+                </P>
 
-                {/* Published Date (always LTR) */}
-                <p className="mt-1 text-xs text-emerald-700">
+                <P className="mt-1 text-xs text-gray-400">
                   {isRTL ? "منتشر شده در: " : "Published on:"}{" "}
                   <span dir="ltr" className="inline-block">
                     {post.createdAt}
                   </span>
-                </p>
+                </P>
 
-                {/* Buttons */}
                 <div
                   className={`mt-3 flex gap-2 ${
                     isRTL ? "justify-end" : "justify-start"
