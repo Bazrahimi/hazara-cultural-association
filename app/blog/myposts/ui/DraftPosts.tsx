@@ -52,6 +52,7 @@ const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
                     isRTL={isRTL}
                     postId={post.id}
                     slug={post.slug}
+                    status="draft"
                   />
                 </div>
 

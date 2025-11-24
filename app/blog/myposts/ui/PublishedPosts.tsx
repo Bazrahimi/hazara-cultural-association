@@ -50,7 +50,7 @@ const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
                     isRTL={isRTL}
                     postId={post.id}
                     slug={post.slug}
-              
+                    status="published"
                   />
                 </div>
 

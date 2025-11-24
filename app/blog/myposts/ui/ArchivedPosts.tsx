@@ -3,8 +3,8 @@ import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/helper";
 import type { BloggerPostListRow } from "../lib/data";
 import { BLOGGER_POST_LIST_CONFIG } from "../lib/helper";
-import PostHeader from "./PostHeader";
 import PostActionsMenu from "./PostActionsMenu";
+import PostHeader from "./PostHeader";
 
 const cfg = BLOGGER_POST_LIST_CONFIG.archived;
 
@@ -38,23 +38,24 @@ export default function ArchivedPosts({
                 className="rounded-lg border border-red-100 bg-white px-3 py-3 text-sm"
                 dir={isRTL ? "rtl" : "ltr"}
               >
-                         <div className="flex items-start justify-between">
-                                  <Header
-                                    as="h4"
-                                    size="xs"
-                                    className={`font-semibold text-slate-900 ${
-                                      isRTL ? "text-right" : "text-left"
-                                    }`}
-                                  >
-                                    {post.title}
-                                  </Header>
-                
-                                  <PostActionsMenu
-                                    isRTL={isRTL}
-                                    postId={post.id}
-                                    slug={post.slug}
-                                  />
-                                </div>
+                <div className="flex items-start justify-between">
+                  <Header
+                    as="h4"
+                    size="xs"
+                    className={`font-semibold text-slate-900 ${
+                      isRTL ? "text-right" : "text-left"
+                    }`}
+                  >
+                    {post.title}
+                  </Header>
+
+                  <PostActionsMenu
+                    isRTL={isRTL}
+                    postId={post.id}
+                    slug={post.slug}
+                    status="archived"
+                  />
+                </div>
 
                 <P className="mt-0.5 text-xs uppercase tracking-wide text-gray-600">
                   {getCategoryLabel(post.category_id, isRTL)}
