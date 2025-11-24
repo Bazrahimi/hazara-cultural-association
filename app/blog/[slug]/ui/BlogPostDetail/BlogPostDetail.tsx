@@ -1,5 +1,5 @@
 // app/blog/[slug]/ui/BlogPostDetail.tsx
-import type { BlogPostDetail } from "@/app/blog/lib/data";
+import type { PostDetailRow } from "@/app/blog/lib/definitions";
 import { Header } from "@/app/ui/global/Header";
 import Link from "next/link";
 import { ManagePostControls } from "../ManagePostControls";
@@ -10,7 +10,7 @@ import { getCategoryLabel } from "../../../lib/helper";
 import ContentSection from "./ContentSection";
 
 type BlogPostDetailProps = {
-  post: BlogPostDetail;
+  post: PostDetailRow;
   canManage: boolean;
 };
 

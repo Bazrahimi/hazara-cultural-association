@@ -1,9 +1,9 @@
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
-import { BlogPost } from "../../lib/definitions";
 import { getCategoryLabel } from "../../lib/helper";
+import type { BloggerPostListRow } from "../lib/data";
 
-const PublishedPosts = ({ published }: { published: BlogPost[] }) => {
+const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
   return (
     <section className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-5">
       <div className="mb-3">

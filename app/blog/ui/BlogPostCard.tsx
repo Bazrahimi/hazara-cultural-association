@@ -5,11 +5,11 @@ import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
 import Link from "next/link";
-import type { BlogPostCard } from "../lib/data";
+import type { PostCardRow } from "../lib/definitions";
 import { cardImgPlaceholder, CategoryId } from "../lib/helper";
 
 type BlogPostCardProps = {
-  post: BlogPostCard;
+  post: PostCardRow;
 };
 
 // ----- Card component -----

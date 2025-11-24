@@ -15,9 +15,7 @@ export default async function PostsWrapper({
 
   if (posts.length === 0) return <NullPost />;
 
-  const drafts = posts.filter(
-    (p) => p.status === "draft" || p.status === "scheduled"
-  );
+  const drafts = posts.filter((p) => p.status === "draft");
   const published = posts.filter((p) => p.status === "published");
   const archived = posts.filter((p) => p.status === "archived");
 

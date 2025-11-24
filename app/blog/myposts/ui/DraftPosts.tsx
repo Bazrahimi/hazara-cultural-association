@@ -1,9 +1,9 @@
 import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
-import { BlogPost } from "../../lib/definitions";
 import { getCategoryLabel } from "../../lib/helper";
+import { BloggerPostListRow } from "../lib/data";
 
-const DraftPosts = ({ drafts }: { drafts: BlogPost[] }) => {
+const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-5">
       <div className="mb-3">

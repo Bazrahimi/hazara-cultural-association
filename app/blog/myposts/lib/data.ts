@@ -1,5 +1,11 @@
+import type { PostCardRow, PostStatus } from "@/app/blog/lib/definitions";
 import { sql } from "@/app/lib/db";
-import type { BlogPost } from "../../lib/definitions";
+
+export type BloggerPostListRow = Omit <PostCardRow, "authorName" | "hero_img_path"> & {
+  status: PostStatus;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export const getBlogPosts = async ({
   userId,
@@ -8,16 +14,15 @@ export const getBlogPosts = async ({
   userId: number;
   isAdmin: boolean;
 }) => {
-  const posts = await sql<BlogPost[]>`
+  const posts = await sql<BloggerPostListRow[]>`
     SELECT
       id,
-      user_id,
       title,
       slug,
       status,
       category_id,
       is_rtl,
-      to_char(created_at, 'DD MON YYY') AS "createdAt",
+      to_char(created_at, 'DD MON YYYY') AS "createdAt",
       to_char(updated_at, 'DD MON YYYY') AS "updatedAt"
     FROM blog_posts
     ${isAdmin ? sql`` : sql`WHERE user_id = ${userId}`}
@@ -26,4 +31,3 @@ export const getBlogPosts = async ({
 
   return posts;
 };
-

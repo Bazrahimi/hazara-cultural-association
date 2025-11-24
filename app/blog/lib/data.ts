@@ -1,15 +1,15 @@
 // app/blog/lib/data.ts
 import { sql, SqlFragment } from "@/app/lib/db";
 import { notFound } from "next/navigation";
-import type { BlogPostCard, BlogPostDetail } from "./definitions";
+import type { PostCardRow, PostDetailRow } from "./definitions";
 
-type BlogPostCardRow = BlogPostCard;
+
 
 async function getPostsWithWhere(
   whereFragment: SqlFragment,
   limit: number
-): Promise<BlogPostCardRow[]> {
-  return sql<BlogPostCardRow[]>`
+): Promise<PostCardRow[]> {
+  return sql<PostCardRow[]>`
     SELECT
       p.id,
       p.title,
@@ -28,8 +28,8 @@ async function getPostsWithWhere(
   `;
 }
 
-export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
-  const rows = await sql<BlogPostDetail[]>`
+export async function getBlogPostBySlug(slug: string): Promise<PostDetailRow> {
+  const rows = await sql<PostDetailRow[]>`
     SELECT
       p.id,
       p.title,
@@ -66,7 +66,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail> {
 export async function getFeaturedPostsByCategory(
   categoryId: number,
   limit: number = 4
-): Promise<BlogPostCard[]> {
+): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
       p.status = 'published'
@@ -80,7 +80,7 @@ export async function getFeaturedPostsByCategory(
 export async function getPublishedPostsByCategory(
   categoryId: number,
   limit: number = 20
-): Promise<BlogPostCard[]> {
+): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
       p.status = 'published'
@@ -93,7 +93,7 @@ export async function getPublishedPostsByCategory(
 export async function getPublishedPostsByAuthor(
   authorId: number,
   limit: number = 20
-): Promise<BlogPostCard[]> {
+): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
       p.status = 'published'

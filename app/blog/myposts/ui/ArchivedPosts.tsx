@@ -1,10 +1,12 @@
 
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
-import { BlogPost } from "../../lib/definitions";
+import {  } from "../../lib/definitions";
+import type { BloggerPostListRow } from "../lib/data";
+
 import { getCategoryLabel } from "../../lib/helper";
 
-export default function ArchivedPosts({ archived }: { archived: BlogPost[] }) {
+export default function ArchivedPosts({ archived }: { archived: BloggerPostListRow[] }) {
   return (
     <section className="rounded-xl border border-red-200 bg-red-50/60 p-5">
       <div className="mb-3">

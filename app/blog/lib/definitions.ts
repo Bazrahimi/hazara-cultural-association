@@ -1,4 +1,4 @@
-export type BlogPostCard = {
+export type PostCardRow = {
   id: number;
   title: string;
   slug: string;
@@ -8,9 +8,11 @@ export type BlogPostCard = {
   authorName: string;
 };
 
-export type BlogPostDetail = BlogPostCard & {
+export type PostStatus = "draft" | "archived" | "published";
+
+export type PostDetailRow = PostCardRow & {
   content_html: string;
-  status: "draft" | "archived" | "published";
+  status: PostStatus;
   event_date: string | null;
   event_location: string | null;
   is_featured: boolean;
