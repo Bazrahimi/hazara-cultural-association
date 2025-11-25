@@ -7,6 +7,7 @@ import { decrypt } from "./lib/session";
 
 import "./globals.css";
 
+import { NotificationCenter } from "./blog/ui/NotificationCenter";
 import NavBar from "./Navbar";
 import { CartProvider } from "./shop/ui/cart/CartContext";
 import Footer from "./ui/Footer";
@@ -83,6 +84,8 @@ export default async function RootLayout({
           <main className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             {children}
           </main>
+
+          <NotificationCenter />
         </CartProvider>
 
         <Footer />

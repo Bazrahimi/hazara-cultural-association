@@ -18,5 +18,7 @@ export const delay = async (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-export const BLOG_TOAST_KEY = "blog-toast";
+export const NOTIFICATION_KEY = "app-toast";
+export const NOTIFICATION_EVENT = "app-toast-event";
+
 

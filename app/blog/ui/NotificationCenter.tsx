@@ -1,59 +1,56 @@
+// app/ui/NotificationCenter.tsx (for example)
 "use client";
 
+import { NOTIFICATION_EVENT, NOTIFICATION_KEY } from "@/app/lib/helper";
+import type { ActionNotificationState } from "@/app/lib/hooks/useActionNotification";
 import { useEffect, useState } from "react";
-import { BLOG_TOAST_KEY } from "@/app/lib/helper";
 
-type BlogToast = {
-  message: string;
-  ok: boolean;
-  ts: number;
-};
+type NotificationPayload = ActionNotificationState;
 
-export function BlogNotificationCenter() {
-  const [toast, setToast] = useState<BlogToast | null>(null);
+export function NotificationCenter() {
+  const [toast, setToast] = useState<NotificationPayload | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     function loadFromStorage() {
-      const raw = window.localStorage.getItem(BLOG_TOAST_KEY);
+      const raw = window.localStorage.getItem(NOTIFICATION_KEY);
       if (!raw) return;
 
       try {
-        const parsed = JSON.parse(raw) as BlogToast;
+        const parsed = JSON.parse(raw) as NotificationPayload;
         setToast(parsed);
         // Clear it so it doesn't show again on next load
-        window.localStorage.removeItem(BLOG_TOAST_KEY);
+        window.localStorage.removeItem(NOTIFICATION_KEY);
       } catch {
         // ignore parse errors
       }
     }
 
-    // 1) On mount, check if something was left in storage
+    // On mount
     loadFromStorage();
 
-    // 2) Listen for custom event from PostActionsMenu
     function handleToastEvent() {
       loadFromStorage();
     }
 
-    window.addEventListener("blog-toast", handleToastEvent);
+    window.addEventListener(NOTIFICATION_EVENT, handleToastEvent);
 
-    // Optional: react to cross-tab updates too
     function handleStorage(e: StorageEvent) {
-      if (e.key === BLOG_TOAST_KEY) {
+      if (e.key === NOTIFICATION_KEY) {
         loadFromStorage();
       }
     }
+
     window.addEventListener("storage", handleStorage);
 
     return () => {
-      window.removeEventListener("blog-toast", handleToastEvent);
+      window.removeEventListener(NOTIFICATION_EVENT, handleToastEvent);
       window.removeEventListener("storage", handleStorage);
     };
   }, []);
 
-  // Auto-hide after 3 seconds
+  // Auto-hide after 10s
   useEffect(() => {
     if (!toast) return;
 

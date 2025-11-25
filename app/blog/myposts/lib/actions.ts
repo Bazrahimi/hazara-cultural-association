@@ -3,16 +3,7 @@
 import { sql } from "@/app/lib/db";
 import { revalidatePath } from "next/cache";
 import { PostActionState } from "./definitions";
-
-function parsePostId(formData: FormData): number | null {
-  const rawId = formData.get("postId");
-  if (!rawId) return null;
-
-  const postId = Number(rawId);
-  if (!Number.isInteger(postId) || postId <= 0) return null;
-
-  return postId;
-}
+import { parsePostId, postFailure, postSuccess } from "./helper";
 
 // FEATURE TOGGLE
 export const featurePostAction = async (
@@ -20,9 +11,7 @@ export const featurePostAction = async (
   formData: FormData
 ): Promise<PostActionState> => {
   const postId = parsePostId(formData);
-  if (!postId) {
-    return { ok: false, message: "Invalid post ID." };
-  }
+  if (!postId) return postFailure("Invalid post ID.");
 
   try {
     // Read old state
@@ -38,18 +27,17 @@ export const featurePostAction = async (
     `;
 
     // Revalidate screens
-    revalidatePath("/");
-    revalidatePath("/blog/myposts");
+    // revalidatePath("/");
+    // revalidatePath("/blog/myposts");
 
-    return {
-      ok: true,
-      message: wasFeatured
-        ? "Removed from homepage."
-        : "Published to homepage.",
-    };
+    // TODO: Explain the main cause that towast 
+
+    return postSuccess(
+      wasFeatured ? "Removed from homepage." : "Published to homepage."
+    );
   } catch (err) {
     console.error("Failed to toggle featured", err);
-    return { ok: false, message: "Database error." };
+    return postFailure("Database error");
   }
 };
 
@@ -59,16 +47,17 @@ export async function publishPostAction(
   formData: FormData
 ): Promise<PostActionState> {
   const postId = parsePostId(formData);
-  if (!postId) return { ok: false, message: "Invalid post ID." };
+  if (!postId) return postFailure("Invalid post ID.");
 
   try {
     await sql`UPDATE blog_posts SET status = 'published' WHERE id = ${postId}`;
+    revalidatePath("/");
     revalidatePath("/blog/myposts");
 
-    return { ok: true, message: "Post published." };
+    return postSuccess("Post published.");
   } catch (err) {
     console.error("Failed to publish post", err);
-    return { ok: false, message: "Database error." };
+    return postFailure("Database error.");
   }
 }
 
@@ -78,16 +67,16 @@ export async function archivePostAction(
   formData: FormData
 ): Promise<PostActionState> {
   const postId = parsePostId(formData);
-  if (!postId) return { ok: false, message: "Invalid post ID." };
+  if (!postId) return postFailure("Invalid post ID.");
 
   try {
     await sql`UPDATE blog_posts SET status = 'archived' WHERE id = ${postId}`;
     revalidatePath("/blog/myposts");
 
-    return { ok: true, message: "Post archived." };
+    return postSuccess("Post archived.");
   } catch (err) {
     console.error("Failed to archive post", err);
-    return { ok: false, message: "Database error." };
+    return postFailure("Database error.");
   }
 }
 
@@ -97,15 +86,15 @@ export async function deletePostAction(
   formData: FormData
 ): Promise<PostActionState> {
   const postId = parsePostId(formData);
-  if (!postId) return { ok: false, message: "Invalid post ID." };
+  if (!postId) return postFailure("Invalid post ID.");
 
   try {
     await sql`DELETE FROM blog_posts WHERE id = ${postId}`;
     revalidatePath("/blog/myposts");
 
-    return { ok: true, message: "Post deleted permanently." };
+    return postSuccess("Post deleted permanently.");
   } catch (err) {
     console.error("Failed to delete post", err);
-    return { ok: false, message: "Database error." };
+    return postFailure("Database error.");
   }
 }

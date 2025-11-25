@@ -1,3 +1,4 @@
+import type { PostActionState } from "./definitions";
 export const BLOGGER_POST_LIST_CONFIG = {
   draft: {
     title: "Drafts",
@@ -66,3 +67,27 @@ export const BLOGGER_POST_LIST_CONFIG = {
 } as const;
 
 export type PostListType = keyof typeof BLOGGER_POST_LIST_CONFIG;
+
+export const parsePostId = (formData: FormData): number | null => {
+  const rawId = formData.get("postId");
+  if (!rawId) return null;
+
+  const postId = Number(rawId);
+  if (!Number.isInteger(postId) || postId <= 0) return null;
+
+  return postId;
+};
+
+export const postFailure = (
+  message: string,
+  extra: Partial<Omit<PostActionState, "ok" | "message" | "ts">> = {}
+): PostActionState => {
+  return { ok: false, message, ts: Date.now(), ...extra };
+};
+
+export const postSuccess = (
+  message: string,
+  extra: Partial<Omit<PostActionState, "ok" | "message" | "ts">> = {}
+): PostActionState => {
+  return { ok: true, message, ts: Date.now(), ...extra };
+};

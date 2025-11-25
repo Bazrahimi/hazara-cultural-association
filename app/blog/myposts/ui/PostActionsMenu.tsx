@@ -5,13 +5,15 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import type { PostStatus } from "../../lib/definitions";
 
-import { BLOG_TOAST_KEY } from "@/app/lib/helper";
+import { NOTIFICATION_EVENT, NOTIFICATION_KEY } from "@/app/lib/helper";
+import { useNotification } from "@/app/lib/hooks/useActionNotification";
 import {
   archivePostAction,
   deletePostAction,
   featurePostAction,
   publishPostAction,
 } from "../lib/actions";
+import { PostActionState } from "../lib/definitions";
 
 type Props = {
   isRTL: boolean;
@@ -32,15 +34,15 @@ export default function PostActionsMenu({
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   // Server action states
-  const [publishState, publishAction, publishing] = useActionState(
+  const [, publishAction, publishing] = useActionState(
     publishPostAction,
     undefined
   );
-  const [archiveState, archiveAction, archiving] = useActionState(
+  const [, archiveAction, archiving] = useActionState(
     archivePostAction,
     undefined
   );
-  const [deleteState, deleteAction, deleting] = useActionState(
+  const [, deleteAction, deleting] = useActionState(
     deletePostAction,
     undefined
   );
@@ -60,31 +62,18 @@ export default function PostActionsMenu({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const actionStates = [publishState, archiveState, deleteState, featureState];
+  useNotification<PostActionState>([featureState], {
+    storageKey: NOTIFICATION_KEY,
+    eventName: NOTIFICATION_EVENT,
+  });
 
-  const lastState = actionStates
-    .filter((s): s is { ok: boolean; message: string; ts: number } =>
-      Boolean(s)
-    )
-    .sort((a, b) => a.ts - b.ts)
-    .at(-1);
-
+  // Close menu ONLY when feature toggle succeeds
   useEffect(() => {
-    if (!lastState) return;
-
-    if (typeof window !== "undefined") {
-      const payload = {
-        message: lastState.message,
-        ok: lastState.ok,
-        ts: lastState.ts,
-      };
-
-      window.localStorage.setItem(BLOG_TOAST_KEY, JSON.stringify(payload));
-      window.dispatchEvent(new Event("blog-toast"));
+    if (!featureState) return;
+    if (featureState.ok) {
+      setOpen(false);
     }
-
-    if (lastState.ok) setOpen(false);
-  }, [lastState]);
+  }, [featureState]);
 
   return (
     <div ref={rootRef} className="relative inline-block">
