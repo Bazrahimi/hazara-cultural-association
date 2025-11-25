@@ -116,7 +116,7 @@ export const changePassword = async (
 export const auth = async (
   _prevState: AuthState | undefined,
   formData: FormData
-): Promise<AuthState> => {
+): Promise<AuthState | undefined> => {
   const rawEmail = String(formData.get("email") ?? "");
   const rawPassword = String(formData.get("password") ?? "");
 
@@ -197,7 +197,7 @@ export const auth = async (
         requiresVerification: true,
         redirectTo: "/u/verify",
         data: { email },
-        message: "Email Verification is required.",
+        // message: "Email Verification is required.",
       };
     }
 

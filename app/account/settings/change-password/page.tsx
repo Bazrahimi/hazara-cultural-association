@@ -1,7 +1,6 @@
 // app/account/settings/change-password/page.tsx
 "use client";
 
-import { Button } from "@/app/ui/global/components";
 import { useActionState } from "react";
 
 import { Header } from "@/app/ui/global/Header";
@@ -12,6 +11,9 @@ import {
 import { Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 
+import { setNotification } from "@/app/u/ui/resend/setNotification";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { changePassword } from "../../../u/lib/action";
 
 const ChangePasswordPage = () => {
@@ -19,8 +21,20 @@ const ChangePasswordPage = () => {
     changePassword,
     undefined
   );
+  const router = useRouter();
 
   const isSuccess = Boolean(state?.ok);
+
+  useEffect(() => {
+    if (!state) return;
+    if (!state.ok) return;
+
+    // 1) fire notification
+    setNotification(state.message ?? "Your password has been updated.");
+
+    // 2) redirect to account
+    router.push("/account");
+  }, [state, router]);
 
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4 py-10 bg-gradient-to-b from-slate-50 to-white">
@@ -33,60 +47,48 @@ const ChangePasswordPage = () => {
           For security, please enter your current password and choose a new one.
         </P>
 
-        {isSuccess && (
-          <div className="space-y-6 text-center py-6">
-            <P className="mb-4 text-green-700 text-sm text-center">
-              ✅ {state?.message ?? "Your password has been updated."}
-            </P>
-            <Button fullWidth as="link" href="/account" className="mt-4">
-              Continue to your Account Dashboard
-            </Button>
-          </div>
-        )}
         {!isSuccess && (
+          <form action={formAction} noValidate className="space-y-4">
+            <Input
+              id="currentPassword"
+              type="password"
+              label="Current password"
+              placeholder="Enter your current password"
+              error={state?.errors?.currentPassword}
+              required
+            />
 
-        <form action={formAction} noValidate className="space-y-4">
-          <Input
-            id="currentPassword"
-            type="password"
-            label="Current password"
-            placeholder="Enter your current password"
-            error={state?.errors?.currentPassword}
-            required
-          />
+            <Input
+              id="newPassword"
+              type="password"
+              label="New password"
+              placeholder="Choose a new password"
+              error={state?.errors?.newPassword}
+              required
+            />
 
-          <Input
-            id="newPassword"
-            type="password"
-            label="New password"
-            placeholder="Choose a new password"
-            error={state?.errors?.newPassword}
-            required
-          />
+            <Input
+              id="confirmNewPassword"
+              type="password"
+              label="Confirm new password"
+              placeholder="Re-enter your new password"
+              error={state?.errors?.confirmNewPassword}
+              required
+            />
 
-          <Input
-            id="confirmNewPassword"
-            type="password"
-            label="Confirm new password"
-            placeholder="Re-enter your new password"
-            error={state?.errors?.confirmNewPassword}
-            required
-          />
+            <ActionButton
+              type="submit"
+              fullWidth
+              overlay
+              loadingText="Updating Password"
+              isLoading={isPending}
+            >
+              Update Password
+            </ActionButton>
 
-          <ActionButton
-            type="submit"
-            fullWidth
-            overlay
-            loadingText="Updating Password"
-            isLoading={isPending}
-          >
-            Update Password
-          </ActionButton>
-
-          <FormErrorMessage message={state?.message} />
-        </form>
+            <FormErrorMessage message={state?.message} />
+          </form>
         )}
-
       </div>
     </div>
   );
