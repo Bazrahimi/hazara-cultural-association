@@ -73,6 +73,7 @@ export async function verifyCodeAction(
   }
 
   await createSession(userId);
+  
   redirect("/account/settings/profile");
 }
 

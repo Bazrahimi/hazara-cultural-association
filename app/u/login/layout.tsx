@@ -16,7 +16,6 @@ export default async function Layout({
 }) {
   const userId = await getUserId();
 
-
   if (userId) {
     redirect("/account");
   }

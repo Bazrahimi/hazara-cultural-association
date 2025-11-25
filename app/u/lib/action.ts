@@ -1,12 +1,10 @@
 "use server";
 
 import { sql } from "@/app/lib/db"; // must return { rows: T[] }
-import { createSession } from "@/app/lib/session";
+import { createSession, getSession } from "@/app/lib/session";
 import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getSession } from "@/app/lib/session";
-import { destroySession } from "@/app/lib/session";
 
 import {
   buildFullName,
@@ -115,8 +113,6 @@ export const changePassword = async (
   }
 };
 
-
-
 export const auth = async (
   _prevState: AuthState | undefined,
   formData: FormData
@@ -197,10 +193,11 @@ export const auth = async (
       });
 
       return {
-        ok: true,
+        ok: false,
         requiresVerification: true,
         redirectTo: "/u/verify",
         data: { email },
+        message: "Email Verification is required.",
       };
     }
 
@@ -217,7 +214,6 @@ export const auth = async (
       data: { email },
     };
   }
-  redirect("/account");
 };
 
 /**

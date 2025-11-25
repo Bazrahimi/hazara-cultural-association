@@ -12,6 +12,7 @@ import { Button, Input } from "../../ui/global/components";
 import { Header } from "../../ui/global/Header";
 import { auth } from "../lib/action";
 
+import { setNotification } from "../ui/resend/setNotification";
 import SocialLoginButtons from "./ui/SocialLoginButtons";
 
 const LoginPage = () => {
@@ -19,8 +20,14 @@ const LoginPage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    if (!state) return;
     if (state?.requiresVerification && state.redirectTo) {
+      if (state.message) {
+        setNotification(state.message);
+      }
+
       router.push(state.redirectTo);
+      return;
     }
   }, [state, router]);
 

@@ -4,15 +4,14 @@
 import { useActionState, useEffect, useState } from "react";
 
 import { Header } from "@/app/ui/global/Header";
+import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
-import { ActionButton } from "@/app/ui/global/clientComponent";
 import {
   resendCodeAction,
   verifyCodeAction,
   type VerifyState,
 } from "./lib/verify-action";
-
 
 export default function VerifyEmailForm({ email }: { email: string }) {
   const [state, formAction, isPending] = useActionState<
