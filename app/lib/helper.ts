@@ -17,3 +17,6 @@ export const getNum = (fd: FormData, key: string) => {
 export const delay = async (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
+
+export const BLOG_TOAST_KEY = "blog-toast";
+

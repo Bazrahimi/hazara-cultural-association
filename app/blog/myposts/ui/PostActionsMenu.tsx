@@ -5,6 +5,7 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import type { PostStatus } from "../../lib/definitions";
 
+import { BLOG_TOAST_KEY } from "@/app/lib/helper";
 import {
   archivePostAction,
   deletePostAction,
@@ -29,26 +30,20 @@ export default function PostActionsMenu({
 }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const [toast, setToast] = useState<{ message: string; ok: boolean } | null>(
-    null
-  );
 
   // Server action states
   const [publishState, publishAction, publishing] = useActionState(
     publishPostAction,
     undefined
   );
-
   const [archiveState, archiveAction, archiving] = useActionState(
     archivePostAction,
     undefined
   );
-
   const [deleteState, deleteAction, deleting] = useActionState(
     deletePostAction,
     undefined
   );
-
   const [featureState, featureAction, featuring] = useActionState(
     featurePostAction,
     undefined
@@ -65,15 +60,30 @@ export default function PostActionsMenu({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const lastState = publishState ?? archiveState ?? deleteState ?? featureState;
+  const actionStates = [publishState, archiveState, deleteState, featureState];
+
+  const lastState = actionStates
+    .filter((s): s is { ok: boolean; message: string; ts: number } =>
+      Boolean(s)
+    )
+    .sort((a, b) => a.ts - b.ts)
+    .at(-1);
 
   useEffect(() => {
     if (!lastState) return;
 
-    if (lastState.ok) {
-      setOpen(false);
-    } else {
+    if (typeof window !== "undefined") {
+      const payload = {
+        message: lastState.message,
+        ok: lastState.ok,
+        ts: lastState.ts,
+      };
+
+      window.localStorage.setItem(BLOG_TOAST_KEY, JSON.stringify(payload));
+      window.dispatchEvent(new Event("blog-toast"));
     }
+
+    if (lastState.ok) setOpen(false);
   }, [lastState]);
 
   return (
@@ -116,7 +126,6 @@ export default function PostActionsMenu({
             {/* Status-based actions */}
             {status === "draft" && (
               <>
-                {" "}
                 <PublishMenuItem
                   isRTL={isRTL}
                   postId={postId}
