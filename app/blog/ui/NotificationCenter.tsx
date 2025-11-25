@@ -1,14 +1,10 @@
-// app/ui/NotificationCenter.tsx (for example)
 "use client";
 
 import { NOTIFICATION_EVENT, NOTIFICATION_KEY } from "@/app/lib/helper";
-import type { ActionNotificationState } from "@/app/lib/hooks/useActionNotification";
 import { useEffect, useState } from "react";
 
-type NotificationPayload = ActionNotificationState;
-
 export function NotificationCenter() {
-  const [toast, setToast] = useState<NotificationPayload | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -18,30 +14,23 @@ export function NotificationCenter() {
       if (!raw) return;
 
       try {
-        const parsed = JSON.parse(raw) as NotificationPayload;
-        setToast(parsed);
-        // Clear it so it doesn't show again on next load
+        const parsed = JSON.parse(raw) as { message: string };
+        setMessage(parsed.message);
         window.localStorage.removeItem(NOTIFICATION_KEY);
       } catch {
-        // ignore parse errors
+        /* ignore errors */
       }
     }
 
     // On mount
     loadFromStorage();
 
-    function handleToastEvent() {
-      loadFromStorage();
-    }
+    const handleToastEvent = () => loadFromStorage();
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === NOTIFICATION_KEY) loadFromStorage();
+    };
 
     window.addEventListener(NOTIFICATION_EVENT, handleToastEvent);
-
-    function handleStorage(e: StorageEvent) {
-      if (e.key === NOTIFICATION_KEY) {
-        loadFromStorage();
-      }
-    }
-
     window.addEventListener("storage", handleStorage);
 
     return () => {
@@ -50,25 +39,19 @@ export function NotificationCenter() {
     };
   }, []);
 
-  // Auto-hide after 10s
+  // Auto-hide
   useEffect(() => {
-    if (!toast) return;
+    if (!message) return;
+    const id = setTimeout(() => setMessage(null), 4000);
+    return () => clearTimeout(id);
+  }, [message]);
 
-    const id = window.setTimeout(() => {
-      setToast(null);
-    }, 10000);
-
-    return () => window.clearTimeout(id);
-  }, [toast]);
-
-  if (!toast) return null;
+  if (!message) return null;
 
   return (
-    <div className="fixed top-4 right-4 z-[9999]">
-      <div className="rounded-lg bg-slate-900/90 px-4 py-2 text-sm shadow-lg">
-        <span className={toast.ok ? "text-emerald-300" : "text-red-300"}>
-          {toast.message}
-        </span>
+    <div className="fixed top-16 right-4 z-[9999]">
+      <div className="rounded-lg bg-slate-900/90 px-4 py-2 text-sm shadow-lg text-emerald-300">
+        {message}
       </div>
     </div>
   );
