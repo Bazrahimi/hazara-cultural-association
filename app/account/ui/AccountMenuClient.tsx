@@ -2,6 +2,7 @@
 "use client";
 
 import { destroySession } from "@/app/lib/session";
+import { setNotification } from "@/app/u/ui/resend/setNotification";
 import Link from "next/link";
 import { HiChevronDown, HiUser } from "react-icons/hi";
 import { useDropdownMenu } from "../../blog/ui/useDropdownMenu";
@@ -54,7 +55,9 @@ export default function AccountMenuClient({
         className={`${navLinkBase} inline-flex items-center gap-1`}
       >
         <HiUser className={navIcon} />
-        <div className="hidden sm:inline">{<AvatarInitials initials={initials} />}</div>
+        <div className="hidden sm:inline">
+          {<AvatarInitials initials={initials} />}
+        </div>
         <HiChevronDown className="ml-0.5 h-4 w-4 opacity-80" />
       </button>
 
@@ -130,7 +133,13 @@ export default function AccountMenuClient({
                 <li className="border-t border-gray-100 my-1" />
 
                 <li>
-                  <form action={destroySession}>
+                  <form
+                    action={async () => {
+                      setOpen(false);
+                      setNotification();
+                      await destroySession();
+                    }}
+                  >
                     <button
                       ref={setItemRef(totalItems - 1)}
                       type="submit"

@@ -6,6 +6,7 @@ import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSession } from "@/app/lib/session";
+import { destroySession } from "@/app/lib/session";
 
 import {
   buildFullName,
@@ -113,6 +114,8 @@ export const changePassword = async (
     };
   }
 };
+
+
 
 export const auth = async (
   _prevState: AuthState | undefined,
