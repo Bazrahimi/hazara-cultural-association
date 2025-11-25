@@ -6,28 +6,23 @@ import { useEffect, useMemo } from "react";
 export type ActionNotificationState = {
   ok: boolean;
   message: string;
-  ts: number;
 };
 
 type Options = {
   storageKey: string;
   eventName: string;
-
 };
 
 export const useNotification = <T extends ActionNotificationState>(
   states: Array<T | undefined>,
-  { storageKey, eventName}: Options
+  { storageKey, eventName }: Options
 ) => {
   const lastState = useMemo(() => {
     const defined = states.filter((s): s is T => Boolean(s));
     if (defined.length === 0) return null;
 
-    return defined.reduce((latest, current) =>
-      current.ts > latest.ts ? current : latest
-    );
-
-    
+    // With React, the newest state is always the last in the array
+    return defined[defined.length - 1];
   }, [states]);
 
   useEffect(() => {
@@ -37,12 +32,9 @@ export const useNotification = <T extends ActionNotificationState>(
     const payload = {
       message: lastState.message,
       ok: lastState.ok,
-      ts: lastState.ts,
     };
 
     window.localStorage.setItem(storageKey, JSON.stringify(payload));
     window.dispatchEvent(new Event(eventName));
-
-  
   }, [lastState, storageKey, eventName]);
 };

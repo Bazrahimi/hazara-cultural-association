@@ -80,14 +80,14 @@ export const parsePostId = (formData: FormData): number | null => {
 
 export const postFailure = (
   message: string,
-  extra: Partial<Omit<PostActionState, "ok" | "message" | "ts">> = {}
+  extra: Partial<Omit<PostActionState, "ok" | "message">> = {}
 ): PostActionState => {
-  return { ok: false, message, ts: Date.now(), ...extra };
+  return { ok: false, message, ...extra };
 };
 
 export const postSuccess = (
   message: string,
-  extra: Partial<Omit<PostActionState, "ok" | "message" | "ts">> = {}
+  extra: Partial<Omit<PostActionState, "ok" | "message">> = {}
 ): PostActionState => {
-  return { ok: true, message, ts: Date.now(), ...extra };
+  return { ok: true, message, ...extra };
 };

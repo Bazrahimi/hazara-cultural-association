@@ -26,12 +26,6 @@ export const featurePostAction = async (
       WHERE id = ${postId}
     `;
 
-    // Revalidate screens
-    // revalidatePath("/");
-    // revalidatePath("/blog/myposts");
-
-    // TODO: Explain the main cause that towast 
-
     return postSuccess(
       wasFeatured ? "Removed from homepage." : "Published to homepage."
     );
