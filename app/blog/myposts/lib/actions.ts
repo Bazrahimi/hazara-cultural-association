@@ -26,6 +26,7 @@ export const featurePostAction = async (
       WHERE id = ${postId}
     `;
 
+    revalidatePath("/blog/myposts");
     return postSuccess(
       wasFeatured ? "Removed from homepage." : "Published to homepage."
     );

@@ -136,7 +136,7 @@ export default function AccountMenuClient({
                   <form
                     action={async () => {
                       setOpen(false);
-                      setNotification();
+                      setNotification("Successfully logged out.");
                       await destroySession();
                     }}
                   >

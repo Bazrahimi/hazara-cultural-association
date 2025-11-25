@@ -5,15 +5,13 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import type { PostStatus } from "../../lib/definitions";
 
-import { NOTIFICATION_EVENT, NOTIFICATION_KEY } from "@/app/lib/helper";
-import { useNotification } from "@/app/lib/hooks/useActionNotification";
+import { setNotification } from "@/app/u/ui/resend/setNotification";
 import {
   archivePostAction,
   deletePostAction,
   featurePostAction,
   publishPostAction,
 } from "../lib/actions";
-import { PostActionState } from "../lib/definitions";
 
 type Props = {
   isRTL: boolean;
@@ -34,15 +32,15 @@ export default function PostActionsMenu({
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   // Server action states
-  const [, publishAction, publishing] = useActionState(
+  const [publishState, publishAction, publishing] = useActionState(
     publishPostAction,
     undefined
   );
-  const [, archiveAction, archiving] = useActionState(
+  const [archiveState, archiveAction, archiving] = useActionState(
     archivePostAction,
     undefined
   );
-  const [, deleteAction, deleting] = useActionState(
+  const [deleteState, deleteAction, deleting] = useActionState(
     deletePostAction,
     undefined
   );
@@ -62,18 +60,46 @@ export default function PostActionsMenu({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useNotification<PostActionState>([featureState], {
-    storageKey: NOTIFICATION_KEY,
-    eventName: NOTIFICATION_EVENT,
-  });
-
-  // Close menu ONLY when feature toggle succeeds
   useEffect(() => {
-    if (!featureState) return;
-    if (featureState.ok) {
+    console.log("PUBLISH STATE:", publishState);
+    console.log("ARCHIVE STATE:", archiveState);
+    console.log("DELETE STATE:", deleteState);
+    console.log("FEATURE STATE:", featureState);
+
+    // Also log `.ok` values (will be undefined if state is undefined)
+    console.log("publishState.ok:", publishState?.ok);
+    console.log("archiveState.ok:", archiveState?.ok);
+    console.log("deleteState.ok:", deleteState?.ok);
+    console.log("featureState.ok:", featureState?.ok);
+
+    // Publish
+    if (publishState?.ok) {
+      setNotification(publishState.message);
       setOpen(false);
+      return;
     }
-  }, [featureState]);
+
+    // Archive
+    if (archiveState?.ok) {
+      setNotification(archiveState.message);
+      setOpen(false);
+      return;
+    }
+
+    // Delete
+    if (deleteState?.ok) {
+      setNotification(deleteState.message);
+      setOpen(false);
+      return;
+    }
+
+    // Feature / Unfeature
+    if (featureState?.ok) {
+      setNotification(featureState.message);
+      setOpen(false);
+      return;
+    }
+  }, [publishState, archiveState, deleteState, featureState]);
 
   return (
     <div ref={rootRef} className="relative inline-block">
