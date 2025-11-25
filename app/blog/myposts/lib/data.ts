@@ -20,8 +20,9 @@ export const getBlogPosts = async ({
       title,
       slug,
       status,
-      category_id,
+      is_featured,
       is_rtl,
+      category_id,
       to_char(created_at, 'DD MON YYYY') AS "createdAt",
       to_char(updated_at, 'DD MON YYYY') AS "updatedAt"
     FROM blog_posts
