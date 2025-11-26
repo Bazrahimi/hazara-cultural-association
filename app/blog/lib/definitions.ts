@@ -27,7 +27,7 @@ type CamelizeKeys<T> = {
 };
 
 // 3) Base camelCase blog-post type, directly derived from DB
-type BlogPostBase = CamelizeKeys<BlogPostDbRow>;
+export type BlogPostBase = CamelizeKeys<BlogPostDbRow>;
 
 export type PostStatus = BlogPostBase["status"];
 
@@ -63,3 +63,5 @@ export type EditPostRow = Pick<
   | "eventLocation"
   | "isRtl"
 >;
+
+
