@@ -24,16 +24,16 @@ export const getBlogPosts = async ({
 }) => {
   const posts = await sql<BloggerPostListRow[]>`
     SELECT
-      p.id,
-      p.title,
-      p.slug,
-      p.hero_img_path  AS "heroImgPath",
-      p.is_featured    AS "isFeatured",
-      p.is_rtl         AS "isRtl",
-      p.category_id    AS "categoryId",
-      p.status,
-      to_char(p.created_at, 'DD MON YYYY') AS "createdAt",
-      to_char(p.updated_at, 'DD MON YYYY') AS "updatedAt"
+      id,
+      title,
+      slug,
+      hero_img_path  AS "heroImgPath",
+      is_featured    AS "isFeatured",
+      is_rtl         AS "isRtl",
+      category_id    AS "categoryId",
+      status,
+      to_char(created_at, 'DD MON YYYY') AS "createdAt",
+      to_char(updated_at, 'DD MON YYYY') AS "updatedAt"
     FROM blog_posts
     ${isAdmin ? sql`` : sql`WHERE user_id = ${userId}`}
     ORDER BY created_at DESC;
