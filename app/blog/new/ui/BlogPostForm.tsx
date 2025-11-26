@@ -12,6 +12,7 @@ import { ActionMode } from "../lib/definitions";
 import type { BlogPostInput, BlogPostState } from "../lib/schema";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
 import FormHeader from "./form/FormHeader";
+import AdvocacyEvent from "./form/AdvocacyEvent";
 
 type Props = {
   mode: ActionMode;
@@ -75,7 +76,17 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
     }
   }, [state]);
 
-  const isAdvocacyEvent = categoryId === 2;
+  const eventDateValue =
+    (state?.data?.event_date as string | undefined) ??
+    (initialData?.event_date as string | undefined) ??
+    "";
+
+  const eventLocationValue =
+    state?.data?.event_location ??
+    initialData?.event_location ??
+    "";
+
+
   // Strip Quill's internal UI spans (like <span class="ql-ui">...</span>)
   function cleanQuillHtml(html: string): string {
     if (!html) return "";
@@ -127,47 +138,9 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
         />
 
         {/* Event fields */}
-        {isAdvocacyEvent && (
-          <div
-            className="grid gap-4 md:grid-cols-2"
-            dir={isRTL ? "rtl" : "ltr"}
-          >
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                {isRTL ? "تاریخ و زمان برنامه" : "Event date & time"}
-              </label>
-              <input
-                type="datetime-local"
-                name="event_date"
-                defaultValue={
-                  (state?.data?.event_date as string | undefined) ??
-                  (initialData?.event_date as string | undefined) ??
-                  ""
-                }
-                className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
-                  isRTL ? "text-right" : ""
-                }`}
-              />
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                {isRTL ? "محل برگزاری" : "Event location"}
-              </label>
-              <input
-                name="event_location"
-                defaultValue={
-                  state?.data?.event_location ??
-                  initialData?.event_location ??
-                  ""
-                }
-                className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
-                  isRTL ? "text-right" : ""
-                }`}
-              />
-            </div>
-          </div>
-        )}
+ 
+          <AdvocacyEvent isRTL={isRTL} eventDate={eventDateValue} eventLocation={eventLocationValue} categoryId={categoryId} />
+    
 
         {/* Content */}
         <QuillEditor
