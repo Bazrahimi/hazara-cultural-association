@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { PostStatus } from "@/app/blog/lib/definitions";
 
 type SuccessModalProps = {
   message: string;
   slug: string;
-  status?: "draft" | "published" | "archived";
+  status?: PostStatus;
   onClose: () => void;
 };
 

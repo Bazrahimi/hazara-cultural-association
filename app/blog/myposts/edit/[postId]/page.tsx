@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 
 import BlogPostForm from "@/app/blog/new/ui/BlogPostForm";
 import { updateBlogPost } from "./lib/action";
+import { PostStatus } from "@/app/blog/lib/definitions";
 
 function toDatetimeLocalString(date: Date) {
   const pad = (n: number) => n.toString().padStart(2, "0");
@@ -40,7 +41,7 @@ export default async function EditPostPage({ params }: PageProps) {
       title: string;
       content_html: string;
       category_id: number;
-      status: "draft" | "published" | "archived";
+      status: PostStatus;
       hero_img_path: string | null;
       is_featured: boolean;
       event_date: string | null;

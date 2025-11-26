@@ -1,11 +1,12 @@
 "use client";
 
 import { Button } from "@/app/ui/global/components";
+import { PostStatus } from "../../lib/definitions";
 import { toggleFeatured, updateStatus } from "../lib/action";
 
 type Props = {
   postId: number;
-  status: "draft" | "archived" | "published";
+  status: PostStatus;
   isFeatured: boolean;
   isRTL?: boolean;
 };
