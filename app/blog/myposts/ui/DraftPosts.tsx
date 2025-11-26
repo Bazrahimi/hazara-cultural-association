@@ -29,7 +29,7 @@ const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
       ) : (
         <div className="space-y-3">
           {drafts.map((post) => {
-            const isRTL = post.is_rtl === true;
+            const isRTL = post.isRtl === true;
 
             return (
               <article
@@ -60,7 +60,7 @@ const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
                   className="mt-0.5 text-xs uppercase tracking-wide text-slate-600"
                   size="sm"
                 >
-                  {getCategoryLabel(post.category_id, isRTL)}
+                  {getCategoryLabel(post.categoryId, isRTL)}
                 </P>
 
                 <P className="mt-1 text-slate-500" size="sm">

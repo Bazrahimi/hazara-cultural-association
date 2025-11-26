@@ -81,10 +81,10 @@ export async function generateMetadata({
 
   const title = `${post.title}——By: ${post.authorName}`;
   const url = `${BASE_URL}/blog/${post.slug}`;
-  const description = makeMetaDescription(post.content_html);
+  const description = makeMetaDescription(post.contentHtml);
 
   // Prefer hero image, otherwise fallback
-  const ogImagePath = post.hero_img_path || DEFAULT_OG_IMAGE_PATH;
+  const ogImagePath = post.heroImgPath || DEFAULT_OG_IMAGE_PATH;
   const ogImageUrl =
     ogImagePath.startsWith("http") || ogImagePath.startsWith("//")
       ? ogImagePath

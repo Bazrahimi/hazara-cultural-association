@@ -15,14 +15,14 @@ type BlogPostCardProps = {
 // ----- Card component -----
 
 const BlogPostCard = ({ post }: BlogPostCardProps) => {
-  const isRTL = post.is_rtl;
+  const isRTL = post.isRtl;
 
   const byLabel = isRTL ? "منتشر شده توسط" : "Published by";
   const fallbackAuthor = "Unknown";
   const ctaText = isRTL ? "مطلب و مقاله را کامل بخوانید" : "Read Full Article";
 
   const placeholderSrc = cardImgPlaceholder(
-    post.category_id as CategoryId,
+    post.categoryId as CategoryId,
 
     isRTL
   );
@@ -53,10 +53,10 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
 
         {/* Bottom: media block */}
         <div className="relative mt-auto h-44 w-full overflow-hidden">
-          {post.hero_img_path ? (
+          {post.heroImgPath ? (
             <>
               <Image
-                src={cldCardHeroAuto(post.hero_img_path)}
+                src={cldCardHeroAuto(post.heroImgPath)}
                 alt={post.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"

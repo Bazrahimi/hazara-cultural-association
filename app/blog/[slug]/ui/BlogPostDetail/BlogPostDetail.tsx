@@ -18,9 +18,9 @@ export default function BlogPostDetail({
   post,
   canManage,
 }: BlogPostDetailProps) {
-  // category_id: 2 = advocacy event
-  const isEvent = post.category_id === 2;
-  const isRTL = post.is_rtl === true;
+  // categoryId: 2 = advocacy event
+  const isEvent = post.categoryId === 2;
+  const isRTL = post.isRtl === true;
 
   return (
     <article
@@ -90,26 +90,26 @@ export default function BlogPostDetail({
 
         {/* Category badge – clickable, goes to /blog/[categoryId] */}
         <Link
-          href={`/blog/p/${post.category_id}`}
+          href={`/blog/p/${post.categoryId}`}
           className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700 hover:bg-gray-200 transition"
         >
-          {getCategoryLabel(post.category_id, isRTL)}
+          {getCategoryLabel(post.categoryId, isRTL)}
         </Link>
       </div>
 
       {/* Advocacy event meta */}
-      {isEvent && (post.event_date || post.event_location) && (
+      {isEvent && (post.eventDate || post.eventLocation) && (
         <div className="mb-6 rounded-lg border border-blue-100 bg-blue-50/60 p-4 text-sm text-blue-900">
           <p className="font-semibold">
             {isRTL ? "جزییات برنامهٔ دادخواهی" : "Advocacy event details"}
           </p>
 
-          {post.event_date && (
+          {post.eventDate && (
             <p>
               <span className="font-medium">
                 {isRTL ? "تاریخ و زمان: " : "Date & time: "}
               </span>
-              {new Date(post.event_date).toLocaleString("en-AU", {
+              {new Date(post.eventDate).toLocaleString("en-AU", {
                 timeZone: "Australia/Melbourne",
                 year: "numeric",
                 month: "short",
@@ -120,12 +120,12 @@ export default function BlogPostDetail({
             </p>
           )}
 
-          {post.event_location && (
+          {post.eventLocation && (
             <p>
               <span className="font-medium">
                 {isRTL ? "محل برگزاری: " : "Location: "}
               </span>
-              {post.event_location}
+              {post.eventLocation}
             </p>
           )}
         </div>
@@ -133,16 +133,16 @@ export default function BlogPostDetail({
 
       {/* Hero Image */}
       <HeroImage
-        src={post.hero_img_path}
+        src={post.heroImgPath}
         alt={post.title}
-        categoryId={post.category_id}
+        categoryId={post.categoryId}
       />
 
       {/* Content */}
       <ContentSection
-        isRTL={post.is_rtl}
-        content={post.content_html}
-        isLink={post.category_id === 99}
+        isRTL={post.isRtl}
+        content={post.contentHtml}
+        isLink={post.categoryId === 99}
       />
 
       {/* Owner/Admin controls */}
@@ -150,8 +150,8 @@ export default function BlogPostDetail({
         <ManagePostControls
           postId={post.id}
           status={post.status}
-          isFeatured={post.is_featured}
-          isRTL={post.is_rtl}
+          isFeatured={post.isFeatured}
+          isRTL={post.isRtl}
         />
       )}
     </article>

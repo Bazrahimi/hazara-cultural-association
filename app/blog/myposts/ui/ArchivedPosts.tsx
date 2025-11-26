@@ -30,7 +30,7 @@ export default function ArchivedPosts({
       ) : (
         <div className="space-y-3">
           {archived.map((post) => {
-            const isRTL = post.is_rtl === true;
+            const isRTL = post.isRtl === true;
 
             return (
               <article
@@ -58,7 +58,7 @@ export default function ArchivedPosts({
                 </div>
 
                 <P className="mt-0.5 text-xs uppercase tracking-wide text-gray-600">
-                  {getCategoryLabel(post.category_id, isRTL)}
+                  {getCategoryLabel(post.categoryId, isRTL)}
                 </P>
 
                 <P className="mt-1 text-gray-400" size="sm">

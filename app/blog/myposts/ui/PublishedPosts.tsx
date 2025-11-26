@@ -26,7 +26,7 @@ const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
       ) : (
         <div className="space-y-3">
           {published.map((post) => {
-            const isRTL = post.is_rtl === true;
+            const isRTL = post.isRtl === true;
 
             return (
               <article
@@ -50,7 +50,7 @@ const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
                     isRTL={isRTL}
                     postId={post.id}
                     slug={post.slug}
-                    isFeatured = {post.is_featured}
+                    isFeatured = {post.isFeatured}
                     status="published"
                   />
                 </div>
@@ -59,7 +59,7 @@ const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
                   className="mt-0.5 uppercase tracking-wide text-gray-600"
                   size="sm"
                 >
-                  {getCategoryLabel(post.category_id, isRTL)}
+                  {getCategoryLabel(post.categoryId, isRTL)}
                 </P>
 
                 <P className="mt-1 text-xs text-gray-400">
