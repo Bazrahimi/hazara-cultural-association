@@ -192,7 +192,6 @@ type ActionMenuItemProps = {
   isPending: boolean;
   action: (formData: FormData) => void;
   isFeatured?: boolean;
-  authorId: number;
 };
 
 const FeatureMenuItem = ({
