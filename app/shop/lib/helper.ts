@@ -37,16 +37,27 @@ export function isAddressComplete(a: FullAddress) {
 // - Convert all characters to lowercase.
 // - Remove all non-word characters exception whitespace and hyphens.
 // - replace one or more whitespaces characters with a single hyphen.
-export const slugify = (str: string) =>
-  str
-    .normalize("NFKD") // split accents from letters
-    .replace(/[\u0300-\u036f]/g, "") // remove the accents
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "") // keep letters, numbers, spaces, hyphens
-    .trim() // remove leading/trailing spaces
-    .replace(/\s+/g, "-") // spaces -> single dash
-    .replace(/-+/g, "-") // collapse multiple dashes
-    .replace(/^-|-$/g, ""); // trim leading/trailing dashes
+// export const slugify = (str: string) =>
+//   str
+//     .normalize("NFKD") // split accents from letters
+//     .replace(/[\u0300-\u036f]/g, "") // remove the accents
+//     .toLowerCase()
+//     .replace(/[^a-z0-9\s-]/g, "") // keep letters, numbers, spaces, hyphens
+//     .trim() // remove leading/trailing spaces
+//     .replace(/\s+/g, "-") // spaces -> single dash
+//     .replace(/-+/g, "-") // collapse multiple dashes
+//     .replace(/^-|-$/g, ""); // trim leading/trailing dashes
 
 export const unSlugify = (slug: string) =>
   slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+
+export const slugify = (str: string) =>
+  str
+    .normalize("NFKD")
+    // Keep English letters, Persian letters, numbers, and spaces
+    .replace(/[^a-zA-Z0-9\u0600-\u06FF\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .toLowerCase();

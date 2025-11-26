@@ -2,7 +2,7 @@
 "use client";
 
 import { destroySession } from "@/app/lib/session";
-import { setNotification } from "@/app/u/ui/resend/setNotification";
+import { setNotification } from "@/app/u/lib/setNotification";
 import Link from "next/link";
 import { HiChevronDown, HiUser } from "react-icons/hi";
 import { useDropdownMenu } from "../../blog/ui/useDropdownMenu";

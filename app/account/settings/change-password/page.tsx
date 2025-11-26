@@ -11,7 +11,7 @@ import {
 import { Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 
-import { setNotification } from "@/app/u/ui/resend/setNotification";
+import { setNotification } from "@/app/u/lib/setNotification";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { changePassword } from "../../../u/lib/action";

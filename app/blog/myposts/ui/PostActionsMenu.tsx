@@ -5,7 +5,7 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import type { PostStatus } from "../../lib/definitions";
 
-import { setNotification } from "@/app/u/ui/resend/setNotification";
+import { setNotification } from "@/app/u/lib/setNotification";
 import {
   archivePostAction,
   deletePostAction,

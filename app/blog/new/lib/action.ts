@@ -4,7 +4,7 @@
 
 import { sql } from "@/app/lib/db";
 import { requireUser } from "@/app/lib/session";
-import { redirect } from "next/navigation";
+import { slugify } from "@/app/shop/lib/helper";
 import {
   BlogPostSchema,
   type BlogPostInput,
@@ -70,7 +70,7 @@ export async function createBlogPost(
 
     return {
       ok: false,
-      message: "Please fix the errors below.",
+      message: "Please fix the errors Above.",
       errors: fieldErrors,
       data: normalizedData,
     };
@@ -78,7 +78,7 @@ export async function createBlogPost(
 
   const data = parsed.data;
 
-  const slug = null;
+  const baseSlug = slugify(data.title);
 
   const eventDate =
     data.category_id === 2 && data.event_date
@@ -88,7 +88,7 @@ export async function createBlogPost(
   const publishedAt = data.status === "published" ? new Date() : null;
 
   try {
-    await sql`
+    const rows = await sql<{ slug: string }[]>`
       INSERT INTO blog_posts (
         user_id,
         title,
@@ -106,7 +106,7 @@ export async function createBlogPost(
       VALUES (
         ${session.userId},
         ${data.title},
-        ${slug},
+        ${baseSlug},
         ${data.content_html},
         ${data.category_id},
         ${data.status},
@@ -116,8 +116,24 @@ export async function createBlogPost(
         ${eventDate},
         ${data.event_location ?? null},
         ${publishedAt}
-      );
+      )
+      RETURNING slug;
     `;
+
+    const created = rows[0];
+
+    // Build a nice message depending on status
+    const message =
+      data.status === "published"
+        ? "Your post has been published."
+        : "Your post has been saved as a draft.";
+
+    return {
+      ok: true,
+      message,
+      slug: created.slug,
+      data,
+    };
   } catch (err: unknown) {
     console.error("DB error inserting Blog-post:", err);
 
@@ -127,6 +143,4 @@ export async function createBlogPost(
       data,
     };
   }
-
-  redirect("/blog/myposts");
 }

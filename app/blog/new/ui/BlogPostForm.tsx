@@ -2,6 +2,7 @@
 
 "use client";
 
+import { setNotification } from "@/app/u/lib/setNotification";
 import CldFileUpload from "@/app/ui/global/CLdFileUpload";
 import { Input } from "@/app/ui/global/components";
 import { useActionState, useEffect, useState } from "react";
@@ -13,6 +14,7 @@ import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
 import EditorField from "./form/EditorField";
 import FormFooter from "./form/FormFooter";
 import FormHeader from "./form/FormHeader";
+import { SuccessModal } from "./form/SuccessModal";
 
 type Props = {
   mode: ActionMode;
@@ -55,11 +57,22 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
 
   // Local state so the select is controlled immediately on change
   const [categoryId, setCategoryId] = useState<CategoryId>(derivedCategoryId);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Keep local categoryId in sync when server/initial data changes
   useEffect(() => {
     setCategoryId(derivedCategoryId);
   }, [derivedCategoryId]);
+
+  useEffect(() => {
+    if (state?.ok) {
+      if (state.message) {
+        setNotification(state?.message);
+      }
+
+      setShowSuccessModal(true);
+    }
+  }, [state]);
 
   // Sync from validation state for other controlled fields
   useEffect(() => {
@@ -173,6 +186,14 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           footerMessage={footerMessage}
         />
       </form>
+
+      {showSuccessModal && state?.ok && (
+        <SuccessModal
+          message={state.message ?? ""}
+          slug={state.slug!}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
     </div>
   );
 }

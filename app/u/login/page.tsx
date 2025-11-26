@@ -12,7 +12,7 @@ import { Button, Input } from "../../ui/global/components";
 import { Header } from "../../ui/global/Header";
 import { auth } from "../lib/action";
 
-import { setNotification } from "../ui/resend/setNotification";
+import { setNotification } from "../lib/setNotification";
 import SocialLoginButtons from "./ui/SocialLoginButtons";
 
 const LoginPage = () => {

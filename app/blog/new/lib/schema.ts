@@ -37,7 +37,7 @@ export const BlogPostSchema = z.object({
       message: "Invalid category",
     }),
 
-  status: z.enum(STATUS_VALUES).default("draft"),
+  status: z.enum(STATUS_VALUES).default("published"),
 
   hero_img_path: z.string().trim().optional().nullable(),
 
@@ -58,4 +58,5 @@ export type BlogPostState = {
   message?: string;
   errors?: Partial<Record<keyof BlogPostInput, string[]>>;
   data?: Partial<BlogPostInput>;
+  slug?: string;
 };
