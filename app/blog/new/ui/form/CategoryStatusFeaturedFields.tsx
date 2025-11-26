@@ -19,6 +19,9 @@ const CategoryStatusFeaturedFields = ({
 }: Props) => {
   const isAdvocacyEvent = categoryId === 2;
 
+  // Determine status: state → initialData → default "published"
+  const statusValue = state?.data?.status ?? initialData?.status ?? "published";
+
   return (
     <>
       {/* Category + Status + Featured */}
@@ -57,6 +60,7 @@ const CategoryStatusFeaturedFields = ({
         </div>
 
         {/* Status */}
+        {/* Status */}
         <div>
           <span className="block text-sm font-medium text-gray-700">
             {isRTL ? "وضعیت" : "Status"}
@@ -69,10 +73,7 @@ const CategoryStatusFeaturedFields = ({
                 type="radio"
                 name="status"
                 value="draft"
-                defaultChecked={
-                  (state?.data?.status ?? initialData?.status ?? "draft") ===
-                  "draft"
-                }
+                defaultChecked={statusValue === "draft"}
                 className="h-4 w-4"
               />
               {isRTL ? "پیش‌نویس" : "Draft"}
@@ -84,9 +85,7 @@ const CategoryStatusFeaturedFields = ({
                 type="radio"
                 name="status"
                 value="published"
-                defaultChecked={
-                  (state?.data?.status ?? initialData?.status) === "published"
-                }
+                defaultChecked={statusValue === "published"}
                 className="h-4 w-4"
               />
               {isRTL ? "منتشر شده" : "Published"}
@@ -99,9 +98,7 @@ const CategoryStatusFeaturedFields = ({
                   type="radio"
                   name="status"
                   value="archived"
-                  defaultChecked={
-                    (state?.data?.status ?? initialData?.status) === "archived"
-                  }
+                  defaultChecked={statusValue === "archived"}
                   className="h-4 w-4"
                 />
                 {isRTL ? "آرشیو شده" : "Archived"}
