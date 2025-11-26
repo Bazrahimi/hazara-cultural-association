@@ -34,6 +34,7 @@ export type PostStatus = BlogPostBase["status"];
 export type PostCardRow = Pick<
   BlogPostBase,
   | "id"
+  | "userId"
   | "title"
   | "slug"
   | "heroImgPath"
@@ -44,7 +45,21 @@ export type PostCardRow = Pick<
   authorName: string;
 };
 
-export type PostDetailRow = Omit<BlogPostBase, "createdAt" | "userId"> & {
-  authorId: number;
+export type PostDetailRow = Omit<BlogPostBase, "createdAt"> & {
   authorName: string;
 };
+
+export type EditPostRow = Pick<
+  BlogPostBase,
+  | "id"
+  | "userId"
+  | "title"
+  | "contentHtml"
+  | "categoryId"
+  | "status"
+  | "heroImgPath"
+  | "isFeatured"
+  | "eventDate"
+  | "eventLocation"
+  | "isRtl"
+>;
