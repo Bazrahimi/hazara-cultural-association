@@ -14,7 +14,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const canManage =
     !!session &&
-    (session.roles.includes("admin") || session.userId === post.authorId);
+    (session.roles.includes("admin") || session.userId === post.userId);
 
   return <BlogPostDetail post={post} canManage={canManage} />;
 };
