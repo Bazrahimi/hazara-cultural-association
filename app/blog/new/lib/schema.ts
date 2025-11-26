@@ -26,7 +26,9 @@ export const BlogPostSchema = z.object({
     .min(3, "Title is required and must be at least 3 characters")
     .max(120, "Title must be under 120 characters"),
 
-  content_html: z.string().min(10, "Content is required"),
+  content_html: z
+    .string()
+    .min(20, "Content is required and must be at least 10 characters."),
 
   category_id: z.coerce
     .number()

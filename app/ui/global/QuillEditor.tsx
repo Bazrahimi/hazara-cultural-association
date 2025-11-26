@@ -9,7 +9,7 @@ const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 type Props = {
   id?: string;
-  label: string;
+  label?: string;
   value: string;
   onChange: (html: string) => void;
   placeholder?: string;

@@ -17,10 +17,10 @@ const FormHeader = ({ mode, isRTL, setIsRTL }: Props) => {
             {mode === "create"
               ? isRTL
                 ? "ایجاد یک مطلب جدید"
-                : "Create New Blog Post"
+                : "Create Post"
               : isRTL
                 ? "ویرایش مطلب"
-                : "Edit Blog Post"}
+                : "Edit Post"}
           </Header>
 
           <P>
@@ -35,19 +35,34 @@ const FormHeader = ({ mode, isRTL, setIsRTL }: Props) => {
         </div>
 
         {/* RTL Toggle */}
-        <label
-          className={`mt-2 inline-flex items-center gap-2 text-sm text-gray-700 md:mt-0 ${
-            isRTL ? "flex-row-reverse" : ""
-          }`}
-        >
-          <input
-            type="checkbox"
-            className="h-4 w-4"
-            checked={isRTL}
-            onChange={(e) => setIsRTL(e.target.checked)}
-          />
-          <span className="font-extrabold">فارسی / هزارگی</span>
-        </label>
+        <div className={`flex flex-col ${isRTL ? "items-end" : "items-start"}`}>
+          <label
+            className={`inline-flex items-center gap-2 text-sm text-gray-700 cursor-pointer ${
+              isRTL ? "flex-row-reverse" : ""
+            }`}
+          >
+            <input
+              type="checkbox"
+              className="h-4 w-4"
+              checked={isRTL}
+              onChange={(e) => setIsRTL(e.target.checked)}
+            />
+            <span className="font-extrabold flex items-center gap-1">
+              {isRTL ? (
+                <span>Switch to English</span>
+              ) : (
+                <span>تبدیل به فارسی / هزارگی</span>
+              )}
+            </span>
+          </label>
+
+          {/* Language warning / helper message */}
+          <p className="mt-1 text-xs text-gray-500">
+            {isRTL
+              ? "برای خوانایی و قالب‌بندی درست، زبان نوشتاری را قبل از شروع انتخاب کنید."
+              : "Choose your writing language before typing to ensure correct formatting and readability."}
+          </p>
+        </div>
       </div>
     </header>
   );

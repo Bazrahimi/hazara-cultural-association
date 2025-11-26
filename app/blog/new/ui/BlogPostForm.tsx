@@ -3,16 +3,16 @@
 "use client";
 
 import CldFileUpload from "@/app/ui/global/CLdFileUpload";
-import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Input } from "@/app/ui/global/components";
-import QuillEditor from "@/app/ui/global/QuillEditor";
 import { useActionState, useEffect, useState } from "react";
 import { type CategoryId } from "../../lib/helper";
 import { ActionMode } from "../lib/definitions";
 import type { BlogPostInput, BlogPostState } from "../lib/schema";
-import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
-import FormHeader from "./form/FormHeader";
 import AdvocacyEvent from "./form/AdvocacyEvent";
+import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
+import EditorField from "./form/EditorField";
+import FormFooter from "./form/FormFooter";
+import FormHeader from "./form/FormHeader";
 
 type Props = {
   mode: ActionMode;
@@ -82,10 +82,11 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
     "";
 
   const eventLocationValue =
-    state?.data?.event_location ??
-    initialData?.event_location ??
-    "";
+    state?.data?.event_location ?? initialData?.event_location ?? "";
 
+  // Compute the message shown above the footer button
+  const footerMessage =
+    state?.ok === false && state?.message ? state.message : ""; // empty string means "no message"
 
   // Strip Quill's internal UI spans (like <span class="ql-ui">...</span>)
   function cleanQuillHtml(html: string): string {
@@ -97,13 +98,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
     <div className="mx-auto max-w-4xl space-y-6">
       <FormHeader mode={mode} isRTL={isRTL} setIsRTL={setIsRTL} />
 
-      {state?.message && state.ok === false && (
-        <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-          {state.message}
-        </p>
-      )}
-
-      <form action={formAction} className="space-y-6">
+      <form action={formAction} className="space-y-6" noValidate>
         {mode === "edit" && initialData?.id && (
           <input type="hidden" name="id" value={initialData.id} />
         )}
@@ -138,22 +133,20 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
         />
 
         {/* Event fields */}
- 
-          <AdvocacyEvent isRTL={isRTL} eventDate={eventDateValue} eventLocation={eventLocationValue} categoryId={categoryId} />
-    
+
+        <AdvocacyEvent
+          isRTL={isRTL}
+          eventDate={eventDateValue}
+          eventLocation={eventLocationValue}
+          categoryId={categoryId}
+        />
 
         {/* Content */}
-        <QuillEditor
-          id="content"
-          label={isRTL ? "متن مطلب" : "Content"}
+        <EditorField
+          isRTL={isRTL}
           value={contentHTML}
           onChange={setContentHTML}
-          placeholder={
-            isRTL
-              ? ""
-              : "Write the body of your post here متن خبر یا اعلان خود را اینجا بنویسید"
-          }
-          isRTL={isRTL}
+          error={state?.errors?.content_html}
         />
 
         {/* Send cleaned HTML to the server */}
@@ -162,12 +155,6 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           name="content_html"
           value={cleanQuillHtml(contentHTML)}
         />
-
-        {state?.errors?.content_html && (
-          <p className="mt-1 text-xs text-red-600">
-            {state.errors.content_html[0]}
-          </p>
-        )}
 
         {/* Hero image */}
         <CldFileUpload
@@ -179,31 +166,12 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
         <input type="hidden" name="hero_img_path" value={heroImage} />
 
         {/* Submit button */}
-        <div className="flex items-center justify-between">
-          <p className="text-xs text-gray-500">
-            {mode === "edit"
-              ? isRTL
-                ? "تغییرات شما فوراً به‌روز می‌شوند."
-                : "Your changes will update immediately."
-              : isRTL
-                ? "بعداً می‌توانید نوشته‌ها را از پنل مدیریت ویرایش کنید."
-                : "Posts can be edited later from the admin panel."}
-          </p>
-          <ActionButton
-            type="submit"
-            isLoading={isPending}
-            overlay
-            loadingText={mode === "edit" ? "Updating…" : "Saving…"}
-          >
-            {mode === "edit"
-              ? isRTL
-                ? "به‌روزرسانی مطلب"
-                : "Update Post"
-              : isRTL
-                ? "ذخیره مطلب"
-                : "Save Post"}
-          </ActionButton>
-        </div>
+        <FormFooter
+          mode={mode}
+          isRTL={isRTL}
+          isLoading={isPending}
+          footerMessage={footerMessage}
+        />
       </form>
     </div>
   );
