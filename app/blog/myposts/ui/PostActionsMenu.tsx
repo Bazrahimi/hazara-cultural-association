@@ -61,17 +61,6 @@ export default function PostActionsMenu({
   }, []);
 
   useEffect(() => {
-    console.log("PUBLISH STATE:", publishState);
-    console.log("ARCHIVE STATE:", archiveState);
-    console.log("DELETE STATE:", deleteState);
-    console.log("FEATURE STATE:", featureState);
-
-    // Also log `.ok` values (will be undefined if state is undefined)
-    console.log("publishState.ok:", publishState?.ok);
-    console.log("archiveState.ok:", archiveState?.ok);
-    console.log("deleteState.ok:", deleteState?.ok);
-    console.log("featureState.ok:", featureState?.ok);
-
     // Publish
     if (publishState?.ok) {
       setNotification(publishState.message);
@@ -203,6 +192,7 @@ type ActionMenuItemProps = {
   isPending: boolean;
   action: (formData: FormData) => void;
   isFeatured?: boolean;
+  authorId: number;
 };
 
 const FeatureMenuItem = ({

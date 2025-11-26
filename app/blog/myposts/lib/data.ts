@@ -4,7 +4,6 @@ import { sql } from "@/app/lib/db";
 export type BloggerPostListRow = Pick<
   BlogPostBase,
   | "id"
-  | "userId"
   | "title"
   | "slug"
   | "heroImgPath"
@@ -26,7 +25,6 @@ export const getBlogPosts = async ({
   const posts = await sql<BloggerPostListRow[]>`
     SELECT
       p.id,
-      p.user_id        AS "userId",
       p.title,
       p.slug,
       p.hero_img_path  AS "heroImgPath",
