@@ -1,5 +1,5 @@
 // app/blog/edit/lib/data.ts
-import type { BlogPostBase, PostStatus } from "@/app/blog/lib/definitions";
+import type { BlogPostBase } from "@/app/blog/lib/definitions";
 import { sql } from "@/app/lib/db";
 import { notFound } from "next/navigation";
 
