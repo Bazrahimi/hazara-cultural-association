@@ -18,7 +18,7 @@ const ROLE_SET = new Set<string>(ROLES);
 export type SessionRole = (typeof ROLES)[number];
 
 const SessionSchema = z.object({
-  userId: z.number(),
+  userId: z.coerce.number(),
   roles: z.array(z.enum(ROLES)).default([]), // buyers have []
   expiresAt: z
     .union([z.iso.datetime(), z.date()])
