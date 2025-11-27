@@ -10,13 +10,15 @@ type BlogMenuClientProps = BlogMenuProps & { isAllowed: boolean };
 
 const baseItems = [
   ...catItems,
-  { label: "Hazara Genocide Memorial", href: "blog/hazara-genocide-memorial/133" },
+  {
+    label: "Hazara Genocide Memorial",
+    href: "blog/hazara-genocide-memorial/133",
+  },
 ];
 
-
 const manageItems = [
-  { label: "Post  Blog (news, event, article)", href: "/blog/new" },
-  { label: "My Posts", href: "/blog/myposts" },
+  { label: "Add New Post", href: "/blog/new" },
+  { label: "Manage my Posts", href: "/blog/myposts" },
 ];
 
 export default function BlogMenuClient({
