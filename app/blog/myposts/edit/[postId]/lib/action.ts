@@ -37,8 +37,8 @@ export async function updateBlogPost(
   }
 
   // --- 2) Check ownership / admin ---
-  const ownerRow = await sql<{ user_id: number }[]>`
-    SELECT user_id
+  const ownerRow = await sql<{ userId: number }[]>`
+    SELECT user_id AS "userId"
     FROM blog_posts
     WHERE id = ${id}
     LIMIT 1;
@@ -53,7 +53,7 @@ export async function updateBlogPost(
   }
 
   const isAdmin = session.roles.includes("admin");
-  const isOwner = existing.user_id === session.userId;
+  const isOwner = existing.userId === session.userId;
 
   if (!isAdmin && !isOwner) {
     return {
@@ -94,9 +94,7 @@ export async function updateBlogPost(
 
   // --- 4) Normalise event_date + published_at like in create ---
   const eventDate =
-    data.category_id === 2 && data.event_date
-      ? new Date(data.event_date)
-      : null;
+    data.categoryId === 2 && data.eventDate ? new Date(data.eventDate) : null;
 
   const publishedAt = data.status === "published" ? new Date() : null;
 
@@ -105,15 +103,15 @@ export async function updateBlogPost(
       UPDATE blog_posts
       SET
         title         = ${data.title},
-        content_html  = ${data.content_html},
-        category_id      = ${data.category_id},
+        content_html  = ${data.contentHtml},
+        category_id   = ${data.categoryId},
         status        = ${data.status},
-        hero_img_path = ${data.hero_img_path ?? null},
-        is_featured   = ${data.is_featured},
+        hero_img_path = ${data.heroImgPath ?? null},
+        is_featured   = ${data.isFeatured},
         event_date    = ${eventDate},
-        event_location = ${data.event_location ?? null},
+        event_location = ${data.eventLocation ?? null},
         published_at  = ${publishedAt},
-        is_rtl = ${data.is_rtl}
+        is_rtl = ${data.isRtl}
       WHERE id = ${id};
     `;
   } catch (err: unknown) {

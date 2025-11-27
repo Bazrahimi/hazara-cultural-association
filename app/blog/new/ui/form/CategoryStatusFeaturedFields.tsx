@@ -41,7 +41,7 @@ const CategoryStatusFeaturedFields = ({
             {isRTL ? "دسته‌بندی" : "Category"}
           </label>
           <select
-            name="category_id"
+            name="categoryId"
             value={categoryId}
             onChange={(e) =>
               setCategoryId(Number(e.target.value) as CategoryId)
@@ -56,9 +56,9 @@ const CategoryStatusFeaturedFields = ({
               )
             )}
           </select>
-          {state?.errors?.category_id && (
+          {state?.errors?.categoryId && (
             <p className="text-xs text-red-600">
-              {state.errors.category_id[0]}
+              {state.errors.categoryId[0]}
             </p>
           )}
         </div>
@@ -120,10 +120,10 @@ const CategoryStatusFeaturedFields = ({
           <label className="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
             <input
               type="checkbox"
-              name="is_featured"
+              name="isFeatured"
               className="h-4 w-4"
               defaultChecked={
-                state?.data?.is_featured ?? initialData?.is_featured ?? false
+                state?.data?.isFeatured ?? initialData?.isFeatured ?? false
               }
             />
             {isRTL ? "نمایش در صفحه اصلی" : "Featured on homepage"}
@@ -140,10 +140,10 @@ const CategoryStatusFeaturedFields = ({
             </label>
             <input
               type="datetime-local"
-              name="event_date"
+              name="eventDate"
               defaultValue={
-                (state?.data?.event_date as string | undefined) ??
-                (initialData?.event_date as string | undefined) ??
+                (state?.data?.eventDate as string | undefined) ??
+                (initialData?.eventDate as string | undefined) ??
                 ""
               }
               className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
@@ -157,9 +157,9 @@ const CategoryStatusFeaturedFields = ({
               {isRTL ? "محل برگزاری" : "Event location"}
             </label>
             <input
-              name="event_location"
+              name="eventLocation"
               defaultValue={
-                state?.data?.event_location ?? initialData?.event_location ?? ""
+                state?.data?.eventLocation ?? initialData?.eventLocation ?? ""
               }
               className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
                 isRTL ? "text-right" : ""

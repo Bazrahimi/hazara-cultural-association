@@ -40,19 +40,19 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
 
   // RTL toggle for Farsi / Hazaragi
   const [isRTL, setIsRTL] = useState<boolean>(() => {
-    if (initialData?.is_rtl === undefined) return false; // default false
-    return toBoolean(initialData.is_rtl);
+    if (initialData?.isRtl === undefined) return false; // default false
+    return toBoolean(initialData.isRtl);
   });
 
   // Controlled fields
   const [contentHTML, setContentHTML] = useState(
-    initialData?.content_html ?? ""
+    initialData?.contentHtml ?? ""
   );
-  const [heroImage, setHeroImage] = useState(initialData?.hero_img_path ?? "");
+  const [heroImage, setHeroImage] = useState(initialData?.heroImgPath ?? "");
 
   // 🔹 Derive category from state or initialData (fallback 1 = news)
   const derivedCategoryId: CategoryId = Number(
-    state?.data?.category_id ?? initialData?.category_id ?? 1
+    state?.data?.categoryId ?? initialData?.categoryId ?? 1
   ) as CategoryId;
 
   // Local state so the select is controlled immediately on change
@@ -76,26 +76,26 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
 
   // Sync from validation state for other controlled fields
   useEffect(() => {
-    if (state?.data?.content_html !== undefined) {
-      setContentHTML(state.data.content_html ?? "");
+    if (state?.data?.contentHtml !== undefined) {
+      setContentHTML(state.data.contentHtml ?? "");
     }
 
-    if (state?.data?.hero_img_path !== undefined) {
-      setHeroImage(state.data.hero_img_path ?? "");
+    if (state?.data?.heroImgPath !== undefined) {
+      setHeroImage(state.data.heroImgPath ?? "");
     }
 
-    if (state?.data?.is_rtl !== undefined) {
-      setIsRTL(toBoolean(state.data.is_rtl));
+    if (state?.data?.isRtl !== undefined) {
+      setIsRTL(toBoolean(state.data.isRtl));
     }
   }, [state]);
 
   const eventDateValue =
-    (state?.data?.event_date as string | undefined) ??
-    (initialData?.event_date as string | undefined) ??
+    (state?.data?.eventDate as string | undefined) ??
+    (initialData?.eventDate as string | undefined) ??
     "";
 
   const eventLocationValue =
-    state?.data?.event_location ?? initialData?.event_location ?? "";
+    state?.data?.eventLocation ?? initialData?.eventLocation ?? "";
 
   // Compute the message shown above the footer button
   const footerMessage =
@@ -117,7 +117,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
         )}
 
         {/* is_rtl is always sent as "true"/"false" */}
-        <input type="hidden" name="is_rtl" value={isRTL ? "true" : "false"} />
+        <input type="hidden" name="isRtl" value={isRTL ? "true" : "false"} />
 
         {/* Title */}
         <Input
@@ -159,13 +159,13 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           isRTL={isRTL}
           value={contentHTML}
           onChange={setContentHTML}
-          error={state?.errors?.content_html}
+          error={state?.errors?.contentHtml}
         />
 
         {/* Send cleaned HTML to the server */}
         <input
           type="hidden"
-          name="content_html"
+          name="contentHtml"
           value={cleanQuillHtml(contentHTML)}
         />
 
@@ -176,7 +176,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           onChange={setHeroImage}
           value={heroImage}
         />
-        <input type="hidden" name="hero_img_path" value={heroImage} />
+        <input type="hidden" name="heroImgPath" value={heroImage} />
 
         {/* Submit button */}
         <FormFooter

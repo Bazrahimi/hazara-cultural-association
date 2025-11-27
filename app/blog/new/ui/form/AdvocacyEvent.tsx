@@ -26,7 +26,7 @@ const AdvocacyEvent = ({ categoryId, isRTL, eventDate, eventLocation }: Props) =
 
         <input
           type="datetime-local"
-          name="event_date"
+          name="eventDate"
           defaultValue={eventDate ?? ""}
           placeholder={placeholderDate}
           className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
@@ -42,7 +42,7 @@ const AdvocacyEvent = ({ categoryId, isRTL, eventDate, eventLocation }: Props) =
         </label>
 
         <input
-          name="event_location"
+          name="eventLocation"
           defaultValue={eventLocation ?? ""}
           placeholder={placeholderLocation}
           className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${

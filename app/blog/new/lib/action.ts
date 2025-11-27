@@ -51,19 +51,19 @@ export async function createBlogPost(
     // 🔧 Normalise what we send back to the client
     const normalizedData: Partial<BlogPostInput> = {
       title: (raw.title as string) ?? "",
-      content_html: (raw.content_html as string) ?? "",
-      hero_img_path: (raw.hero_img_path as string) ?? "",
-      event_date: (raw.event_date as string) ?? undefined,
-      event_location: (raw.event_location as string) ?? undefined,
+      contentHtml: (raw.content_html as string) ?? "",
+      heroImgPath: (raw.hero_img_path as string) ?? "",
+      eventDate: (raw.event_date as string) ?? undefined,
+      eventLocation: (raw.event_location as string) ?? undefined,
 
-      category_id: raw.category_id
+      categoryId: raw.category_id
         ? Number(raw.category_id as string)
         : undefined,
 
       status: (raw.status as BlogPostInput["status"]) ?? "draft",
 
-      is_featured: toBoolean(raw.is_featured),
-      is_rtl: toBoolean(raw.is_rtl),
+      isFeatured: toBoolean(raw.is_featured),
+      isRtl: toBoolean(raw.is_rtl),
     };
 
     return {
@@ -79,8 +79,8 @@ export async function createBlogPost(
   const baseSlug = slugify(data.title);
 
   const eventDate =
-    data.category_id === 2 && data.event_date
-      ? new Date(data.event_date)
+    data.categoryId === 2 && data.eventDate
+      ? new Date(data.eventDate)
       : null;
 
   const publishedAt = data.status === "published" ? new Date() : null;
@@ -105,14 +105,14 @@ export async function createBlogPost(
         ${session.userId},
         ${data.title},
         ${baseSlug},
-        ${data.content_html},
-        ${data.category_id},
+        ${data.contentHtml},
+        ${data.categoryId},
         ${data.status},
-        ${data.hero_img_path ?? null},
-        ${data.is_featured},
-        ${data.is_rtl},
+        ${data.heroImgPath ?? null},
+        ${data.isFeatured},
+        ${data.isRtl},
         ${eventDate},
-        ${data.event_location ?? null},
+        ${data.eventLocation ?? null},
         ${publishedAt}
       )
       RETURNING 

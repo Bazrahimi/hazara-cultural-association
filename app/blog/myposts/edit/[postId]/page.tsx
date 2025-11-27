@@ -1,11 +1,10 @@
 // app/blog/edit/[postId]/page.tsx
-import { sql } from "@/app/lib/db";
 import { requireUser } from "@/app/lib/session";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import BlogPostForm from "@/app/blog/new/ui/BlogPostForm";
 import { updateBlogPost } from "./lib/action";
-import { PostStatus } from "@/app/blog/lib/definitions";
+import { getEditPostById } from "./lib/data";
 
 function toDatetimeLocalString(date: Date) {
   const pad = (n: number) => n.toString().padStart(2, "0");
@@ -33,68 +32,25 @@ export default async function EditPostPage({ params }: PageProps) {
 
   const session = await requireUser();
   const { userId, roles } = session;
-
-  const rows = await sql<
-    {
-      id: number;
-      user_id: number;
-      title: string;
-      content_html: string;
-      category_id: number;
-      status: PostStatus;
-      hero_img_path: string | null;
-      is_featured: boolean;
-      event_date: string | null;
-      event_location: string | null;
-      is_rtl: boolean;
-    }[]
-  >`
-    SELECT
-      id,
-      user_id,
-      title,
-      content_html,
-      category_id,
-      status,
-      hero_img_path,
-      is_featured,
-      event_date,
-      event_location,
-      is_rtl
-    FROM blog_posts
-    WHERE id = ${id}
-    LIMIT 1;
-  `;
-
-  const post = rows[0];
-  if (!post) notFound();
-
   const isAdmin = roles.includes("admin");
-  const isOwner = post.user_id === userId;
 
-  if (!isAdmin && !isOwner) {
-    redirect("/blog/myposts");
-  }
+  const post = await getEditPostById({
+    postId: id,
+    userId,
+    isAdmin,
+  });
 
   // Normalise event_date for <input type="datetime-local">
   let eventDateForInput = "";
 
-  if (post.event_date) {
-    const d = new Date(post.event_date);
+  if (post.eventDate) {
+    const d = new Date(post.eventDate);
     eventDateForInput = toDatetimeLocalString(d);
   }
 
   const initialData = {
-    id: post.id,
-    title: post.title,
-    content_html: post.content_html,
-    category_id: post.category_id,
-    status: post.status,
-    hero_img_path: post.hero_img_path ?? "",
-    is_featured: post.is_featured,
-    event_date: eventDateForInput,
-    event_location: post.event_location ?? "",
-    is_rtl: post.is_rtl,
+    ...post,
+    eventData: eventDateForInput,
   };
 
   return (

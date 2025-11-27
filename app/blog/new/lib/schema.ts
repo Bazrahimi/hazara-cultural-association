@@ -31,11 +31,11 @@ export const BlogPostSchema = z.object({
     .min(3, "Title is required and must be at least 3 characters")
     .max(120, "Title must be under 120 characters"),
 
-  content_html: z
+  contentHtml: z
     .string()
-    .min(20, "Content is required and must be at least 10 characters."),
+    .min(20, "Content is required and must be at least 20 characters."),
 
-  category_id: z.coerce
+  categoryId: z.coerce
     .number()
     .int()
     .refine((val) => allowedCategoryIds.includes(val), {
@@ -44,14 +44,14 @@ export const BlogPostSchema = z.object({
 
   status: z.enum(STATUS_VALUES).default("published"),
 
-  hero_img_path: z.string().trim().optional().nullable(),
+  heroImgPath: z.string().trim().optional().nullable(),
 
   // ✔️ now robust for checkboxes / hidden field
-  is_featured: checkboxBoolean,
-  is_rtl: checkboxBoolean,
+  isFeatured: checkboxBoolean,
+  isRtl: checkboxBoolean,
 
   // datetime-local will submit a string like "2025-11-18T11:30"
-  event_date: z.string().optional().nullable(),
+  eventDate: z.string().optional().nullable(),
 
-  event_location: z.string().trim().optional().nullable(),
+  eventLocation: z.string().trim().optional().nullable(),
 });

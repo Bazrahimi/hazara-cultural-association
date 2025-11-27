@@ -6,14 +6,13 @@ type SuccessModalProps = {
   postTitle: string;
   success: PostSuccessDBReturn;
   message?: string;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 export function SuccessModal({
   postTitle,
   message,
   success,
-  onClose,
 }: SuccessModalProps) {
   const status = success.status; // ✅ get status from success
   const isPublished = status === "published";
@@ -121,8 +120,6 @@ export function SuccessModal({
             >
               New Post
             </Button>
-
-  
           </div>
 
           {/* Full-width Close */}
