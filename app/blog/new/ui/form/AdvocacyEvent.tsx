@@ -1,12 +1,12 @@
 type Props = {
-  categoryId: number;
+  categoryId?: number;
   isRTL: boolean;
   eventDate?: string;
   eventLocation?: string;
 };
 
 const AdvocacyEvent = ({ categoryId, isRTL, eventDate, eventLocation }: Props) => {
-  if (categoryId !== 2) return null; // only render for advocacy events
+
 
   const placeholderDate = isRTL
     ? "تاریخ و زمان رویداد را انتخاب کنید"

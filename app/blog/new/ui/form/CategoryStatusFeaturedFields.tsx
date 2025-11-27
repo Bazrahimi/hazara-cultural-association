@@ -5,6 +5,7 @@ import type {
   BlogPostInput,
   BlogPostState,
 } from "../../lib/definitions";
+import AdvocacyEvent from "./AdvocacyEvent";
 type Props = {
   isRTL: boolean;
   categoryId: CategoryId;
@@ -21,10 +22,16 @@ const CategoryStatusFeaturedFields = ({
   initialData,
   mode,
 }: Props) => {
-  const isAdvocacyEvent = categoryId === 2;
-
   // Determine status: state → initialData → default "published"
   const statusValue = state?.data?.status ?? initialData?.status ?? "published";
+
+  const eventDateValue =
+    (state?.data?.eventDate as string | undefined) ??
+    (initialData?.eventDate as string | undefined) ??
+    "";
+
+  const eventLocationValue =
+    state?.data?.eventLocation ?? initialData?.eventLocation ?? "";
 
   return (
     <>
@@ -57,9 +64,7 @@ const CategoryStatusFeaturedFields = ({
             )}
           </select>
           {state?.errors?.categoryId && (
-            <p className="text-xs text-red-600">
-              {state.errors.categoryId[0]}
-            </p>
+            <p className="text-xs text-red-600">{state.errors.categoryId[0]}</p>
           )}
         </div>
 
@@ -131,42 +136,12 @@ const CategoryStatusFeaturedFields = ({
         </div>
       </div>
 
-      {/* Event fields */}
-      {isAdvocacyEvent && (
-        <div className="grid gap-4 md:grid-cols-2" dir={isRTL ? "rtl" : "ltr"}>
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              {isRTL ? "تاریخ و زمان برنامه" : "Event date & time"}
-            </label>
-            <input
-              type="datetime-local"
-              name="eventDate"
-              defaultValue={
-                (state?.data?.eventDate as string | undefined) ??
-                (initialData?.eventDate as string | undefined) ??
-                ""
-              }
-              className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
-                isRTL ? "text-right" : ""
-              }`}
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              {isRTL ? "محل برگزاری" : "Event location"}
-            </label>
-            <input
-              name="eventLocation"
-              defaultValue={
-                state?.data?.eventLocation ?? initialData?.eventLocation ?? ""
-              }
-              className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
-                isRTL ? "text-right" : ""
-              }`}
-            />
-          </div>
-        </div>
+      {categoryId === 2 && (
+        <AdvocacyEvent
+          isRTL={isRTL}
+          eventDate={eventDateValue}
+          eventLocation={eventLocationValue}
+        />
       )}
     </>
   );

@@ -2,6 +2,7 @@
 
 "use client";
 
+import { toBoolean } from "@/app/lib/helper";
 import { setNotification } from "@/app/u/lib/setNotification";
 import CldFileUpload from "@/app/ui/global/CLdFileUpload";
 import { Input } from "@/app/ui/global/components";
@@ -9,13 +10,11 @@ import { useActionState, useEffect, useState } from "react";
 import { type CategoryId } from "../../lib/helper";
 import type { BlogPostInput, BlogPostState } from "../lib/definitions";
 import { ActionMode } from "../lib/definitions";
-import AdvocacyEvent from "./form/AdvocacyEvent";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
 import EditorField from "./form/EditorField";
 import FormFooter from "./form/FormFooter";
 import FormHeader from "./form/FormHeader";
 import { SuccessModal } from "./form/SuccessModal";
-import { toBoolean } from "@/app/lib/helper";
 
 type Props = {
   mode: ActionMode;
@@ -25,8 +24,6 @@ type Props = {
   ) => Promise<BlogPostState>;
   initialData?: Partial<BlogPostInput> & { id?: number };
 };
-
-
 
 export default function BlogPostForm({ mode, action, initialData }: Props) {
   const [state, formAction, isPending] = useActionState<
@@ -46,10 +43,9 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
   );
   const [heroImage, setHeroImage] = useState(initialData?.heroImgPath ?? "");
 
-  // 🔹 Derive category from state or initialData (fallback 1 = news)
-  const derivedCategoryId: CategoryId = Number(
+  const derivedCategoryId = (Number(
     state?.data?.categoryId ?? initialData?.categoryId ?? 1
-  ) as CategoryId;
+  ) || 1) as CategoryId;
 
   // Local state so the select is controlled immediately on change
   const [categoryId, setCategoryId] = useState<CategoryId>(derivedCategoryId);
@@ -84,14 +80,6 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
       setIsRTL(toBoolean(state.data.isRtl));
     }
   }, [state]);
-
-  const eventDateValue =
-    (state?.data?.eventDate as string | undefined) ??
-    (initialData?.eventDate as string | undefined) ??
-    "";
-
-  const eventLocationValue =
-    state?.data?.eventLocation ?? initialData?.eventLocation ?? "";
 
   // Compute the message shown above the footer button
   const footerMessage =
@@ -141,14 +129,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           mode={mode}
         />
 
-        {/* Event fields */}
 
-        <AdvocacyEvent
-          isRTL={isRTL}
-          eventDate={eventDateValue}
-          eventLocation={eventLocationValue}
-          categoryId={categoryId}
-        />
 
         {/* Content */}
         <EditorField
