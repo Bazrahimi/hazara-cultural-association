@@ -20,7 +20,7 @@ function toBoolean(raw: unknown): boolean {
 }
 
 export async function createBlogPost(
-  prevState: BlogPostState | undefined,
+  _prevState: BlogPostState | undefined,
   formData: FormData
 ): Promise<BlogPostState> {
   const session = await requireUser();
@@ -51,19 +51,19 @@ export async function createBlogPost(
     // 🔧 Normalise what we send back to the client
     const normalizedData: Partial<BlogPostInput> = {
       title: (raw.title as string) ?? "",
-      contentHtml: (raw.content_html as string) ?? "",
-      heroImgPath: (raw.hero_img_path as string) ?? "",
-      eventDate: (raw.event_date as string) ?? undefined,
-      eventLocation: (raw.event_location as string) ?? undefined,
+      contentHtml: (raw.contentHtml as string) ?? "",
+      heroImgPath: (raw.heroImgPath as string) ?? "",
+      eventDate: (raw.eventDate as string) ?? undefined,
+      eventLocation: (raw.eventLocation as string) ?? undefined,
 
-      categoryId: raw.category_id
-        ? Number(raw.category_id as string)
+      categoryId: raw.categoryId
+        ? Number(raw.categoryId as string)
         : undefined,
 
       status: (raw.status as BlogPostInput["status"]) ?? "draft",
 
-      isFeatured: toBoolean(raw.is_featured),
-      isRtl: toBoolean(raw.is_rtl),
+      isFeatured: toBoolean(raw.isFeatured),
+      isRtl: toBoolean(raw.isRtl),
     };
 
     return {
