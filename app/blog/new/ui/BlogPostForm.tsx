@@ -191,7 +191,7 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           message={state.message ?? ""}
           postTitle={state.postTitle ?? state.data?.title ?? ""}
           success={state.success}
-          onClose={() => setShowSuccessModal(false)}
+          // onClose={() => setShowSuccessModal(false)}
         />
       )}
     </div>

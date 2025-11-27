@@ -18,6 +18,8 @@ function toDatetimeLocalString(date: Date) {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
+
+
 type PageProps = {
   params: Promise<{ postId: string }>;
 };
@@ -48,9 +50,11 @@ export default async function EditPostPage({ params }: PageProps) {
     eventDateForInput = toDatetimeLocalString(d);
   }
 
+ 
+
   const initialData = {
     ...post,
-    eventData: eventDateForInput,
+    eventDate: eventDateForInput
   };
 
   return (

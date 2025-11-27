@@ -3,13 +3,13 @@
 import { BlogPostSchema } from "@/app/blog/new/lib/schema";
 
 import {
+  PostSuccessDBReturn,
   type BlogPostInput,
   type BlogPostState,
 } from "@/app/blog/new/lib/definitions";
 
 import { sql } from "@/app/lib/db";
 import { requireUser } from "@/app/lib/session";
-import { redirect } from "next/navigation";
 
 export async function updateBlogPost(
   prevState: BlogPostState | undefined,
@@ -36,31 +36,8 @@ export async function updateBlogPost(
     };
   }
 
-  // --- 2) Check ownership / admin ---
-  const ownerRow = await sql<{ userId: number }[]>`
-    SELECT user_id AS "userId"
-    FROM blog_posts
-    WHERE id = ${id}
-    LIMIT 1;
-  `;
-
-  const existing = ownerRow[0];
-  if (!existing) {
-    return {
-      ok: false,
-      message: "Post not found.",
-    };
-  }
-
   const isAdmin = session.roles.includes("admin");
-  const isOwner = existing.userId === session.userId;
-
-  if (!isAdmin && !isOwner) {
-    return {
-      ok: false,
-      message: "You are not allowed to edit this post.",
-    };
-  }
+  const userId = session.userId;
 
   // --- 3) Validate rest of fields with Zod (remove id before parsing) ---
   const raw = Object.fromEntries(formData.entries());
@@ -99,7 +76,7 @@ export async function updateBlogPost(
   const publishedAt = data.status === "published" ? new Date() : null;
 
   try {
-    await sql`
+    const rows = await sql<PostSuccessDBReturn[]>`
       UPDATE blog_posts
       SET
         title         = ${data.title},
@@ -112,8 +89,41 @@ export async function updateBlogPost(
         event_location = ${data.eventLocation ?? null},
         published_at  = ${publishedAt},
         is_rtl = ${data.isRtl}
-      WHERE id = ${id};
+      WHERE id = ${id}
+        AND (${isAdmin} OR user_id = ${userId})
+      RETURNING
+        id,
+        slug,
+        is_featured AS "isFeatured",
+        status;
     `;
+
+    const updated = rows[0];
+    if (!updated) {
+      return {
+        ok: false,
+        message: "Post not found or could not be updated.",
+        data,
+      };
+    }
+
+    const message =
+      data.status === "published"
+        ? "Your post has been updated and published."
+        : "Your post changes have been saved.";
+
+    return {
+      ok: true,
+      postTitle: data.title,
+      message,
+      success: {
+        id: updated.id,
+        slug: updated.slug,
+        isFeatured: updated.isFeatured,
+        status: updated.status,
+      },
+      data,
+    };
   } catch (err: unknown) {
     console.error("DB error updating Blog-post:", err);
     return {
@@ -122,7 +132,4 @@ export async function updateBlogPost(
       data,
     };
   }
-
-  // Success: redirect somewhere (e.g. back to "My posts")
-  redirect("/blog/myposts");
 }
