@@ -2,7 +2,6 @@
 import z from "zod";
 import { PostStatus } from "../../lib/definitions";
 import { CATEGORY_MAP } from "../../lib/helper";
-import { PostSuccessDBReturn } from "./definitions";
 
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
 const STATUS_VALUES = [
@@ -56,15 +55,3 @@ export const BlogPostSchema = z.object({
 
   event_location: z.string().trim().optional().nullable(),
 });
-
-export type BlogPostInput = z.infer<typeof BlogPostSchema>;
-
-export type BlogPostState = {
-  ok?: boolean;
-  postTitle?: string;
-  message?: string;
-  errors?: Partial<Record<keyof BlogPostInput, string[]>>;
-  data?: Partial<BlogPostInput>;
-  success?: PostSuccessDBReturn,
- 
-};

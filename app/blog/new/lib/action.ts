@@ -6,11 +6,8 @@ import { sql } from "@/app/lib/db";
 import { requireUser } from "@/app/lib/session";
 import { slugify } from "@/app/shop/lib/helper";
 import { PostSuccessDBReturn } from "./definitions";
-import {
-  BlogPostSchema,
-  type BlogPostInput,
-  type BlogPostState,
-} from "./schema";
+import { BlogPostSchema } from "./schema";
+import { BlogPostState, BlogPostInput } from "./definitions";
 
 function toBoolean(raw: unknown): boolean {
   if (typeof raw === "boolean") return raw;

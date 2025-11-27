@@ -1,13 +1,17 @@
 import type { CategoryId } from "../../../lib/helper";
 import { CATEGORY_MAP } from "../../../lib/helper";
-import { BlogPostInput, BlogPostState } from "../../lib/schema";
+import type {
+  ActionMode,
+  BlogPostInput,
+  BlogPostState,
+} from "../../lib/definitions";
 type Props = {
   isRTL: boolean;
   categoryId: CategoryId;
   setCategoryId: (id: CategoryId) => void;
   state: BlogPostState | undefined;
   initialData?: Partial<BlogPostInput> & { id?: number };
-  mode: "create" | "edit";
+  mode: ActionMode;
 };
 const CategoryStatusFeaturedFields = ({
   isRTL,

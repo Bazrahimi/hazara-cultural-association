@@ -1,11 +1,12 @@
 // app/blog/edit/[postId]/lib/action.ts
 "use server";
+import { BlogPostSchema } from "@/app/blog/new/lib/schema";
 
 import {
-  BlogPostSchema,
   type BlogPostInput,
   type BlogPostState,
-} from "@/app/blog/new/lib/schema";
+} from "@/app/blog/new/lib/definitions";
+
 import { sql } from "@/app/lib/db";
 import { requireUser } from "@/app/lib/session";
 import { redirect } from "next/navigation";
