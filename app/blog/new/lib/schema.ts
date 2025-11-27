@@ -1,10 +1,15 @@
 // app/blog/new/schema.ts
 import z from "zod";
-import { CATEGORY_MAP } from "../../lib/helper";
 import { PostStatus } from "../../lib/definitions";
+import { CATEGORY_MAP } from "../../lib/helper";
+import { PostSuccessDBReturn } from "./definitions";
 
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
-const STATUS_VALUES= ["draft", "published", "archived"] as const satisfies readonly PostStatus[];
+const STATUS_VALUES = [
+  "draft",
+  "published",
+  "archived",
+] as const satisfies readonly PostStatus[];
 
 // Helper to handle "true"/"false", "on", 1/0, undefined
 const checkboxBoolean = z
@@ -56,8 +61,10 @@ export type BlogPostInput = z.infer<typeof BlogPostSchema>;
 
 export type BlogPostState = {
   ok?: boolean;
+  postTitle?: string;
   message?: string;
   errors?: Partial<Record<keyof BlogPostInput, string[]>>;
   data?: Partial<BlogPostInput>;
-  slug?: string;
+  success?: PostSuccessDBReturn,
+ 
 };

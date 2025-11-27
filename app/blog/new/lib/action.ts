@@ -5,6 +5,7 @@
 import { sql } from "@/app/lib/db";
 import { requireUser } from "@/app/lib/session";
 import { slugify } from "@/app/shop/lib/helper";
+import { PostSuccessDBReturn } from "./definitions";
 import {
   BlogPostSchema,
   type BlogPostInput,
@@ -88,7 +89,7 @@ export async function createBlogPost(
   const publishedAt = data.status === "published" ? new Date() : null;
 
   try {
-    const rows = await sql<{ slug: string }[]>`
+    const rows = await sql<PostSuccessDBReturn[]>`
       INSERT INTO blog_posts (
         user_id,
         title,
@@ -117,7 +118,11 @@ export async function createBlogPost(
         ${data.event_location ?? null},
         ${publishedAt}
       )
-      RETURNING slug;
+      RETURNING 
+      id, 
+      slug, 
+      is_featured AS "isFeatured", 
+      status;
     `;
 
     const created = rows[0];
@@ -125,13 +130,20 @@ export async function createBlogPost(
     // Build a nice message depending on status
     const message =
       data.status === "published"
-        ? "Your post has been published."
+        ? "Your post has been published"
         : "Your post has been saved as a draft.";
 
     return {
       ok: true,
+      postTitle: data.title,
       message,
-      slug: created.slug,
+      success: {
+        id: created.id,
+        status: created.status,
+        isFeatured: created.isFeatured,
+        slug: created.slug,
+      },
+
       data,
     };
   } catch (err: unknown) {

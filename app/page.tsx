@@ -8,7 +8,7 @@ import Memorial133Spotlight from "./ui/homepage/blog/Memorial133Spotlight";
 export default function HomePage() {
   return (
     <div className="flex flex-col">
-      <section className="w-full border-b border-gray-200 bg-white">
+            <section className="w-screen relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] bg-white border-b border-gray-200">
         <Hero />
       </section>
 

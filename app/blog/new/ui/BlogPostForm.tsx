@@ -186,11 +186,11 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           footerMessage={footerMessage}
         />
       </form>
-
-      {showSuccessModal && state?.ok && (
+      {showSuccessModal && state?.ok && state.success && (
         <SuccessModal
           message={state.message ?? ""}
-          slug={state.slug!}
+          postTitle={state.postTitle ?? state.data?.title ?? ""}
+          success={state.success}
           onClose={() => setShowSuccessModal(false)}
         />
       )}
