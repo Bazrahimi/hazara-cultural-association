@@ -17,3 +17,16 @@ export type BlogPostState = {
   data?: Partial<BlogPostInput>;
   success?: PostSuccessDBReturn;
 };
+
+export type ParseResult =
+  | {
+      ok: true;
+      data: BlogPostInput;
+    }
+  | {
+      ok: false;
+      errors: BlogPostState["errors"];
+      normalizedData: Partial<BlogPostInput>;
+    };
+
+

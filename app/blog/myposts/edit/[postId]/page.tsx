@@ -3,7 +3,8 @@ import { requireUser } from "@/app/lib/session";
 import { notFound } from "next/navigation";
 
 import BlogPostForm from "@/app/blog/new/ui/BlogPostForm";
-import { updateBlogPost } from "./lib/action";
+
+import { updateBlogPost } from "@/app/blog/new/lib/action";
 import { getEditPostById } from "./lib/data";
 
 function toDatetimeLocalString(date: Date) {
@@ -17,8 +18,6 @@ function toDatetimeLocalString(date: Date) {
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
-
-
 
 type PageProps = {
   params: Promise<{ postId: string }>;
@@ -50,11 +49,9 @@ export default async function EditPostPage({ params }: PageProps) {
     eventDateForInput = toDatetimeLocalString(d);
   }
 
- 
-
   const initialData = {
     ...post,
-    eventDate: eventDateForInput
+    eventDate: eventDateForInput,
   };
 
   return (

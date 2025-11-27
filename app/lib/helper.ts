@@ -21,4 +21,8 @@ export const delay = async (ms: number) => {
 export const NOTIFICATION_KEY = "app-toast";
 export const NOTIFICATION_EVENT = "app-toast-event";
 
-
+export const toBoolean = (raw: unknown): boolean => {
+  return (
+    raw === true || raw === "true" || raw === 1 || raw === "1" || raw === "on"
+  );
+};

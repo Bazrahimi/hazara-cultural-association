@@ -15,6 +15,7 @@ import EditorField from "./form/EditorField";
 import FormFooter from "./form/FormFooter";
 import FormHeader from "./form/FormHeader";
 import { SuccessModal } from "./form/SuccessModal";
+import { toBoolean } from "@/app/lib/helper";
 
 type Props = {
   mode: ActionMode;
@@ -25,12 +26,7 @@ type Props = {
   initialData?: Partial<BlogPostInput> & { id?: number };
 };
 
-// Helper: coerce unknown value to boolean
-function toBoolean(raw: unknown): boolean {
-  return (
-    raw === true || raw === "true" || raw === 1 || raw === "1" || raw === "on" // just in case, from native inputs
-  );
-}
+
 
 export default function BlogPostForm({ mode, action, initialData }: Props) {
   const [state, formAction, isPending] = useActionState<
