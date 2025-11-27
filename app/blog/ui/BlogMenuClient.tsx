@@ -14,7 +14,6 @@ const baseItems = [
     label: "Hazara Genocide Memorial",
     href: "/blog/hazara-genocide-memorial/133",
   },
-  // TODO: using this spread method add new new object does not come with bugs. when user on hte blog. if they click on hazara genocide memorial. it i will append end point to existing end point
 ];
 
 const manageItems = [
