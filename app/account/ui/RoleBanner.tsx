@@ -101,7 +101,7 @@ const RoleBanner = ({ roles, fullName }: Props) => {
         </P>
 
         <div className="mt-3 flex flex-wrap gap-3">
-          <Button as="link" href="/membership/join" variant="outline" size="sm">
+          <Button as="link" href="/members/join" variant="outline" size="sm">
             Membership
           </Button>
 
