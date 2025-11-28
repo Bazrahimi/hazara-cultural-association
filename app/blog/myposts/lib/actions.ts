@@ -3,6 +3,7 @@
 import { sql } from "@/app/lib/db";
 import { getSession } from "@/app/lib/session";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { PostActionState } from "./definitions";
 import { postFailure, postSuccess } from "./helper";
 
@@ -97,8 +98,8 @@ export async function publishPostAction(
       );
     }
 
-    revalidatePath("/");
-    revalidatePath("/blog/myposts");
+    // revalidatePath("/");
+    // revalidatePath("/blog/myposts");
 
     return postSuccess("Post published.");
   } catch (err) {
@@ -140,7 +141,7 @@ export async function archivePostAction(
       );
     }
 
-    revalidatePath("/blog/myposts");
+    // revalidatePath("/blog/myposts");
 
     return postSuccess("Post archived.");
   } catch (err) {
@@ -181,11 +182,11 @@ export async function deletePostAction(
       );
     }
 
-    revalidatePath("/blog/myposts");
-
-    return postSuccess("Post deleted permanently.");
+    // revalidatePath("/blog/myposts");
   } catch (err) {
     console.error("Failed to delete post", err);
     return postFailure("Database error.");
   }
+
+  redirect("/blog/myposts");
 }

@@ -160,7 +160,6 @@ export default function CheckoutPage() {
                     <>
                       <SocialAccount
                         onProviderSelect={(provider) => {
-                          console.log(provider)
                           // start your OAuth flow here (e.g., next-auth signIn(provider))
                           // signIn(provider)
                         }}

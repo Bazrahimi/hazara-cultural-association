@@ -169,7 +169,6 @@ export const getUserId = async (): Promise<number | null> => {
 // auth helper
 export const requireAdmin = async () => {
   const s = await requireUser(); // redirects to /u/login if missing
-  console.log(s);
 
   if (!s.roles.includes("admin")) redirect("/account"); // or "/not-authorized"
   return s;

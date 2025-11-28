@@ -152,6 +152,8 @@ export default function BlogPostDetail({
           status={post.status}
           isFeatured={post.isFeatured}
           isRTL={post.isRtl}
+          slug={post.slug}
+          updatedAt={post.updatedAt}
         />
       )}
     </article>

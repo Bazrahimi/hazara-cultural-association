@@ -33,7 +33,11 @@ type NominatimSuggestion = {
   extratags?: Record<string, string>;
 };
 
-export default function AddressAutoComplete({label, placeholder, onSelect }: Props) {
+export default function AddressAutoComplete({
+  label,
+  placeholder,
+  onSelect,
+}: Props) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -92,8 +96,6 @@ export default function AddressAutoComplete({label, placeholder, onSelect }: Pro
       if (timer.current) clearTimeout(timer.current);
     };
   }, [query]);
-
-  console.log(items);
 
   // Map a NominatimSuggestion to your BillingAddressInput
   const toBilling = (s: NominatimSuggestion): BillingAddressInput => {

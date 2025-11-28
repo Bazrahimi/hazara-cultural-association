@@ -1,47 +1,49 @@
+// ManagePostControls.tsx
 "use client";
 
-import { Button } from "@/app/ui/global/components";
-import { PostStatus } from "../../lib/definitions";
-import { toggleFeatured, updateStatus } from "../lib/action";
+import type { PostStatus } from "../../lib/definitions";
+import PostActionsMenu from "../../myposts/ui/postActionMenu/PostActionsMenu";
 
 type Props = {
   postId: number;
+  slug: string;
   status: PostStatus;
   isFeatured: boolean;
   isRTL?: boolean;
+  updatedAt: string; // formatted e.g. "22 NOV 2025"
 };
 
 export function ManagePostControls({
   postId,
+  slug,
   status,
   isFeatured,
   isRTL = false,
+  updatedAt,
 }: Props) {
-  const nextStatus = status === "archived" ? "published" : "archived";
-
   const t = {
     heading: isRTL ? "مدیریت این مطلب" : "Manage this post",
-    statusLabel:
-      status === "published"
-        ? isRTL
-          ? "منتشر شده"
-          : "Published"
-        : status === "draft"
-          ? isRTL
-            ? "پیش‌نویس"
-            : "Draft"
-          : isRTL
-            ? "آرشیو شده"
-            : "Archived",
-    edit: isRTL ? "ویرایش مطلب" : "Edit post",
-    feature: isRTL ? "نمایش در صفحهٔ اصلی" : "Feature on homepage",
-    unfeature: isRTL ? "حذف از صفحهٔ اصلی" : "Remove from homepage",
-    publish: isRTL ? "انتشار مطلب" : "Publish post",
-    archive: isRTL ? "انتقال به آرشیو" : "Archive post",
     note: isRTL
       ? "فقط شما (نویسنده) یا مدیر سایت این بخش را می‌بینید."
       : "Only you (author) or an admin can see this section.",
+
+    // label translations
+    statusLabel: isRTL ? "وضعیت نشر" : "Publish status",
+    updatedLabel: isRTL ? "آخرین به‌روزرسانی" : "Last updated",
   };
+
+  // Colored chip per status
+  const statusStyles = {
+    published: "bg-green-100 text-green-700",
+    draft: "bg-yellow-100 text-yellow-700",
+    archived: "bg-gray-200 text-gray-700",
+  }[status];
+
+  const statusText = {
+    published: isRTL ? "منتشر شده" : "Published",
+    draft: isRTL ? "پیش‌نویس" : "Draft",
+    archived: isRTL ? "آرشیو شده" : "Archived",
+  }[status];
 
   return (
     <section
@@ -52,9 +54,9 @@ export function ManagePostControls({
       `}
       dir={isRTL ? "rtl" : "ltr"}
     >
-      {/* Header row: title + status chip */}
+      {/* Top row: Heading + Actions menu */}
       <div
-        className={`mb-3 flex items-center justify-between gap-3 ${
+        className={`mb-4 flex items-center justify-between ${
           isRTL ? "flex-row-reverse" : ""
         }`}
       >
@@ -62,49 +64,47 @@ export function ManagePostControls({
           {t.heading}
         </p>
 
-        <span className="inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-[11px] font-medium text-gray-700">
-          {t.statusLabel}
-        </span>
+        <PostActionsMenu
+          isRTL={isRTL}
+          postId={postId}
+          slug={slug}
+          status={status}
+          isFeatured={isFeatured}
+        />
       </div>
 
-      {/* Buttons row */}
+      {/* Status & Last Updated Panel */}
       <div
-        className={`flex flex-wrap gap-3 ${isRTL ? "flex-row-reverse" : ""}`}
+        className={`
+          mb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between 
+          gap-2 border rounded-lg bg-white px-3 py-2
+        `}
       >
-        {/* Edit */}
-        <Button as="link" href={`/blog/myposts/edit/${postId}`} size="xs">
-          {t.edit}
-        </Button>
-
-        {/* Feature / Unfeature */}
-        <form action={toggleFeatured}>
-          <input type="hidden" name="postId" value={postId} />
-          <input
-            type="hidden"
-            name="feature"
-            value={(!isFeatured).toString()}
-          />
-          <Button
-            type="submit"
-            size="xs"
-            variant={isFeatured ? "danger" : "outline"}
+        {/* Status */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-medium text-gray-500">
+            {t.statusLabel}:
+          </span>
+          <span
+            className={`inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusStyles}`}
           >
-            {isFeatured ? t.unfeature : t.feature}
-          </Button>
-        </form>
+            {statusText}
+          </span>
+        </div>
 
-        {/* Publish / Archive */}
-        <form action={updateStatus}>
-          <input type="hidden" name="postId" value={postId} />
-          <input type="hidden" name="status" value={nextStatus} />
-          <Button type="submit" size="xs" variant="outline">
-            {status === "archived" ? t.publish : t.archive}
-          </Button>
-        </form>
+        {/* Last updated */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-medium text-gray-500">
+            {t.updatedLabel}:
+          </span>
+          <span className="text-xs font-semibold text-gray-700">
+            {updatedAt}
+          </span>
+        </div>
       </div>
 
-      {/* Small note */}
-      <p className="mt-3 w-full text-[11px] text-gray-500 italic">{t.note}</p>
+      {/* Author-only note */}
+      <p className="mt-1 w-full text-[11px] text-gray-500 italic">{t.note}</p>
     </section>
   );
 }

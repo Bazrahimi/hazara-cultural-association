@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
-import type { PostStatus } from "../../lib/definitions";
+import type { PostStatus } from "../../../lib/definitions";
+import ArchiveMenuItem from "./ArchiveMenuItem";
+import DeleteMenuItem from "./DeleteMenuItem";
+import FeatureMenuItem from "./FeatureMenuItem";
+import PublishMenuItem from "./PublishMenuItem";
 
 import { setNotification } from "@/app/u/lib/setNotification";
 import {
@@ -11,7 +15,7 @@ import {
   deletePostAction,
   featurePostAction,
   publishPostAction,
-} from "../lib/actions";
+} from "../../lib/actions";
 
 type Props = {
   isRTL: boolean;
@@ -79,7 +83,6 @@ export default function PostActionsMenu({
     if (deleteState?.ok) {
       setNotification(deleteState.message);
       setOpen(false);
-      return;
     }
 
     // Feature / Unfeature
@@ -186,116 +189,10 @@ export default function PostActionsMenu({
   );
 }
 
-type ActionMenuItemProps = {
+export type ActionMenuItemProps = {
   isRTL: boolean;
   postId: number;
   isPending: boolean;
   action: (formData: FormData) => void;
   isFeatured?: boolean;
 };
-
-const FeatureMenuItem = ({
-  isRTL,
-  postId,
-  isPending,
-  action,
-  isFeatured,
-}: ActionMenuItemProps) => {
-  // Decide the button label based on feature status
-  const label = isFeatured
-    ? isRTL
-      ? "حذف از صفحه اصلی" // Remove from homepage (RTL)
-      : "Remove from Homepage"
-    : isRTL
-      ? "نشر در صفحه اصلی" // Publish to homepage (RTL)
-      : "Publish to Homepage";
-
-  return (
-    <li>
-      <form action={action}>
-        <input type="hidden" name="postId" value={postId} />
-        <button
-          type="submit"
-          disabled={isPending}
-          className={`w-full px-3 py-2 hover:bg-slate-100 disabled:opacity-60 ${
-            isRTL ? "text-right" : "text-left"
-          }`}
-        >
-          {label}
-        </button>
-      </form>
-    </li>
-  );
-};
-
-function PublishMenuItem({
-  isRTL,
-  postId,
-  isPending,
-  action,
-}: ActionMenuItemProps) {
-  return (
-    <li>
-      <form action={action}>
-        <input type="hidden" name="postId" value={postId} />
-        <button
-          type="submit"
-          disabled={isPending}
-          className={`w-full px-3 py-2 hover:bg-slate-100 disabled:opacity-60 ${
-            isRTL ? "text-right" : "text-left"
-          }`}
-        >
-          {isRTL ? "منتشر کردن" : "Publish"}
-        </button>
-      </form>
-    </li>
-  );
-}
-
-function ArchiveMenuItem({
-  isRTL,
-  postId,
-  isPending,
-  action,
-}: ActionMenuItemProps) {
-  return (
-    <li>
-      <form action={action}>
-        <input type="hidden" name="postId" value={postId} />
-        <button
-          type="submit"
-          disabled={isPending}
-          className={`w-full px-3 py-2 hover:bg-slate-100 disabled:opacity-60 ${
-            isRTL ? "text-right" : "text-left"
-          }`}
-        >
-          {isRTL ? "آرشیف" : "Archive"}
-        </button>
-      </form>
-    </li>
-  );
-}
-
-function DeleteMenuItem({
-  isRTL,
-  postId,
-  isPending,
-  action,
-}: ActionMenuItemProps) {
-  return (
-    <li>
-      <form action={action}>
-        <input type="hidden" name="postId" value={postId} />
-        <button
-          type="submit"
-          disabled={isPending}
-          className={`w-full px-3 py-2 hover:bg-slate-100 disabled:opacity-60 text-red-500 ${
-            isRTL ? "text-right" : "text-left"
-          }`}
-        >
-          {isRTL ? "حذف کامل" : "Delete Permanently"}
-        </button>
-      </form>
-    </li>
-  );
-}

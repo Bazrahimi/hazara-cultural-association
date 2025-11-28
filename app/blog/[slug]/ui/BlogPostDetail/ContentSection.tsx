@@ -9,10 +9,8 @@ type Props = {
 const ContentSection = ({ content, isRTL, isLink }: Props) => {
   // only enhance when category_id === 99
 
-
   const finalHTML = isLink ? enhanceContentWithYoutubeEmbeds(content) : content;
 
-  console.log("Final Html", finalHTML)
   return (
     <section
       className={`
