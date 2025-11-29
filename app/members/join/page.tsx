@@ -16,14 +16,31 @@ const page = async () => {
         <Header as="h1" size="md">
           HCA Membership Registration
         </Header>
-        <P>
-          Membership is open to people residing in Australia. A minimum fee of{" "}
-          <span className="font-semibold">$10/year</span> applies to all
-          members, including the executive team. If you are facing financial
-          hardship, you can request a fee waiver below.
+        <P className="mt-3 text-gray-700">
+          Membership is open to people currently residing in Australia. A
+          minimum fee of <span className="font-semibold">$10/year</span> applies
+          to all members, including the executive team.
         </P>
+
+        <P className="mt-2 text-gray-700">
+          All membership income is used to support Hazara Cultural Association
+          programs: cultural events, community gatherings, educational
+          workshops, advocacy campaigns, and maintaining our online platforms
+          (website, blog, and modern online marketplace). Committee members and
+          volunteers are unpaid; your contribution goes directly back into the
+          community.
+        </P>
+
+        <P className="mt-2 text-gray-700">
+          As part of your membership, you can help keep our community connected:
+          HCA has built a blog to share news and lived experiences, and a modern
+          online marketplace where community members can showcase Hazara
+          culture, art, and small businesses. If you’re interested in having
+          your own page or store, you can tell us in the form below.
+        </P>
+
         <div className="mt-6">
-    <JoinForm />
+          <JoinForm />
         </div>
       </section>
     </main>

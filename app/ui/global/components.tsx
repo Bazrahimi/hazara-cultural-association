@@ -3,11 +3,10 @@
 import { inter } from "@/app/lib/font";
 import { cn } from "@/app/lib/helper";
 import clsx from "clsx";
-import React, { forwardRef, useState } from "react";
+import Link from "next/link";
+import React, { forwardRef, ReactNode, useState } from "react";
 import { IconType } from "react-icons";
 import { IoEye, IoEyeOff } from "react-icons/io5";
-import Link from "next/link";
-import { ReactNode } from "react";
 
 export type BaseInputProps = {
   id: string;
@@ -41,6 +40,7 @@ export type BaseInputProps = {
 
   /** NEW: Enable right-to-left layout for Hazaragi/Dari */
   isRTL?: boolean;
+  readOnly?: boolean;
 };
 
 export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
@@ -64,6 +64,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
       max,
       step,
       isRTL = false, // <— NEW
+      readOnly = false,
     },
     ref
   ) {
@@ -131,6 +132,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
                 ref,
                 value,
                 onChange: (e) => onChange?.(e.currentTarget.value),
+                readOnly,
               }}
               {...inputProps}
               className={clsx(
@@ -141,7 +143,8 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
                 hasError &&
                   "border-red-300 focus:border-red-400 focus:ring-red-100",
                 isRTL && "text-right",
-                isRTL && "direction-rtl", // <— make the input truly RTL
+                isRTL && "direction-rtl",
+                readOnly && "bg-gray-100 text-gray-500 cursor-not-allowed",
                 inputClassName
               )}
             />
@@ -161,6 +164,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
                   autoComplete ??
                   (type === "password" ? "current-password" : "off"),
                 ref,
+                readOnly,
                 defaultValue,
               }}
               {...inputProps}
@@ -173,6 +177,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
                   "border-red-300 focus:border-red-400 focus:ring-red-100",
                 isRTL && "text-right",
                 isRTL && "direction-rtl",
+                readOnly && "bg-gray-100 text-gray-500 cursor-not-allowed",
                 inputClassName
               )}
             />
@@ -229,7 +234,6 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
     );
   }
 );
-
 
 export type InputOption = string | { value: string; label?: string };
 
