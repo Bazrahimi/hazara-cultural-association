@@ -1,72 +1,68 @@
-// app/members/join/schema.ts
-"use server";
-
+import { AUS_STATES, toBoolean } from "@/app/lib/helper";
 import { z } from "zod";
 
-export const MembershipSchema = z
-  .object({
-    firstName: z.string().min(2, "Please enter your first name."),
-    lastName: z.string().min(2, "Please enter your last name."),
-    phone: z.string().min(6, "Please enter a valid phone number."),
-    suburb: z.string().min(2, "Please enter your suburb."),
-    stateCode: z
-      .string()
-      .min(2, "Please select your state.")
-      .max(3, "Invalid state code."),
-    country: z.literal("AU", {
-      errorMap: () => ({
-        message: "Membership is only available for residents of Australia.",
-      }),
-    }),
+// Reusable checkbox schema
+const checkboxBoolean = z
+  .preprocess((val) => toBoolean(val), z.boolean())
+  .optional()
+  .default(false);
 
-    // Membership fee + tier
-    tier: z.enum(["standard", "supporter", "patron"]),
-    feeAmount: z.coerce.number({
-      invalid_type_error: "Please enter a valid amount.",
-    }),
-    requestWaiver: z
-      .enum(["yes", "no"])
-      .default("no")
-      .transform((v) => v === "yes"),
+// Generic helper for numeric enum
+const numericEnum = (min: number, max: number, message: string) =>
+  z.preprocess(
+    (val) => (val === "" || val == null ? undefined : Number(val)),
+    z
+      .number({
+        error: message,
+      })
+      .int(message)
+      .min(min, message)
+      .max(max, message)
+  );
 
-    waiverReason: z
-      .string()
-      .max(500, "Please keep your explanation within 500 characters.")
-      .optional()
-      .or(z.literal("")),
+export const MemberSchema = z.object({
+  firstName: z.string().trim().min(2, "Please enter your first name."),
+  lastName: z.string().trim().min(2, "Please enter your last name."),
 
-    // Awareness level
-    awarenessLevel: z.enum(["strong", "good", "some", "low"], {
-      required_error:
-        "Please tell us about your awareness of Hazara history and persecution.",
-    }),
-  })
-  .superRefine((data, ctx) => {
-    // If not requesting waiver → enforce minimum fee
-    if (!data.requestWaiver && data.feeAmount < 10) {
-      ctx.addIssue({
-        path: ["feeAmount"],
-        code: z.ZodIssueCode.custom,
-        message: "Minimum membership fee is $10.",
-      });
-    }
+  // Country is fixed to AU for now
+  country: z.literal("AU", {
+    error: "Membership is currently only available for residents of Australia.",
+  }),
 
-    // If requesting waiver → require a reason
-    if (data.requestWaiver && !data.waiverReason?.trim()) {
-      ctx.addIssue({
-        path: ["waiverReason"],
-        code: z.ZodIssueCode.custom,
-        message: "Please explain your circumstances for a fee waiver.",
-      });
-    }
-  });
+  stateCode: z.enum(AUS_STATES, {
+    error: "Please select your state of residence",
+  }),
 
-export type MembershipInput = z.infer<typeof MembershipSchema>;
+  postCode: z
+    .string()
+    .trim()
+    .min(4, "Postcode should be 4 digits.")
+    .max(4, "Postcode should be 4 digits.")
+    .regex(/^\d{4}$/, "Postcode should contain only digits."),
 
-export type MembershipState = {
-  ok: boolean;
-  message?: string;
-  // field errors by key, like your BlogPost pattern
-  errors?: Partial<Record<keyof MembershipInput, string[]>>;
-  data?: Partial<MembershipInput>;
-};
+  phone: z
+    .string()
+    .trim()
+    .min(6, "Please enter a valid phone number.")
+    .max(30, "Phone number is too long."),
+
+  ageRange: numericEnum(0, 5, "Please select your age range"),
+
+  englishProficiency: numericEnum(
+    0,
+    4,
+    "Please select your proficiency level."
+  ),
+
+  farsiHazaragiProficiency: numericEnum(
+    0,
+    4,
+    "Please select your proficiency level."
+  ),
+
+  // Checkboxes – default false when not checked
+  interestBlog: checkboxBoolean,
+  interestStore: checkboxBoolean,
+  newsletterOptIn: checkboxBoolean,
+  virtualMeetingOptIn: checkboxBoolean,
+});

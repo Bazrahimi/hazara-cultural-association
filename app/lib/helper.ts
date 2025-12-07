@@ -26,3 +26,14 @@ export const toBoolean = (raw: unknown): boolean => {
     raw === true || raw === "true" || raw === 1 || raw === "1" || raw === "on"
   );
 };
+
+export const AUS_STATES = [
+  "VIC",
+  "NSW",
+  "QLD",
+  "SA",
+  "WA",
+  "TAS",
+  "ACT",
+  "NT",
+] as const;

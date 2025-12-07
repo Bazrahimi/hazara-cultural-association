@@ -1,29 +1,35 @@
 // app/members/join/page.tsx
+"use client";
 
+import { AUS_STATES } from "@/app/lib/helper";
 import { Button, Input } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { SelectInput } from "@/app/ui/global/SelectInput";
+import { useActionState } from "react";
+import type { AgeRange, ProficiencyLevel } from "../lib/definitions";
+import { AGE_RANGES, PROFICIENCY_LEVELS } from "../lib/helper";
 import Involvement from "./Involvement";
+import { createMember } from "../lib/action";
 
-const STATES = ["VIC", "NSW", "QLD", "SA", "WA", "TAS", "ACT", "NT"] as const;
-const AGE_RANGES = [
-  "Under 18",
-  "18–24",
-  "25–34",
-  "35–44",
-  "45–54",
-  "55+",
-] as const;
+const PROFICIENCY_OPTIONS = (
+  Object.entries(PROFICIENCY_LEVELS) as [string, string][]
+).map(([value, label]) => ({
+  value: Number(value) as ProficiencyLevel,
+  label,
+}));
 
-const PROFICIENCY_LEVELS = [
-  "None",
-  "Basic",
-  "Conversational",
-  "Fluent",
-  "Native / Near-native",
-] as const;
+const AGE_RANGES_OPTION = (
+  Object.entries(AGE_RANGES) as [string, string][]
+).map(([value, label]) => ({
+  value: Number(value) as AgeRange,
+  label,
+}));
 
 const JoinForm = () => {
+  const [state, formAction, isPending] = useActionState(
+    createMember,
+    undefined
+  );
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
       <section className="space-y-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -61,7 +67,7 @@ const JoinForm = () => {
                 readOnly
               />
 
-              <SelectInput id="stateCode" label="State" options={STATES} />
+              <SelectInput id="stateCode" label="State" options={AUS_STATES} />
 
               <Input
                 id="postCode"
@@ -89,19 +95,19 @@ const JoinForm = () => {
             <SelectInput
               id="ageRange"
               label="Age Range"
-              options={AGE_RANGES}
+              options={AGE_RANGES_OPTION}
               placeholder="Select age range"
             />
             <SelectInput
               id="englishProficiency"
               label="English proficiency"
-              options={PROFICIENCY_LEVELS}
+              options={PROFICIENCY_OPTIONS}
               placeholder="Select Level"
             />
             <SelectInput
               id="farsiHazaragiProficiency"
               label="Farsi / Hazaragi proficiency"
-              options={PROFICIENCY_LEVELS}
+              options={PROFICIENCY_OPTIONS}
               placeholder="Select level"
             />
           </div>
