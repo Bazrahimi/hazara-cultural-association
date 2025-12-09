@@ -2,14 +2,17 @@
 "use client";
 
 import { AUS_STATES } from "@/app/lib/helper";
-import { Button, Input } from "@/app/ui/global/components";
+import { ActionButton } from "@/app/ui/global/clientComponent";
+import { Input } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
+import { P } from "@/app/ui/global/paragraph";
 import { SelectInput } from "@/app/ui/global/SelectInput";
 import { useActionState } from "react";
+import { createMember } from "../lib/action";
 import type { AgeRange, ProficiencyLevel } from "../lib/definitions";
 import { AGE_RANGES, PROFICIENCY_LEVELS } from "../lib/helper";
 import Involvement from "./Involvement";
-import { createMember } from "../lib/action";
+import { FormErrorMessage } from "@/app/ui/global/clientComponent";
 
 const PROFICIENCY_OPTIONS = (
   Object.entries(PROFICIENCY_LEVELS) as [string, string][]
@@ -33,7 +36,21 @@ const JoinForm = () => {
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
       <section className="space-y-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <form action="" noValidate className="space-y-8">
+        {/* Global message (optional) */}
+        {state?.message && (
+          <P
+            size="sm"
+            className={`${state.ok ? "text-green-700" : "text-red-700"}`}
+          >
+            {state.message}
+          </P>
+        )}
+        <form
+          action={formAction}
+          aria-busy={isPending}
+          noValidate
+          className="space-y-8"
+        >
           {/* Personal Detail */}
           <div className="space-y-4">
             <Header as="h2" size="md">
@@ -47,13 +64,16 @@ const JoinForm = () => {
                 placeholder="Enter your first name"
                 type="text"
                 required
+                defaultValue={state?.data?.firstName}
+                error={state?.errors?.firstName}
               />
               <Input
                 id="lastName"
                 label="Last name"
                 placeholder="Enter your last name"
                 type="text"
-                required
+                defaultValue={state?.data?.lastName}
+                error={state?.errors?.lastName}
               />
             </div>
 
@@ -63,17 +83,24 @@ const JoinForm = () => {
                 label="Country of current residence"
                 type="text"
                 value="AU"
-                // assuming your Input component forwards this
                 readOnly
+                error={state?.errors?.country}
               />
 
-              <SelectInput id="stateCode" label="State" options={AUS_STATES} />
+              <SelectInput
+                id="stateCode"
+                label="State"
+                options={AUS_STATES}
+                error={state?.errors?.stateCode}
+              />
 
               <Input
                 id="postCode"
                 label="Post Code"
                 type="number"
                 placeholder="Enter your your post code"
+                defaultValue={state?.data?.postCode}
+                error={state?.errors?.postCode}
               />
             </div>
 
@@ -83,7 +110,8 @@ const JoinForm = () => {
                 label="Phone"
                 type="tel"
                 placeholder="Enter your phone number"
-                required
+                defaultValue={state?.data?.phone}
+                error={state?.errors?.phone}
               />
               {/* spacer columns if you want later extra fields */}
               <div className="hidden md:block" />
@@ -97,18 +125,24 @@ const JoinForm = () => {
               label="Age Range"
               options={AGE_RANGES_OPTION}
               placeholder="Select age range"
+              defaultValue={state?.data?.ageRange}
+              error={state?.errors?.ageRange}
             />
             <SelectInput
               id="englishProficiency"
               label="English proficiency"
               options={PROFICIENCY_OPTIONS}
               placeholder="Select Level"
+              defaultValue={state?.data?.englishProficiency}
+              error={state?.errors?.englishProficiency}
             />
             <SelectInput
               id="farsiHazaragiProficiency"
               label="Farsi / Hazaragi proficiency"
               options={PROFICIENCY_OPTIONS}
               placeholder="Select level"
+              defaultValue={state?.data?.farsiHazaragiProficiency}
+              error={state?.errors?.farsiHazaragiProficiency}
             />
           </div>
 
@@ -125,12 +159,21 @@ const JoinForm = () => {
               stories.
             </p>
 
-            <Involvement />
+            <Involvement errors={state?.errors} data={state?.data} />
           </div>
 
           {/* Submit */}
           <div className="flex justify-end">
-            <Button>Submit membership</Button>
+            <ActionButton
+              type="submit"
+              fullWidth
+              isLoading={isPending}
+              overlay
+              loadingText="Submitting..."
+            >
+              Submit membership
+            </ActionButton>
+            <FormErrorMessage message={state?.message} />
           </div>
         </form>
       </section>

@@ -62,6 +62,7 @@ const LoginPage = () => {
           action={formAction}
           className="relative mt-2 space-y-6"
           noValidate
+          aria-busy={isPending}
         >
           <div className="space-y-5">
             <Input
