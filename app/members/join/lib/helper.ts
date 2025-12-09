@@ -20,45 +20,51 @@ export const PROFICIENCY_LEVELS = {
 } as const satisfies Record<number, string>;
 
 export const parseMemberForm = (formData: FormData): ParseResult => {
-  const raw = Object.fromEntries(formData.entries());
+  // Type raw as “shape of form”, so TS is happy with raw.firstName, etc.
+  const raw = Object.fromEntries(formData.entries()) as Partial<
+    Record<keyof MemberInput, FormDataEntryValue>
+  >;
+
   const parsed = MemberSchema.safeParse(raw);
 
   if (parsed.success) {
     return { ok: true, data: parsed.data };
   }
 
-  const fieldErrors: MemberState["errors"] = {};
+  // Build typed fieldErrors in one go
+  const { fieldErrors } = parsed.error.flatten();
+  const errors = fieldErrors as MemberState["errors"];
 
-  for (const issue of parsed.error.issues) {
-    const field = issue.path[0];
-    if (typeof field === "string") {
-      const key = field as keyof MemberInput;
-      if (!fieldErrors[key]) fieldErrors[key] = [];
-      fieldErrors[key]!.push(issue.message);
-    }
-  }
+  // Helper to normalise numeric select values
+  const toNum = (val: FormDataEntryValue | undefined) => {
+    if (val == null) return undefined;
+    const s = String(val);
+    if (!s) return undefined;
+    const n = Number(s);
+    return Number.isNaN(n) ? undefined : n;
+  };
 
   // Normalise what we send back to the client so the form can re-fill fields
   const normalizedData: Partial<MemberInput> = {
     firstName: (raw.firstName as string) ?? "",
     lastName: (raw.lastName as string) ?? "",
-
-    country: (raw.country as MemberInput["country"]) ?? "AU",
-
-    stateCode: (raw.stateCode as MemberInput["stateCode"]) ?? undefined,
-
-    postCode: (raw.postCode as string) ?? "",
     phone: (raw.phone as string) ?? "",
+    ageRange: toNum(raw.ageRange) as MemberInput["ageRange"] | undefined,
 
-    ageRange: raw.ageRange as MemberInput["ageRange"] | undefined,
+    englishProficiency: toNum(raw.englishProficiency) as
+      | MemberInput["englishProficiency"]
+      | undefined,
 
-    englishProficiency:
-      (raw.englishProficiency as MemberInput["englishProficiency"]) ??
-      undefined,
+    farsiHazaragiProficiency: toNum(raw.farsiHazaragiProficiency) as
+      | MemberInput["farsiHazaragiProficiency"]
+      | undefined,
 
-    farsiHazaragiProficiency:
-      (raw.farsiHazaragiProficiency as MemberInput["farsiHazaragiProficiency"]) ??
-      undefined,
+    address1: (raw.address1 as string) ?? "",
+    address2: (raw.address2 as string) ?? "",
+    suburb: (raw.suburb as string) ?? "",
+    stateCode: raw.stateCode as MemberInput["stateCode"] | undefined,
+    postCode: (raw.postCode as string) ?? "",
+    country: ((raw.country as string) ?? "AU") as MemberInput["country"],
 
     // Checkboxes – use same logic as schema (toBoolean)
     interestBlog: toBoolean(raw.interestBlog),
@@ -69,7 +75,7 @@ export const parseMemberForm = (formData: FormData): ParseResult => {
 
   return {
     ok: false,
-    errors: fieldErrors,
+    errors,
     normalizedData,
   };
 };

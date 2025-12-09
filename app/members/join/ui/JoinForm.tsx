@@ -1,18 +1,19 @@
 // app/members/join/page.tsx
 "use client";
 
-import { AUS_STATES } from "@/app/lib/helper";
-import { ActionButton } from "@/app/ui/global/clientComponent";
+import {
+  ActionButton,
+  FormErrorMessage,
+} from "@/app/ui/global/clientComponent";
 import { Input } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
 import { SelectInput } from "@/app/ui/global/SelectInput";
 import { useActionState } from "react";
 import { createMember } from "../lib/action";
 import type { AgeRange, ProficiencyLevel } from "../lib/definitions";
 import { AGE_RANGES, PROFICIENCY_LEVELS } from "../lib/helper";
+import AddressForm from "./AddressForm";
 import Involvement from "./Involvement";
-import { FormErrorMessage } from "@/app/ui/global/clientComponent";
 
 const PROFICIENCY_OPTIONS = (
   Object.entries(PROFICIENCY_LEVELS) as [string, string][]
@@ -36,15 +37,6 @@ const JoinForm = () => {
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
       <section className="space-y-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        {/* Global message (optional) */}
-        {state?.message && (
-          <P
-            size="sm"
-            className={`${state.ok ? "text-green-700" : "text-red-700"}`}
-          >
-            {state.message}
-          </P>
-        )}
         <form
           action={formAction}
           aria-busy={isPending}
@@ -57,7 +49,7 @@ const JoinForm = () => {
               Personal details
             </Header>
 
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-3">
               <Input
                 id="firstName"
                 label="First name"
@@ -75,36 +67,7 @@ const JoinForm = () => {
                 defaultValue={state?.data?.lastName}
                 error={state?.errors?.lastName}
               />
-            </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
-              <Input
-                id="country"
-                label="Country of current residence"
-                type="text"
-                value="AU"
-                readOnly
-                error={state?.errors?.country}
-              />
-
-              <SelectInput
-                id="stateCode"
-                label="State"
-                options={AUS_STATES}
-                error={state?.errors?.stateCode}
-              />
-
-              <Input
-                id="postCode"
-                label="Post Code"
-                type="number"
-                placeholder="Enter your your post code"
-                defaultValue={state?.data?.postCode}
-                error={state?.errors?.postCode}
-              />
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-3">
               <Input
                 id="phone"
                 label="Phone"
@@ -113,9 +76,6 @@ const JoinForm = () => {
                 defaultValue={state?.data?.phone}
                 error={state?.errors?.phone}
               />
-              {/* spacer columns if you want later extra fields */}
-              <div className="hidden md:block" />
-              <div className="hidden md:block" />
             </div>
           </div>
 
@@ -146,6 +106,8 @@ const JoinForm = () => {
             />
           </div>
 
+          <AddressForm state={state} />
+
           {/* Involvement & online presence */}
           <div className="space-y-3">
             <Header as="h2" size="md">
@@ -162,6 +124,8 @@ const JoinForm = () => {
             <Involvement errors={state?.errors} data={state?.data} />
           </div>
 
+          <FormErrorMessage message={state?.message} />
+
           {/* Submit */}
           <div className="flex justify-end">
             <ActionButton
@@ -173,7 +137,6 @@ const JoinForm = () => {
             >
               Submit membership
             </ActionButton>
-            <FormErrorMessage message={state?.message} />
           </div>
         </form>
       </section>

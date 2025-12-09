@@ -24,22 +24,6 @@ export const MemberSchema = z.object({
   firstName: z.string().trim().min(2, "Please enter your first name."),
   lastName: z.string().trim().min(2, "Please enter your last name."),
 
-  // Country is fixed to AU for now
-  country: z.literal("AU", {
-    error: "Membership is currently only available for residents of Australia.",
-  }),
-
-  stateCode: z.enum(AUS_STATES, {
-    error: "Please select your state of residence",
-  }),
-
-  postCode: z
-    .string()
-    .trim()
-    .min(4, "Postcode should be 4 digits.")
-    .max(4, "Postcode should be 4 digits.")
-    .regex(/^\d{4}$/, "Postcode should contain only digits."),
-
   phone: z
     .string()
     .trim()
@@ -59,6 +43,26 @@ export const MemberSchema = z.object({
     4,
     "Please select your proficiency level."
   ),
+
+  address1: z.string().trim().min(5, "Please enter your street address."),
+  address2: z.string().trim().optional().default(""),
+  suburb: z.string().trim().min(2, "Please enter your suburb."),
+
+  // Country is fixed to AU for now
+  country: z.literal("AU", {
+    error: "Membership is currently only available for residents of Australia.",
+  }),
+
+  stateCode: z.enum(AUS_STATES, {
+    error: "Please select your state of residence",
+  }),
+
+  postCode: z
+    .string()
+    .trim()
+    .min(4, "Postcode should be 4 digits.")
+    .max(4, "Postcode should be 4 digits.")
+    .regex(/^\d{4}$/, "Postcode should contain only digits."),
 
   // Checkboxes – default false when not checked
   interestBlog: checkboxBoolean,
