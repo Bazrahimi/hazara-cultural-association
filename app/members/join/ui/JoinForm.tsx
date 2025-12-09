@@ -10,6 +10,7 @@ import { createMember } from "../lib/action";
 import AddressForm from "./AddressForm";
 import Involvement from "./Involvement";
 import PersonalDetailsSection from "./PersonalDetailsSection";
+import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
 
 const JoinForm = () => {
   const [state, formAction, isPending] = useActionState(
@@ -32,6 +33,12 @@ const JoinForm = () => {
           <Involvement errors={state?.errors} data={state?.data} />
 
           <FormErrorMessage message={state?.message} />
+
+                {/* TOS + Privacy */}
+          <TermsAndPrivacyNotice
+            className="mt-2"
+            prefix="By submitting this membership form, you agree to our"
+          />
 
           {/* Submit */}
           <div className="flex justify-end">
