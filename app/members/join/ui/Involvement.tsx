@@ -1,6 +1,7 @@
 // app/members/join/ui/Involvement.tsx (or similar)
 
 import { Checkbox } from "@/app/ui/global/Checkbox";
+import { Header } from "@/app/ui/global/Header";
 import { MemberInput } from "../lib/definitions";
 type Props = {
   errors?: Partial<Record<keyof MemberInput, string[]>>;
@@ -9,7 +10,19 @@ type Props = {
 
 const Involvement = ({ errors, data }: Props) => {
   return (
-    <>
+    <div className="space-y-3">
+      <div className="mb-10">
+        <Header as="h2" size="md" align="center">
+          How would you like to be involved?
+        </Header>
+
+        <p className="text-sm text-gray-700">
+          HCA has a blog and a modern online marketplace to share news, amplify
+          the voices of those who are often silenced, and help the community
+          find culturally relevant services, products, and stories.
+        </p>
+      </div>
+
       <div className="space-y-2">
         <Checkbox
           id="interestBlog"
@@ -41,7 +54,7 @@ const Involvement = ({ errors, data }: Props) => {
           error={errors?.virtualMeetingOptIn}
         />
       </div>
-    </>
+    </div>
   );
 };
 

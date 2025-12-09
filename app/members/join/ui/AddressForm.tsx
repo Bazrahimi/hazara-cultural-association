@@ -1,15 +1,16 @@
 import { AUS_STATES } from "@/app/lib/helper";
 import { Input } from "@/app/ui/global/components";
 import { SelectInput } from "@/app/ui/global/SelectInput";
-import { MemberState } from "../lib/definitions";
+import type { MemberState } from "../lib/definitions";
 
 type Props = {
-  state: MemberState | undefined;
+  state?: MemberState;
 };
 
 const AddressForm = ({ state }: Props) => {
   return (
-    <>
+    <div className="space-y-3">
+      {/* Street address */}
       <div className="grid gap-4 md:grid-cols-2">
         <Input
           id="address1"
@@ -29,7 +30,9 @@ const AddressForm = ({ state }: Props) => {
           error={state?.errors?.address2}
         />
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+
+      {/* State / suburb / postcode / country */}
+      <div className="grid gap-4 md:grid-cols-4">
         <SelectInput
           id="stateCode"
           label="State"
@@ -48,15 +51,24 @@ const AddressForm = ({ state }: Props) => {
         />
 
         <Input
+          id="postCode"
+          label="Postcode"
+          type="text"
+          placeholder="e.g. 3175"
+          defaultValue={state?.data?.postCode}
+          error={state?.errors?.postCode}
+        />
+
+        <Input
           id="country"
-          label="Country of current residence"
+          label="Country"
           type="text"
           value="AU"
           readOnly
           error={state?.errors?.country}
         />
       </div>
-    </>
+    </div>
   );
 };
 
