@@ -39,19 +39,19 @@ const Involvement = ({ errors, data }: Props) => {
         />
 
         <Checkbox
-          id="newsletterOptIn"
-          label="Subscribe to monthly newsletter"
-          description="Community updates, events, and important notices."
-          defaultChecked={!!data?.newsletterOptIn}
-          error={errors?.newsletterOptIn}
-        />
-
-        <Checkbox
           id="virtualMeetingOptIn"
           label="Join virtual meetings / online gatherings"
           description="Workshops, community discussions, and Zoom events."
           defaultChecked={!!data?.virtualMeetingOptIn}
           error={errors?.virtualMeetingOptIn}
+        />
+
+        <Checkbox
+          id="newsletterOptIn"
+          label="Subscribe to monthly newsletter"
+          description="Community updates, events, and important notices."
+          defaultChecked={!!data?.newsletterOptIn}
+          error={errors?.newsletterOptIn}
         />
       </div>
     </div>
