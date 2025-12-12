@@ -5,6 +5,7 @@ import { lusitana } from "@/app/lib/font";
 import { clsx } from "clsx";
 import Image from "next/image";
 import { IMAGE_DEFAULT_BLUR } from "./global/ImageShimer";
+import { Button } from "./global/components";
 
 const heroImg = "/images/hero/hero2.png";
 
@@ -18,7 +19,7 @@ export default function Hero() {
       {/* Background */}
       <Image
         src={heroImg}
-        alt="Little Bamiyan Dandenong image"
+        alt="Buddha of Bamiyan Image"
         fill
         priority
         sizes="100vw"
@@ -53,6 +54,33 @@ export default function Hero() {
         priority
       />
 
+      {/* CTA using Button component */}
+      <Button
+        as="link"
+        href="/members"
+        size="sm"
+        className={`
+                      absolute z-20 font-semibold shadow-md
+
+                      /* Mobile: center above logo */
+                      left-1/2 -translate-x-1/2
+                      top-[calc(45%-180px)]
+                      translate-y-[-20px]
+
+                      /* Desktop: shift to the right of the logo */
+                      md:top-[45%] 
+                      md:-translate-y-1/2
+                      md:left-[calc(50%+250px)]
+
+                      /* Larger screens: add more spacing */
+                      lg:left-[calc(50%+350px)]
+                      xl:left-[calc(50%+360px)]
+                      2xl:left-[calc(50%+380px)]
+                    `}
+      >
+        Become a Member
+      </Button>
+
       {/* Slogan container */}
       <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center px-4 pb-4 text-center">
         <div className="max-w-3xl rounded-2xl bg-white/30 px-5 py-4 shadow-lg ring-1 ring-white/50 backdrop-blur-md">
@@ -64,13 +92,13 @@ export default function Hero() {
               "text-[clamp(1rem,4vw,1.5rem)] sm:text-[clamp(1.125rem,3vw,1.75rem)] md:text-[clamp(1.25rem,2.4vw,2rem)] lg:text-[clamp(1.375rem,2vw,2.25rem)] xl:text-[clamp(1.5rem,1.8vw,2.5rem)]"
             )}
           >
-            <span className="text-hca-yellow-main">
-              
-               Social Cohesion
+            <span className="text-hca-yellow-main">Social Cohesion</span>{" "}
+            <span className="text-gray-200">
+              {" "}
+              — Building Community Strength
             </span>{" "}
-            <span className="text-gray-200"> — Building Community Strength</span> {" "}
             <span className="text-hca-blue-main">
-               — Revival of Hazara Identity.
+              — Revival of Hazara Identity.
             </span>
           </p>
         </div>
