@@ -1,6 +1,7 @@
 // app/member/page.tsx
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
+import TermsAndPrivacyNotice from "../(term-and-privacy)/ui/TermsAndPrivacyNotice";
 import { Button } from "../ui/global/components";
 
 const MembershipInfoPage = () => {
@@ -58,6 +59,18 @@ const MembershipInfoPage = () => {
                 Option to express interest in having your own page or store in
                 our online marketplace.
               </li>
+
+              {/* New items */}
+              <li>
+                Monthly and regular newsletters keeping you informed about HCA
+                activities, community initiatives, and important updates.
+              </li>
+              <li>
+                Access to relevant announcements, programs, and information
+                shared by Australian government agencies, community services,
+                and partner organisations — helping strengthen the connection
+                between the Hazara community and key institutions.
+              </li>
             </ul>
           </div>
 
@@ -65,6 +78,7 @@ const MembershipInfoPage = () => {
             <h2 className="text-sm font-semibold text-gray-900">
               What we ask from members
             </h2>
+
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-700">
               <li>
                 Respect for HCA’s values of dignity, inclusion, and safety.
@@ -82,6 +96,9 @@ const MembershipInfoPage = () => {
                 applicable).
               </li>
             </ul>
+
+            {/* Terms notice added HERE */}
+            <TermsAndPrivacyNotice className="mt-3 text-left text-xs text-gray-600"   prefix = "By becoming a member, you agree to our" size="xs" />
           </div>
         </div>
 
