@@ -1,13 +1,14 @@
 import { AUS_STATES } from "@/app/lib/helper";
 import { Input } from "@/app/ui/global/components";
 import { SelectInput } from "@/app/ui/global/SelectInput";
-import type { MemberState } from "../lib/definitions";
+import type { MemberInput, MemberState } from "../lib/definitions";
 
 type Props = {
-  state?: MemberState;
+  data?: Partial<MemberInput>;
+  errors?: MemberState["errors"];
 };
 
-const AddressForm = ({ state }: Props) => {
+const AddressForm = ({ data, errors }: Props) => {
   return (
     <div className="space-y-3">
       {/* Street address */}
@@ -18,16 +19,16 @@ const AddressForm = ({ state }: Props) => {
           placeholder="e.g. 10 Example Street"
           type="text"
           required
-          defaultValue={state?.data?.address1}
-          error={state?.errors?.address1}
+          defaultValue={data?.address1}
+          error={errors?.address1}
         />
         <Input
           id="address2"
           label="Address line 2 (optional)"
           placeholder="Apartment, unit, etc."
           type="text"
-          defaultValue={state?.data?.address2}
-          error={state?.errors?.address2}
+          defaultValue={data?.address2}
+          error={errors?.address2}
         />
       </div>
 
@@ -37,8 +38,8 @@ const AddressForm = ({ state }: Props) => {
           id="stateCode"
           label="State"
           options={AUS_STATES}
-          error={state?.errors?.stateCode}
-          defaultValue={state?.data?.stateCode}
+          defaultValue={data?.stateCode}
+          error={errors?.stateCode}
         />
 
         <Input
@@ -46,8 +47,8 @@ const AddressForm = ({ state }: Props) => {
           label="Suburb"
           type="text"
           placeholder="Enter your suburb"
-          defaultValue={state?.data?.suburb}
-          error={state?.errors?.suburb}
+          defaultValue={data?.suburb}
+          error={errors?.suburb}
         />
 
         <Input
@@ -55,17 +56,17 @@ const AddressForm = ({ state }: Props) => {
           label="Postcode"
           type="text"
           placeholder="e.g. 3175"
-          defaultValue={state?.data?.postCode}
-          error={state?.errors?.postCode}
+          defaultValue={data?.postCode}
+          error={errors?.postCode}
         />
 
         <Input
           id="country"
           label="Country"
           type="text"
-          value="AU"
+          value={data?.country ?? "AU"}
           readOnly
-          error={state?.errors?.country}
+          error={errors?.country}
         />
       </div>
     </div>

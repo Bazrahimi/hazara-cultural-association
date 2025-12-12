@@ -1,6 +1,7 @@
-// app/members/join/page.tsx
+// app/members/join/ui/JoinForm.tsx
 "use client";
 
+import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
 import {
   ActionButton,
   FormErrorMessage,
@@ -10,13 +11,24 @@ import { createMember } from "../lib/action";
 import AddressForm from "./AddressForm";
 import Involvement from "./Involvement";
 import PersonalDetailsSection from "./PersonalDetailsSection";
-import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
+import type { MemberInput, MemberState } from "../lib/definitions";
 
-const JoinForm = () => {
-  const [state, formAction, isPending] = useActionState(
-    createMember,
-    undefined
-  );
+type Props = {
+  initialData?: Partial<MemberInput>;
+};
+
+const JoinForm = ({ initialData }: Props) => {
+  const [state, formAction, isPending] = useActionState<
+    MemberState,
+    FormData
+  >(createMember, undefined);
+
+  // Prefer state.data (post-submit), otherwise fall back to initialData
+  const mergedData: Partial<MemberInput> = {
+    ...initialData,
+    ...(state?.data ?? {}),
+  };
+
   return (
     <section className="mx-auto max-w-3xl px-4 py-10">
       <div className="space-y-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -26,15 +38,15 @@ const JoinForm = () => {
           noValidate
           className="space-y-8"
         >
-          <PersonalDetailsSection state={state} />
+          <PersonalDetailsSection data={mergedData} errors={state?.errors} />
 
-          <AddressForm state={state} />
+          <AddressForm data={mergedData} errors={state?.errors} />
 
-          <Involvement errors={state?.errors} data={state?.data} />
+          <Involvement errors={state?.errors} data={mergedData} />
 
           <FormErrorMessage message={state?.message} />
 
-                {/* TOS + Privacy */}
+          {/* TOS + Privacy */}
           <TermsAndPrivacyNotice
             className="mt-2"
             prefix="By submitting this membership form, you agree to our"

@@ -2,7 +2,7 @@
 "use server";
 
 import { sql } from "@/app/lib/db";
-import { getSession } from "@/app/lib/session"; // or your actual path
+import { getSession } from "@/app/lib/session";
 import type { MemberState } from "./definitions";
 import { parseMemberForm } from "./helper";
 
@@ -77,7 +77,7 @@ export const createMember = async (
     `;
 
     // 2) Upsert default shipping address in user_addresses
-    // Using partial unique constraint "user_addresses_one_default_per_user"
+    // Uses the partial unique index: "user_addresses_one_default_per_user" UNIQUE (user_id) WHERE is_default
     await sql`
       INSERT INTO user_addresses (
         user_id,
@@ -103,7 +103,7 @@ export const createMember = async (
         ${member.postCode},
         ${member.country}
       )
-      ON CONFLICT ON CONSTRAINT user_addresses_one_default_per_user
+      ON CONFLICT (user_id) WHERE (is_default)
       DO UPDATE SET
         address1   = EXCLUDED.address1,
         address2   = EXCLUDED.address2,
@@ -125,7 +125,7 @@ export const createMember = async (
       ok: false,
       message:
         "Something went wrong while saving your membership. Please try again.",
-      data: result.data, // keep values if you want
+      data: result.data,
     };
   }
 };

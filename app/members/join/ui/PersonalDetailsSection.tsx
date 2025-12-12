@@ -5,6 +5,7 @@ import { Header } from "@/app/ui/global/Header";
 import { SelectInput } from "@/app/ui/global/SelectInput";
 import type {
   AgeRange,
+  MemberInput,
   MemberState,
   ProficiencyLevel,
 } from "../lib/definitions";
@@ -25,10 +26,11 @@ const AGE_RANGES_OPTION = (
 }));
 
 type Props = {
-  state?: MemberState;
+  data?: Partial<MemberInput>;
+  errors?: MemberState["errors"];
 };
 
-const PersonalDetailsSection = ({ state }: Props) => {
+const PersonalDetailsSection = ({ data, errors }: Props) => {
   return (
     <div className="space-y-3">
       <Header as="h2" size="md" align="center">
@@ -43,16 +45,16 @@ const PersonalDetailsSection = ({ state }: Props) => {
           placeholder="Enter your first name"
           type="text"
           required
-          defaultValue={state?.data?.firstName}
-          error={state?.errors?.firstName}
+          defaultValue={data?.firstName}
+          error={errors?.firstName}
         />
         <Input
           id="lastName"
           label="Last name"
           placeholder="Enter your last name"
           type="text"
-          defaultValue={state?.data?.lastName}
-          error={state?.errors?.lastName}
+          defaultValue={data?.lastName}
+          error={errors?.lastName}
         />
 
         <Input
@@ -60,8 +62,8 @@ const PersonalDetailsSection = ({ state }: Props) => {
           label="Phone"
           type="tel"
           placeholder="Enter your phone number"
-          defaultValue={state?.data?.phone}
-          error={state?.errors?.phone}
+          defaultValue={data?.phone}
+          error={errors?.phone}
         />
       </div>
 
@@ -72,24 +74,24 @@ const PersonalDetailsSection = ({ state }: Props) => {
           label="Age Range"
           options={AGE_RANGES_OPTION}
           placeholder="Select age range"
-          defaultValue={state?.data?.ageRange}
-          error={state?.errors?.ageRange}
+          defaultValue={data?.ageRange}
+          error={errors?.ageRange}
         />
         <SelectInput
           id="englishProficiency"
           label="English proficiency"
           options={PROFICIENCY_OPTIONS}
           placeholder="Select level"
-          defaultValue={state?.data?.englishProficiency}
-          error={state?.errors?.englishProficiency}
+          defaultValue={data?.englishProficiency}
+          error={errors?.englishProficiency}
         />
         <SelectInput
           id="farsiHazaragiProficiency"
           label="Farsi / Hazaragi proficiency"
           options={PROFICIENCY_OPTIONS}
           placeholder="Select level"
-          defaultValue={state?.data?.farsiHazaragiProficiency}
-          error={state?.errors?.farsiHazaragiProficiency}
+          defaultValue={data?.farsiHazaragiProficiency}
+          error={errors?.farsiHazaragiProficiency}
         />
       </div>
     </div>
