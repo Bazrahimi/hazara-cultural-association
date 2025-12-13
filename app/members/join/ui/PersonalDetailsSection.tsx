@@ -1,7 +1,6 @@
 "use client";
 
 import { Input } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
 import { SelectInput } from "@/app/ui/global/SelectInput";
 import type {
   AgeRange,
@@ -33,10 +32,6 @@ type Props = {
 const PersonalDetailsSection = ({ data, errors }: Props) => {
   return (
     <div className="space-y-3">
-      <Header as="h2" size="md" align="center">
-        Personal details
-      </Header>
-
       {/* Name + phone */}
       <div className="grid gap-4 md:grid-cols-3">
         <Input
