@@ -21,8 +21,6 @@ export const QUERY_OPTIONS: Record<1 | 2 | 3 | 4 | 5 | 6 | 7, string> = {
   7: "Other",
 };
 
-
-
 const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
 const labelBase = "block text-sm font-medium text-gray-700";
