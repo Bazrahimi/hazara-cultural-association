@@ -1,7 +1,7 @@
+import { BlogRoutes } from "@/app/lib/routes";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import type { PostSuccessDBReturn } from "../../lib/definitions";
-import { BlogRoutes } from "@/app/lib/routes";
 
 type SuccessModalProps = {
   postTitle: string;
@@ -105,7 +105,7 @@ export function SuccessModal({
           <div className="grid grid-cols-2 gap-3">
             <Button
               as="link"
-              href={`/blog/myposts/edit/${success.id}`}
+              href={`${BlogRoutes.edit(success.id)}`}
               size="sm"
               variant="outline"
               fullWidth

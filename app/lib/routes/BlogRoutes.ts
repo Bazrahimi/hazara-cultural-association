@@ -1,7 +1,8 @@
 import { join, q } from "./helper";
 export const BlogRoutes = {
   root: () => "/blog",
-  post: (slug: string) => join("blog", slug),
+  post: (slug: string) => `/blog/${slug}`,
+  guideLines: () => "/blog/guidelines",
 
   // Author + category pages (your structure is /blog/p/u/[namePlusId] and /blog/p/[categoryId])
   categoryById: (categoryId: number | string) => join("blog", "p", categoryId),
@@ -11,7 +12,7 @@ export const BlogRoutes = {
   // Blog create/edit (you have /blog/new and /blog/myposts/edit/[postId])
   new: () => "/blog/new",
   myPosts: () => "/blog/myposts",
-  edit: (postId: number | string) => join("blog", "myposts", "edit", postId),
+  edit: (postId: number | string) => `/blog/myposts/edit/${postId}`,
 
   // If you want preview links to respect query toggles:
   postWithQuery: (

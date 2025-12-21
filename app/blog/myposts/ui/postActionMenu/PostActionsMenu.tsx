@@ -16,6 +16,7 @@ import {
   featurePostAction,
   publishPostAction,
 } from "../../lib/actions";
+import { BlogRoutes } from "@/app/lib/routes";
 
 type Props = {
   isRTL: boolean;
@@ -113,7 +114,7 @@ export default function PostActionsMenu({
             {/* Edit always available */}
             <li>
               <Link
-                href={`/blog/myposts/edit/${postId}`}
+                href={`${BlogRoutes.edit}${postId}`}
                 className="block px-3 py-2 hover:bg-slate-100"
               >
                 {isRTL ? "ویرایش" : "Edit"}
@@ -123,7 +124,7 @@ export default function PostActionsMenu({
             {/* Preview always available */}
             <li>
               <Link
-                href={`/blog/${slug}`}
+                href={BlogRoutes.post(slug)}
                 className="block px-3 py-2 hover:bg-slate-100"
               >
                 {isRTL ? "پیش‌نمایش" : "Preview"}

@@ -1,4 +1,9 @@
-import { AdminRoutes, DonateRoutes, PublicRoutes } from "@/app/lib/routes";
+import {
+  AdminRoutes,
+  BlogRoutes,
+  DonateRoutes,
+  PublicRoutes,
+} from "@/app/lib/routes";
 import type { SessionRole } from "@/app/lib/session";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
@@ -53,7 +58,7 @@ const RoleBanner = ({ roles, fullName }: Props) => {
               HCA’s mission.{" "}
             </P>
             <Link
-              href="/blog/guidelines"
+              href={BlogRoutes.guideLines()}
               className="underline hover:no-underline"
             >
               Blog guidelines
