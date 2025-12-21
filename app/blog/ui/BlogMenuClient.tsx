@@ -1,5 +1,6 @@
 "use client";
 
+import { BlogRoutes } from "@/app/lib/routes";
 import Link from "next/link";
 import { HiCalendar, HiChevronDown } from "react-icons/hi";
 import { catItems } from "../lib/helper";
@@ -17,8 +18,8 @@ const baseItems = [
 ];
 
 const manageItems = [
-  { label: "Add New Post", href: "/blog/new" },
-  { label: "Manage my Posts", href: "/blog/myposts" },
+  { label: "Add New Post", href: BlogRoutes.new() },
+  { label: "Manage my Posts", href: BlogRoutes.myPosts() },
 ];
 
 export default function BlogMenuClient({

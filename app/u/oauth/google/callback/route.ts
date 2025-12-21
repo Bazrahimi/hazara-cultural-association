@@ -1,5 +1,6 @@
 // app/u/oauth/google/callback/route.ts
 import { sql } from "@/app/lib/db";
+import { AccountRoutes, AuthRoutes } from "@/app/lib/routes";
 import { createSession } from "@/app/lib/session";
 import { buildFullName } from "@/app/u/lib/helper"; // you already have this
 import bcrypt from "bcrypt";
@@ -22,18 +23,23 @@ export async function GET(req: NextRequest) {
   // 1) Handle error/cancel
   if (error) {
     console.error("Google OAuth error:", error);
-    return NextResponse.redirect("/u/login?error=google_oauth_cancelled");
+
+    return NextResponse.redirect(
+      `${AuthRoutes.login()}?error=google_oauth_cancelled`
+    );
   }
 
   // 2) Ensure code + state are present
   if (!code || !returnedState || !savedState || savedState !== returnedState) {
     console.error("Google OAuth state mismatch or missing code");
-    return NextResponse.redirect("/u/login?error=google_oauth_invalid_state");
+    return NextResponse.redirect(
+      `${AuthRoutes.login()}?error=google_oauth_invalid_state`
+    );
   }
 
   // Clear the state cookie
   cookieStore.set("oauth_state_google", "", {
-    path: "/u",
+    path: AuthRoutes.root(),
     maxAge: 0,
   });
 
@@ -54,7 +60,7 @@ export async function GET(req: NextRequest) {
 
   if (!tokenRes.ok) {
     console.error("Failed to exchange code for token", await tokenRes.text());
-    return NextResponse.redirect("/u/login?error=google_oauth_token");
+    return NextResponse.redirect(`${AuthRoutes.login()}?error=google_oauth_token`);
   }
 
   const tokenJson = (await tokenRes.json()) as {
@@ -68,7 +74,9 @@ export async function GET(req: NextRequest) {
   const accessToken = tokenJson.access_token;
   if (!accessToken) {
     console.error("No access token from Google");
-    return NextResponse.redirect("/u/login?error=google_oauth_no_token");
+    return NextResponse.redirect(
+      `${AuthRoutes.login()}?error=google_oauth_no_token`
+    );
   }
 
   // 4) Fetch user info from Google
@@ -80,7 +88,9 @@ export async function GET(req: NextRequest) {
 
   if (!userInfoRes.ok) {
     console.error("Failed to fetch Google user info", await userInfoRes.text());
-    return NextResponse.redirect("/u/login?error=google_oauth_userinfo");
+    return NextResponse.redirect(
+      `${AuthRoutes.login()}?error=google_oauth_userinfo`
+    );
   }
 
   const userInfo = (await userInfoRes.json()) as {
@@ -101,7 +111,7 @@ export async function GET(req: NextRequest) {
   if (!providerUserId || !email) {
     console.error("Google user info missing sub or email", userInfo);
     return NextResponse.redirect(
-      "/u/login?error=google_oauth_incomplete_profile"
+      `${AuthRoutes.login()}?error=google_oauth_incomplete_profile`
     );
   }
 
@@ -173,7 +183,9 @@ export async function GET(req: NextRequest) {
 
   if (!userId) {
     console.error("Could not resolve or create user for Google OAuth");
-    return NextResponse.redirect("/u/login?error=google_oauth_user_creation");
+    return NextResponse.redirect(
+      `${AuthRoutes.login()}?error=google_oauth_user_creation`
+    );
   }
 
   // 6) Load roles for session (optional, matches your existing pattern)
@@ -217,7 +229,7 @@ export async function GET(req: NextRequest) {
 
   // 8) Redirect to account dashboard (must be an absolute URL)
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? req.nextUrl.origin;
-  const redirectUrl = new URL("/account", baseUrl);
+  const redirectUrl = new URL(AccountRoutes.root(), baseUrl);
 
   return NextResponse.redirect(redirectUrl);
 }

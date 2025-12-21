@@ -1,3 +1,4 @@
+import { BlogRoutes } from "@/app/lib/routes";
 import { requireUser } from "@/app/lib/session";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
@@ -17,7 +18,7 @@ export default async function MyPostsPage() {
           My Blog Posts
         </Header>
 
-        <Button size="sm" as="link" href="/blog/new" variant="outline">
+        <Button size="sm" as="link" href={BlogRoutes.new()} variant="outline">
           Create New Post
         </Button>
       </div>

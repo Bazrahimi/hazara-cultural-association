@@ -1,5 +1,6 @@
 //app/account/listing/new/page.tsx
 import type { Breadcrumb } from "@/app/lib/definitions";
+import { AccountRoutes } from "@/app/lib/routes";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
@@ -7,9 +8,9 @@ import NewListingForm from "./ui/new-listing-form";
 
 const breadcrumbs: Breadcrumb[] = [
   { label: "Home", href: "/" },
-  { label: "Account Dashboard", href: "/account" },
+  { label: "Account Dashboard", href: AccountRoutes.root() },
   { label: "listed Products", href: "/account/listing" },
-  { label: "New listing", href: "/account/listing/new", active: true },
+  { label: "New listing", href: AccountRoutes.newListing(), active: true },
 ];
 
 const page = async () => {

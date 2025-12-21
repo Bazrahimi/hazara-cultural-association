@@ -1,0 +1,375 @@
+app
+├── (term-and-privacy)
+│   ├── privacy-policy
+│   │   ├── data-deletion
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── terms-of-service
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   └── ui
+│       └── TermsAndPrivacyNotice.tsx
+├── about-us
+│   ├── layout.tsx
+│   ├── loading.tsx
+│   ├── page.tsx
+│   └── ui
+│       ├── Acknowledgements.tsx
+│       ├── TeamGrid.tsx
+│       └── WhatWeDo.tsx
+├── account
+│   ├── layout.tsx
+│   ├── lib
+│   │   ├── data.ts
+│   │   └── definitions.ts
+│   ├── listing
+│   │   └── new
+│   │       ├── lib
+│   │       │   ├── action.ts
+│   │       │   ├── helper.ts
+│   │       │   └── schema.ts
+│   │       ├── page.tsx
+│   │       └── ui
+│   │           ├── new-listing-form.tsx
+│   │           └── ProductImgUpload.tsx
+│   ├── loading.tsx
+│   ├── page.tsx
+│   ├── settings
+│   │   ├── addresses
+│   │   │   ├── lib
+│   │   │   │   ├── action.ts
+│   │   │   │   ├── AddressAutoComplete.tsx
+│   │   │   │   └── schema.ts
+│   │   │   ├── new
+│   │   │   │   └── page.tsx
+│   │   │   └── ui
+│   │   │       ├── AddressFields.tsx
+│   │   │       └── AddressForm.tsx
+│   │   ├── change-password
+│   │   │   └── page.tsx
+│   │   ├── lib
+│   │   │   ├── definitions.ts
+│   │   │   └── helper.ts
+│   │   ├── page.tsx
+│   │   ├── profile
+│   │   │   ├── lib
+│   │   │   │   ├── action.ts
+│   │   │   │   └── schema.ts
+│   │   │   ├── page.tsx
+│   │   │   └── ui
+│   │   │       └── ProfileForm.tsx
+│   │   └── ui
+│   │       ├── AddressesCard.tsx
+│   │       ├── ProfileCard.tsx
+│   │       └── Skeleton.tsx
+│   └── ui
+│       ├── AccountMenu.tsx
+│       ├── AccountMenuClient.tsx
+│       ├── AvatarInitials.tsx
+│       ├── DashboardCard.tsx
+│       ├── QuickActions.tsx
+│       ├── RecentActivity.tsx
+│       └── RoleBanner.tsx
+├── admin
+│   ├── all-blog-posts
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── users
+│   │   └── roles
+│   │       ├── lib
+│   │       │   └── actions.ts
+│   │       └── page.tsx
+│   └── website-queries
+│       ├── [id]
+│       │   └── page.tsx
+│       ├── page.tsx
+│       ├── ui
+│       │   └── NewEnquiry.tsx
+│       └── utils
+│           └── definitions.ts
+├── api
+│   ├── cloudinary
+│   │   ├── destroy
+│   │   │   └── route.ts
+│   │   └── route.ts
+│   └── shop
+│       └── listings
+├── blog
+│   ├── [slug]
+│   │   ├── layout.tsx
+│   │   ├── loading.tsx
+│   │   ├── page.tsx
+│   │   └── ui
+│   │       ├── BlogPostDetail
+│   │       │   ├── BlogPostDetail.tsx
+│   │       │   ├── ContentSection.tsx
+│   │       │   ├── enhanceContent.ts
+│   │       │   └── HeroImage.tsx
+│   │       └── ManagePostControls.tsx
+│   ├── hazara-genocide-memorial
+│   │   └── 133
+│   │       ├── layout.tsx
+│   │       ├── loading.tsx
+│   │       ├── page.tsx
+│   │       ├── ui
+│   │       │   ├── ImageGallery.tsx
+│   │       │   └── VideoGallery.tsx
+│   │       └── util
+│   │           ├── definitions.ts
+│   │           └── helper.ts
+│   ├── layout.tsx
+│   ├── lib
+│   │   ├── action.ts
+│   │   ├── data.ts
+│   │   ├── definitions.ts
+│   │   ├── helper.ts
+│   │   └── permissions.ts
+│   ├── myposts
+│   │   ├── edit
+│   │   │   └── [postId]
+│   │   │       ├── lib
+│   │   │       │   └── data.ts
+│   │   │       ├── loading.tsx
+│   │   │       └── page.tsx
+│   │   ├── lib
+│   │   │   ├── actions.ts
+│   │   │   ├── data.ts
+│   │   │   ├── definitions.ts
+│   │   │   └── helper.ts
+│   │   ├── loading.tsx
+│   │   ├── page.tsx
+│   │   └── ui
+│   │       ├── ArchivedPosts.tsx
+│   │       ├── DraftPosts.tsx
+│   │       ├── NullPost.tsx
+│   │       ├── postActionMenu
+│   │       │   ├── ArchiveMenuItem.tsx
+│   │       │   ├── DeleteMenuItem.tsx
+│   │       │   ├── FeatureMenuItem.tsx
+│   │       │   ├── PostActionsMenu.tsx
+│   │       │   └── PublishMenuItem.tsx
+│   │       ├── PostHeader.tsx
+│   │       ├── PostsLoadingFallback.tsx
+│   │       ├── PostsWrapper.tsx
+│   │       └── PublishedPosts.tsx
+│   ├── new
+│   │   ├── lib
+│   │   │   ├── action.ts
+│   │   │   ├── data.ts
+│   │   │   ├── definitions.ts
+│   │   │   ├── helper.ts
+│   │   │   └── schema.ts
+│   │   ├── loading.tsx
+│   │   ├── page.tsx
+│   │   └── ui
+│   │       ├── BlogPostForm.tsx
+│   │       ├── BlogPostFormSkeleton.tsx
+│   │       └── form
+│   │           ├── AdvocacyEvent.tsx
+│   │           ├── CategoryStatusFeaturedFields.tsx
+│   │           ├── EditorField.tsx
+│   │           ├── FormFooter.tsx
+│   │           ├── FormHeader.tsx
+│   │           └── SuccessModal.tsx
+│   ├── p
+│   │   ├── [categoryId]
+│   │   │   └── page.tsx
+│   │   ├── u
+│   │   │   └── [namePlusId]
+│   │   │       └── page.tsx
+│   │   └── ui
+│   │       ├── AuthorBlogPosts.tsx
+│   │       ├── CategoryBlogPosts.tsx
+│   │       └── PostCardSkeleton.tsx
+│   ├── page.tsx
+│   └── ui
+│       ├── BlogMenu.tsx
+│       ├── BlogMenuClient.tsx
+│       ├── BlogPostCard.tsx
+│       ├── NotificationCenter.tsx
+│       └── useDropdownMenu.ts
+├── contact-us
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── ui
+│       ├── ContactForm.tsx
+│       └── ContactHeader.tsx
+├── donate
+│   ├── cancel
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   ├── lib
+│   │   ├── action.ts
+│   │   ├── definitions.ts
+│   │   └── schema.ts
+│   ├── page.tsx
+│   ├── success
+│   │   └── page.tsx
+│   └── ui
+│       ├── DonateForm.tsx
+│       ├── form
+│       │   ├── DonationAmount.tsx
+│       │   └── DonationDetails.tsx
+│       └── TransparencySection.tsx
+├── favicon.ico
+├── globals.css
+├── layout.tsx
+├── lib
+│   ├── action.ts
+│   ├── cloudinary.ts
+│   ├── db.ts
+│   ├── definitions.ts
+│   ├── font.ts
+│   ├── helper.ts
+│   ├── hooks
+│   ├── resend.ts
+│   ├── sanitize.ts
+│   ├── schema.ts
+│   ├── session.ts
+│   └── stripe.ts
+├── loading.tsx
+├── members
+│   ├── join
+│   │   ├── lib
+│   │   │   ├── action.ts
+│   │   │   ├── definitions.ts
+│   │   │   ├── helper.ts
+│   │   │   └── schema.ts
+│   │   ├── page.tsx
+│   │   └── ui
+│   │       ├── AddressForm.tsx
+│   │       ├── Involvement.tsx
+│   │       ├── JoinForm.tsx
+│   │       └── PersonalDetailsSection.tsx
+│   └── page.tsx
+├── Navbar.tsx
+├── not-found.tsx
+├── page.tsx
+├── partners
+│   ├── layout.tsx
+│   ├── loading.tsx
+│   ├── page.tsx
+│   └── ui
+│       └── LogoGrid.tsx
+├── shop
+│   ├── [productSlug]
+│   │   ├── page.tsx
+│   │   └── ui
+│   │       └── ProdcutDetails.tsx
+│   ├── cart
+│   │   ├── checkout
+│   │   │   ├── cancel
+│   │   │   │   └── page.tsx
+│   │   │   ├── hooks
+│   │   │   │   └── usePersistedState.ts
+│   │   │   ├── page.tsx
+│   │   │   ├── success
+│   │   │   │   └── page.tsx
+│   │   │   └── ui
+│   │   │       ├── AuAddressAutocomplete.tsx
+│   │   │       ├── CheckoutPage.tsx
+│   │   │       ├── CheckoutPayForm.tsx
+│   │   │       ├── GuestCheckout.tsx
+│   │   │       ├── LoggedInCheckout.tsx
+│   │   │       ├── order-summary
+│   │   │       │   ├── Row.tsx
+│   │   │       │   └── SummaryRow.tsx
+│   │   │       ├── OrderSummary.tsx
+│   │   │       ├── shipping-details
+│   │   │       │   ├── AddressFields.tsx
+│   │   │       │   ├── ContactFields.tsx
+│   │   │       │   └── ManualAddressToggle.tsx
+│   │   │       ├── ShippingDetails.tsx
+│   │   │       ├── SocialAccount.tsx
+│   │   │       └── StepCard.tsx
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   ├── lib
+│   │   ├── action.ts
+│   │   ├── definitions.ts
+│   │   ├── helper.ts
+│   │   └── schema.ts
+│   ├── page.tsx
+│   ├── seller
+│   │   └── [sellerIdStr]
+│   └── ui
+│       ├── cart
+│       │   ├── CartBadge.tsx
+│       │   └── CartContext.tsx
+│       ├── ProductCard.tsx
+│       └── ProductPriceTag.tsx
+├── u
+│   ├── forgot-password
+│   │   ├── loading.tsx
+│   │   └── page.tsx
+│   ├── lib
+│   │   ├── action.ts
+│   │   ├── definitions.ts
+│   │   ├── helper.ts
+│   │   ├── schema.ts
+│   │   ├── setNotification.ts
+│   │   └── verification.tsx
+│   ├── login
+│   │   ├── layout.tsx
+│   │   ├── loading.tsx
+│   │   ├── page.tsx
+│   │   └── ui
+│   │       └── SocialLoginButtons.tsx
+│   ├── oauth
+│   │   └── google
+│   │       ├── callback
+│   │       │   └── route.ts
+│   │       └── start
+│   │           └── route.ts
+│   ├── reset-password
+│   │   ├── loading.tsx
+│   │   └── page.tsx
+│   ├── sign-up
+│   │   ├── layout.tsx
+│   │   ├── loading.tsx
+│   │   └── page.tsx
+│   ├── ui
+│   │   └── resend
+│   │       ├── email.ts
+│   │       ├── EmailFooter.tsx
+│   │       └── VerifyEmailCode.tsx
+│   └── verify
+│       ├── lib
+│       │   └── verify-action.ts
+│       ├── page.tsx
+│       └── ui
+│           └── verify-form.tsx
+└── ui
+    ├── Footer.tsx
+    ├── global
+    │   ├── Breadcrumbs.tsx
+    │   ├── Checkbox.tsx
+    │   ├── CLdFileUpload.tsx
+    │   ├── clientComponent.tsx
+    │   ├── components.tsx
+    │   ├── FormMessage.tsx
+    │   ├── Header.tsx
+    │   ├── ImageShimer.tsx
+    │   ├── modal.tsx
+    │   ├── paragraph.tsx
+    │   ├── QuillEditor.tsx
+    │   ├── resend
+    │   │   ├── email.tsx
+    │   │   └── NewEnquiry.tsx
+    │   ├── SelectInput.tsx
+    │   └── skeleton
+    │       └── spinner.tsx
+    ├── Hero.tsx
+    ├── homepage
+    │   └── blog
+    │       ├── FeaturedBlogPosts.tsx
+    │       └── Memorial133Spotlight.tsx
+    ├── hooks
+    │   └── useBodyScrollLock.ts
+    └── stripe
+        └── CheckoutButton.tsx
+
+122 directories, 250 files
+tree app > app-structure.txt

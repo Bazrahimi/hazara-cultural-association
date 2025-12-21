@@ -1,6 +1,7 @@
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import type { PostSuccessDBReturn } from "../../lib/definitions";
+import { BlogRoutes } from "@/app/lib/routes";
 
 type SuccessModalProps = {
   postTitle: string;
@@ -89,7 +90,7 @@ export function SuccessModal({
 
             <Button
               as="link"
-              href="/blog/myposts"
+              href={BlogRoutes.myPosts()}
               size="sm"
               variant="outline"
               fullWidth
@@ -113,7 +114,7 @@ export function SuccessModal({
             </Button>
             <Button
               as="link"
-              href="/blog/new"
+              href={BlogRoutes.new()}
               size="sm"
               variant="outline"
               fullWidth

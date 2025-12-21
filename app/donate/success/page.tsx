@@ -1,4 +1,5 @@
 // app/donate/success/page.tsx
+import { DonateRoutes } from "@/app/lib/routes";
 import { stripe } from "@/app/lib/stripe";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
@@ -45,7 +46,7 @@ export default async function SuccessPage({
             donation, a receipt should be emailed to you.
           </P>
           <div className="flex justify-center">
-            <Link href="/donate">
+            <Link href={DonateRoutes.root()}>
               <Button>Back to Donate</Button>
             </Link>
           </div>
@@ -107,7 +108,7 @@ export default async function SuccessPage({
             <P className="text-slate-600">Your payment was successful.</P>
           )}
 
-          <P >
+          <P>
             We use donated funds responsibly to support the community and our
             programs.
           </P>
@@ -118,12 +119,11 @@ export default async function SuccessPage({
           <P className="font-semibold mb-1">
             With gratitude from Hazara Cultural Association
           </P>
-          <P >
+          <P>
             We’re a volunteer-run community. Your donation helps sustain
-            advocacy for Justice for Hazaras and the{" "}
-            revival of Hazara heritage—preserving language,
-            culture, and history for future generations. Thank you for standing
-            with us.
+            advocacy for Justice for Hazaras and the revival of Hazara
+            heritage—preserving language, culture, and history for future
+            generations. Thank you for standing with us.
           </P>
           {/* Optional tax note (uncomment if applicable) */}
           {/* <p className="mt-2 text-xs text-slate-600">
@@ -143,7 +143,7 @@ export default async function SuccessPage({
               <Button variant="outline">View / Download Receipt</Button>
             </a>
           )}
-          <Link href="/donate" className="inline-flex">
+          <Link href={DonateRoutes.root()} className="inline-flex">
             <Button>Make another donation</Button>
           </Link>
         </div>

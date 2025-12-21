@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { PostActionState } from "./definitions";
 import { postFailure, postSuccess } from "./helper";
+import { BlogRoutes } from "@/app/lib/routes";
 
 const parsePostId = (formData: FormData): number | null => {
   const rawPostId = formData.get("postId");
@@ -54,7 +55,7 @@ export const featurePostAction = async (
     // This is the *new* value after toggle
     const nowFeatured = rows[0].is_featured === true;
 
-    revalidatePath("/blog/myposts");
+    revalidatePath(BlogRoutes.myPosts());
 
     return postSuccess(
       nowFeatured ? "Published to homepage." : "Removed from homepage."
@@ -98,8 +99,7 @@ export async function publishPostAction(
       );
     }
 
-    // revalidatePath("/");
-    // revalidatePath("/blog/myposts");
+    
 
     return postSuccess("Post published.");
   } catch (err) {
@@ -141,7 +141,7 @@ export async function archivePostAction(
       );
     }
 
-    // revalidatePath("/blog/myposts");
+ 
 
     return postSuccess("Post archived.");
   } catch (err) {
@@ -182,11 +182,11 @@ export async function deletePostAction(
       );
     }
 
-    // revalidatePath("/blog/myposts");
+    
   } catch (err) {
     console.error("Failed to delete post", err);
     return postFailure("Database error.");
   }
 
-  redirect("/blog/myposts");
+  redirect(BlogRoutes.myPosts());
 }

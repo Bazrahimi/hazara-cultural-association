@@ -2,6 +2,7 @@
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import TermsAndPrivacyNotice from "../(term-and-privacy)/ui/TermsAndPrivacyNotice";
+import { PublicRoutes } from "../lib/routes";
 import { Button } from "../ui/global/components";
 
 const MembershipInfoPage = () => {
@@ -98,7 +99,11 @@ const MembershipInfoPage = () => {
             </ul>
 
             {/* Terms notice added HERE */}
-            <TermsAndPrivacyNotice className="mt-3 text-left text-xs text-gray-600"   prefix = "By becoming a member, you agree to our" size="xs" />
+            <TermsAndPrivacyNotice
+              className="mt-3 text-left text-xs text-gray-600"
+              prefix="By becoming a member, you agree to our"
+              size="xs"
+            />
           </div>
         </div>
 
@@ -121,7 +126,7 @@ const MembershipInfoPage = () => {
           </ol>
         </section>
 
-        <Button as="link" href="/members/join" variant="secondary">
+        <Button as="link" href={PublicRoutes.joinMember()} variant="secondary">
           Apply for membership
         </Button>
       </section>

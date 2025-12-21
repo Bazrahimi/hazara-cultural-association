@@ -1,6 +1,7 @@
 "use server";
-import { requireUser } from "@/app/lib/session";
 import { sql } from "@/app/lib/db";
+import { AccountRoutes } from "@/app/lib/routes";
+import { requireUser } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 import { FieldErrors, Profile, ProfileSchema, ProfileState } from "./schema";
 
@@ -49,5 +50,5 @@ export async function updateProfileAction(
     };
   }
 
-  redirect("/account/settings/addresses/new");
+  redirect(AccountRoutes.newAddress());
 }

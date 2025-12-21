@@ -1,6 +1,7 @@
 // app/u/lib/verify-actions.ts
 "use server";
 
+import { AccountRoutes, AuthRoutes } from "@/app/lib/routes";
 import { createSession } from "@/app/lib/session";
 import {
   issueVerificationCode,
@@ -69,12 +70,12 @@ export async function verifyCodeAction(
   sessionCookie.set("verify_mode", "", clearOpts);
 
   if (mode === "reset") {
-    redirect("/u/reset-password");
+    redirect(AuthRoutes.resetPassword());
   }
 
   await createSession(userId);
-  
-  redirect("/account/settings/profile");
+
+  redirect(AccountRoutes.profile());
 }
 
 export async function resendCodeAction(): Promise<VerifyState> {

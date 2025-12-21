@@ -1,3 +1,4 @@
+import { BlogRoutes } from "@/app/lib/routes";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
@@ -13,7 +14,7 @@ const NullPost = () => {
         first article or advocacy event.
       </P>
 
-      <Button as="link" href="/blog/new" size="sm" variant="outline">
+      <Button as="link" href={BlogRoutes.new()} size="sm" variant="outline">
         Create your first Blog-Post
       </Button>
     </div>

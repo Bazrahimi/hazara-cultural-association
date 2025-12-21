@@ -3,6 +3,7 @@ import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import type { BillingAddressInput } from "../lib/schema";
 import AddressForm from "../ui/AddressForm";
+import { AccountRoutes } from "@/app/lib/routes";
 
 const initial: BillingAddressInput = {
   address: "",
@@ -15,11 +16,11 @@ const initial: BillingAddressInput = {
 
 const breadcrumbs: Breadcrumb[] = [
   { label: "Dashboard", href: "/account" },
-  { label: "Settings", href: "/account/settings" },
-  { label: "Profile", href: "/account/settings/profile" },
+  { label: "Settings", href: AccountRoutes.settings() },
+  { label: "Profile", href: AccountRoutes.profile() },
   {
     label: "Add new Addresses",
-    href: "/account/settings/addresses/new",
+    href: AccountRoutes.newAddress(),
     active: true,
   },
 ];

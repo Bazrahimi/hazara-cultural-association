@@ -1,4 +1,5 @@
 // app/privacy-policy/page.tsx
+import { PublicRoutes } from "@/app/lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 
@@ -70,7 +71,7 @@ export default function Page() {
             can log in more easily. You can request deletion of your HCA account
             and associated data at any time (see{" "}
             <a
-              href="/privacy-policy/data-deletion"
+              href= {PublicRoutes.privacyDataDeletion()}
               className="text-blue-600 hover:underline"
             >
               Data Deletion
@@ -152,7 +153,7 @@ export default function Page() {
             For data deletion instructions – including for accounts created via
             Facebook Login – please see our{" "}
             <a
-              href="/privacy-policy/data-deletion"
+              href= {PublicRoutes.privacyDataDeletion()}
               className="text-blue-600 hover:underline"
             >
               Data Deletion page

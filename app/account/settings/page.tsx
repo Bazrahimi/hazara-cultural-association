@@ -9,6 +9,7 @@ import ProfileCard from "./ui/ProfileCard";
 
 import { requireUser } from "@/app/lib/session";
 
+import { AccountRoutes } from "@/app/lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { AddressRecord, ProfileRecord, userRecord } from "./lib/definitions";
 import { AddressesCardSkeleton, ProfileCardSkeleton } from "./ui/Skeleton";
@@ -20,7 +21,7 @@ const breadcrumbs: Breadcrumb[] = [
   },
   {
     label: "Settings",
-    href: "/account/settings",
+    href: AccountRoutes.settings(),
     active: true,
   },
 ];

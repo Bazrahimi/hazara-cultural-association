@@ -8,6 +8,7 @@ import { FormErrorMessage } from "@/app/ui/global/clientComponent";
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 
+import { AuthRoutes } from "@/app/lib/routes";
 import { resetPassword } from "../lib/action";
 
 const ResetPasswordPage = () => {
@@ -45,7 +46,12 @@ const ResetPasswordPage = () => {
               You can now log in with your new password.
             </P>
 
-            <Button fullWidth as="link" href="/u/login" className="mt-4">
+            <Button
+              fullWidth
+              as="link"
+              href={AuthRoutes.login()}
+              className="mt-4"
+            >
               Continue to Login
             </Button>
           </div>

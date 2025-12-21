@@ -1,5 +1,6 @@
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
+import { DonateRoutes } from "@/app/lib/routes";
 
 import { Button } from "@/app/ui/global/components";
 import type { IconType } from "react-icons";
@@ -116,7 +117,7 @@ export default function ContactHeader({
           Hazara culture, strengthen our community, and advocate for justice.
         </P>
         <div className="mt-3 flex flex-wrap gap-3">
-          <Button as="link" variant="outline" href="/donate">
+          <Button as="link" variant="outline" href={DonateRoutes.root()}>
             <MdFavorite className="mr-1" aria-hidden /> Donate
           </Button>
           <Button as="link" variant="outline" href="/shop">

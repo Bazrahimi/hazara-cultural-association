@@ -1,10 +1,10 @@
-import React from 'react'
-import { Header } from '@/app/ui/global/Header';
-import { Button } from '@/app/ui/global/components';
-import { Suspense } from 'react';
-import PostsLoadingFallback from '@/app/blog/myposts/ui/PostsLoadingFallback';
-import PostsWrapper from '@/app/blog/myposts/ui/PostsWrapper';
-import { requireUser } from '@/app/lib/session';
+import PostsLoadingFallback from "@/app/blog/myposts/ui/PostsLoadingFallback";
+import PostsWrapper from "@/app/blog/myposts/ui/PostsWrapper";
+import { BlogRoutes } from "@/app/lib/routes";
+import { requireUser } from "@/app/lib/session";
+import { Header } from "@/app/ui/global/Header";
+import { Button } from "@/app/ui/global/components";
+import { Suspense } from "react";
 
 const AdminAllBlockPostsPage = async () => {
   const session = await requireUser();
@@ -19,7 +19,7 @@ const AdminAllBlockPostsPage = async () => {
           {isAdmin ? "All Blog Posts" : "My Blog Posts"}
         </Header>
 
-        <Button size="sm" as="link" href="/blog/new" variant="outline">
+        <Button size="sm" as="link" href={BlogRoutes.new()} variant="outline">
           Create New Post
         </Button>
       </div>
@@ -31,5 +31,4 @@ const AdminAllBlockPostsPage = async () => {
   );
 };
 
-
-export default AdminAllBlockPostsPage
+export default AdminAllBlockPostsPage;

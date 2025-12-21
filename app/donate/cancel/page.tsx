@@ -1,4 +1,5 @@
 // app/donate/cancel/page.tsx
+import { DonateRoutes } from "@/app/lib/routes";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import Link from "next/link";
@@ -19,7 +20,7 @@ export default function CancelPage() {
         </p>
 
         <div className="mt-6 flex justify-center">
-          <Link href="/donate">
+          <Link href={DonateRoutes.root()}>
             <Button>Back to Donate</Button>
           </Link>
         </div>

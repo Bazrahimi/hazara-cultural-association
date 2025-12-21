@@ -12,6 +12,7 @@ import { Button, Input } from "../../ui/global/components";
 import { Header } from "../../ui/global/Header";
 import { auth } from "../lib/action";
 
+import { AuthRoutes } from "@/app/lib/routes";
 import { setNotification } from "../lib/setNotification";
 import SocialLoginButtons from "./ui/SocialLoginButtons";
 
@@ -105,7 +106,7 @@ const LoginPage = () => {
         <div className="flex justify-end mt-3">
           <Button
             as="link"
-            href="/u/forgot-password"
+            href={AuthRoutes.forgotPassword()}
             variant="outline"
             className="!border-none !shadow-none text-xs text-slate-600 hover:text-slate-900 hover:bg-transparent underline"
           >
@@ -113,7 +114,12 @@ const LoginPage = () => {
           </Button>
         </div>
 
-        <Button fullWidth variant="outline" as="link" href="/u/sign-up">
+        <Button
+          fullWidth
+          variant="outline"
+          as="link"
+          href={AuthRoutes.signUp()}
+        >
           New to HCA, Create account
         </Button>
       </div>

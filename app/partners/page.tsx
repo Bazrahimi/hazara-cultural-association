@@ -1,7 +1,7 @@
+import { DonateRoutes } from "../lib/routes";
 import { Header } from "../ui/global/Header";
 import { P } from "../ui/global/paragraph";
 import { LogoGrid, type CTA, type LogoItem } from "./ui/LogoGrid";
-
 
 const PARTNERS: LogoItem[] = [
   {
@@ -66,7 +66,7 @@ const PARTNERS_CTA: CTA = {
 };
 
 const SUPPORTERS_CTA: CTA = {
-  href: "/donate",
+  href: DonateRoutes.root(),
   text: "Believe in our work? Your contribution funds our programs and community services.",
   buttonLabel: "Donate Now",
 };

@@ -3,6 +3,7 @@ import { Button } from "@/app/ui/global/components";
 import { use } from "react";
 import { addressToLines } from "../lib/helper";
 
+import { AccountRoutes } from "@/app/lib/routes";
 import { AddressRecord } from "../lib/definitions";
 
 export default function AddressesCard({
@@ -23,7 +24,7 @@ export default function AddressesCard({
         <div className="flex gap-2">
           <Button
             as="link"
-            href="/account/settings/addresses/new"
+            href={AccountRoutes.newAddress()}
             variant="outline"
             size="sm"
           >
@@ -31,7 +32,7 @@ export default function AddressesCard({
           </Button>
           <Button
             as="link"
-            href="/account/settings/addresses"
+            href={AccountRoutes.addresses()}
             variant="outline"
             size="sm"
           >

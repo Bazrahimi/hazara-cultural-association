@@ -7,6 +7,7 @@ import Modal from "@/app/ui/global/modal";
 import QuillEditor from "@/app/ui/global/QuillEditor";
 import { useActionState, useEffect, useRef, useState } from "react";
 
+import { AccountRoutes } from "@/app/lib/routes";
 import { createListing } from "../lib/action";
 import { ListingActionState } from "../lib/schema";
 import ProductImgUpload from "./ProductImgUpload";
@@ -160,7 +161,7 @@ const NewListingForm = () => {
         <div className="mt-4 grid gap-2 sm:grid-cols-3">
           <Button
             as="link"
-            href="/account/listing/new"
+            href={AccountRoutes.newListing()}
             variant="outline"
             fullWidth
             onClick={() => setShowSuccess(false)}

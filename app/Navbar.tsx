@@ -8,6 +8,7 @@ import BlogMenu from "./blog/ui/BlogMenu";
 import CartIcon from "./shop/ui/cart/CartBadge";
 // import AccountMenu from "./ui/global/AccountMenu";
 import AccountMenu from "./account/ui/AccountMenu";
+import { DonateRoutes, PublicRoutes } from "./lib/routes";
 
 // Reusable styles
 const navLinkBase =
@@ -40,15 +41,16 @@ const NavBar = () => {
 
       {/* Center: Primary links (spread evenly) */}
       <div className="flex flex-1 justify-evenly max-w-md">
-        <Link href="/about-us" className={navLinkBase} aria-label="About Us">
+        <Link
+          href={PublicRoutes.about()}
+          className={navLinkBase}
+          aria-label="About Us"
+        >
           <HiInformationCircle className={navIcon} />
           <span className="hidden sm:inline">About Us</span>
         </Link>
 
-        {/* <Link href="/blog" className={navLinkBase} aria-label="Blog">
-          <HiCalendar className={navIcon} />
-          <span className="hidden sm:inline">Blog</span>
-        </Link> */}
+       
         <nav>
           <BlogMenu navLinkBase={navLinkBase} navIcon={navIcon} />
         </nav>
@@ -62,7 +64,11 @@ const NavBar = () => {
           <MdOutlineEmail className={navIcon} />
           <span className="hidden sm:inline">Contact</span>
         </Link>
-        <Link href="/donate" className={navLinkBase} aria-label="Donate">
+        <Link
+          href={DonateRoutes.root()}
+          className={navLinkBase}
+          aria-label="Donate"
+        >
           <MdVolunteerActivism className={navIcon} />
           <span className="hidden sm:inline">Donate</span>
         </Link>

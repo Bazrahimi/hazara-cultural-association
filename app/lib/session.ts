@@ -10,6 +10,7 @@ import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { AuthRoutes } from "./routes";
 
 /* ============ Single source of truth (schema) ============ */
 
@@ -157,7 +158,7 @@ export const getSession = async (): Promise<DecodedSession | null> => {
 
 export const requireUser = async (): Promise<DecodedSession> => {
   const s = await getSession();
-  if (!s?.userId) redirect("/u/login");
+  if (!s?.userId) redirect(AuthRoutes.login());
   return s;
 };
 

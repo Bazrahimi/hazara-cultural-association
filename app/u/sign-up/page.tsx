@@ -2,6 +2,7 @@
 "use client";
 
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
+import { AuthRoutes } from "@/app/lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Button, Input } from "@/app/ui/global/components";
@@ -83,7 +84,7 @@ export default function Page() {
         <Button
           variant="outline"
           as="link"
-          href="/u/login"
+          href={AuthRoutes.login()}
           fullWidth
           className="mt-5"
         >

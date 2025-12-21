@@ -1,16 +1,17 @@
 // app/about-us/layout.tsx
 import type { Metadata } from "next";
+import { PublicRoutes } from "../lib/routes";
 
 export const metadata: Metadata = {
   title: "About Us | Hazara Cultural Association (HCA)",
   description:
     "HCA is a community-driven, volunteer-led nonprofit in Melbourne’s South-Eastern suburbs, preserving and celebrating the Hazara people’s rich culture and history.",
-  alternates: { canonical: "/about-us" },
+  alternates: { canonical: PublicRoutes.about() },
   openGraph: {
     title: "About Us | Hazara Cultural Association (HCA)",
     description:
       "HCA is a community-driven, volunteer-led nonprofit rooted in Melbourne’s South-Eastern suburbs.",
-    url: "/about-us",
+    url: PublicRoutes.about(),
     type: "website",
     siteName: "Hazara Cultural Association",
   },

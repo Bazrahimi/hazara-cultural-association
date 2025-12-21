@@ -1,3 +1,4 @@
+import { AdminRoutes, DonateRoutes, PublicRoutes } from "@/app/lib/routes";
 import type { SessionRole } from "@/app/lib/session";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
@@ -68,7 +69,10 @@ const RoleBanner = ({ roles, fullName }: Props) => {
               all role messages. Please review listings and content regularly
               and help keep the marketplace safe and culturally respectful.{" "}
             </P>
-            <Link href="/admin" className="underline hover:no-underline">
+            <Link
+              href={AdminRoutes.root()}
+              className="underline hover:no-underline"
+            >
               Admin console
             </Link>
             .
@@ -101,7 +105,12 @@ const RoleBanner = ({ roles, fullName }: Props) => {
         </P>
 
         <div className="mt-3 flex flex-wrap gap-3">
-          <Button as="link" href="/members/join" variant="outline" size="sm">
+          <Button
+            as="link"
+            href={PublicRoutes.joinMember()}
+            variant="outline"
+            size="sm"
+          >
             Membership
           </Button>
 
@@ -113,7 +122,12 @@ const RoleBanner = ({ roles, fullName }: Props) => {
             Blogger
           </Button>
 
-          <Button as="link" href="/donate" variant="outline" size="sm">
+          <Button
+            as="link"
+            href={DonateRoutes.root()}
+            variant="outline"
+            size="sm"
+          >
             Donate
           </Button>
         </div>

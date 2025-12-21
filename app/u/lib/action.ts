@@ -21,6 +21,7 @@ import {
   SignupSchema,
 } from "./schema";
 
+import { AuthRoutes } from "@/app/lib/routes";
 import type {
   AuthState,
   ChangePasswordState,
@@ -195,7 +196,7 @@ export const auth = async (
       return {
         ok: false,
         requiresVerification: true,
-        redirectTo: "/u/verify",
+        redirectTo: AuthRoutes.verifyEmail(),
         data: { email },
         // message: "Email Verification is required.",
       };
@@ -258,7 +259,7 @@ export const forgotPassword = async (
       message:
         "If this email exists in our system, a verification code has been sent.",
       requiresVerification: true,
-      redirectTo: "/u/verify",
+      redirectTo: AuthRoutes.verifyEmail(),
       data: { email },
     };
   } catch (err) {
@@ -336,7 +337,7 @@ export async function signup(
 
   // Server-side redirect is OK here because this action is used in a simple form,
   // not with useActionState expecting a state back.
-  redirect("/u/verify");
+  redirect(AuthRoutes.verifyEmail());
 }
 
 export const resetPassword = async (
@@ -388,14 +389,11 @@ export const resetPassword = async (
       maxAge: 0,
     });
 
-    // // Option A: redirect to login (recommended)
-    // redirect("/u/login");
-
     // If you prefer returning a state and handling redirect client-side:
     return {
       ok: true,
       message: "Your password has been updated. You can now log in.",
-      redirectTo: "/u/login",
+      redirectTo: AuthRoutes.login(),
     };
   } catch (err) {
     console.error("resetPassword error:", err);

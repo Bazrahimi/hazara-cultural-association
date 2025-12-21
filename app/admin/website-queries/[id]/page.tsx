@@ -1,4 +1,5 @@
 import { sql } from "@/app/lib/db";
+import { AdminRoutes } from "@/app/lib/routes";
 import { DeleteFormAction } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
@@ -14,8 +15,8 @@ const deleteEnquiryAction = async (formData: FormData) => {
   if (!Number.isFinite(id)) return;
 
   await sql`DELETE FROM public.quick_enquiries WHERE id = ${id}`;
-  revalidatePath("/admin/website-queries");
-  redirect("/admin/website-queries");
+  revalidatePath(AdminRoutes.websiteQueries());
+  redirect(AdminRoutes.websiteQueries());
 };
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const idStr = (await params).id;

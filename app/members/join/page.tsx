@@ -4,12 +4,13 @@ import { getSession } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 import JoinForm from "./ui/JoinForm";
 import type { MemberInput } from "./lib/definitions";
+import { AuthRoutes } from "@/app/lib/routes";
 
 const page = async () => {
   const session = await getSession();
 
   if (!session || !session.userId) {
-    redirect("/u/login?next=/members/join");
+    redirect(`${AuthRoutes.login()}?next=/members/join`);
   }
 
   const userId = session.userId;

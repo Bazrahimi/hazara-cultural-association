@@ -1,6 +1,7 @@
 // app/ui/nav/AccountMenuClient.tsx
 "use client";
 
+import { AccountRoutes, AdminRoutes, AuthRoutes } from "@/app/lib/routes";
 import { destroySession } from "@/app/lib/session";
 import { setNotification } from "@/app/u/lib/setNotification";
 import Link from "next/link";
@@ -17,10 +18,10 @@ type AccountMenuClientProps = AccountMenuProps & {
 
 const baseItems = [
   { label: "Account Dashboard", href: "/account" },
-  { label: "Settings", href: "/account/settings" },
+  { label: "Settings", href: AccountRoutes.settings() },
 ];
 
-const adminItems = [{ label: "Admin Console", href: "/admin" }];
+const adminItems = [{ label: "Admin Console", href: AdminRoutes.root() }];
 
 export default function AccountMenuClient({
   navLinkBase,
@@ -74,7 +75,7 @@ export default function AccountMenuClient({
                 <li>
                   <Link
                     ref={setItemRef(0)}
-                    href="/u/login"
+                    href={AuthRoutes.login()}
                     className="block px-3 py-2 text-sm text-gray-800 hover:bg-gray-50"
                     onClick={() => setOpen(false)}
                     role="menuitem"
@@ -86,7 +87,7 @@ export default function AccountMenuClient({
                 <li>
                   <Link
                     ref={setItemRef(1)}
-                    href="/u/sign-up"
+                    href={AuthRoutes.signUp()}
                     className="block px-3 py-2 text-sm text-gray-800 hover:bg-gray-50"
                     onClick={() => setOpen(false)}
                     role="menuitem"
@@ -103,7 +104,7 @@ export default function AccountMenuClient({
                   <li>
                     <Link
                       ref={setItemRef(0)}
-                      href="/admin"
+                      href={AdminRoutes.root()}
                       className="block px-3 py-2 text-sm text-gray-800 hover:bg-gray-50"
                       onClick={() => setOpen(false)}
                       role="menuitem"

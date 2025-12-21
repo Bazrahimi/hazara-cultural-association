@@ -8,6 +8,13 @@ import {
 } from "react-icons/hi";
 import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineJoinInner } from "react-icons/md";
+import {
+  AuthRoutes,
+  BlogRoutes,
+  DonateRoutes,
+  PublicRoutes,
+  ShopRoutes,
+} from "../lib/routes";
 import { Header } from "./global/Header";
 import { P } from "./global/paragraph";
 
@@ -38,13 +45,13 @@ const ORG = {
 };
 
 const QUICK_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/about-us", label: "About HCA" },
-  { href: "/blogs", label: "News & Blogs" },
-  { href: "/shop", label: "Shop Merchandise" },
-  { href: "/privacy-policy", label: "Privacy Policy" },
-  { href: "/terms-of-service", label: "Terms of Service" },
-  { href: "/donate", label: "Support HCA" },
+  { href: PublicRoutes.home(), label: "Home" },
+  { href: PublicRoutes.about(), label: "About HCA" },
+  { href: BlogRoutes.root(), label: "News & Blogs" },
+  { href: ShopRoutes.root(), label: "Shop Merchandise" },
+  { href: PublicRoutes.privacyPolicy(), label: "Privacy Policy" },
+  { href: PublicRoutes.termsOfService(), label: "Terms of Service" },
+  { href: DonateRoutes.root(), label: "Support HCA" },
 ];
 
 const SOCIAL_LINKS = [
@@ -177,19 +184,19 @@ const Footer = () => {
           <ul className={CN.list}>
             <li className={CN.Item}>
               <IoIosLogIn className={CN.Icon} aria-hidden="true" />
-              <Link href="/u/login" className={CN.link}>
+              <Link href={AuthRoutes.login()} className={CN.link}>
                 Login
               </Link>
             </li>
             <li className={CN.Item}>
               <MdOutlineJoinInner className={CN.Icon} aria-hidden="true" />
-              <Link href="/u/sign-up" className={CN.link}>
+              <Link href={AuthRoutes.signUp()} className={CN.link}>
                 Sign Up
               </Link>
             </li>
             <li className={CN.Item}>
               <BsFillCartFill className={CN.Icon} aria-hidden="true" />
-              <Link href="/shop/cart" className={CN.link}>
+              <Link href={ShopRoutes.shopCart()} className={CN.link}>
                 My Cart
               </Link>
             </li>

@@ -1,3 +1,4 @@
+import { AccountRoutes } from "@/app/lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
 import { use } from "react";
@@ -30,7 +31,7 @@ export default function ProfileCard({
         </Header>
         <Button
           as="link"
-          href="/account/settings/profile"
+          href={AccountRoutes.profile()}
           variant="outline"
           size="sm"
         >

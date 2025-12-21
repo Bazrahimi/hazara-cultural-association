@@ -4,6 +4,7 @@
 import { lusitana } from "@/app/lib/font";
 import { clsx } from "clsx";
 import Image from "next/image";
+import { PublicRoutes } from "../lib/routes";
 import { IMAGE_DEFAULT_BLUR } from "./global/ImageShimer";
 import { Button } from "./global/components";
 
@@ -57,7 +58,7 @@ export default function Hero() {
       {/* CTA using Button component */}
       <Button
         as="link"
-        href="/members"
+        href={PublicRoutes.members()}
         size="sm"
         className={`
                       absolute z-20 font-semibold shadow-md

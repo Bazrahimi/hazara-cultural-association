@@ -5,6 +5,7 @@ import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import { Profile } from "./lib/schema";
 import ProfileForm from "./ui/ProfileForm";
+import { AccountRoutes } from "@/app/lib/routes";
 
 
 const breadcrumbs: Breadcrumb[] = [
@@ -14,11 +15,11 @@ const breadcrumbs: Breadcrumb[] = [
   },
   {
     label: "Settings",
-    href: "/account/settings",
+    href: AccountRoutes.settings(),
   },
   {
     label: "Profile",
-    href: "/account/settings/profile",
+    href: AccountRoutes.profile(),
     active: true,
   },
 ];

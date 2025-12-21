@@ -1,18 +1,19 @@
 "use client";
 
+import { AccountRoutes, BlogRoutes, DonateRoutes } from "@/app/lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import {
   FaAddressCard,
   FaBoxOpen,
   FaClock,
   FaHandHoldingHeart,
+  FaLock,
   FaPenFancy,
   FaRegNewspaper,
   FaShoppingBag,
   FaTags,
   FaUserCog,
   FaUserPlus,
-  FaLock,
 } from "react-icons/fa";
 import { DashboardActionLink, DashboardCard } from "./DashboardCard";
 
@@ -21,7 +22,7 @@ import { DashboardActionLink, DashboardCard } from "./DashboardCard";
 // };
 
 export default function QuickActions() {
-// { roles }: Props
+  // { roles }: Props
   return (
     <>
       <Header as="h2" className="mt-8 mb-4">
@@ -35,7 +36,7 @@ export default function QuickActions() {
           subtitle="Create and manage your marketplace listings"
         >
           <DashboardActionLink
-            href="/account/listing/new"
+            href={AccountRoutes.newListing()}
             Icon={FaTags}
             label="Sell a cultural item"
             desc="Create a new marketplace listing"
@@ -60,13 +61,13 @@ export default function QuickActions() {
           subtitle="Write and manage your posts"
         >
           <DashboardActionLink
-            href="/blog/new"
+            href={BlogRoutes.new()}
             Icon={FaPenFancy}
             label="Create new post"
             desc="Write a news, event, or announcement"
           />
           <DashboardActionLink
-            href="/blog/myposts"
+            href={BlogRoutes.myPosts()}
             Icon={FaRegNewspaper}
             label="My posts"
             desc="View, edit, publish, or archive your posts"
@@ -91,7 +92,7 @@ export default function QuickActions() {
             desc="Become a member of the association"
           />
           <DashboardActionLink
-            href="/donate"
+            href={DonateRoutes.root()}
             Icon={FaHandHoldingHeart}
             label="Donate"
             desc="Support community programs"
@@ -104,25 +105,25 @@ export default function QuickActions() {
           subtitle="Your profile and preferences"
         >
           <DashboardActionLink
-            href="/account/settings/profile"
+            href={AccountRoutes.profile()}
             Icon={FaUserCog}
             label="Profile"
             desc="Update your personal details"
           />
           <DashboardActionLink
-            href="/account/settings/change-password"
+            href={AccountRoutes.changePassword()}
             Icon={FaLock}
             label="Change password"
             desc="Update your login password"
           />
           <DashboardActionLink
-            href="/account/settings"
+            href={AccountRoutes.settings()}
             Icon={FaClock}
             label="Settings"
             desc="Manage preferences and security"
           />
           <DashboardActionLink
-            href="/account/settings/addresses"
+            href={AccountRoutes.addresses()}
             Icon={FaAddressCard}
             label="Addresses"
             desc="Manage billing and shipping details"
