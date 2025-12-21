@@ -20,8 +20,8 @@ type Props = {
 };
 
 const JoinForm = ({ initialData }: Props) => {
-  const [state, formAction, isPending] = useActionState<MemberState, FormData>(
-    createMember
+  const [state, formAction, isPending] = useActionState(
+    createMember, undefined
   );
 
   // Prefer state.data (post-submit), otherwise fall back to initialData
