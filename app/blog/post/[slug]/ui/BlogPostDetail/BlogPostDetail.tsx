@@ -6,7 +6,7 @@ import { ManagePostControls } from "../ManagePostControls";
 import HeroImage from "./HeroImage";
 
 import { slugify } from "@/app/shop/lib/helper";
-import { getCategoryLabel } from "../../../lib/helper";
+import { getCategoryLabel } from "../../../../lib/helper";
 import ContentSection from "./ContentSection";
 
 type BlogPostDetailProps = {

@@ -1,6 +1,7 @@
 // app/blog/ui/BlogPostCard.tsx
 
 import { cldCardHeroAuto } from "@/app/lib/cloudinary";
+import { BlogRoutes } from "@/app/lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
@@ -29,7 +30,7 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
 
   return (
     <Link
-      href={`/blog/${post.slug}`}
+      href={BlogRoutes.post(post.slug)}
       className="group overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
     >
       <article className="flex h-full flex-col">

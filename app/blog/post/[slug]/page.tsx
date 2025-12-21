@@ -1,9 +1,9 @@
 import { getSession } from "@/app/lib/session";
 import { notFound } from "next/navigation";
-import { getBlogPostBySlug } from "../lib/data";
+import { getBlogPostBySlug } from "../../lib/data";
 import BlogPostDetail from "./ui/BlogPostDetail/BlogPostDetail";
 
-// app/blog/[slug]/page.tsx
+// app/blog/post/[slug]/page.tsx
 const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
 

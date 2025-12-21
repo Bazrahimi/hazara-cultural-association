@@ -1,7 +1,7 @@
 // app/blog/[slug]/layout.tsx
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { getBlogPostBySlug } from "../lib/data";
+import { getBlogPostBySlug } from "../../lib/data";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://hazara.org.au";
 

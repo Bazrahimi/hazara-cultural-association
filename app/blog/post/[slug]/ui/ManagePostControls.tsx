@@ -1,8 +1,8 @@
 // ManagePostControls.tsx
 "use client";
 
-import type { PostStatus } from "../../lib/definitions";
-import PostActionsMenu from "../../myposts/ui/postActionMenu/PostActionsMenu";
+import type { PostStatus } from "../../../lib/definitions";
+import PostActionsMenu from "../../../myposts/ui/postActionMenu/PostActionsMenu";
 
 type Props = {
   postId: number;
