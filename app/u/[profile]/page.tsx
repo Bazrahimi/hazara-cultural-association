@@ -1,16 +1,16 @@
 // app/blog/(pages)/u/[userId]/page.tsx
 import { Suspense } from "react";
-import PostCardSkeleton from "../../post/category/ui/PostCardSkeleton";
+import PostCardSkeleton from "../../blog/post/category/ui/PostCardSkeleton";
 import AuthorBlogPosts from "./ui/AuthorBlogPosts";
 
 const AuthorPublicPostsPage = async ({
   params,
 }: {
-  params: Promise<{ namePlusId: string }>;
+  params: Promise<{ profile: string }>;
 }) => {
-  const { namePlusId } = await params;
+  const { profile } = await params;
 
-  const parts = namePlusId.split("-");
+  const parts = profile.split("-");
 
   const authorId = Number(parts[parts.length - 1]);
 

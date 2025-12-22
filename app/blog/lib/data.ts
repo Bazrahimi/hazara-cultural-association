@@ -2,7 +2,6 @@
 import { sql, SqlFragment } from "@/app/lib/db";
 import { notFound } from "next/navigation";
 import type { PostCardRow, PostDetailRow } from "./definitions";
-import { delay } from "@/app/lib/helper";
 
 async function getPostsWithWhere(
   whereFragment: SqlFragment,
@@ -30,7 +29,6 @@ async function getPostsWithWhere(
 }
 
 export async function getPostById(postId: number): Promise<PostDetailRow> {
-
   const rows = await sql<PostDetailRow[]>`
     SELECT
       p.id,

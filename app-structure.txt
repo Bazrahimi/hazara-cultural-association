@@ -187,11 +187,6 @@ app
 │   │       └── ui
 │   │           ├── CategoryBlogPosts.tsx
 │   │           └── PostCardSkeleton.tsx
-│   ├── u
-│   │   └── [namePlusId]
-│   │       ├── page.tsx
-│   │       └── ui
-│   │           └── AuthorBlogPosts.tsx
 │   └── ui
 │       ├── BlogMenu.tsx
 │       ├── BlogMenuClient.tsx
@@ -244,7 +239,8 @@ app
 │   │   ├── helper.ts
 │   │   ├── index.ts
 │   │   ├── PublicRoutes.ts
-│   │   └── ShopRoutes.ts
+│   │   ├── ShopRoutes.ts
+│   │   └── UserRoutes.ts
 │   ├── sanitize.ts
 │   ├── schema.ts
 │   ├── session.ts
@@ -325,6 +321,10 @@ app
 │       ├── ProductCard.tsx
 │       └── ProductPriceTag.tsx
 ├── u
+│   ├── [profile]
+│   │   ├── page.tsx
+│   │   └── ui
+│   │       └── AuthorBlogPosts.tsx
 │   └── auth
 │       ├── forgot-password
 │       │   ├── loading.tsx
@@ -397,4 +397,5 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-127 directories, 271 files
+126 directories, 272 files
+ tree app > app-structure.txt
