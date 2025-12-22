@@ -9,9 +9,9 @@ import ContentSection from "./ContentSection";
 import EventSection from "./EventSection";
 import ManageControlGate from "./ManageControlGate";
 
+import TricolorRule from "@/app/ui/global/TricolorRule";
 import PostMetaEn from "./PostMetaEn";
 import PostMetaRTL from "./PostMetaRTL";
-import TricolorRule from "@/app/ui/global/TricolorRule";
 
 type PostDetailProps = {
   postId: number;
@@ -43,14 +43,12 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
 
       {/* Author + date + category */}
       {isRTL ? (
-      
-          <PostMetaRTL
-            authorName={post.authorName}
-            userId={post.userId}
-            publishedAt={post.publishedAt}
-            categoryId={post.categoryId}
-          />
-      
+        <PostMetaRTL
+          authorName={post.authorName}
+          userId={post.userId}
+          publishedAt={post.publishedAt}
+          categoryId={post.categoryId}
+        />
       ) : (
         <PostMetaEn
           authorName={post.authorName}
