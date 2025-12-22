@@ -124,7 +124,7 @@ export default function PostActionsMenu({
             {/* Preview always available */}
             <li>
               <Link
-                href={`${BlogRoutes.post(slug)}?catId=${categoryId}&rtl=${isRTL ? 1 : 0}&id=${postId}`}
+                href={BlogRoutes.post(slug)}
                 className="block px-3 py-2 hover:bg-slate-100"
               >
                 {isRTL ? "پیش‌نمایش" : "Preview"}

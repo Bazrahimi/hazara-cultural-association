@@ -97,17 +97,6 @@ app
 │   └── shop
 │       └── listings
 ├── blog
-│   ├── [slug]
-│   │   ├── layout.tsx
-│   │   ├── loading.tsx
-│   │   ├── page.tsx
-│   │   └── ui
-│   │       ├── BlogPostDetail
-│   │       │   ├── BlogPostDetail.tsx
-│   │       │   ├── ContentSection.tsx
-│   │       │   ├── enhanceContent.ts
-│   │       │   └── HeroImage.tsx
-│   │       └── ManagePostControls.tsx
 │   ├── hazara-genocide-memorial
 │   │   └── 133
 │   │       ├── layout.tsx
@@ -122,6 +111,7 @@ app
 │   ├── layout.tsx
 │   ├── lib
 │   │   ├── action.ts
+│   │   ├── category.ts
 │   │   ├── data.ts
 │   │   ├── definitions.ts
 │   │   ├── helper.ts
@@ -173,22 +163,39 @@ app
 │   │           ├── FormFooter.tsx
 │   │           ├── FormHeader.tsx
 │   │           └── SuccessModal.tsx
-│   ├── p
-│   │   ├── [categoryId]
-│   │   │   └── page.tsx
-│   │   ├── u
-│   │   │   └── [namePlusId]
-│   │   │       └── page.tsx
-│   │   └── ui
-│   │       ├── AuthorBlogPosts.tsx
-│   │       ├── CategoryBlogPosts.tsx
-│   │       └── PostCardSkeleton.tsx
 │   ├── page.tsx
+│   ├── post
+│   │   ├── [slug]
+│   │   │   ├── layout.tsx
+│   │   │   ├── loading.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── ui
+│   │   │       ├── ManagePostControls.tsx
+│   │   │       └── PostDetail
+│   │   │           ├── ContentSection.tsx
+│   │   │           ├── enhanceContent.ts
+│   │   │           ├── EventSection.tsx
+│   │   │           ├── HeroImage.tsx
+│   │   │           ├── ManageControlGate.tsx
+│   │   │           ├── PostBody.tsx
+│   │   │           ├── PostMetaEn.tsx
+│   │   │           ├── PostMetaRTL.tsx
+│   │   │           └── PostShell.tsx
+│   │   └── category
+│   │       ├── [category]
+│   │       │   └── page.tsx
+│   │       └── ui
+│   │           ├── AuthorBlogPosts.tsx
+│   │           ├── CategoryBlogPosts.tsx
+│   │           └── PostCardSkeleton.tsx
+│   ├── u
+│   │   └── [namePlusId]
+│   │       └── page.tsx
 │   └── ui
 │       ├── BlogMenu.tsx
 │       ├── BlogMenuClient.tsx
-│       ├── BlogPostCard.tsx
 │       ├── NotificationCenter.tsx
+│       ├── PostCard.tsx
 │       └── useDropdownMenu.ts
 ├── contact-us
 │   ├── layout.tsx
@@ -219,16 +226,32 @@ app
 ├── lib
 │   ├── action.ts
 │   ├── cloudinary.ts
+│   ├── Date.ts
 │   ├── db.ts
 │   ├── definitions.ts
 │   ├── font.ts
 │   ├── helper.ts
 │   ├── hooks
 │   ├── resend.ts
+│   ├── routes
+│   │   ├── AccountRoutes.ts
+│   │   ├── AdminRoutes.ts
+│   │   ├── ApiRoutes.ts
+│   │   ├── AuthRoutes.ts
+│   │   ├── BlogRoutes.ts
+│   │   ├── DonateRoutes.ts
+│   │   ├── helper.ts
+│   │   ├── index.ts
+│   │   ├── PublicRoutes.ts
+│   │   └── ShopRoutes.ts
 │   ├── sanitize.ts
 │   ├── schema.ts
 │   ├── session.ts
-│   └── stripe.ts
+│   ├── stripe.ts
+│   └── translation
+│       ├── BreadcrumbTrans.ts
+│       ├── index.ts
+│       └── PostTrans.ts
 ├── loading.tsx
 ├── members
 │   ├── join
@@ -359,8 +382,9 @@ app
     │   │   ├── email.tsx
     │   │   └── NewEnquiry.tsx
     │   ├── SelectInput.tsx
-    │   └── skeleton
-    │       └── spinner.tsx
+    │   ├── skeleton
+    │   │   └── spinner.tsx
+    │   └── TricolorRule.tsx
     ├── Hero.tsx
     ├── homepage
     │   └── blog
@@ -371,5 +395,4 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-122 directories, 250 files
-tree app > app-structure.txt
+125 directories, 271 files

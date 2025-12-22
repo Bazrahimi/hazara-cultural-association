@@ -1,6 +1,7 @@
 import { getCategoryLabel } from "@/app/blog/lib/category";
 import { BlogRoutes } from "@/app/lib/routes";
 import { PostTrans } from "@/app/lib/translation";
+import { slugify } from "@/app/shop/lib/helper";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
@@ -30,7 +31,9 @@ const PostMetaRTL = ({
       <div className="flex items-center justify-between">
         {/* Right side: Author block */}
         <Link
-          href={BlogRoutes.authorByNamePlusId(userId)}
+          href={BlogRoutes.authorByNamePlusId(
+            `${slugify(authorName)}-${userId}`
+          )}
           className="
     group flex items-center gap-3 transition
     hover:opacity-95
