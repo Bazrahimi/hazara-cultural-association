@@ -16,8 +16,8 @@ const Breadcrumbs = ({ breadcrumbs, isRTL = false }: { breadcrumbs: Breadcrumb[]
           const isLast = index === breadcrumbs.length - 1;
 
           return (
-            <li
-              key={breadcrumb.href}
+            <li key={`${breadcrumb.href}-${index}`}
+
               className={clsx(
                 "flex items-center",
                 breadcrumb.active && "font-medium text-gray-900",
