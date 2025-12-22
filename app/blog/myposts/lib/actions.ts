@@ -1,12 +1,12 @@
 "use server";
 
 import { sql } from "@/app/lib/db";
+import { BlogRoutes } from "@/app/lib/routes";
 import { getSession } from "@/app/lib/session";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { PostActionState } from "./definitions";
-import { postFailure, postSuccess } from "./helper";
-import { BlogRoutes } from "@/app/lib/routes";
+import { postFailure, postSuccess } from "./actionHelper";
+import { PostActionState } from "./actionHelper";
 
 const parsePostId = (formData: FormData): number | null => {
   const rawPostId = formData.get("postId");
@@ -99,8 +99,6 @@ export async function publishPostAction(
       );
     }
 
-    
-
     return postSuccess("Post published.");
   } catch (err) {
     console.error("Failed to publish post", err);
@@ -141,8 +139,6 @@ export async function archivePostAction(
       );
     }
 
- 
-
     return postSuccess("Post archived.");
   } catch (err) {
     console.error("Failed to archive post", err);
@@ -181,8 +177,6 @@ export async function deletePostAction(
         "Not authorized to delete this post or post not found."
       );
     }
-
-    
   } catch (err) {
     console.error("Failed to delete post", err);
     return postFailure("Database error.");

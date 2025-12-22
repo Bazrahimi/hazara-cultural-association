@@ -3,7 +3,7 @@ import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/category";
 
 import type { PostsListRow } from "../../post/lib/definitions";
-import { BLOGGER_POST_LIST_CONFIG } from "../lib/helper";
+import { BLOGGER_POST_LIST_CONFIG } from "../lib/actionHelper";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
 import PostHeader from "./PostHeader";
 

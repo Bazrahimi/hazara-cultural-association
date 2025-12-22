@@ -1,4 +1,10 @@
-import type { PostActionState } from "./definitions";
+export type PostActionState = {
+  ok: boolean;
+  message: string;
+  errors?: Record<string, string[]>;
+}
+
+
 export const BLOGGER_POST_LIST_CONFIG = {
   draft: {
     title: "Drafts",
