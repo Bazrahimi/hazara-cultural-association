@@ -1,4 +1,5 @@
 import { getCategoryLabel } from "@/app/blog/lib/category";
+import { formatDateTimeAU } from "@/app/lib/Date";
 import { BlogRoutes } from "@/app/lib/routes";
 import { UserRoutes } from "@/app/lib/routes/UserRoutes";
 import { PostTrans } from "@/app/lib/translation";
@@ -7,20 +8,14 @@ import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import { MdPersonOutline } from "react-icons/md";
-
-type Props = {
-  authorName: string;
-  userId: number;
-  publishedAt: string;
-  categoryId: number;
-};
+import { PostMetaProps } from "./PostMetaEn";
 
 const PostMetaRTL = ({
   authorName,
   userId,
-  publishedAt,
+  createdAt,
   categoryId,
-}: Props) => {
+}: PostMetaProps) => {
   return (
     <div
       dir="rtl"
@@ -66,9 +61,10 @@ const PostMetaRTL = ({
               {authorName}
             </P>
 
-            <span className="text-xs text-gray-500">
-              {PostTrans.publishedAt.rtl} <span dir="ltr">{publishedAt}</span>
-            </span>
+            <P className="text-xs text-gray-500">
+              {PostTrans.publishedAt.rtl}{" "}
+              {createdAt}
+            </P>
           </div>
         </Link>
 

@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { getPostById } from "../../lib/data";
+import { getPostById } from "../lib/data";
 import { extractPostFromSlug } from "../../lib/helper";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://hazara.org.au";

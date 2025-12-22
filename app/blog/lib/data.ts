@@ -1,7 +1,6 @@
 // app/blog/lib/data.ts
 import { sql, SqlFragment } from "@/app/lib/db";
-import { notFound } from "next/navigation";
-import type { PostCardRow, PostDetailRow } from "./definitions";
+import type { PostCardRow } from "./definitions";
 
 async function getPostsWithWhere(
   whereFragment: SqlFragment,
@@ -26,46 +25,6 @@ async function getPostsWithWhere(
       p.created_at DESC
     LIMIT ${limit};
   `;
-}
-
-export async function getPostById(postId: number): Promise<PostDetailRow> {
-  const rows = await sql<PostDetailRow[]>`
-    SELECT
-      p.id,
-      p.user_id              AS "userId",
-      p.title,
-      p.slug,
-      p.content_html          AS "contentHtml",
-      p.status,
-      p.category_id            AS "categoryId",
-      p.hero_img_path          AS "heroImgPath",
-      p.is_featured            AS "isFeatured",
-      p.is_rtl                 AS "isRtl",
-      p.event_date             AS "eventDate",
-      p.event_location         AS "eventLocation",
-      concat_ws(' ', up.first_name, up.last_name) AS "authorName",  -- 👈 NEW
-      to_char(
-        p.updated_at AT TIME ZONE 'Australia/Melbourne',
-        'DD MON YYYY'
-      ) AS "updatedAt",
-      to_char(
-        p.published_at AT TIME ZONE 'Australia/Melbourne',
-        'DD MON YYYY'
-      ) AS "publishedAt"
-
-    FROM blog_posts p
-    LEFT JOIN user_profiles up ON up.user_id = p.user_id
-    WHERE p.id = ${postId}
-    LIMIT 1;
-  `;
-
-  const post = rows[0];
-
-  if (!post) {
-    notFound();
-  }
-
-  return post;
 }
 
 export async function getFeaturedPostsByCategory(

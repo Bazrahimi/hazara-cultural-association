@@ -41,3 +41,4 @@ export const getBlogPosts = async ({
 
   return posts;
 };
+

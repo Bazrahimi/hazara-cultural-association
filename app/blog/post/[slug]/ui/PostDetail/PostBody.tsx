@@ -2,13 +2,14 @@
 import { Header } from "@/app/ui/global/Header";
 import HeroImage from "./HeroImage";
 
-import { getPostById } from "@/app/blog/lib/data";
+import { getPostById } from "@/app/blog/post/lib/data";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import ContentSection from "./ContentSection";
 import EventSection from "./EventSection";
 import ManageControlGate from "./ManageControlGate";
 
+import { toLocalDateTimeInput } from "@/app/lib/Date";
 import TricolorRule from "@/app/ui/global/TricolorRule";
 import PostMetaEn from "./PostMetaEn";
 import PostMetaRTL from "./PostMetaRTL";
@@ -21,12 +22,13 @@ type PostDetailProps = {
 const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
   const post = await getPostById(postId);
   if (!post) notFound();
+  console.log("created_____-at", post.createdAt);
+  console.log(toLocalDateTimeInput(post.createdAt));
 
   const isEvent = post.categoryId === 2;
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-10 text-left">
-    
       {/* Title */}
       <Header
         as="h1"
@@ -41,14 +43,14 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
         <PostMetaRTL
           authorName={post.authorName}
           userId={post.userId}
-          publishedAt={post.publishedAt}
+          createdAt={post.createdAt}
           categoryId={post.categoryId}
         />
       ) : (
         <PostMetaEn
           authorName={post.authorName}
           userId={post.userId}
-          publishedAt={post.publishedAt}
+          createdAt={post.createdAt}
           categoryId={post.categoryId}
         />
       )}

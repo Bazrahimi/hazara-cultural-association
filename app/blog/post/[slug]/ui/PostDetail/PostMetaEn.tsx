@@ -8,14 +8,19 @@ import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import { MdPersonOutline } from "react-icons/md";
 
-type Props = {
+export type PostMetaProps = {
   authorName: string;
   userId: number;
-  publishedAt: string;
+  createdAt: string;
   categoryId: number;
 };
 
-const PostMetaEn = ({ authorName, userId, publishedAt, categoryId }: Props) => {
+const PostMetaEn = ({
+  authorName,
+  userId,
+  createdAt,
+  categoryId,
+}: PostMetaProps) => {
   return (
     <div
       dir="ltr"
@@ -44,9 +49,9 @@ const PostMetaEn = ({ authorName, userId, publishedAt, categoryId }: Props) => {
               {authorName}
             </P>
 
-            <span className="text-xs text-gray-500">
-              {PostTrans.publishedAt.en} <span dir="ltr">{publishedAt}</span>
-            </span>
+            <P className="text-xs text-gray-500">
+              {PostTrans.publishedAt.en} {createdAt}
+            </P>
           </div>
         </Link>
 

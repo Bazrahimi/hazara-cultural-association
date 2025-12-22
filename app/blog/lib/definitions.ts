@@ -1,4 +1,4 @@
-type BlogPostDbRow = {
+type PostDbRow = {
   id: number;
   user_id: number;
   title: string;
@@ -11,7 +11,6 @@ type BlogPostDbRow = {
   event_location: string | null;
   created_at: string; // timestamptz
   updated_at: string; // timestamptz
-  published_at: string;
   is_rtl: boolean;
   category_id: number; // smallint but number in TS
 };
@@ -27,7 +26,7 @@ type CamelizeKeys<T> = {
 };
 
 // 3) Base camelCase blog-post type, directly derived from DB
-export type BlogPostBase = CamelizeKeys<BlogPostDbRow>;
+export type BlogPostBase = CamelizeKeys<PostDbRow>;
 
 export type PostStatus = BlogPostBase["status"];
 
@@ -45,23 +44,21 @@ export type PostCardRow = Pick<
   authorName: string;
 };
 
-export type PostDetailRow = Omit<BlogPostBase, "createdAt"> & {
+export type PostRow = BlogPostBase & {
   authorName: string;
 };
 
-export type EditPostRow = Pick<
-  BlogPostBase,
-  | "id"
-  | "userId"
-  | "title"
-  | "contentHtml"
-  | "categoryId"
-  | "status"
-  | "heroImgPath"
-  | "isFeatured"
-  | "eventDate"
-  | "eventLocation"
-  | "isRtl"
->;
-
-
+// export type EditPostRow = Pick<
+//   BlogPostBase,
+//   | "id"
+//   | "userId"
+//   | "title"
+//   | "contentHtml"
+//   | "categoryId"
+//   | "status"
+//   | "heroImgPath"
+//   | "isFeatured"
+//   | "eventDate"
+//   | "eventLocation"
+//   | "isRtl"
+// >;

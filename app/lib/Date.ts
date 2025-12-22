@@ -1,6 +1,5 @@
 export function formatDateTimeAU(value?: string | Date | null): string {
   if (!value) return "";
-
   const d = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(d.getTime())) return "";
 
@@ -14,6 +13,7 @@ export function formatDateTimeAU(value?: string | Date | null): string {
     timeZone: "Australia/Melbourne",
   }).format(d);
 }
+
 
 export function toLocalDateTimeInput(value?: string | Date | null): string {
   if (!value) return "";
