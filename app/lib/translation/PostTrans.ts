@@ -1,7 +1,7 @@
 export const PostTrans = {
   author: {
     en: "By:",
-    rtl: "نوشته:",
+    rtl: "توسط",
   },
   publishedAt: {
     en: "Published",

@@ -1,7 +1,7 @@
 export const CATEGORY_MAP = {
   1: {
     en: "news",
-    rtl: "اخبار",
+    rtl: "اخبار و روز رسانی‌ها",
     theme: {
       icon: "📰",
       label: "News",
@@ -10,7 +10,7 @@ export const CATEGORY_MAP = {
     },
   },
   2: {
-    en: "Events",
+    en: "Community Events",
     rtl: "برنامه و گردهمایی",
     theme: {
       icon: "📣",

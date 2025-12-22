@@ -1,17 +1,17 @@
 // app/blog/[slug]/ui/BlogPostDetail.tsx
 import { Header } from "@/app/ui/global/Header";
-import Link from "next/link";
 import HeroImage from "./HeroImage";
 
 import { getPostById } from "@/app/blog/lib/data";
-import { BlogRoutes } from "@/app/lib/routes";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { getCategoryLabel } from "../../../../lib/category";
 import ContentSection from "./ContentSection";
 import EventSection from "./EventSection";
 import ManageControlGate from "./ManageControlGate";
-import PostMeta from "./PostMeta";
+
+import PostMetaEn from "./PostMetaEn";
+import PostMetaRTL from "./PostMetaRTL";
+import TricolorRule from "@/app/ui/global/TricolorRule";
 
 type PostDetailProps = {
   postId: number;
@@ -42,26 +42,25 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
       </Header>
 
       {/* Author + date + category */}
-      <div
-        className={`mb-6 flex flex-wrap items-center gap-3 text-sm text-gray-600 ${
-          isRTL ? "justify-end" : ""
-        }`}
-      >
-        <PostMeta
+      {isRTL ? (
+      
+          <PostMetaRTL
+            authorName={post.authorName}
+            userId={post.userId}
+            publishedAt={post.publishedAt}
+            categoryId={post.categoryId}
+          />
+      
+      ) : (
+        <PostMetaEn
           authorName={post.authorName}
           userId={post.userId}
           publishedAt={post.publishedAt}
-          isRTL={isRTL}
+          categoryId={post.categoryId}
         />
+      )}
 
-        {/* Category badge – clickable, goes to /blog/[categoryId] */}
-        <Link
-          href={BlogRoutes.categoryById(post.categoryId)}
-          className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700 hover:bg-gray-200 transition"
-        >
-          {getCategoryLabel(post.categoryId, isRTL)}
-        </Link>
-      </div>
+      <TricolorRule />
 
       {/* Advocacy event meta */}
       {isEvent && (
