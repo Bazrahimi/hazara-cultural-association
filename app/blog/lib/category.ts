@@ -62,7 +62,7 @@ export const CATEGORY_MAP = {
 
 export type CategoryId = keyof typeof CATEGORY_MAP; // 1 | 2 | 3 | 4
 
-export function getCategoryLabel(categoryId: number, isRTL: boolean): string {
+export function getCategoryLabel(categoryId: number, isRTL: boolean = false): string {
   const item = CATEGORY_MAP[categoryId as CategoryId];
   if (!item) return "";
   return isRTL ? item.rtl : item.en;

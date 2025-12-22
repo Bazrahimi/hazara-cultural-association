@@ -1,4 +1,6 @@
+import { getCategoryLabel } from "@/app/blog/lib/category";
 import { join, q } from "./helper";
+import { slugify } from "@/app/shop/lib/helper";
 export const BlogRoutes = {
   root: () => "/blog",
   post: (slug: string) => `/blog/post/${slug}`,
@@ -6,9 +8,13 @@ export const BlogRoutes = {
   guideLines: () => "/blog/guidelines",
 
   // Author + category pages (your structure is /blog/p/u/[namePlusId] and /blog/p/[categoryId])
-  categoryById: (categoryId: number | string) => join("blog", "p", categoryId),
+  categoryById: (categoryId:number) => {
+    const label = getCategoryLabel(categoryId)
+    const slug = slugify(label)
+    return `/blog/post/category/${slug}?categoryId=${categoryId}`
+  } ,
   authorByNamePlusId: (namePlusId: string) =>
-    join("blog", "p", "u", namePlusId),
+    join("blog", "category", "u", namePlusId),
 
   // Blog create/edit (you have /blog/new and /blog/myposts/edit/[postId])
   new: () => "/blog/new",
