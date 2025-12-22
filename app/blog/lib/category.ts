@@ -10,7 +10,7 @@ export const CATEGORY_MAP = {
     },
   },
   2: {
-    en: "Community Events",
+    en: "Community and Advocacy Events",
     rtl: "برنامه و گردهمایی",
     theme: {
       icon: "📣",

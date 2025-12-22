@@ -9,7 +9,7 @@ type Props = {
 
 const EventSection = ({ eventDate, eventLocation, isRTL }: Props) => {
   return (
-    <div className="mb-6 rounded-lg border border-blue-100 bg-blue-50/60 p-4 text-sm text-blue-900">
+    <div className="mb-6 rounded-lg border border-blue-100 bg-blue-50/60 p-4 text-sm text-blue-900 mt-5">
       <P className="font-semibold">
         {isRTL ? "جزییات برنامهٔ دادخواهی" : "Advocacy event details"}
       </P>
