@@ -15,11 +15,11 @@ const page = async ({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ catId: string; rtl: string }>;
+  searchParams: Promise<{ catId: string; rtl: string; id:string }>;
 }) => {
   const { slug } = await params;
 
-  const { catId, rtl } = await searchParams;
+  const { catId, rtl, id } = await searchParams;
   const categoryId = Number(catId);
 
   const isRTL = rtl === "1";
@@ -62,7 +62,7 @@ const page = async ({
           />
         }
       >
-        <PostBody postId={Number(slugInfo.postId)} isRTL={isRTL} />
+        <PostBody postId={Number(id)} isRTL={isRTL} />
       </Suspense>
     </>
   );

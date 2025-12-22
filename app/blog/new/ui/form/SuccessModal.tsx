@@ -77,7 +77,7 @@ export function SuccessModal({
             {success.slug ? (
               <Button
                 as="link"
-                href={BlogRoutes.post(success.slug)}
+                href={`${BlogRoutes.post(success.slug)}`}
                 size="sm"
                 variant="outline"
                 fullWidth
