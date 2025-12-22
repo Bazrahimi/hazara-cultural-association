@@ -9,6 +9,7 @@ import DeleteMenuItem from "./DeleteMenuItem";
 import FeatureMenuItem from "./FeatureMenuItem";
 import PublishMenuItem from "./PublishMenuItem";
 
+import { BlogRoutes } from "@/app/lib/routes";
 import { setNotification } from "@/app/u/lib/setNotification";
 import {
   archivePostAction,
@@ -16,7 +17,6 @@ import {
   featurePostAction,
   publishPostAction,
 } from "../../lib/actions";
-import { BlogRoutes } from "@/app/lib/routes";
 
 type Props = {
   isRTL: boolean;
@@ -114,7 +114,7 @@ export default function PostActionsMenu({
             {/* Edit always available */}
             <li>
               <Link
-                href={`${BlogRoutes.edit}${postId}`}
+                href={BlogRoutes.edit(postId)}
                 className="block px-3 py-2 hover:bg-slate-100"
               >
                 {isRTL ? "ویرایش" : "Edit"}
