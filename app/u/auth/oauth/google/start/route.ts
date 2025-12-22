@@ -1,5 +1,6 @@
 // app/u/oauth/google/start/route.ts
 
+import { AuthRoutes } from "@/app/lib/routes";
 import crypto from "crypto";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -12,7 +13,7 @@ export const GET = async () => {
   // Random state for CSRF protection
   const state = crypto.randomBytes(16).toString("hex");
 
-  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/u/oauth/google/callback`;
+  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}${AuthRoutes.googleOAuthCallback()}`;
 
   // Save state in a secure cookie so we can verify it on callback
   cookieStore.set("oauth_state_google", state, {

@@ -10,7 +10,7 @@ import FeatureMenuItem from "./FeatureMenuItem";
 import PublishMenuItem from "./PublishMenuItem";
 
 import { BlogRoutes } from "@/app/lib/routes";
-import { setNotification } from "@/app/u/lib/setNotification";
+import { setNotification } from "@/app/u/auth/lib/setNotification";
 import {
   archivePostAction,
   deletePostAction,

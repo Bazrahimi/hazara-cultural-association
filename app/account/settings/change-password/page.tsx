@@ -11,10 +11,10 @@ import {
 import { Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 
-import { setNotification } from "@/app/u/lib/setNotification";
+import { setNotification } from "@/app/u/auth/lib/setNotification";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { changePassword } from "../../../u/lib/action";
+import { changePassword } from "@/app/u/auth/lib/action";
 
 const ChangePasswordPage = () => {
   const [state, formAction, isPending] = useActionState(

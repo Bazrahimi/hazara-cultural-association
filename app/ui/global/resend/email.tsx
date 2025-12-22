@@ -1,6 +1,6 @@
 "use server";
 import type { QuickEnquiry } from "@/app/lib/definitions";
-import { resend, FROM_EMAIL } from "@/app/u/ui/resend/email";
+import { resend, FROM_EMAIL } from "@/app/u/auth/ui/resend/email";
 import EnquiryConfirmation from "./NewEnquiry";
 
 const toEmail = "info@hazara.org.au";

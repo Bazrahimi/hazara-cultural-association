@@ -6,7 +6,7 @@ import { createSession } from "@/app/lib/session";
 import {
   issueVerificationCode,
   verifyEmailCode,
-} from "@/app/u/lib/verification";
+} from "@/app/u/auth/lib/verification";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { VERIFY_EMAIL_COOKIE_PATH } from "../../lib/helper";

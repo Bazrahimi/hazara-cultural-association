@@ -1,4 +1,5 @@
 // app/u/ui/SocialLoginButtons.tsx
+import { AuthRoutes } from "@/app/lib/routes";
 import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
 
@@ -13,7 +14,7 @@ export default function SocialLoginButtons({
     <div className={`space-y-3 ${className}`}>
       {/* Google Login */}
       <Link
-        href="/u/oauth/google/start"
+        href={AuthRoutes.googleOAuthStart()}
         className="
           flex w-full items-center justify-center gap-2
           rounded-md border border-slate-200 bg-white

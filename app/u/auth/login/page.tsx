@@ -7,9 +7,9 @@ import { MdEmail, MdPassword } from "react-icons/md";
 import {
   ActionButton,
   FormErrorMessage,
-} from "../../ui/global/clientComponent";
-import { Button, Input } from "../../ui/global/components";
-import { Header } from "../../ui/global/Header";
+} from "../../../ui/global/clientComponent";
+import { Button, Input } from "../../../ui/global/components";
+import { Header } from "../../../ui/global/Header";
 import { auth } from "../lib/action";
 
 import { AuthRoutes } from "@/app/lib/routes";

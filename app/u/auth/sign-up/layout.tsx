@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getUserId } from "../../lib/session";
+import { getUserId } from "@/app/lib/session";
 
 export const metadata: Metadata = {
-  title: "Login | Hazara Cultural Association",
-  description: "Secure Login for Hazara Cultural Association",
+  title: "Sign up | Hazara Cultural Association",
+  description: "Sign-up for a new account with HCA",
 };
 
 import React from "react";
@@ -16,9 +16,8 @@ export default async function Layout({
 }) {
   const userId = await getUserId();
 
-  if (userId) {
-    redirect("/account");
-  }
+
+  if (userId) redirect("/account");
 
   return <>{children}</>;
 }

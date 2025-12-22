@@ -2,7 +2,7 @@
 import { sql } from "@/app/lib/db";
 import { AccountRoutes, AuthRoutes } from "@/app/lib/routes";
 import { createSession } from "@/app/lib/session";
-import { buildFullName } from "@/app/u/lib/helper"; // you already have this
+import { buildFullName } from "@/app/u/auth/lib/helper"; // you already have this
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { cookies } from "next/headers";
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
     maxAge: 0,
   });
 
-  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/u/oauth/google/callback`;
+  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}${AuthRoutes.googleOAuthCallback()}`;
 
   // 3) Exchange code -> tokens
   const tokenRes = await fetch(GOOGLE_TOKEN_URL, {
@@ -60,7 +60,9 @@ export async function GET(req: NextRequest) {
 
   if (!tokenRes.ok) {
     console.error("Failed to exchange code for token", await tokenRes.text());
-    return NextResponse.redirect(`${AuthRoutes.login()}?error=google_oauth_token`);
+    return NextResponse.redirect(
+      `${AuthRoutes.login()}?error=google_oauth_token`
+    );
   }
 
   const tokenJson = (await tokenRes.json()) as {

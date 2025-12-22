@@ -3,7 +3,7 @@
 "use client";
 
 import { toBoolean } from "@/app/lib/helper";
-import { setNotification } from "@/app/u/lib/setNotification";
+import { setNotification } from "@/app/u/auth/lib/setNotification";
 import CldFileUpload from "@/app/ui/global/CLdFileUpload";
 import { Input } from "@/app/ui/global/components";
 import { useActionState, useEffect, useState } from "react";

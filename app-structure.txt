@@ -185,12 +185,13 @@ app
 │   │       ├── [category]
 │   │       │   └── page.tsx
 │   │       └── ui
-│   │           ├── AuthorBlogPosts.tsx
 │   │           ├── CategoryBlogPosts.tsx
 │   │           └── PostCardSkeleton.tsx
 │   ├── u
 │   │   └── [namePlusId]
-│   │       └── page.tsx
+│   │       ├── page.tsx
+│   │       └── ui
+│   │           └── AuthorBlogPosts.tsx
 │   └── ui
 │       ├── BlogMenu.tsx
 │       ├── BlogMenuClient.tsx
@@ -324,46 +325,47 @@ app
 │       ├── ProductCard.tsx
 │       └── ProductPriceTag.tsx
 ├── u
-│   ├── forgot-password
-│   │   ├── loading.tsx
-│   │   └── page.tsx
-│   ├── lib
-│   │   ├── action.ts
-│   │   ├── definitions.ts
-│   │   ├── helper.ts
-│   │   ├── schema.ts
-│   │   ├── setNotification.ts
-│   │   └── verification.tsx
-│   ├── login
-│   │   ├── layout.tsx
-│   │   ├── loading.tsx
-│   │   ├── page.tsx
-│   │   └── ui
-│   │       └── SocialLoginButtons.tsx
-│   ├── oauth
-│   │   └── google
-│   │       ├── callback
-│   │       │   └── route.ts
-│   │       └── start
-│   │           └── route.ts
-│   ├── reset-password
-│   │   ├── loading.tsx
-│   │   └── page.tsx
-│   ├── sign-up
-│   │   ├── layout.tsx
-│   │   ├── loading.tsx
-│   │   └── page.tsx
-│   ├── ui
-│   │   └── resend
-│   │       ├── email.ts
-│   │       ├── EmailFooter.tsx
-│   │       └── VerifyEmailCode.tsx
-│   └── verify
+│   └── auth
+│       ├── forgot-password
+│       │   ├── loading.tsx
+│       │   └── page.tsx
 │       ├── lib
-│       │   └── verify-action.ts
-│       ├── page.tsx
-│       └── ui
-│           └── verify-form.tsx
+│       │   ├── action.ts
+│       │   ├── definitions.ts
+│       │   ├── helper.ts
+│       │   ├── schema.ts
+│       │   ├── setNotification.ts
+│       │   └── verification.tsx
+│       ├── login
+│       │   ├── layout.tsx
+│       │   ├── loading.tsx
+│       │   ├── page.tsx
+│       │   └── ui
+│       │       └── SocialLoginButtons.tsx
+│       ├── oauth
+│       │   └── google
+│       │       ├── callback
+│       │       │   └── route.ts
+│       │       └── start
+│       │           └── route.ts
+│       ├── reset-password
+│       │   ├── loading.tsx
+│       │   └── page.tsx
+│       ├── sign-up
+│       │   ├── layout.tsx
+│       │   ├── loading.tsx
+│       │   └── page.tsx
+│       ├── ui
+│       │   └── resend
+│       │       ├── email.ts
+│       │       ├── EmailFooter.tsx
+│       │       └── VerifyEmailCode.tsx
+│       └── verify
+│           ├── lib
+│           │   └── verify-action.ts
+│           ├── page.tsx
+│           └── ui
+│               └── verify-form.tsx
 └── ui
     ├── Footer.tsx
     ├── global
@@ -395,4 +397,4 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-125 directories, 271 files
+127 directories, 271 files
