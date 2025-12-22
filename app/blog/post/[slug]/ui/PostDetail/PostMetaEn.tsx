@@ -1,12 +1,12 @@
 import { getCategoryLabel } from "@/app/blog/lib/category";
 import { BlogRoutes } from "@/app/lib/routes";
 import { UserRoutes } from "@/app/lib/routes/UserRoutes";
-import { PostTrans } from "@/app/lib/translation";
 import { slugify } from "@/app/shop/lib/helper";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import { MdPersonOutline } from "react-icons/md";
+import { PostTrans } from "@/app/lib/translation/blog/post/PostTrans";
 
 export type PostMetaProps = {
   authorName: string;

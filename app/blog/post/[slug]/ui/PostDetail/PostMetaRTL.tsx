@@ -1,8 +1,7 @@
 import { getCategoryLabel } from "@/app/blog/lib/category";
-import { formatDateTimeAU } from "@/app/lib/Date";
 import { BlogRoutes } from "@/app/lib/routes";
 import { UserRoutes } from "@/app/lib/routes/UserRoutes";
-import { PostTrans } from "@/app/lib/translation";
+import { PostTrans } from "@/app/lib/translation/blog/post/PostTrans";
 import { slugify } from "@/app/shop/lib/helper";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
@@ -62,8 +61,7 @@ const PostMetaRTL = ({
             </P>
 
             <P className="text-xs text-gray-500">
-              {PostTrans.publishedAt.rtl}{" "}
-              {createdAt}
+              {PostTrans.publishedAt.rtl} {createdAt}
             </P>
           </div>
         </Link>

@@ -1,2 +1,2 @@
 export * from "./BreadcrumbTrans";
-export * from "./PostTrans"
+export * from "./blog/post/PostTrans"
