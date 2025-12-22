@@ -1,8 +1,8 @@
 // app/blog/ui/CategoryBlogPosts.tsx
 import { getPublishedPostsByCategory } from "@/app/blog/lib/data";
-import { getCategoryLabel } from "@/app/blog/lib/helper";
+import { getCategoryLabel } from "@/app/blog/lib/category";
 import { Header } from "@/app/ui/global/Header";
-import BlogPostCard from "../../ui/BlogPostCard";
+import BlogPostCard from "../../ui/PostCard";
 
 type CategoryBlogPostsProps = {
   categoryId: number;

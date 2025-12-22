@@ -1,5 +1,4 @@
-import type { CategoryId } from "../../../lib/helper";
-import { CATEGORY_MAP } from "../../../lib/helper";
+import { CATEGORY_MAP, type CategoryId } from "../../../lib/category";
 import type {
   ActionMode,
   BlogPostInput,

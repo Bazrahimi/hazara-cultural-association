@@ -7,7 +7,7 @@ import { setNotification } from "@/app/u/lib/setNotification";
 import CldFileUpload from "@/app/ui/global/CLdFileUpload";
 import { Input } from "@/app/ui/global/components";
 import { useActionState, useEffect, useState } from "react";
-import { type CategoryId } from "../../lib/helper";
+import { type CategoryId } from "../../lib/category";
 import type { BlogPostInput, BlogPostState } from "../lib/definitions";
 import { ActionMode } from "../lib/definitions";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";

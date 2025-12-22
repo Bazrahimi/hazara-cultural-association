@@ -10,7 +10,7 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
 import { createMember } from "../lib/action";
-import type { MemberInput, MemberState } from "../lib/definitions";
+import type { MemberInput } from "../lib/definitions";
 import AddressForm from "./AddressForm";
 import Involvement from "./Involvement";
 import PersonalDetailsSection from "./PersonalDetailsSection";

@@ -1,23 +1,26 @@
 // app/blog/[slug]/ui/BlogPostDetail.tsx
-import type { PostDetailRow } from "@/app/blog/lib/definitions";
 import { Header } from "@/app/ui/global/Header";
 import Link from "next/link";
 import { ManagePostControls } from "../ManagePostControls";
 import HeroImage from "./HeroImage";
 
+import { getBlogPostBySlug } from "@/app/blog/lib/data";
+import { getSession } from "@/app/lib/session";
 import { slugify } from "@/app/shop/lib/helper";
-import { getCategoryLabel } from "../../../../lib/helper";
+import { getCategoryLabel } from "../../../../lib/category";
 import ContentSection from "./ContentSection";
 
 type BlogPostDetailProps = {
-  post: PostDetailRow;
-  canManage: boolean;
+  slug: string;
 };
 
-export default function BlogPostDetail({
-  post,
-  canManage,
-}: BlogPostDetailProps) {
+const BlogPostDetail = async ({ slug }: BlogPostDetailProps) => {
+  const post = await getBlogPostBySlug(slug);
+
+  const session = await getSession();
+  const canManage =
+    !!session &&
+    (session.roles.includes("admin") || session.userId === post.id);
   // categoryId: 2 = advocacy event
   const isEvent = post.categoryId === 2;
   const isRTL = post.isRtl === true;
@@ -158,4 +161,6 @@ export default function BlogPostDetail({
       )}
     </article>
   );
-}
+};
+
+export default BlogPostDetail;

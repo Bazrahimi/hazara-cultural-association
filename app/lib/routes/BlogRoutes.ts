@@ -2,6 +2,7 @@ import { join, q } from "./helper";
 export const BlogRoutes = {
   root: () => "/blog",
   post: (slug: string) => `/blog/post/${slug}`,
+
   guideLines: () => "/blog/guidelines",
 
   // Author + category pages (your structure is /blog/p/u/[namePlusId] and /blog/p/[categoryId])

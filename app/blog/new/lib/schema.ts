@@ -2,7 +2,7 @@
 import { toBoolean } from "@/app/lib/helper";
 import z from "zod";
 import { PostStatus } from "../../lib/definitions";
-import { CATEGORY_MAP } from "../../lib/helper";
+import { CATEGORY_MAP } from "../../lib/category";
 
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
 const STATUS_VALUES = [

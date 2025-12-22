@@ -1,6 +1,6 @@
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import { getCategoryLabel } from "../../lib/helper";
+import { getCategoryLabel } from "../../lib/category";
 import type { BloggerPostListRow } from "../lib/data";
 import { BLOGGER_POST_LIST_CONFIG } from "../lib/helper";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";

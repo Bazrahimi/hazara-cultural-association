@@ -1,7 +1,7 @@
 // app/blog/ui/AuthorBlogPosts.tsx
 import { getPublishedPostsByAuthor } from "@/app/blog/lib/data";
 import { Header } from "@/app/ui/global/Header";
-import BlogPostCard from "../../ui/BlogPostCard";
+import BlogPostCard from "../../ui/PostCard";
 
 type AuthorBlogPostsProps = {
   authorId: number;

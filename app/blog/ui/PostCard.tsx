@@ -6,16 +6,17 @@ import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
 import Link from "next/link";
+import { CategoryId } from "../lib/category";
 import type { PostCardRow } from "../lib/definitions";
-import { cardImgPlaceholder, CategoryId } from "../lib/helper";
+import { cardImgPlaceholder } from "../lib/helper";
 
-type BlogPostCardProps = {
+type PostCardProps = {
   post: PostCardRow;
 };
 
 // ----- Card component -----
 
-const BlogPostCard = ({ post }: BlogPostCardProps) => {
+const PostCard = ({ post }: PostCardProps) => {
   const isRTL = post.isRtl;
 
   const byLabel = isRTL ? "منتشر شده توسط" : "Published by";
@@ -30,7 +31,7 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
 
   return (
     <Link
-      href={BlogRoutes.post(post.slug)}
+      href={`${BlogRoutes.post(post.slug)}?categoryId=${post.categoryId}&rtl=${isRTL ? 1 : 0}`}
       className="group overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
     >
       <article className="flex h-full flex-col">
@@ -93,4 +94,4 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
   );
 };
 
-export default BlogPostCard;
+export default PostCard;

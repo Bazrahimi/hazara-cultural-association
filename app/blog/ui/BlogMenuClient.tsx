@@ -3,7 +3,7 @@
 import { BlogRoutes } from "@/app/lib/routes";
 import Link from "next/link";
 import { HiCalendar, HiChevronDown } from "react-icons/hi";
-import { catItems } from "../lib/helper";
+import { catItems } from "../lib/category";
 import { BlogMenuProps } from "./BlogMenu";
 import { useDropdownMenu } from "./useDropdownMenu";
 

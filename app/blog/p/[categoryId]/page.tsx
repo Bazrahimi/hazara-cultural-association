@@ -1,6 +1,6 @@
 import NotFound from "@/app/not-found";
 import { Suspense } from "react";
-import { getCategoryMeta } from "../../lib/helper";
+import { getCategoryMeta } from "../../lib/category";
 import CategoryBlogPosts from "../ui/CategoryBlogPosts";
 import PostCardSkeleton from "../ui/PostCardSkeleton";
 

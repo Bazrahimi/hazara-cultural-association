@@ -3,9 +3,9 @@ import clsx from "clsx";
 import Link from "next/link";
 import { lusitana } from "@/app/lib/font";
 
-const Breadcrumbs = ({ breadcrumbs }: { breadcrumbs: Breadcrumb[] }) => {
+const Breadcrumbs = ({ breadcrumbs, isRTL = false }: { breadcrumbs: Breadcrumb[], isRTL?:boolean }) => {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6 ml-2 block overflow-x-auto">
+    <nav aria-label="Breadcrumb" dir={isRTL ? "rtl" : "ltr"} className="mb-6 ml-2 block overflow-x-auto">
       <ol
         className={clsx(
           lusitana.className,

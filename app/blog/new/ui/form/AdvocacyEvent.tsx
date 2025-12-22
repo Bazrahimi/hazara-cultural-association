@@ -5,7 +5,7 @@ type Props = {
   eventLocation?: string;
 };
 
-const AdvocacyEvent = ({ categoryId, isRTL, eventDate, eventLocation }: Props) => {
+const AdvocacyEvent = ({  isRTL, eventDate, eventLocation }: Props) => {
 
 
   const placeholderDate = isRTL
