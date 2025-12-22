@@ -6,11 +6,13 @@ import PostCardSkeleton from "../ui/PostCardSkeleton";
 
 const BlogCategoryPage = async ({
   params,
+  searchParams,
 }: {
-  params: Promise<{ categoryId: string }>;
+  params: Promise<{ category: string }>;
+  searchParams: {categoryId:string}
 }) => {
-  const { categoryId } = await params;
-  const id = Number(categoryId);
+  const { category } = await params;
+  const id = Number(searchParams.categoryId);
 
   const meta = getCategoryMeta(id);
   if (!meta) return NotFound();
