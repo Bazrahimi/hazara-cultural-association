@@ -3,9 +3,11 @@ import { BlogRoutes } from "@/app/lib/routes";
 import { BreadcrumbsTrans } from "@/app/lib/translation";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { getCategoryLabel } from "../../lib/category";
 import { extractPostFromSlug, truncateTitle } from "../../lib/helper";
-import PostDetailBody from "./ui/PostDetail/PostBody";
+import PostBody from "./ui/PostDetail/PostBody";
+import PostShell from "./ui/PostDetail/PostShell";
 
 // app/blog/post/[slug]/page.tsx
 const page = async ({
@@ -24,7 +26,7 @@ const page = async ({
 
   const slugInfo = extractPostFromSlug(slug);
   if (!slugInfo) return notFound();
-
+  const categoryLabel = getCategoryLabel(categoryId, isRTL);
   const breadcrumbs: Breadcrumb[] = [
     {
       label: isRTL ? BreadcrumbsTrans.home.rtl : BreadcrumbsTrans.home.en,
@@ -37,7 +39,7 @@ const page = async ({
       href: BlogRoutes.root(),
     },
     {
-      label: getCategoryLabel(categoryId, isRTL),
+      label: categoryLabel,
       href: BlogRoutes.categoryById(categoryId),
     },
     {
@@ -50,7 +52,18 @@ const page = async ({
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} isRTL={isRTL} />
-      <PostDetailBody postId={Number(slugInfo.postId)} isRTL={isRTL} />
+      <Suspense
+        fallback={
+          <PostShell
+            isRTL={isRTL}
+            categoryId={categoryId}
+            title={slugInfo.title}
+            categoryLabel={categoryLabel}
+          />
+        }
+      >
+        <PostBody postId={Number(slugInfo.postId)} isRTL={isRTL} />
+      </Suspense>
     </>
   );
 };

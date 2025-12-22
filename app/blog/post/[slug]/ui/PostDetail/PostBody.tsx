@@ -25,12 +25,8 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
   const isEvent = post.categoryId === 2;
 
   return (
-    <article
-      dir={isRTL ? "rtl" : "ltr"}
-      className={`mx-auto max-w-4xl px-4 py-10 ${
-        isRTL ? "text-right" : "text-left"
-      }`}
-    >
+    <article className="mx-auto max-w-4xl px-4 py-10 text-left">
+    
       {/* Title */}
       <Header
         as="h1"
@@ -41,7 +37,6 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
         {post.title}
       </Header>
 
-      {/* Author + date + category */}
       {isRTL ? (
         <PostMetaRTL
           authorName={post.authorName}
