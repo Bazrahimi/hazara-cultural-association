@@ -86,6 +86,7 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
           isFeatured={post.isFeatured}
           slug={post.slug}
           updatedAt={post.updatedAt}
+          userId={post.userId}
         />
       </Suspense>
     </article>

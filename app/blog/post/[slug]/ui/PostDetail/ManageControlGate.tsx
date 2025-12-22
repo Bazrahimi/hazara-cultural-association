@@ -1,23 +1,24 @@
 import { getSession } from "@/app/lib/session";
-import { PostActionMenuProps } from "../ManagePostControls";
+import type { PostActionMenuProps } from "../ManagePostControls";
 import { ManagePostControls } from "../ManagePostControls";
 
+type Props = PostActionMenuProps & {
+  userId: number;
+};
 const ManageControlGate = async ({
   postId,
   slug,
   status,
   isFeatured,
   isRTL,
-  updatedAt
-  
-
-}: PostActionMenuProps) => {
+  updatedAt,
+  userId,
+}: Props) => {
   const session = await getSession();
   const canManage =
-    !!session &&
-    (session.roles.includes("admin") || session.userId === postId);
+    !!session && (session.roles.includes("admin") || session.userId === userId);
 
-    if (!canManage) return null;
+  if (!canManage) return null;
 
   return (
     <ManagePostControls
