@@ -1,29 +1,28 @@
 // app/blog/[slug]/ui/BlogPostDetail.tsx
 import { Header } from "@/app/ui/global/Header";
 import Link from "next/link";
-import { ManagePostControls } from "../ManagePostControls";
 import HeroImage from "./HeroImage";
 
-import { getBlogPostBySlug } from "@/app/blog/lib/data";
-import { getSession } from "@/app/lib/session";
+import { getPostById } from "@/app/blog/lib/data";
+import { BlogRoutes } from "@/app/lib/routes";
 import { slugify } from "@/app/shop/lib/helper";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { getCategoryLabel } from "../../../../lib/category";
 import ContentSection from "./ContentSection";
+import EventSection from "./EventSection";
+import ManageControlGate from "./ManageControlGate";
 
-type BlogPostDetailProps = {
-  slug: string;
+type PostDetailProps = {
+  postId: number;
+  isRTL: boolean;
 };
 
-const BlogPostDetail = async ({ slug }: BlogPostDetailProps) => {
-  const post = await getBlogPostBySlug(slug);
+const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
+  const post = await getPostById(postId);
+  if (!post) notFound();
 
-  const session = await getSession();
-  const canManage =
-    !!session &&
-    (session.roles.includes("admin") || session.userId === post.id);
-  // categoryId: 2 = advocacy event
   const isEvent = post.categoryId === 2;
-  const isRTL = post.isRtl === true;
 
   return (
     <article
@@ -93,7 +92,7 @@ const BlogPostDetail = async ({ slug }: BlogPostDetailProps) => {
 
         {/* Category badge – clickable, goes to /blog/[categoryId] */}
         <Link
-          href={`/blog/p/${post.categoryId}`}
+          href={BlogRoutes.categoryById(post.categoryId)}
           className="rounded-full bg-gray-100 px-2 py-0.5 text-xs uppercase tracking-wide text-gray-700 hover:bg-gray-200 transition"
         >
           {getCategoryLabel(post.categoryId, isRTL)}
@@ -101,66 +100,40 @@ const BlogPostDetail = async ({ slug }: BlogPostDetailProps) => {
       </div>
 
       {/* Advocacy event meta */}
-      {isEvent && (post.eventDate || post.eventLocation) && (
-        <div className="mb-6 rounded-lg border border-blue-100 bg-blue-50/60 p-4 text-sm text-blue-900">
-          <p className="font-semibold">
-            {isRTL ? "جزییات برنامهٔ دادخواهی" : "Advocacy event details"}
-          </p>
-
-          {post.eventDate && (
-            <p>
-              <span className="font-medium">
-                {isRTL ? "تاریخ و زمان: " : "Date & time: "}
-              </span>
-              {new Date(post.eventDate).toLocaleString("en-AU", {
-                timeZone: "Australia/Melbourne",
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
-          )}
-
-          {post.eventLocation && (
-            <p>
-              <span className="font-medium">
-                {isRTL ? "محل برگزاری: " : "Location: "}
-              </span>
-              {post.eventLocation}
-            </p>
-          )}
-        </div>
+      {isEvent && (
+        <EventSection
+          eventDate={post.eventDate!}
+          eventLocation={post.eventLocation!}
+          isRTL={isRTL}
+        />
       )}
 
-      {/* Hero Image */}
-      <HeroImage
-        src={post.heroImgPath}
-        alt={post.title}
-        categoryId={post.categoryId}
-      />
-
-      {/* Content */}
       <ContentSection
         isRTL={post.isRtl}
         content={post.contentHtml}
         isLink={post.categoryId === 99}
       />
 
-      {/* Owner/Admin controls */}
-      {canManage && (
-        <ManagePostControls
+      {/* Content */}
+      <Suspense fallback={null}>
+        <HeroImage
+          src={post.heroImgPath}
+          alt={post.title}
+          categoryId={post.categoryId}
+        />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <ManageControlGate
           postId={post.id}
           status={post.status}
           isFeatured={post.isFeatured}
-          isRTL={post.isRtl}
           slug={post.slug}
           updatedAt={post.updatedAt}
         />
-      )}
+      </Suspense>
     </article>
   );
 };
 
-export default BlogPostDetail;
+export default PostBody;

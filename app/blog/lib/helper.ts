@@ -54,45 +54,37 @@ export const cardImgPlaceholder = (categoryId: CategoryId, isRTL: boolean) => {
 };
 
 export type SlugInfo = {
-  postId: number;
-  categoryId: number;
   title: string;
-};
+  postId: number;
+}
 
-export const extractPostFromSlug = (param: string) => {
+export const extractPostFromSlug = (
+  param: string
+): SlugInfo | null => {
   if (!param) return null;
 
-  // match: "some-post-title-123-5-1"
-  const match = param.match(/^(.*)-(\d+)-(\d+)-(0|1)$/);
+  const match = param.match(/^(.*)-(\d+)$/);
   if (!match) return null;
 
-  const [, rawTitle, postIdStr, categoryIdStr, rtlStr] = match;
+  const [, rawTitle, postIdStr] = match;
 
   const postId = Number(postIdStr);
-  const categoryId = Number(categoryIdStr);
-  const isRTL = rtlStr === "1";
-
   if (!Number.isInteger(postId) || postId <= 0) return null;
-  if (!Number.isInteger(categoryId) || categoryId <= 0) return null;
 
   const title = decodeURIComponent(rawTitle).replace(/-/g, " ").trim();
 
-  return { postId, categoryId, isRTL, title };
+  return { postId, title };
 };
 
-export function truncateTitle(text: string, maxWords = 4) {
-  if (!text) return "";
-
-
-
-  if (text.length <= maxWords) {
+export function truncateTitle(text: string, maxChar = 4) {
+  if (text.length <= maxChar) {
     return text.trim().replace(/-/g, " ");
   }
 
   return (
     text
-      .slice(0, maxWords)
-  
+      .slice(0, maxChar)
+
       .replace(/-/g, " ") + "..."
   );
 }

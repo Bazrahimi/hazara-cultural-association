@@ -31,7 +31,7 @@ const PostCard = ({ post }: PostCardProps) => {
 
   return (
     <Link
-      href={`${BlogRoutes.post(post.slug)}?categoryId=${post.categoryId}&rtl=${isRTL ? 1 : 0}`}
+      href={`${BlogRoutes.post(post.slug)}?catId=${post.categoryId}&rtl=${isRTL ? 1 : 0}`}
       className="group overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
     >
       <article className="flex h-full flex-col">

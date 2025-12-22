@@ -28,7 +28,7 @@ async function getPostsWithWhere(
   `;
 }
 
-export async function getBlogPostBySlug(slug: string): Promise<PostDetailRow> {
+export async function getPostById(postId: number): Promise<PostDetailRow> {
   const rows = await sql<PostDetailRow[]>`
     SELECT
       p.id,
@@ -55,7 +55,7 @@ export async function getBlogPostBySlug(slug: string): Promise<PostDetailRow> {
 
     FROM blog_posts p
     LEFT JOIN user_profiles up ON up.user_id = p.user_id
-    WHERE p.slug = ${slug}
+    WHERE p.id = ${postId}
     LIMIT 1;
   `;
 

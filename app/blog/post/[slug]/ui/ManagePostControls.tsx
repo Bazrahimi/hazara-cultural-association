@@ -4,7 +4,7 @@
 import type { PostStatus } from "../../../lib/definitions";
 import PostActionsMenu from "../../../myposts/ui/postActionMenu/PostActionsMenu";
 
-type Props = {
+export type PostActionMenuProps = {
   postId: number;
   slug: string;
   status: PostStatus;
@@ -20,7 +20,7 @@ export function ManagePostControls({
   isFeatured,
   isRTL = false,
   updatedAt,
-}: Props) {
+}: PostActionMenuProps) {
   const t = {
     heading: isRTL ? "مدیریت این مطلب" : "Manage this post",
     note: isRTL

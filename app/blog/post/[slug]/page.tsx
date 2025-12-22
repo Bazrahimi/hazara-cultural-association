@@ -2,8 +2,10 @@ import type { Breadcrumb } from "@/app/lib/definitions";
 import { BlogRoutes } from "@/app/lib/routes";
 import { BreadcrumbsTrans } from "@/app/lib/translation";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
+import { notFound } from "next/navigation";
 import { getCategoryLabel } from "../../lib/category";
-import { truncateTitle } from "../../lib/helper";
+import { extractPostFromSlug, truncateTitle } from "../../lib/helper";
+import PostDetailBody from "./ui/PostDetail/PostBody";
 
 // app/blog/post/[slug]/page.tsx
 const page = async ({
@@ -11,17 +13,17 @@ const page = async ({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: { categoryId: string; rtl: string };
+  searchParams: Promise<{ catId: string; rtl: string }>;
 }) => {
   const { slug } = await params;
 
-  // If you use slugInfo
-  // const slugInfo = extractPostFromSlug(slug);
-  // if (!slugInfo) notFound();
+  const { catId, rtl } = await searchParams;
+  const categoryId = Number(catId);
 
-  const categoryId = Number(searchParams.categoryId);
+  const isRTL = rtl === "1";
 
-  const isRTL = searchParams?.rtl === "1";
+  const slugInfo = extractPostFromSlug(slug);
+  if (!slugInfo) return notFound();
 
   const breadcrumbs: Breadcrumb[] = [
     {
@@ -39,7 +41,7 @@ const page = async ({
       href: BlogRoutes.categoryById(categoryId),
     },
     {
-      label: truncateTitle(slug, 30),
+      label: truncateTitle(slugInfo?.title, 40),
       href: "#",
       active: true,
     },
@@ -48,7 +50,7 @@ const page = async ({
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} isRTL={isRTL} />
-      {/* <BlogPostDetail slug={slug} /> */}
+      <PostDetailBody postId={Number(slugInfo.postId)} isRTL={isRTL} />
     </>
   );
 };

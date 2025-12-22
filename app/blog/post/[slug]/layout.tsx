@@ -1,7 +1,9 @@
 // app/blog/[slug]/layout.tsx
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { getBlogPostBySlug } from "../../lib/data";
+import { getPostById } from "../../lib/data";
+import { extractPostFromSlug } from "../../lib/helper";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://hazara.org.au";
 
@@ -10,7 +12,7 @@ const DEFAULT_OG_IMAGE_PATH = "/images/og_image.png";
 
 type BlogPostLayoutProps = {
   children: ReactNode;
-  // 👇 Match what Next is actually passing: Promise<{ slug: string }>
+
   params: Promise<{ slug: string }>;
 };
 
@@ -34,12 +36,16 @@ function makeMetaDescription(html: string, maxLength = 180): string {
 // 👇 Note params is a Promise in the type as well
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: { categoryId: string; rtl: string };
 }): Promise<Metadata> {
   const { slug } = await params;
+  const slugInfo = extractPostFromSlug(slug);
+  if (!slugInfo) return notFound();
 
-  const post = await getBlogPostBySlug(slug);
+  const post = await getPostById(slugInfo?.postId);
 
   // If somehow not found, fall back (in practice getBlogPostBySlug calls notFound)
   if (!post) {
