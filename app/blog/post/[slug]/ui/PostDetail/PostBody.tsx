@@ -5,13 +5,13 @@ import HeroImage from "./HeroImage";
 
 import { getPostById } from "@/app/blog/lib/data";
 import { BlogRoutes } from "@/app/lib/routes";
-import { slugify } from "@/app/shop/lib/helper";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getCategoryLabel } from "../../../../lib/category";
 import ContentSection from "./ContentSection";
 import EventSection from "./EventSection";
 import ManageControlGate from "./ManageControlGate";
+import PostMeta from "./PostMeta";
 
 type PostDetailProps = {
   postId: number;
@@ -47,48 +47,12 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
           isRTL ? "justify-end" : ""
         }`}
       >
-        {/* Author – clickable, filtered by author + category */}
-        {post.authorName && post.userId && (
-          <Link
-            href={`/blog/p/u/${slugify(post.authorName ?? "")}-${post.userId}`}
-            className={`flex items-center gap-1 underline-offset-2 hover:underline ${
-              isRTL ? "flex-row-reverse" : ""
-            }`}
-          >
-            {isRTL ? (
-              <>
-                <span className="font-semibold">{post.authorName}</span>
-                <span>نوشته</span>
-              </>
-            ) : (
-              <>
-                <span>By</span>
-                <span className="font-semibold">{post.authorName}</span>
-              </>
-            )}
-          </Link>
-        )}
-
-        {/* Date – same format, always LTR for the date string */}
-        {post.publishedAt && (
-          <span className="text-gray-500">
-            {isRTL ? (
-              <>
-                • منتشر شده در{" "}
-                <span dir="ltr" className="inline-block">
-                  {post.publishedAt}
-                </span>
-              </>
-            ) : (
-              <>
-                • Published{" "}
-                <span dir="ltr" className="inline-block">
-                  {post.publishedAt}
-                </span>
-              </>
-            )}
-          </span>
-        )}
+        <PostMeta
+          authorName={post.authorName}
+          userId={post.userId}
+          publishedAt={post.publishedAt}
+          isRTL={isRTL}
+        />
 
         {/* Category badge – clickable, goes to /blog/[categoryId] */}
         <Link

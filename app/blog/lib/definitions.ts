@@ -11,7 +11,7 @@ type BlogPostDbRow = {
   event_location: string | null;
   created_at: string; // timestamptz
   updated_at: string; // timestamptz
-  published_at: string | null;
+  published_at: string;
   is_rtl: boolean;
   category_id: number; // smallint but number in TS
 };

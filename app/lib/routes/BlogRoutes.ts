@@ -13,7 +13,7 @@ export const BlogRoutes = {
     const slug = slugify(label)
     return `/blog/post/category/${slug}?categoryId=${categoryId}`
   } ,
-  authorByNamePlusId: (namePlusId: string) =>
+  authorByNamePlusId: (namePlusId: number) =>
     join("blog", "category", "u", namePlusId),
 
   // Blog create/edit (you have /blog/new and /blog/myposts/edit/[postId])
