@@ -1,11 +1,11 @@
 import z from "zod";
-import { BlogPostBase } from "../../lib/definitions";
+import { PostBase } from "../../post/lib/definitions";
 import { BlogPostSchema } from "./schema";
 
 export type ActionMode = "create" | "edit";
 
 export type PostSuccessDBReturn = Pick<
-  BlogPostBase,
+  PostBase,
   "id" | "slug" | "isFeatured" | "status"
 >;
 export type BlogPostInput = z.infer<typeof BlogPostSchema>;
@@ -28,5 +28,3 @@ export type ParseResult =
       errors: BlogPostState["errors"];
       normalizedData: Partial<BlogPostInput>;
     };
-
-

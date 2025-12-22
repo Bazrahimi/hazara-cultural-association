@@ -1,5 +1,5 @@
 // app/blog/ui/AuthorBlogPosts.tsx
-import { getPublishedPostsByAuthor } from "@/app/blog/lib/data";
+import { getPublishedPostsByAuthor } from "@/app/blog/post/lib/data";
 import BlogPostCard from "../../../blog/ui/PostCard";
 
 type AuthorBlogPostsProps = {

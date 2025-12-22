@@ -1,14 +1,14 @@
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/category";
-import type { BloggerPostListRow } from "../lib/data";
+import type { PostsListRow } from "../../post/lib/definitions";
 import { BLOGGER_POST_LIST_CONFIG } from "../lib/helper";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
 import PostHeader from "./PostHeader";
 
 const cfg = BLOGGER_POST_LIST_CONFIG.published;
 
-const PublishedPosts = ({ published }: { published: BloggerPostListRow[] }) => {
+const PublishedPosts = ({ published }: { published: PostsListRow[] }) => {
   return (
     <section className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-5">
       <PostHeader

@@ -1,6 +1,6 @@
 // app/blog/ui/CategoryBlogPosts.tsx
 import { getCategoryLabel } from "@/app/blog/lib/category";
-import { getPublishedPostsByCategory } from "@/app/blog/lib/data";
+import { getPublishedPostsByCategory } from "@/app/blog/post/lib/data";
 import { Header } from "@/app/ui/global/Header";
 import BlogPostCard from "../../../ui/PostCard";
 

@@ -181,12 +181,14 @@ app
 │   │   │           ├── PostMetaEn.tsx
 │   │   │           ├── PostMetaRTL.tsx
 │   │   │           └── PostShell.tsx
-│   │   └── category
-│   │       ├── [category]
-│   │       │   └── page.tsx
-│   │       └── ui
-│   │           ├── CategoryBlogPosts.tsx
-│   │           └── PostCardSkeleton.tsx
+│   │   ├── category
+│   │   │   ├── [category]
+│   │   │   │   └── page.tsx
+│   │   │   └── ui
+│   │   │       ├── CategoryBlogPosts.tsx
+│   │   │       └── PostCardSkeleton.tsx
+│   │   └── lib
+│   │       └── data.ts
 │   └── ui
 │       ├── BlogMenu.tsx
 │       ├── BlogMenuClient.tsx
@@ -216,6 +218,7 @@ app
 │       │   ├── DonationAmount.tsx
 │       │   └── DonationDetails.tsx
 │       └── TransparencySection.tsx
+├── error.tsx
 ├── favicon.ico
 ├── globals.css
 ├── layout.tsx
@@ -397,5 +400,5 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-126 directories, 272 files
- tree app > app-structure.txt
+127 directories, 274 files
+tree app > app-structure.txt

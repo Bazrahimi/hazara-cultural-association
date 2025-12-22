@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import BlogPostForm from "@/app/blog/new/ui/BlogPostForm";
 
 import { updateBlogPost } from "@/app/blog/new/lib/action";
-import { getEditPostById } from "./lib/data";
+import { getEditPostById } from "@/app/blog/post/lib/data";
 
 function toDatetimeLocalString(date: Date) {
   const pad = (n: number) => n.toString().padStart(2, "0");

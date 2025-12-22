@@ -1,13 +1,13 @@
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/category";
-import type { BloggerPostListRow } from "../lib/data";
+import type { PostsListRow } from "../../post/lib/definitions";
 import { BLOGGER_POST_LIST_CONFIG } from "../lib/helper";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
 import PostHeader from "./PostHeader";
 const cfg = BLOGGER_POST_LIST_CONFIG.draft;
 
-const DraftPosts = ({ drafts }: { drafts: BloggerPostListRow[] }) => {
+const DraftPosts = ({ drafts }: { drafts: PostsListRow[] }) => {
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-5">
       <PostHeader

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
-import type { PostStatus } from "../../../lib/definitions";
+import type { PostStatus } from "@/app/blog/post/lib/definitions";
 import ArchiveMenuItem from "./ArchiveMenuItem";
 import DeleteMenuItem from "./DeleteMenuItem";
 import FeatureMenuItem from "./FeatureMenuItem";

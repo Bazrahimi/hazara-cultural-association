@@ -7,8 +7,8 @@ import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import Image from "next/image";
 import Link from "next/link";
 import { CategoryId } from "../lib/category";
-import type { PostCardRow } from "../lib/definitions";
 import { cardImgPlaceholder } from "../lib/helper";
+import type { PostCardRow } from "../post/lib/definitions";
 
 type PostCardProps = {
   post: PostCardRow;

@@ -1,4 +1,4 @@
-import { getBlogPosts } from "../lib/data";
+import { getAllPosts } from "../../post/lib/data";
 import ArchivedPosts from "./ArchivedPosts";
 import DraftPosts from "./DraftPosts";
 import NullPost from "./NullPost";
@@ -11,7 +11,7 @@ export default async function PostsWrapper({
   userId: number;
   isAdmin: boolean;
 }) {
-  const posts = await getBlogPosts({ userId, isAdmin });
+  const posts = await getAllPosts({ userId, isAdmin });
 
   if (posts.length === 0) return <NullPost />;
 

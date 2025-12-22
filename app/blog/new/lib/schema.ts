@@ -1,7 +1,7 @@
 // app/blog/new/schema.ts
 import { toBoolean } from "@/app/lib/helper";
 import z from "zod";
-import { PostStatus } from "../../lib/definitions";
+import { PostStatus } from "../../post/lib/definitions";
 import { CATEGORY_MAP } from "../../lib/category";
 
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
