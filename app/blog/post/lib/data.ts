@@ -1,12 +1,13 @@
 import { sql, type SqlFragment } from "@/app/lib/db";
 import type { PostInput } from "./schema";
 
-import type {
-  EditPostRow,
-  PostCardRow,
-  PostInsertUpdateSuccessDBReturn,
-  PostRow,
-  PostsListRow,
+import {
+  POST_STATUS,
+  type EditPostRow,
+  type PostCardRow,
+  type PostInsertUpdateSuccessDBReturn,
+  type PostRow,
+  type PostsListRow,
 } from "./definitions";
 
 import { notFound } from "next/navigation";
@@ -19,7 +20,7 @@ export async function getPostById(postId: number): Promise<PostRow> {
       p.title,
       p.slug,
       p.content_html          AS "contentHtml",
-      p.status,
+      p.status_code,          AS "statusCode",
       p.category_id            AS "categoryId",
       p.hero_img_path          AS "heroImgPath",
       p.is_featured            AS "isFeatured",
@@ -84,7 +85,7 @@ export async function getFeaturedPostsByCategory(
 ): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
-      p.status = 'published'
+      p.status_code = ${POST_STATUS.PUBLISHED}
       AND p.is_featured = true
       AND p.category_id = ${categoryId}
     `,
@@ -98,7 +99,7 @@ export async function getPublishedPostsByCategory(
 ): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
-      p.status = 'published'
+      p.status_code = ${POST_STATUS.PUBLISHED}
       AND p.category_id = ${categoryId}
     `,
     limit
@@ -111,7 +112,7 @@ export async function getPublishedPostsByAuthor(
 ): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
-      p.status = 'published'
+      p.status_code = ${POST_STATUS.PUBLISHED}
       AND p.user_id = ${authorId}
     `,
     limit
@@ -133,7 +134,7 @@ export const getEditPostById = async ({
       title,
       content_html     AS "contentHtml",
       category_id      AS "categoryId",
-      status,
+      status_code      AS "statusCode",
       hero_img_path    AS "heroImgPath",
       is_featured      AS "isFeatured",
       event_date       AS "eventDate",
@@ -171,7 +172,7 @@ export const getAllPosts = async ({
       is_featured    AS "isFeatured",
       is_rtl         AS "isRtl",
       category_id    AS "categoryId",
-      status,
+      status_code    AS "StatusCode",
       to_char(created_at, 'DD MON YYYY') AS "createdAt",
       to_char(updated_at, 'DD MON YYYY') AS "updatedAt"
     FROM blog_posts
