@@ -2,28 +2,29 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/category";
 import type { PostsListRow } from "../../post/lib/definitions";
-import { BLOGGER_POST_LIST_CONFIG } from "../lib/actionHelper";
+
+import { PostListConfigTrans } from "@/app/lib/translation";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
 import PostHeader from "./PostHeader";
-const cfg = BLOGGER_POST_LIST_CONFIG.draft;
+const cfg = PostListConfigTrans.draft;
 
 const DraftPosts = ({ drafts }: { drafts: PostsListRow[] }) => {
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-5">
       <PostHeader
-        title={cfg.title}
-        rtlTitle={cfg.rtlTitle}
-        description={cfg.description}
-        rtlDescription={cfg.rtlDescription}
+        title={cfg.title.en}
+        rtlTitle={cfg.title.rtl}
+        description={cfg.description.en}
+        rtlDescription={cfg.description.rtl}
       />
 
       {drafts.length === 0 ? (
         <div>
           <P className="text-slate-500" size="sm">
-            {cfg.empty}
+            {cfg.empty.en}
           </P>
           <P className="text-slate-500" size="sm">
-            {cfg.rtlEmpty}
+            {cfg.empty.rtl}
           </P>
         </div>
       ) : (
@@ -64,7 +65,7 @@ const DraftPosts = ({ drafts }: { drafts: PostsListRow[] }) => {
                 </P>
 
                 <P className="mt-1 text-slate-500" size="sm">
-                  Last updated:{" "}
+                  {isRTL ? cfg.draftedOn.rtl : cfg.draftedOn.en}
                   <span className="inline-block" dir="ltr">
                     {post.updatedAt}
                   </span>

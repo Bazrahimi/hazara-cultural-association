@@ -1,6 +1,6 @@
 import type { Breadcrumb } from "@/app/lib/definitions";
 import { BlogRoutes } from "@/app/lib/routes";
-import { BreadcrumbsTrans } from "@/app/lib/translation/BreadcrumbTrans";
+import { BreadcrumbsTrans } from "@/app/lib/translation/BreadcrumbsTrans";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
