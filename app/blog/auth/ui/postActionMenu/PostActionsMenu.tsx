@@ -1,23 +1,23 @@
 "use client";
 
+import type { StatusCode } from "@/app/blog/post/lib/definitions";
+import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import Link from "next/link";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
-import { POST_STATUS } from "@/app/blog/post/lib/definitions";
-import type { StatusCode } from "@/app/blog/post/lib/definitions";
 import ArchiveMenuItem from "./ArchiveMenuItem";
 import DeleteMenuItem from "./DeleteMenuItem";
 import FeatureMenuItem from "./FeatureMenuItem";
 import PublishMenuItem from "./PublishMenuItem";
 
-import { BlogRoutes } from "@/app/lib/routes";
-import { setNotification } from "@/app/u/auth/lib/setNotification";
 import {
   archivePostAction,
   deletePostAction,
   featurePostAction,
   publishPostAction,
-} from "../../lib/actions";
+} from "@/app/blog/post/lib/action";
+import { BlogRoutes } from "@/app/lib/routes";
+import { setNotification } from "@/app/u/auth/lib/setNotification";
 
 type Props = {
   isRTL: boolean;
@@ -133,7 +133,7 @@ export default function PostActionsMenu({
             </li>
 
             {/* Status-based actions */}
-            {statusValue === POST_STATUS.DRAFT  && (
+            {statusValue === POST_STATUS.DRAFT && (
               <>
                 <PublishMenuItem
                   isRTL={isRTL}

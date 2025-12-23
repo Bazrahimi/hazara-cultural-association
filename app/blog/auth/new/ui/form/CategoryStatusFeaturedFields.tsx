@@ -3,9 +3,10 @@ import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import type { CategoryId } from "@/app/blog/lib/category";
 import { CATEGORY_MAP } from "@/app/blog/lib/category";
 import { CreateEditPostTrans } from "@/app/lib/translation";
-import type { PostInput, PostState } from "../../lib/schema";
+import type { PostInput, PostState } from "../../../../post/lib/schema";
 import { ActionMode } from "../PostForm";
 import AdvocacyEvent from "./AdvocacyEvent";
+import { POST_FIELDS } from "@/app/blog/post/lib/helper";
 
 type Props = {
   isRTL: boolean;
@@ -37,6 +38,7 @@ const CategoryStatusFeaturedFields = ({
 
   const t = CreateEditPostTrans.CategoryStatusFeaturedFields;
   const lang = isRTL ? "rtl" : "en";
+  const f = POST_FIELDS;
 
   return (
     <>
@@ -53,7 +55,7 @@ const CategoryStatusFeaturedFields = ({
             {isRTL ? t.categoryLabel[lang] : t.categoryLabel[lang]}
           </label>
           <select
-            name="categoryId"
+            name={f.categoryId}
             value={categoryId}
             onChange={(e) =>
               setCategoryId(Number(e.target.value) as CategoryId)
@@ -85,7 +87,7 @@ const CategoryStatusFeaturedFields = ({
             <label className="inline-flex items-center gap-1">
               <input
                 type="radio"
-                name="statusCode"
+                name={f.statusCode}
                 value={POST_STATUS.DRAFT}
                 defaultChecked={statusValue === POST_STATUS.DRAFT}
                 className="h-4 w-4"
@@ -97,7 +99,7 @@ const CategoryStatusFeaturedFields = ({
             <label className="inline-flex items-center gap-1">
               <input
                 type="radio"
-                name="statusCode"
+                name={f.statusCode}
                 value={POST_STATUS.PUBLISHED}
                 defaultChecked={statusValue === POST_STATUS.PUBLISHED}
                 className="h-4 w-4"
@@ -110,7 +112,7 @@ const CategoryStatusFeaturedFields = ({
               <label className="inline-flex items-center gap-1">
                 <input
                   type="radio"
-                  name="statusCode"
+                  name={f.statusCode}
                   value={POST_STATUS.ARCHIVED}
                   defaultChecked={statusValue === POST_STATUS.ARCHIVED}
                   className="h-4 w-4"
@@ -130,14 +132,13 @@ const CategoryStatusFeaturedFields = ({
           <label className="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
             <input
               type="checkbox"
-              name="isFeatured"
+              name={f.isFeatured}
               className="h-4 w-4"
               defaultChecked={
                 state?.data?.isFeatured ?? initialData?.isFeatured ?? false
               }
             />
             {isRTL ? t.featuredLabel[lang] : t.featuredLabel[lang]}
-           
           </label>
         </div>
       </div>

@@ -102,14 +102,9 @@ app
 │   │   │   └── [postId]
 │   │   │       ├── loading.tsx
 │   │   │       └── page.tsx
-│   │   ├── lib
-│   │   │   ├── actionHelper.ts
-│   │   │   └── actions.ts
+│   
 │   │   ├── loading.tsx
 │   │   ├── new
-│   │   │   ├── lib
-│   │   │   │   ├── helper.ts
-│   │   │   │   └── schema.ts
 │   │   │   ├── loading.tsx
 │   │   │   ├── page.tsx
 │   │   │   └── ui
@@ -180,8 +175,11 @@ app
 │   │   │       └── PostCardSkeleton.tsx
 │   │   └── lib
 │   │       ├── action.ts
+│   │       ├── actionHelper.ts
 │   │       ├── data.ts
-│   │       └── definitions.ts
+│   │       ├── definitions.ts
+│   │       ├── helper.ts
+│   │       └── schema.ts
 │   └── ui
 │       ├── BlogMenu.tsx
 │       ├── BlogMenuClient.tsx
@@ -245,6 +243,7 @@ app
 │       ├── blog
 │       │   ├── index.ts
 │       │   └── post
+│       │       ├── CreateEditPostTrans.ts
 │       │       ├── index.ts
 │       │       ├── ManagePostTrans.ts
 │       │       ├── PostCommonTrans.ts
@@ -399,5 +398,4 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-128 directories, 272 files
-tree app > app-structure.txt
+127 directories, 274 files

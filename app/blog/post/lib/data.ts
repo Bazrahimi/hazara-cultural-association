@@ -1,5 +1,5 @@
 import { sql, type SqlFragment } from "@/app/lib/db";
-import type { PostInput } from "../../auth/new/lib/schema";
+import type { PostInput } from "./schema";
 
 import type {
   EditPostRow,

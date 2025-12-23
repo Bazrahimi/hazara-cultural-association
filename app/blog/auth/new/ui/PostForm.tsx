@@ -3,13 +3,14 @@
 "use client";
 
 import type { CategoryId } from "@/app/blog/lib/category";
+import { POST_FIELDS } from "@/app/blog/post/lib/helper";
 import { toBoolean } from "@/app/lib/helper";
 import { CreateEditPostTrans } from "@/app/lib/translation";
 import { setNotification } from "@/app/u/auth/lib/setNotification";
 import CldFileUpload from "@/app/ui/global/CLdFileUpload";
 import { Input } from "@/app/ui/global/components";
 import { useActionState, useEffect, useState } from "react";
-import type { PostInput, PostState } from "../lib/schema";
+import type { PostInput, PostState } from "../../../post/lib/schema";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
 import EditorField from "./form/EditorField";
 import FormFooter from "./form/FormFooter";
@@ -95,6 +96,7 @@ export default function PostForm({ mode, action, initialData }: Props) {
 
   const t = CreateEditPostTrans.PostForm;
   const lang = isRTL ? "rtl" : "en";
+  const f = POST_FIELDS;
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -106,11 +108,11 @@ export default function PostForm({ mode, action, initialData }: Props) {
         )}
 
         {/* is_rtl is always sent as "true"/"false" */}
-        <input type="hidden" name="isRtl" value={isRTL ? "true" : "false"} />
+        <input type="hidden" name={f.isRtl} value={isRTL ? "true" : "false"} />
 
         {/* Title */}
         <Input
-          id="title"
+          id={f.title}
           label={isRTL ? t.Title[lang] : t.Title[lang]}
           placeholder={isRTL ? t.Placeholder[lang] : t.Placeholder[lang]}
           type="text"
@@ -141,7 +143,7 @@ export default function PostForm({ mode, action, initialData }: Props) {
         {/* Send cleaned HTML to the server */}
         <input
           type="hidden"
-          name="contentHtml"
+          name={f.contentHtml}
           value={cleanQuillHtml(contentHTML)}
         />
 

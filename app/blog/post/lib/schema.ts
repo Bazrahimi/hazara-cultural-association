@@ -1,11 +1,11 @@
 // app/blog/new/schema.ts
 import { CATEGORY_MAP } from "@/app/blog/lib/category";
-import { toBoolean } from "@/app/lib/helper";
-import z from "zod";
 import {
   POST_STATUS,
   PostInsertUpdateSuccessDBReturn,
 } from "@/app/blog/post/lib/definitions";
+import { toBoolean } from "@/app/lib/helper";
+import z from "zod";
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
 
 const StatusCodeSchema = z
@@ -19,7 +19,7 @@ const StatusCodeSchema = z
   )
   .default(POST_STATUS.PUBLISHED);
 
-export const BlogPostSchema = z.object({
+export const PostSchema = z.object({
   title: z
     .string()
     .trim()
@@ -50,7 +50,7 @@ export const BlogPostSchema = z.object({
   eventLocation: z.string().trim().optional().nullable(),
   createdAt: z.coerce.date().optional(),
 });
-export type PostInput = z.infer<typeof BlogPostSchema>;
+export type PostInput = z.infer<typeof PostSchema>;
 
 export type ParseResult =
   | {

@@ -1,12 +1,12 @@
 import { toBoolean } from "@/app/lib/helper";
 
-import { POST_STATUS, StatusCode } from "../../../post/lib/definitions";
+import { POST_STATUS, StatusCode } from "./definitions";
 import type { ParseResult, PostInput, PostState } from "./schema";
-import { BlogPostSchema } from "./schema";
+import { PostSchema } from "./schema";
 
 export const parseBlogPostForm = (formData: FormData): ParseResult => {
   const raw = Object.fromEntries(formData.entries());
-  const parsed = BlogPostSchema.safeParse(raw);
+  const parsed = PostSchema.safeParse(raw);
 
   if (parsed.success) {
     return { ok: true, data: parsed.data };
@@ -44,4 +44,24 @@ export const parseBlogPostForm = (formData: FormData): ParseResult => {
   };
 
   return { ok: false, errors: fieldErrors, normalizedData };
+};
+
+export type PostActionState = {
+  ok: boolean;
+  message: string;
+  errors?: Record<string, string[]>;
+};
+
+export const postFailure = (
+  message: string,
+  extra: Partial<Omit<PostActionState, "ok" | "message">> = {}
+): PostActionState => {
+  return { ok: false, message, ...extra };
+};
+
+export const postSuccess = (
+  message: string,
+  extra: Partial<Omit<PostActionState, "ok" | "message">> = {}
+): PostActionState => {
+  return { ok: true, message, ...extra };
 };

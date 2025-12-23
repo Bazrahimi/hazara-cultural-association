@@ -5,19 +5,13 @@ type Props = {
   eventLocation?: string;
 };
 
+import { POST_FIELDS } from "@/app/blog/post/lib/helper";
 import { CreateEditPostTrans } from "@/app/lib/translation";
 
 const AdvocacyEvent = ({ isRTL, eventDate, eventLocation }: Props) => {
   const t = CreateEditPostTrans.AdvocacyEvent;
   const lang = isRTL ? "rtl" : "en";
-
-  const placeholderDate = isRTL
-    ? "تاریخ و زمان رویداد را انتخاب کنید"
-    : "Select event date & time";
-
-  const placeholderLocation = isRTL
-    ? "محل برگزاری رویداد را وارد کنید"
-    : "Enter event location";
+  const f = POST_FIELDS;
 
   return (
     <div className="grid gap-4 md:grid-cols-2" dir={isRTL ? "rtl" : "ltr"}>
@@ -29,7 +23,7 @@ const AdvocacyEvent = ({ isRTL, eventDate, eventLocation }: Props) => {
 
         <input
           type="datetime-local"
-          name="eventDate"
+          name={f.eventDate}
           defaultValue={eventDate ?? ""}
           placeholder={t.placeholder.dateTime[lang]}
           className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
@@ -41,13 +35,15 @@ const AdvocacyEvent = ({ isRTL, eventDate, eventLocation }: Props) => {
       {/* Location */}
       <div>
         <label className="text-sm font-medium text-gray-700">
-          {isRTL ? "محل برگزاری" : "Event location"}
+          {isRTL ? t.label.location[lang] : t.label.location[lang]}
         </label>
 
         <input
-          name="eventLocation"
+          name={f.eventLocation}
           defaultValue={eventLocation ?? ""}
-          placeholder={placeholderLocation}
+          placeholder={
+            isRTL ? t.placeholder.location[lang] : t.placeholder.location[lang]
+          }
           className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
             isRTL ? "text-right" : ""
           }`}
