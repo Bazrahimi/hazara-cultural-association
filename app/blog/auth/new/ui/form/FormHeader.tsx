@@ -1,3 +1,4 @@
+import { CreateEditPostTrans } from "@/app/lib/translation";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { ActionMode } from "../PostForm";
@@ -9,29 +10,17 @@ type Props = {
 };
 
 const FormHeader = ({ mode, isRTL, setIsRTL }: Props) => {
+  const t = CreateEditPostTrans.FormHeader;
+  const lang = isRTL ? "rtl" : "en";
   return (
     <header className="mt-10 md:mt-5" dir={isRTL ? "rtl" : "ltr"}>
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div className={isRTL ? "text-right" : "text-left"}>
           <Header as="h1" size="md">
-            {mode === "create"
-              ? isRTL
-                ? "ایجاد یک مطلب جدید"
-                : "Create Post"
-              : isRTL
-                ? "ویرایش مطلب"
-                : "Edit Post"}
+            {t[mode].heading[lang]}
           </Header>
 
-          <P>
-            {mode === "create"
-              ? isRTL
-                ? "خبر، اعلان یا برنامه‌های دادخواهی را با جامعه هزاره شریک بسازید."
-                : "Share news, announcements, or advocacy events with the community."
-              : isRTL
-                ? "مطلب خود را ویرایش کرده و تغییرات را نشر کنید."
-                : "Update your content and publish changes."}
-          </P>
+          <P>{t[mode].description[lang]}</P>
         </div>
 
         {/* RTL Toggle */}
@@ -48,19 +37,14 @@ const FormHeader = ({ mode, isRTL, setIsRTL }: Props) => {
               onChange={(e) => setIsRTL(e.target.checked)}
             />
             <span className="font-extrabold flex items-center gap-1">
-              {isRTL ? (
-                <span>Switch to English</span>
-              ) : (
-                <span>تبدیل به فارسی / هزارگی</span>
-              )}
+              {isRTL ? t.toggle.labelOn[lang] : t.toggle.labelOff[lang]}
             </span>
           </label>
 
           {/* Language warning / helper message */}
           <p className="mt-1 text-xs text-gray-500">
-            {isRTL
-              ? "برای خوانایی و قالب‌بندی درست، زبان نوشتاری را قبل از شروع انتخاب کنید."
-              : "Choose your writing language before typing to ensure correct formatting and readability."}
+            {isRTL ? t.toggle.helper[lang] : t.toggle.helper[lang]}
+         
           </p>
         </div>
       </div>

@@ -2,6 +2,7 @@
 "use client";
 
 import QuillEditor from "@/app/ui/global/QuillEditor";
+import { CreateEditPostTrans } from "@/app/lib/translation";
 
 type Props = {
   isRTL: boolean;
@@ -13,6 +14,9 @@ type Props = {
 const EditorField = ({ isRTL, value, onChange, error }: Props) => {
   const hasError = !!error && error.length > 0;
 
+  const t = CreateEditPostTrans.EditorField;
+  const lang = isRTL ? "rtl" : "en"
+
   return (
     <div className="space-y-1">
       {/* Label */}
@@ -22,7 +26,7 @@ const EditorField = ({ isRTL, value, onChange, error }: Props) => {
           isRTL ? "block text-right" : ""
         } ${hasError ? "text-red-600" : "text-gray-700"}`}
       >
-        {isRTL ? "متن مطلب (متن خبر یا اعلان)" : "Content (article body)"}
+        {isRTL ? t.label[lang] : t.label[lang]}
       </label>
 
       {/* Editor container with red border on error */}
@@ -32,13 +36,12 @@ const EditorField = ({ isRTL, value, onChange, error }: Props) => {
         }`}
       >
         <QuillEditor
+        key={lang}
           id="content"
           value={value}
           onChange={onChange}
-          placeholder={
-            isRTL
-              ? ""
-              : "Write the body of your post here متن خبر یا اعلان خود را اینجا بنویسید"
+          placeholder={ isRTL ? t.placeholder[lang] : t.placeholder[lang]
+         
           }
           isRTL={isRTL}
         />

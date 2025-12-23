@@ -1,10 +1,12 @@
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 
-import { CATEGORY_MAP } from "@/app/blog/lib/category";
 import type { CategoryId } from "@/app/blog/lib/category";
+import { CATEGORY_MAP } from "@/app/blog/lib/category";
+import { CreateEditPostTrans } from "@/app/lib/translation";
 import type { PostInput, PostState } from "../../lib/schema";
 import { ActionMode } from "../PostForm";
 import AdvocacyEvent from "./AdvocacyEvent";
+
 type Props = {
   isRTL: boolean;
   categoryId: CategoryId;
@@ -33,6 +35,9 @@ const CategoryStatusFeaturedFields = ({
   const eventLocationValue =
     state?.data?.eventLocation ?? initialData?.eventLocation ?? "";
 
+  const t = CreateEditPostTrans.CategoryStatusFeaturedFields;
+  const lang = isRTL ? "rtl" : "en";
+
   return (
     <>
       {/* Category + Status + Featured */}
@@ -45,7 +50,7 @@ const CategoryStatusFeaturedFields = ({
         {/* Category */}
         <div className="flex flex-col">
           <label className="text-sm font-medium text-gray-700">
-            {isRTL ? "دسته‌بندی" : "Category"}
+            {isRTL ? t.categoryLabel[lang] : t.categoryLabel[lang]}
           </label>
           <select
             name="categoryId"
@@ -72,7 +77,7 @@ const CategoryStatusFeaturedFields = ({
         {/* Status */}
         <div>
           <span className="block text-sm font-medium text-gray-700">
-            {isRTL ? "وضعیت" : "Status"}
+            {isRTL ? t.statusLabel[lang] : t.statusLabel[lang]}
           </span>
 
           <div className="mt-1 flex flex-wrap gap-4 text-sm">
@@ -85,7 +90,7 @@ const CategoryStatusFeaturedFields = ({
                 defaultChecked={statusValue === POST_STATUS.DRAFT}
                 className="h-4 w-4"
               />
-              {isRTL ? "پیش‌نویس" : "Draft"}
+              {isRTL ? t.status.draft[lang] : t.status.draft[lang]}
             </label>
 
             {/* Published */}
@@ -97,7 +102,7 @@ const CategoryStatusFeaturedFields = ({
                 defaultChecked={statusValue === POST_STATUS.PUBLISHED}
                 className="h-4 w-4"
               />
-              {isRTL ? "منتشر شده" : "Published"}
+              {isRTL ? t.status.published[lang] : t.status.published[lang]}
             </label>
 
             {/* Archived — ONLY for edit mode */}
@@ -110,7 +115,7 @@ const CategoryStatusFeaturedFields = ({
                   defaultChecked={statusValue === POST_STATUS.ARCHIVED}
                   className="h-4 w-4"
                 />
-                {isRTL ? "آرشیو شده" : "Archived"}
+                {isRTL ? t.status.archived[lang] : t.status.archived[lang]}
               </label>
             )}
           </div>
@@ -131,7 +136,8 @@ const CategoryStatusFeaturedFields = ({
                 state?.data?.isFeatured ?? initialData?.isFeatured ?? false
               }
             />
-            {isRTL ? "نمایش در صفحه اصلی" : "Featured on homepage"}
+            {isRTL ? t.featuredLabel[lang] : t.featuredLabel[lang]}
+           
           </label>
         </div>
       </div>

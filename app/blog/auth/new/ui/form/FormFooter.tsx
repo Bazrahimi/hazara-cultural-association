@@ -1,3 +1,4 @@
+import { CreateEditPostTrans } from "@/app/lib/translation";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import { ActionMode } from "../PostForm";
 
@@ -9,6 +10,8 @@ type Props = {
 };
 
 const FormFooter = ({ mode, isRTL, isLoading, footerMessage }: Props) => {
+  const t = CreateEditPostTrans.FormFooter;
+  const lang = isRTL ? "rtl" : "en";
   return (
     <>
       {/* State message (error or informational) */}
@@ -23,29 +26,15 @@ const FormFooter = ({ mode, isRTL, isLoading, footerMessage }: Props) => {
       )}
 
       <div className="flex items-center justify-between">
-        <p className="text-xs text-gray-500">
-          {mode === "edit"
-            ? isRTL
-              ? "تغییرات شما فوراً به‌روز می‌شوند."
-              : "Your changes will update immediately."
-            : isRTL
-              ? "بعداً می‌توانید نوشته‌ها را از پنل مدیریت ویرایش کنید."
-              : "Posts can be edited later from the admin panel."}
-        </p>
+        <p className="text-xs text-gray-500">{t[mode].helper[lang]}</p>
 
         <ActionButton
           type="submit"
           isLoading={isLoading}
           overlay
-          loadingText={mode === "edit" ? "Updating…" : "Saving…"}
+          loadingText={t[mode].loading[lang]}
         >
-          {mode === "edit"
-            ? isRTL
-              ? "به‌روزرسانی مطلب"
-              : "Update Post"
-            : isRTL
-              ? "ذخیره مطلب"
-              : "Save Post"}
+          {t[mode].button[lang]}
         </ActionButton>
       </div>
     </>

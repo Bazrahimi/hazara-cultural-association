@@ -5,8 +5,11 @@ type Props = {
   eventLocation?: string;
 };
 
-const AdvocacyEvent = ({  isRTL, eventDate, eventLocation }: Props) => {
+import { CreateEditPostTrans } from "@/app/lib/translation";
 
+const AdvocacyEvent = ({ isRTL, eventDate, eventLocation }: Props) => {
+  const t = CreateEditPostTrans.AdvocacyEvent;
+  const lang = isRTL ? "rtl" : "en";
 
   const placeholderDate = isRTL
     ? "تاریخ و زمان رویداد را انتخاب کنید"
@@ -21,14 +24,14 @@ const AdvocacyEvent = ({  isRTL, eventDate, eventLocation }: Props) => {
       {/* Date + Time */}
       <div>
         <label className="text-sm font-medium text-gray-700">
-          {isRTL ? "تاریخ و زمان برنامه" : "Event date & time"}
+          {isRTL ? t.label.dateTime[lang] : t.label.dateTime[lang]}
         </label>
 
         <input
           type="datetime-local"
           name="eventDate"
           defaultValue={eventDate ?? ""}
-          placeholder={placeholderDate}
+          placeholder={t.placeholder.dateTime[lang]}
           className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2 ${
             isRTL ? "text-right" : ""
           }`}

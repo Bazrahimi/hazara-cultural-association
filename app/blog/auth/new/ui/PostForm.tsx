@@ -2,12 +2,13 @@
 
 "use client";
 
+import type { CategoryId } from "@/app/blog/lib/category";
 import { toBoolean } from "@/app/lib/helper";
+import { CreateEditPostTrans } from "@/app/lib/translation";
 import { setNotification } from "@/app/u/auth/lib/setNotification";
 import CldFileUpload from "@/app/ui/global/CLdFileUpload";
 import { Input } from "@/app/ui/global/components";
 import { useActionState, useEffect, useState } from "react";
-import type { CategoryId } from "@/app/blog/lib/category";
 import type { PostInput, PostState } from "../lib/schema";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
 import EditorField from "./form/EditorField";
@@ -92,6 +93,9 @@ export default function PostForm({ mode, action, initialData }: Props) {
     return html.replace(/<span class="ql-ui"[^>]*><\/span>/g, "");
   }
 
+  const t = CreateEditPostTrans.PostForm;
+  const lang = isRTL ? "rtl" : "en";
+
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <FormHeader mode={mode} isRTL={isRTL} setIsRTL={setIsRTL} />
@@ -107,12 +111,8 @@ export default function PostForm({ mode, action, initialData }: Props) {
         {/* Title */}
         <Input
           id="title"
-          label={isRTL ? "عنوان مطلب" : "Title"}
-          placeholder={
-            isRTL
-              ? "یک عنوان کوتاه برای مطلب خو نوشته کید"
-              : "Enter a brief title for the post"
-          }
+          label={isRTL ? t.Title[lang] : t.Title[lang]}
+          placeholder={isRTL ? t.Placeholder[lang] : t.Placeholder[lang]}
           type="text"
           defaultValue={state?.data?.title ?? initialData?.title ?? ""}
           error={state?.errors?.title}
@@ -147,7 +147,7 @@ export default function PostForm({ mode, action, initialData }: Props) {
 
         {/* Hero image */}
         <CldFileUpload
-          title={isRTL ? "آپلود تصویر" : "Upload Image"}
+          title={isRTL ? t.HeroImage[lang] : t.HeroImage[lang]}
           uploadPreset="hca-blog-post-hero"
           onChange={setHeroImage}
           value={heroImage}
