@@ -400,3 +400,4 @@ app
         └── CheckoutButton.tsx
 
 128 directories, 272 files
+tree app > app-structure.txt
