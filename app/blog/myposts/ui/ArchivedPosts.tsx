@@ -2,7 +2,7 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/category";
 
-import type { PostsListRow } from "../../post/lib/definitions";
+import { POST_STATUS, type PostsListRow } from "../../post/lib/definitions";
 
 import { PostListConfigTrans } from "@/app/lib/translation/index";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
@@ -55,7 +55,7 @@ export default function ArchivedPosts({
                     isRTL={isRTL}
                     postId={post.id}
                     slug={post.slug}
-                    status="archived"
+                    statusValue={POST_STATUS.ARCHIVED}
                   />
                 </div>
 

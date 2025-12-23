@@ -1,6 +1,13 @@
-import { sql, SqlFragment } from "@/app/lib/db";
+import { sql, type SqlFragment } from "@/app/lib/db";
+import type { PostInput } from "../../new/lib/schema";
 
-import { EditPostRow, PostCardRow, PostRow, PostsListRow } from "./definitions";
+import type {
+  EditPostRow,
+  PostCardRow,
+  PostInsertUpdateSuccessDBReturn,
+  PostRow,
+  PostsListRow,
+} from "./definitions";
 
 import { notFound } from "next/navigation";
 
@@ -175,3 +182,84 @@ export const getAllPosts = async ({
   return posts;
 };
 
+const RETURNING_INSERT_UPDATE_POST: SqlFragment = sql`
+  RETURNING
+    id,
+    slug,
+    is_featured AS "isFeatured",
+    category_id AS "categoryId",
+    status_code AS "statusCode",
+    is_rtl      AS "isRtl"
+`;
+
+export const insertPostRow = async (opts: {
+  userId: number;
+  data: PostInput;
+  slug: string;
+  eventDate: Date | null;
+}) => {
+  const { userId, data, slug, eventDate } = opts;
+
+  const rows = await sql<PostInsertUpdateSuccessDBReturn[]>`
+    INSERT INTO blog_posts (
+      user_id,
+      title,
+      slug,
+      content_html,
+      category_id,
+      status_code,
+      hero_img_path,
+      is_featured,
+      is_rtl,
+      event_date,
+      event_location
+    )
+    VALUES (
+      ${userId},
+      ${data.title},
+      ${slug},
+      ${data.contentHtml},
+      ${data.categoryId},
+      ${data.statusCode},
+      ${data.heroImgPath ?? null},
+      ${data.isFeatured},
+      ${data.isRtl},
+      ${eventDate},
+      ${data.eventLocation ?? null}
+    )
+   ${RETURNING_INSERT_UPDATE_POST}
+  `;
+
+  return rows[0] ?? null;
+};
+
+export async function updatePostRow(opts: {
+  id: number;
+  data: PostInput;
+  userId: number;
+  isAdmin: boolean;
+  eventDate: Date | null;
+}): Promise<PostInsertUpdateSuccessDBReturn | null> {
+  const { id, data, userId, isAdmin, eventDate } = opts;
+
+  const rows = await sql<PostInsertUpdateSuccessDBReturn[]>`
+    UPDATE blog_posts
+    SET
+      title          = ${data.title},
+      content_html   = ${data.contentHtml},
+      category_id    = ${data.categoryId},
+      status_code    = ${data.statusCode},
+      hero_img_path  = ${data.heroImgPath ?? null},
+      is_featured    = ${data.isFeatured},
+      event_date     = ${eventDate},
+      event_location = ${data.eventLocation ?? null},
+      is_rtl         = ${data.isRtl},
+      updated_at     = now(),
+      created_at     = COALESCE(${isAdmin ? (data.createdAt ?? null) : null}, created_at)
+    WHERE id = ${id}
+      AND (${isAdmin} OR user_id = ${userId})
+    ${RETURNING_INSERT_UPDATE_POST}
+  `;
+
+  return rows[0] ?? null;
+}

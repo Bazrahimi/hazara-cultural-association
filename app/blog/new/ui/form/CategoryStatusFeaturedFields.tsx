@@ -1,16 +1,14 @@
+import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import { CATEGORY_MAP, type CategoryId } from "../../../lib/category";
-import type {
-  ActionMode,
-  BlogPostInput,
-  BlogPostState,
-} from "../../lib/definitions";
+import type { PostInput, PostState } from "../../lib/schema";
+import { ActionMode } from "../PostForm";
 import AdvocacyEvent from "./AdvocacyEvent";
 type Props = {
   isRTL: boolean;
   categoryId: CategoryId;
   setCategoryId: (id: CategoryId) => void;
-  state: BlogPostState | undefined;
-  initialData?: Partial<BlogPostInput> & { id?: number };
+  state: PostState | undefined;
+  initialData?: Partial<PostInput> & { id?: number };
   mode: ActionMode;
 };
 const CategoryStatusFeaturedFields = ({
@@ -22,7 +20,8 @@ const CategoryStatusFeaturedFields = ({
   mode,
 }: Props) => {
   // Determine status: state → initialData → default "published"
-  const statusValue = state?.data?.status ?? initialData?.status ?? "published";
+  const statusValue =
+    state?.data?.statusCode ?? initialData?.statusCode ?? POST_STATUS.PUBLISHED;
 
   const eventDateValue =
     (state?.data?.eventDate as string | undefined) ??
@@ -79,9 +78,9 @@ const CategoryStatusFeaturedFields = ({
             <label className="inline-flex items-center gap-1">
               <input
                 type="radio"
-                name="status"
-                value="draft"
-                defaultChecked={statusValue === "draft"}
+                name="statusCode"
+                value={POST_STATUS.DRAFT}
+                defaultChecked={statusValue === POST_STATUS.DRAFT}
                 className="h-4 w-4"
               />
               {isRTL ? "پیش‌نویس" : "Draft"}
@@ -91,9 +90,9 @@ const CategoryStatusFeaturedFields = ({
             <label className="inline-flex items-center gap-1">
               <input
                 type="radio"
-                name="status"
-                value="published"
-                defaultChecked={statusValue === "published"}
+                name="statusCode"
+                value={POST_STATUS.PUBLISHED}
+                defaultChecked={statusValue === POST_STATUS.PUBLISHED}
                 className="h-4 w-4"
               />
               {isRTL ? "منتشر شده" : "Published"}
@@ -104,9 +103,9 @@ const CategoryStatusFeaturedFields = ({
               <label className="inline-flex items-center gap-1">
                 <input
                   type="radio"
-                  name="status"
-                  value="archived"
-                  defaultChecked={statusValue === "archived"}
+                  name="statusCode"
+                  value={POST_STATUS.ARCHIVED}
+                  defaultChecked={statusValue === POST_STATUS.ARCHIVED}
                   className="h-4 w-4"
                 />
                 {isRTL ? "آرشیو شده" : "Archived"}
@@ -114,8 +113,8 @@ const CategoryStatusFeaturedFields = ({
             )}
           </div>
 
-          {state?.errors?.status && (
-            <p className="text-xs text-red-600">{state.errors.status[0]}</p>
+          {state?.errors?.statusCode && (
+            <p className="text-xs text-red-600">{state.errors.statusCode[0]}</p>
           )}
         </div>
 

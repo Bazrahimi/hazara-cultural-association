@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
-import type { PostStatus } from "@/app/blog/post/lib/definitions";
+import { POST_STATUS } from "@/app/blog/post/lib/definitions";
+import type { StatusCode } from "@/app/blog/post/lib/definitions";
 import ArchiveMenuItem from "./ArchiveMenuItem";
 import DeleteMenuItem from "./DeleteMenuItem";
 import FeatureMenuItem from "./FeatureMenuItem";
@@ -22,7 +23,7 @@ type Props = {
   isRTL: boolean;
   postId: number;
   slug: string;
-  status: PostStatus;
+  statusValue: StatusCode;
   isFeatured?: boolean;
 };
 
@@ -30,7 +31,7 @@ export default function PostActionsMenu({
   isRTL,
   postId,
   slug,
-  status,
+  statusValue,
   isFeatured,
 }: Props) {
   const [open, setOpen] = useState(false);
@@ -132,7 +133,7 @@ export default function PostActionsMenu({
             </li>
 
             {/* Status-based actions */}
-            {status === "draft" && (
+            {statusValue === POST_STATUS.DRAFT  && (
               <>
                 <PublishMenuItem
                   isRTL={isRTL}
@@ -149,7 +150,7 @@ export default function PostActionsMenu({
               </>
             )}
 
-            {status === "published" && (
+            {statusValue === POST_STATUS.PUBLISHED && (
               <>
                 <FeatureMenuItem
                   isRTL={isRTL}
@@ -167,7 +168,7 @@ export default function PostActionsMenu({
               </>
             )}
 
-            {status === "archived" && (
+            {statusValue === POST_STATUS.ARCHIVED && (
               <>
                 <PublishMenuItem
                   isRTL={isRTL}

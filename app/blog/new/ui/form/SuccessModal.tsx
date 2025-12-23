@@ -1,11 +1,14 @@
+import {
+  POST_STATUS,
+  type PostInsertUpdateSuccessDBReturn,
+} from "@/app/blog/post/lib/definitions";
 import { BlogRoutes } from "@/app/lib/routes";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
-import type { PostSuccessDBReturn } from "../../lib/definitions";
 
 type SuccessModalProps = {
   postTitle: string;
-  success: PostSuccessDBReturn;
+  success: PostInsertUpdateSuccessDBReturn;
   message?: string;
   onClose?: () => void;
 };
@@ -15,10 +18,10 @@ export function SuccessModal({
   message,
   success,
 }: SuccessModalProps) {
-  const status = success.status; // ✅ get status from success
-  const isPublished = status === "published";
-  const isArchived = status === "archived";
-  const isDraft = status === "draft";
+  const statusValue = success.statusCode; // ✅ get status from success
+  const isPublished = statusValue === POST_STATUS.PUBLISHED;
+  const isArchived = statusValue === POST_STATUS.ARCHIVED;
+  const isDraft = statusValue === POST_STATUS.DRAFT;
 
   // ------- Dynamic Header -------
   const getTitle = () => {
@@ -77,7 +80,7 @@ export function SuccessModal({
             {success.slug ? (
               <Button
                 as="link"
-                href={`${BlogRoutes.post(success.slug)}`}
+                href={`${BlogRoutes.post(success.slug)}?catId=${success.categoryId}&rtl=${success.isRtl ? 1 : 0}&id=${success.id}`}
                 size="sm"
                 variant="outline"
                 fullWidth

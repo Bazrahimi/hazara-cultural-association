@@ -1,15 +1,25 @@
 // app/blog/new/schema.ts
 import { toBoolean } from "@/app/lib/helper";
 import z from "zod";
-import { PostStatus } from "../../post/lib/definitions";
+
 import { CATEGORY_MAP } from "../../lib/category";
+import {
+  POST_STATUS,
+  PostInsertUpdateSuccessDBReturn,
+} from "../../post/lib/definitions";
 
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
-const STATUS_VALUES = [
-  "draft",
-  "published",
-  "archived",
-] as const satisfies readonly PostStatus[];
+
+const StatusCodeSchema = z
+  .preprocess(
+    (val) => (typeof val === "string" ? Number(val) : val),
+    z.union([
+      z.literal(POST_STATUS.DRAFT),
+      z.literal(POST_STATUS.PUBLISHED),
+      z.literal(POST_STATUS.ARCHIVED),
+    ])
+  )
+  .default(POST_STATUS.PUBLISHED);
 
 export const BlogPostSchema = z.object({
   title: z
@@ -29,7 +39,7 @@ export const BlogPostSchema = z.object({
       message: "Invalid category",
     }),
 
-  status: z.enum(STATUS_VALUES).default("published"),
+  statusCode: StatusCodeSchema,
 
   heroImgPath: z.string().trim().optional().nullable(),
 
@@ -40,4 +50,26 @@ export const BlogPostSchema = z.object({
   eventDate: z.string().optional().nullable(),
 
   eventLocation: z.string().trim().optional().nullable(),
+  createdAt: z.coerce.date().optional(),
 });
+export type PostInput = z.infer<typeof BlogPostSchema>;
+
+export type ParseResult =
+  | {
+      ok: true;
+      data: PostInput;
+    }
+  | {
+      ok: false;
+      errors: PostState["errors"];
+      normalizedData: Partial<PostInput>;
+    };
+
+export type PostState = {
+  ok?: boolean;
+  postTitle?: string;
+  message?: string;
+  errors?: Partial<Record<keyof PostInput, string[]>>;
+  data?: Partial<PostInput>;
+  success?: PostInsertUpdateSuccessDBReturn;
+};

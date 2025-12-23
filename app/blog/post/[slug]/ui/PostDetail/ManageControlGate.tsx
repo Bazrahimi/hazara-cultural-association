@@ -8,7 +8,7 @@ type Props = PostActionMenuProps & {
 const ManageControlGate = async ({
   postId,
   slug,
-  status,
+  statusValue,
   isFeatured,
   isRTL,
   updatedAt,
@@ -23,7 +23,7 @@ const ManageControlGate = async ({
   return (
     <ManagePostControls
       postId={postId}
-      status={status}
+      statusValue={statusValue}
       isFeatured={isFeatured}
       isRTL={isRTL}
       slug={slug}

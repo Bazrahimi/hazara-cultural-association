@@ -1,4 +1,5 @@
 import { getAllPosts } from "../../post/lib/data";
+import { POST_STATUS } from "../../post/lib/definitions";
 import ArchivedPosts from "./ArchivedPosts";
 import DraftPosts from "./DraftPosts";
 import NullPost from "./NullPost";
@@ -15,9 +16,9 @@ export default async function PostsWrapper({
 
   if (posts.length === 0) return <NullPost />;
 
-  const drafts = posts.filter((p) => p.status === "draft");
-  const published = posts.filter((p) => p.status === "published");
-  const archived = posts.filter((p) => p.status === "archived");
+  const drafts = posts.filter((p) => p.statusCode === POST_STATUS.DRAFT);
+  const published = posts.filter((p) => p.statusCode === POST_STATUS.PUBLISHED);
+  const archived = posts.filter((p) => p.statusCode === POST_STATUS.ARCHIVED);
 
   return (
     <div className="grid gap-6 md:grid-cols-2">

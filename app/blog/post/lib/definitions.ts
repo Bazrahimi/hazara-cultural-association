@@ -1,10 +1,19 @@
+export const POST_STATUS = {
+  DRAFT: 1,
+  PUBLISHED: 2,
+  ARCHIVED: 3,
+} as const;
+
+export type StatusCode = (typeof POST_STATUS)[keyof typeof POST_STATUS];
+
 type PostDbRow = {
   id: number;
   user_id: number;
   title: string;
   slug: string;
   content_html: string;
-  status: "draft" | "published" | "archived";
+  status_code: StatusCode;
+  // status: "draft" | "published" | "archived"; TODO: remove the column from the database after pushing the the code
   hero_img_path: string | null;
   is_featured: boolean;
   event_date: string | null; // timestamptz
@@ -28,7 +37,7 @@ type CamelizeKeys<T> = {
 // 3) Base camelCase blog-post type, directly derived from DB
 export type PostBase = CamelizeKeys<PostDbRow>;
 
-export type PostStatus = PostBase["status"];
+// export type PostStatus = PostBase["status"];
 
 export type PostCardRow = Pick<
   PostBase,
@@ -54,7 +63,7 @@ export type EditPostRow = Pick<
   | "title"
   | "contentHtml"
   | "categoryId"
-  | "status"
+  | "statusCode"
   | "heroImgPath"
   | "isFeatured"
   | "eventDate"
@@ -71,7 +80,14 @@ export type PostsListRow = Pick<
   | "isFeatured"
   | "isRtl"
   | "categoryId"
-  | "status"
+  | "statusCode"
   | "createdAt"
   | "updatedAt"
 >;
+
+export type PostInsertUpdateSuccessDBReturn = Pick<
+  PostBase,
+  "id" | "slug" | "isFeatured" | "statusCode" | "categoryId" | "isRtl"
+>;
+
+// export type ActionMode = "create" | "edit";

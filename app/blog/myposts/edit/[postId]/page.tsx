@@ -2,22 +2,10 @@
 import { requireUser } from "@/app/lib/session";
 import { notFound } from "next/navigation";
 
-import BlogPostForm from "@/app/blog/new/ui/BlogPostForm";
+import BlogPostForm from "@/app/blog/new/ui/PostForm";
 
-import { updateBlogPost } from "@/app/blog/new/lib/action";
+import { updatePost } from "@/app/blog/post/lib/action";
 import { getEditPostById } from "@/app/blog/post/lib/data";
-
-function toDatetimeLocalString(date: Date) {
-  const pad = (n: number) => n.toString().padStart(2, "0");
-
-  const year = date.getFullYear();
-  const month = pad(date.getMonth() + 1);
-  const day = pad(date.getDate());
-  const hours = pad(date.getHours());
-  const minutes = pad(date.getMinutes());
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
-}
 
 type PageProps = {
   params: Promise<{ postId: string }>;
@@ -41,24 +29,11 @@ export default async function EditPostPage({ params }: PageProps) {
     isAdmin,
   });
 
-  // Normalise event_date for <input type="datetime-local">
-  let eventDateForInput = "";
-
-  if (post.eventDate) {
-    const d = new Date(post.eventDate);
-    eventDateForInput = toDatetimeLocalString(d);
-  }
-
   const initialData = {
     ...post,
-    eventDate: eventDateForInput,
   };
 
   return (
-    <BlogPostForm
-      mode="edit"
-      action={updateBlogPost}
-      initialData={initialData}
-    />
+    <BlogPostForm mode="edit" action={updatePost} initialData={initialData} />
   );
 }

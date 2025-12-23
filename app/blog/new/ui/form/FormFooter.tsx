@@ -1,5 +1,5 @@
 import { ActionButton } from "@/app/ui/global/clientComponent";
-import { ActionMode } from "../../lib/definitions";
+import { ActionMode } from "../PostForm";
 
 type Props = {
   mode: ActionMode;

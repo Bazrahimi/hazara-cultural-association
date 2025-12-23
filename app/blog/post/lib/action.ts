@@ -5,14 +5,17 @@
 import { requireUser } from "@/app/lib/session";
 import { slugify } from "@/app/shop/lib/helper";
 import { canCreateOrEditPosts } from "../../lib/permissions";
-import { insertBlogPost, updateBlogPostRow } from "./data";
-import { BlogPostState } from "./definitions";
-import { parseBlogPostForm } from "./helper";
 
-export async function createBlogPost(
-  _prevState: BlogPostState | undefined,
+import { insertPostRow, updatePostRow } from "./data";
+
+import { parseBlogPostForm } from "../../new/lib/helper";
+import type { PostState } from "../../new/lib/schema";
+import { POST_STATUS } from "./definitions";
+
+export async function createPost(
+  _prevState: PostState | undefined,
   formData: FormData
-): Promise<BlogPostState> {
+): Promise<PostState> {
   const session = await requireUser();
 
   if (!canCreateOrEditPosts(session)) {
@@ -38,19 +41,17 @@ export async function createBlogPost(
   const slug = slugify(data.title);
   const eventDate =
     data.categoryId === 2 && data.eventDate ? new Date(data.eventDate) : null;
-  const publishedAt = data.status === "published" ? new Date() : null;
 
   try {
-    const created = await insertBlogPost({
+    const created = await insertPostRow({
       userId: session.userId,
       data,
       slug,
       eventDate,
-      publishedAt,
     });
 
     const message =
-      data.status === "published"
+      data.statusCode === POST_STATUS.PUBLISHED
         ? "Your post has been published"
         : "Your post has been saved as a draft.";
 
@@ -60,9 +61,11 @@ export async function createBlogPost(
       message,
       success: {
         id: created.id,
-        status: created.status,
+        statusCode: created.statusCode,
         isFeatured: created.isFeatured,
         slug: created.slug,
+        isRtl: created.isRtl,
+        categoryId: created.categoryId,
       },
       data,
     };
@@ -77,10 +80,10 @@ export async function createBlogPost(
   }
 }
 
-export async function updateBlogPost(
-  _prevState: BlogPostState | undefined,
+export async function updatePost(
+  _prevState: PostState | undefined,
   formData: FormData
-): Promise<BlogPostState> {
+): Promise<PostState> {
   const session = await requireUser();
 
   if (!canCreateOrEditPosts(session)) {
@@ -121,16 +124,14 @@ export async function updateBlogPost(
 
   const eventDate =
     data.categoryId === 2 && data.eventDate ? new Date(data.eventDate) : null;
-  const publishedAt = data.status === "published" ? new Date() : null;
 
   try {
-    const updated = await updateBlogPostRow({
+    const updated = await updatePostRow({
       id,
       data,
       userId,
       isAdmin,
       eventDate,
-      publishedAt,
     });
 
     if (!updated) {
@@ -142,7 +143,7 @@ export async function updateBlogPost(
     }
 
     const message =
-      data.status === "published"
+      data.statusCode === POST_STATUS.PUBLISHED
         ? "Your post has been updated and published."
         : "Your post changes have been saved.";
 
@@ -154,7 +155,9 @@ export async function updateBlogPost(
         id: updated.id,
         slug: updated.slug,
         isFeatured: updated.isFeatured,
-        status: updated.status,
+        statusCode: updated.statusCode,
+        isRtl: updated.isRtl,
+        categoryId: updated.categoryId,
       },
       data,
     };

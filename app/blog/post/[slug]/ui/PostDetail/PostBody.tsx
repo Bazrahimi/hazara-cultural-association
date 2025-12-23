@@ -84,7 +84,7 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
       <Suspense fallback={null}>
         <ManageControlGate
           postId={post.id}
-          status={post.status}
+          statusValue={post.statusCode}
           isFeatured={post.isFeatured}
           slug={post.slug}
           updatedAt={post.updatedAt}

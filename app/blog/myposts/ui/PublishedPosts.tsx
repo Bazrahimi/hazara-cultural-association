@@ -2,7 +2,7 @@ import { PostListConfigTrans } from "@/app/lib/translation";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { getCategoryLabel } from "../../lib/category";
-import type { PostsListRow } from "../../post/lib/definitions";
+import { POST_STATUS, type PostsListRow } from "../../post/lib/definitions";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
 import PostHeader from "./PostHeader";
 
@@ -51,7 +51,7 @@ const PublishedPosts = ({ published }: { published: PostsListRow[] }) => {
                     postId={post.id}
                     slug={post.slug}
                     isFeatured={post.isFeatured}
-                    status="published"
+                    statusValue={POST_STATUS.PUBLISHED}
                   />
                 </div>
 

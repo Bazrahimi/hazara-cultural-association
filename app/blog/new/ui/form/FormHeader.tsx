@@ -1,6 +1,6 @@
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import { ActionMode } from "../../lib/definitions";
+import { ActionMode } from "../PostForm";
 
 type Props = {
   mode: ActionMode;

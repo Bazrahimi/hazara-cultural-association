@@ -2,12 +2,14 @@
 "use client";
 
 import PostActionsMenu from "../../../myposts/ui/postActionMenu/PostActionsMenu";
-import type { PostStatus } from "../../lib/definitions";
+
+import { ManagePostTrans, PostCommonTrans } from "@/app/lib/translation";
+import { POST_STATUS, StatusCode } from "../../lib/definitions";
 
 export type PostActionMenuProps = {
   postId: number;
   slug: string;
-  status: PostStatus;
+  statusValue: StatusCode;
   isFeatured: boolean;
   isRTL?: boolean;
   updatedAt: string; // formatted e.g. "22 NOV 2025"
@@ -16,34 +18,34 @@ export type PostActionMenuProps = {
 export function ManagePostControls({
   postId,
   slug,
-  status,
+  statusValue,
   isFeatured,
   isRTL = false,
   updatedAt,
 }: PostActionMenuProps) {
-  const t = {
-    heading: isRTL ? "مدیریت این مطلب" : "Manage this post",
-    note: isRTL
-      ? "فقط شما (نویسنده) یا مدیر سایت این بخش را می‌بینید."
-      : "Only you (author) or an admin can see this section.",
+  const heading = isRTL
+    ? ManagePostTrans.heading.rtl
+    : ManagePostTrans.heading.en;
+  const note = isRTL ? ManagePostTrans.note.rtl : ManagePostTrans.note.en;
 
-    // label translations
-    statusLabel: isRTL ? "وضعیت نشر" : "Publish status",
-    updatedLabel: isRTL ? "آخرین به‌روزرسانی" : "Last updated",
-  };
+  const statusLabel = isRTL
+    ? PostCommonTrans.labels.statusLabel.rtl
+    : PostCommonTrans.labels.statusLabel.en;
+
+  const updatedLabel = isRTL
+    ? PostCommonTrans.labels.updatedLabel.rtl
+    : PostCommonTrans.labels.updatedLabel.en;
+
+  const statusText = isRTL
+    ? ManagePostTrans.status.text[statusValue].rtl
+    : ManagePostTrans.status.text[statusValue].en;
 
   // Colored chip per status
   const statusStyles = {
-    published: "bg-green-100 text-green-700",
-    draft: "bg-yellow-100 text-yellow-700",
-    archived: "bg-gray-200 text-gray-700",
-  }[status];
-
-  const statusText = {
-    published: isRTL ? "منتشر شده" : "Published",
-    draft: isRTL ? "پیش‌نویس" : "Draft",
-    archived: isRTL ? "آرشیو شده" : "Archived",
-  }[status];
+    [POST_STATUS.PUBLISHED]: "bg-green-100 text-green-700",
+    [POST_STATUS.DRAFT]: "bg-yellow-100 text-yellow-700",
+    [POST_STATUS.ARCHIVED]: "bg-gray-200 text-gray-700",
+  }[statusValue];
 
   return (
     <section
@@ -61,14 +63,14 @@ export function ManagePostControls({
         }`}
       >
         <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">
-          {t.heading}
+          {heading}
         </p>
 
         <PostActionsMenu
           isRTL={isRTL}
           postId={postId}
           slug={slug}
-          status={status}
+          statusValue={statusValue}
           isFeatured={isFeatured}
         />
       </div>
@@ -83,7 +85,7 @@ export function ManagePostControls({
         {/* Status */}
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium text-gray-500">
-            {t.statusLabel}:
+            {statusLabel}:
           </span>
           <span
             className={`inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusStyles}`}
@@ -95,7 +97,7 @@ export function ManagePostControls({
         {/* Last updated */}
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium text-gray-500">
-            {t.updatedLabel}:
+            {updatedLabel}:
           </span>
           <span className="text-xs font-semibold text-gray-700">
             {updatedAt}
@@ -104,7 +106,7 @@ export function ManagePostControls({
       </div>
 
       {/* Author-only note */}
-      <p className="mt-1 w-full text-[11px] text-gray-500 italic">{t.note}</p>
+      <p className="mt-1 w-full text-[11px] text-gray-500 italic">{note}</p>
     </section>
   );
 }

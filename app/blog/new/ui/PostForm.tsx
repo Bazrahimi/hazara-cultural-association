@@ -8,26 +8,27 @@ import CldFileUpload from "@/app/ui/global/CLdFileUpload";
 import { Input } from "@/app/ui/global/components";
 import { useActionState, useEffect, useState } from "react";
 import { type CategoryId } from "../../lib/category";
-import type { BlogPostInput, BlogPostState } from "../lib/definitions";
-import { ActionMode } from "../lib/definitions";
+import type { PostInput, PostState } from "../lib/schema";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
 import EditorField from "./form/EditorField";
 import FormFooter from "./form/FormFooter";
 import FormHeader from "./form/FormHeader";
 import { SuccessModal } from "./form/SuccessModal";
 
+export type ActionMode = "create" | "edit";
+
 type Props = {
   mode: ActionMode;
   action: (
-    prev: BlogPostState | undefined,
+    prev: PostState | undefined,
     formData: FormData
-  ) => Promise<BlogPostState>;
-  initialData?: Partial<BlogPostInput> & { id?: number };
+  ) => Promise<PostState>;
+  initialData?: Partial<PostInput> & { id?: number };
 };
 
-export default function BlogPostForm({ mode, action, initialData }: Props) {
+export default function PostForm({ mode, action, initialData }: Props) {
   const [state, formAction, isPending] = useActionState<
-    BlogPostState | undefined,
+    PostState | undefined,
     FormData
   >(action, undefined);
 
@@ -128,8 +129,6 @@ export default function BlogPostForm({ mode, action, initialData }: Props) {
           initialData={initialData}
           mode={mode}
         />
-
-
 
         {/* Content */}
         <EditorField
