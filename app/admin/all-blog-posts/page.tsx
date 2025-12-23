@@ -1,5 +1,5 @@
-import PostsLoadingFallback from "@/app/blog/myposts/ui/PostsLoadingFallback";
-import PostsWrapper from "@/app/blog/myposts/ui/PostsWrapper";
+import PostsLoadingFallback from "@/app/blog/auth/ui/PostsLoadingFallback";
+import PostsWrapper from "@/app/blog/auth/ui/PostsWrapper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { requireUser } from "@/app/lib/session";
 import { Header } from "@/app/ui/global/Header";

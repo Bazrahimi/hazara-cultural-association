@@ -17,9 +17,9 @@ export const BlogRoutes = {
     
 
   // Blog create/edit (you have /blog/new and /blog/myposts/edit/[postId])
-  new: () => "/blog/new",
-  myPosts: () => "/blog/myposts",
-  edit: (postId: number | string) => `/blog/myposts/edit/${postId}`,
+  new: () => "/blog/auth/new",
+  myPosts: () => "/blog/auth",
+  edit: (postId: number | string) => `/blog/auth/edit/${postId}`,
 
   // If you want preview links to respect query toggles:
   postWithQuery: (

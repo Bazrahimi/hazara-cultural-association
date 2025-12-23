@@ -1,5 +1,7 @@
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
-import { CATEGORY_MAP, type CategoryId } from "../../../lib/category";
+
+import { CATEGORY_MAP } from "@/app/blog/lib/category";
+import type { CategoryId } from "@/app/blog/lib/category";
 import type { PostInput, PostState } from "../../lib/schema";
 import { ActionMode } from "../PostForm";
 import AdvocacyEvent from "./AdvocacyEvent";

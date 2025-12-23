@@ -8,9 +8,10 @@ import { canCreateOrEditPosts } from "../../lib/permissions";
 
 import { insertPostRow, updatePostRow } from "./data";
 
-import { parseBlogPostForm } from "../../new/lib/helper";
-import type { PostState } from "../../new/lib/schema";
+
+import { parseBlogPostForm } from "../../auth/new/lib/helper";
 import { POST_STATUS } from "./definitions";
+import type { PostState } from "../../auth/new/lib/schema";
 
 export async function createPost(
   _prevState: PostState | undefined,

@@ -97,38 +97,31 @@ app
 │   └── shop
 │       └── listings
 ├── blog
-│   ├── hazara-genocide-memorial
-│   │   └── 133
-│   │       ├── layout.tsx
-│   │       ├── loading.tsx
-│   │       ├── page.tsx
-│   │       ├── ui
-│   │       │   ├── ImageGallery.tsx
-│   │       │   └── VideoGallery.tsx
-│   │       └── util
-│   │           ├── definitions.ts
-│   │           └── helper.ts
-│   ├── layout.tsx
-│   ├── lib
-│   │   ├── action.ts
-│   │   ├── category.ts
-│   │   ├── data.ts
-│   │   ├── definitions.ts
-│   │   ├── helper.ts
-│   │   └── permissions.ts
-│   ├── myposts
+│   ├── auth
 │   │   ├── edit
 │   │   │   └── [postId]
-│   │   │       ├── lib
-│   │   │       │   └── data.ts
 │   │   │       ├── loading.tsx
 │   │   │       └── page.tsx
 │   │   ├── lib
-│   │   │   ├── actions.ts
-│   │   │   ├── data.ts
-│   │   │   ├── definitions.ts
-│   │   │   └── helper.ts
+│   │   │   ├── actionHelper.ts
+│   │   │   └── actions.ts
 │   │   ├── loading.tsx
+│   │   ├── new
+│   │   │   ├── lib
+│   │   │   │   ├── helper.ts
+│   │   │   │   └── schema.ts
+│   │   │   ├── loading.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── ui
+│   │   │       ├── BlogPostFormSkeleton.tsx
+│   │   │       ├── form
+│   │   │       │   ├── AdvocacyEvent.tsx
+│   │   │       │   ├── CategoryStatusFeaturedFields.tsx
+│   │   │       │   ├── EditorField.tsx
+│   │   │       │   ├── FormFooter.tsx
+│   │   │       │   ├── FormHeader.tsx
+│   │   │       │   └── SuccessModal.tsx
+│   │   │       └── PostForm.tsx
 │   │   ├── page.tsx
 │   │   └── ui
 │   │       ├── ArchivedPosts.tsx
@@ -144,25 +137,23 @@ app
 │   │       ├── PostsLoadingFallback.tsx
 │   │       ├── PostsWrapper.tsx
 │   │       └── PublishedPosts.tsx
-│   ├── new
-│   │   ├── lib
-│   │   │   ├── action.ts
-│   │   │   ├── data.ts
-│   │   │   ├── definitions.ts
-│   │   │   ├── helper.ts
-│   │   │   └── schema.ts
-│   │   ├── loading.tsx
-│   │   ├── page.tsx
-│   │   └── ui
-│   │       ├── BlogPostForm.tsx
-│   │       ├── BlogPostFormSkeleton.tsx
-│   │       └── form
-│   │           ├── AdvocacyEvent.tsx
-│   │           ├── CategoryStatusFeaturedFields.tsx
-│   │           ├── EditorField.tsx
-│   │           ├── FormFooter.tsx
-│   │           ├── FormHeader.tsx
-│   │           └── SuccessModal.tsx
+│   ├── hazara-genocide-memorial
+│   │   └── 133
+│   │       ├── layout.tsx
+│   │       ├── loading.tsx
+│   │       ├── page.tsx
+│   │       ├── ui
+│   │       │   ├── ImageGallery.tsx
+│   │       │   └── VideoGallery.tsx
+│   │       └── util
+│   │           ├── definitions.ts
+│   │           └── helper.ts
+│   ├── layout.tsx
+│   ├── lib
+│   │   ├── action.ts
+│   │   ├── category.ts
+│   │   ├── helper.ts
+│   │   └── permissions.ts
 │   ├── page.tsx
 │   ├── post
 │   │   ├── [slug]
@@ -188,7 +179,9 @@ app
 │   │   │       ├── CategoryBlogPosts.tsx
 │   │   │       └── PostCardSkeleton.tsx
 │   │   └── lib
-│   │       └── data.ts
+│   │       ├── action.ts
+│   │       ├── data.ts
+│   │       └── definitions.ts
 │   └── ui
 │       ├── BlogMenu.tsx
 │       ├── BlogMenuClient.tsx
@@ -249,9 +242,15 @@ app
 │   ├── session.ts
 │   ├── stripe.ts
 │   └── translation
-│       ├── BreadcrumbTrans.ts
-│       ├── index.ts
-│       └── PostTrans.ts
+│       ├── blog
+│       │   ├── index.ts
+│       │   └── post
+│       │       ├── index.ts
+│       │       ├── ManagePostTrans.ts
+│       │       ├── PostCommonTrans.ts
+│       │       └── PostListConfigTrans.ts
+│       ├── BreadcrumbsTrans.ts
+│       └── index.ts
 ├── loading.tsx
 ├── members
 │   ├── join
@@ -400,5 +399,4 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-127 directories, 274 files
-tree app > app-structure.txt
+128 directories, 272 files

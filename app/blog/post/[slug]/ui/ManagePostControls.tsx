@@ -1,7 +1,7 @@
 // ManagePostControls.tsx
 "use client";
 
-import PostActionsMenu from "../../../myposts/ui/postActionMenu/PostActionsMenu";
+import PostActionsMenu from "../../../auth/ui/postActionMenu/PostActionsMenu";
 
 import { ManagePostTrans, PostCommonTrans } from "@/app/lib/translation";
 import { POST_STATUS, StatusCode } from "../../lib/definitions";

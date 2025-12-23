@@ -1,13 +1,11 @@
 // app/blog/new/schema.ts
+import { CATEGORY_MAP } from "@/app/blog/lib/category";
 import { toBoolean } from "@/app/lib/helper";
 import z from "zod";
-
-import { CATEGORY_MAP } from "../../lib/category";
 import {
   POST_STATUS,
   PostInsertUpdateSuccessDBReturn,
-} from "../../post/lib/definitions";
-
+} from "@/app/blog/post/lib/definitions";
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
 
 const StatusCodeSchema = z

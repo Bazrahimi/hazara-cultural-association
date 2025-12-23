@@ -7,7 +7,7 @@ import { setNotification } from "@/app/u/auth/lib/setNotification";
 import CldFileUpload from "@/app/ui/global/CLdFileUpload";
 import { Input } from "@/app/ui/global/components";
 import { useActionState, useEffect, useState } from "react";
-import { type CategoryId } from "../../lib/category";
+import type { CategoryId } from "@/app/blog/lib/category";
 import type { PostInput, PostState } from "../lib/schema";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
 import EditorField from "./form/EditorField";

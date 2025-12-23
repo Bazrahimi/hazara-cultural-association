@@ -1,6 +1,6 @@
 import { toBoolean } from "@/app/lib/helper";
 
-import { POST_STATUS, StatusCode } from "../../post/lib/definitions";
+import { POST_STATUS, StatusCode } from "../../../post/lib/definitions";
 import type { ParseResult, PostInput, PostState } from "./schema";
 import { BlogPostSchema } from "./schema";
 

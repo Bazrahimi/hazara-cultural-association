@@ -2,7 +2,7 @@
 import { requireUser } from "@/app/lib/session";
 import { notFound } from "next/navigation";
 
-import BlogPostForm from "@/app/blog/new/ui/PostForm";
+import PostForm from "../../new/ui/PostForm";
 
 import { updatePost } from "@/app/blog/post/lib/action";
 import { getEditPostById } from "@/app/blog/post/lib/data";
@@ -34,6 +34,6 @@ export default async function EditPostPage({ params }: PageProps) {
   };
 
   return (
-    <BlogPostForm mode="edit" action={updatePost} initialData={initialData} />
+    <PostForm mode="edit" action={updatePost} initialData={initialData} />
   );
 }
