@@ -16,6 +16,11 @@ export const PostListConfigTrans = {
     edit: { en: "Edit Draft", rtl: "ویرایش پیش‌نویس" }, // or keep rtl: "ویرایش"
     preview: PostCommonTrans.actions.preview,
     draftedOn: PostCommonTrans.labels.draftedOn,
+
+    border: "border-slate-200",
+    bg: "bg-white",
+    articleBorder: "border-slate-100",
+    articleBg: "bg-slate-50",
   },
 
   [POST_STATUS.PUBLISHED]: {
@@ -31,6 +36,10 @@ export const PostListConfigTrans = {
     view: { en: "View Live", rtl: "مشاهده" },
     edit: PostCommonTrans.actions.edit,
     publishedOn: PostCommonTrans.labels.publishedOn,
+    border: "border-emerald-200",
+    bg: "bg-emerald-50/60",
+    articleBorder: "border-emerald-100",
+    articleBg: "bg-white",
   },
 
   [POST_STATUS.ARCHIVED]: {
@@ -47,6 +56,10 @@ export const PostListConfigTrans = {
     restoreEdit: { en: "Restore / Edit", rtl: "بازگردانی / ویرایش" },
     // Rename key if this is truly "updated":
     updatedOn: PostCommonTrans.labels.archivedOn,
+    border: "border-red-200",
+    bg: "bg-red-50/60",
+    articleBorder: "border-red-100",
+    articleBg: "bg-white",
   },
 } as const;
 

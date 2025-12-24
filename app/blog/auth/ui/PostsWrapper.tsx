@@ -2,6 +2,7 @@ import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { getSession } from "@/app/lib/session";
 import { ManagePostTrans } from "@/app/lib/translation";
+import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -40,9 +41,13 @@ export default async function PostsWrapper({ tab }: { tab: StatusCode }) {
     <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
       {/* Sidebar */}
       <aside className="rounded-2xl border border-slate-200 bg-white p-4">
-        <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+        <Header
+          as="h4"
+          size="sm"
+          className="mb-3 uppercase tracker-wider text-slate-500"
+        >
           Status
-        </div>
+        </Header>
 
         <nav className="space-y-1">
           {TABS.map((t) => {
@@ -54,7 +59,7 @@ export default async function PostsWrapper({ tab }: { tab: StatusCode }) {
                 href={hrefFor(t.key)}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                   "flex items-center justify-between rounded-xl px-3 py-2 text-sm transition",
+                  "flex items-center justify-between rounded-xl px-3 py-2 text-sm transition",
                   active
                     ? "bg-hca-blue-dark text-white"
                     : "text-slate-700 hover:bg-slate-50"
@@ -64,7 +69,7 @@ export default async function PostsWrapper({ tab }: { tab: StatusCode }) {
 
                 <P
                   className={cn(
-                         "min-w-[2.25rem] rounded-full px-2 py-0.5 text-center text-xs font-semibold",
+                    "min-w-[2.25rem] rounded-full px-2 py-0.5 text-center text-xs font-semibold",
                     active
                       ? "bg-hca-yellow-dark text-white"
                       : "bg-slate-100 text-slate-700"

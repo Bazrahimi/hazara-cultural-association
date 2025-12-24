@@ -23,7 +23,7 @@ type Props = {
   isRTL: boolean;
   postId: number;
   slug: string;
-  statusValue: StatusCode;
+  statusCode: StatusCode;
   isFeatured?: boolean;
 };
 
@@ -31,7 +31,7 @@ export default function PostActionsMenu({
   isRTL,
   postId,
   slug,
-  statusValue,
+  statusCode,
   isFeatured,
 }: Props) {
   const [open, setOpen] = useState(false);
@@ -133,7 +133,7 @@ export default function PostActionsMenu({
             </li>
 
             {/* Status-based actions */}
-            {statusValue === POST_STATUS.DRAFT && (
+            {statusCode === POST_STATUS.DRAFT && (
               <>
                 <PublishMenuItem
                   isRTL={isRTL}
@@ -150,7 +150,7 @@ export default function PostActionsMenu({
               </>
             )}
 
-            {statusValue === POST_STATUS.PUBLISHED && (
+            {statusCode === POST_STATUS.PUBLISHED && (
               <>
                 <FeatureMenuItem
                   isRTL={isRTL}
@@ -168,7 +168,7 @@ export default function PostActionsMenu({
               </>
             )}
 
-            {statusValue === POST_STATUS.ARCHIVED && (
+            {statusCode === POST_STATUS.ARCHIVED && (
               <>
                 <PublishMenuItem
                   isRTL={isRTL}
