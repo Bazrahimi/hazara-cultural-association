@@ -18,7 +18,7 @@ function getTabs(lang: "en" | "rtl" = "en"): readonly Tab[] {
   const labels = ManagePostTrans.statusLabels;
   return [
     { key: POST_STATUS.PUBLISHED, label: labels[POST_STATUS.PUBLISHED][lang] },
-    { key: POST_STATUS.DRAFT, label: labels[POST_STATUS.DRAFT][lang] },
+    { key: POST_STATUS.DRAFTED, label: labels[POST_STATUS.DRAFTED][lang] },
     { key: POST_STATUS.ARCHIVED, label: labels[POST_STATUS.ARCHIVED][lang] },
   ] as const;
 }

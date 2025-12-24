@@ -32,7 +32,7 @@ export const parseBlogPostForm = (formData: FormData): ParseResult => {
     eventLocation: (raw.eventLocation as string) ?? undefined,
     categoryId: raw.categoryId ? Number(raw.categoryId as string) : undefined,
     statusCode: [
-      POST_STATUS.DRAFT,
+      POST_STATUS.DRAFTED,
       POST_STATUS.PUBLISHED,
       POST_STATUS.ARCHIVED,
     ].includes(Number(rawStatusCode) as StatusCode)

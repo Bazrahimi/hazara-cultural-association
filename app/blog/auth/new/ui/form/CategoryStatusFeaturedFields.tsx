@@ -88,8 +88,8 @@ const CategoryStatusFeaturedFields = ({
               <input
                 type="radio"
                 name={f.statusCode}
-                value={POST_STATUS.DRAFT}
-                defaultChecked={statusValue === POST_STATUS.DRAFT}
+                value={POST_STATUS.DRAFTED}
+                defaultChecked={statusValue === POST_STATUS.DRAFTED}
                 className="h-4 w-4"
               />
               {isRTL ? t.status.draft[lang] : t.status.draft[lang]}

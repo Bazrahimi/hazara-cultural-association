@@ -117,6 +117,7 @@ export default function PostActionsMenu({
               <Link
                 href={BlogRoutes.edit(postId)}
                 className="block px-3 py-2 hover:bg-slate-100"
+                dir={isRTL ? "rtl" : "ltr"}
               >
                 {isRTL ? "ویرایش" : "Edit"}
               </Link>
@@ -127,13 +128,14 @@ export default function PostActionsMenu({
               <Link
                 href={BlogRoutes.post(slug)}
                 className="block px-3 py-2 hover:bg-slate-100"
+                dir={isRTL ? "rtl" : "ltr"}
               >
                 {isRTL ? "پیش‌نمایش" : "Preview"}
               </Link>
             </li>
 
             {/* Status-based actions */}
-            {statusCode === POST_STATUS.DRAFT && (
+            {statusCode === POST_STATUS.DRAFTED && (
               <>
                 <PublishMenuItem
                   isRTL={isRTL}

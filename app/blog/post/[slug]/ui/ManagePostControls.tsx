@@ -43,7 +43,7 @@ export function ManagePostControls({
   // Colored chip per status
   const statusStyles = {
     [POST_STATUS.PUBLISHED]: "bg-green-100 text-green-700",
-    [POST_STATUS.DRAFT]: "bg-yellow-100 text-yellow-700",
+    [POST_STATUS.DRAFTED]: "bg-yellow-100 text-yellow-700",
     [POST_STATUS.ARCHIVED]: "bg-gray-200 text-gray-700",
   }[statusValue];
 

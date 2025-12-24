@@ -1,11 +1,13 @@
 // app/lib/translation/blog/post/PostTrans.ts
 
+import { edit, preview } from "./transHelper";
+
 export const PostCommonTrans = {
   author: { en: "By:", rtl: "توسط" },
 
   actions: {
-    edit: { en: "Edit", rtl: "ویرایش" },
-    preview: { en: "Preview", rtl: "نمایش" },
+    edit,
+    preview,
   },
 
   labels: {

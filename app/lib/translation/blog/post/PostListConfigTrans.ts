@@ -3,7 +3,7 @@ import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import { PostCommonTrans } from "./PostCommonTrans";
 
 export const PostListConfigTrans = {
-  [POST_STATUS.DRAFT]: {
+  [POST_STATUS.DRAFTED]: {
     title: { en: "Drafts", rtl: "پیشنویس‌ها" },
     description: {
       en: "Posts that are not yet visible to the public.",

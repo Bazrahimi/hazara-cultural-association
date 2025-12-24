@@ -21,7 +21,7 @@ export function SuccessModal({
   const statusValue = success.statusCode; // ✅ get status from success
   const isPublished = statusValue === POST_STATUS.PUBLISHED;
   const isArchived = statusValue === POST_STATUS.ARCHIVED;
-  const isDraft = statusValue === POST_STATUS.DRAFT;
+  const isDraft = statusValue === POST_STATUS.DRAFTED;
 
   // ------- Dynamic Header -------
   const getTitle = () => {

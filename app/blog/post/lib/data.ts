@@ -161,7 +161,7 @@ export const getPostCount = async (
   userId: number
 ): Promise<Record<StatusCode, number>> => {
   const base: Record<StatusCode, number> = {
-    [POST_STATUS.DRAFT]: 0,
+    [POST_STATUS.DRAFTED]: 0,
     [POST_STATUS.PUBLISHED]: 0,
     [POST_STATUS.ARCHIVED]: 0,
   };
@@ -173,7 +173,7 @@ export const getPostCount = async (
     FROM blog_posts
     WHERE user_id = ${userId}
       AND status_code IN (
-        ${POST_STATUS.DRAFT},
+        ${POST_STATUS.DRAFTED},
         ${POST_STATUS.PUBLISHED},
         ${POST_STATUS.ARCHIVED}
       )

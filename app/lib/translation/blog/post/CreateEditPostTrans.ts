@@ -1,23 +1,18 @@
 import { ManagePostTrans } from "./ManagePostTrans";
+import { category, createNewPost, eventDateTime, eventLocation, featureToHomePage, postStatus, title, uploadImage } from "./transHelper";
 
 export const CreateEditPostTrans = {
   PostForm: {
-    Title: {
-      en: "Title",
-      rtl: "عنوان مطلب",
-    },
+    Title: title,
     Placeholder: {
       en: "Enter a brief title for the post",
       rtl: "یک عنوان کوتاه برای مطلب خو نوشته کید",
     },
-    HeroImage: {
-      en: "Upload Image",
-      rtl: "آپلود تصویر",
-    },
+    HeroImage: uploadImage,
   },
   FormHeader: {
     create: {
-      heading: { en: "Create Post", rtl: "ایجاد یک مطلب جدید" },
+      heading: createNewPost,
       description: {
         en: "Share news, announcements, or advocacy events with the community.",
         rtl: "خبر، اعلان یا برنامه‌های دادخواهی را با جامعه هزاره شریک بسازید.",
@@ -33,8 +28,8 @@ export const CreateEditPostTrans = {
     toggle: {
       labelOn: { en: "Switch to English", rtl: "تبدیل به انگلیسی" },
       labelOff: {
-        en: "Switch to فارسی / هزارگی",
-        rtl: "تبدیل به فارسی / هزارگی",
+        en: "Switch to فارسی|هزارگی",
+        rtl: "تبدیل به فارسی|هزارگی",
       },
       helper: {
         en: "Choose your writing language before typing to ensure correct formatting and readability.",
@@ -44,9 +39,9 @@ export const CreateEditPostTrans = {
   },
 
   CategoryStatusFeaturedFields: {
-    categoryLabel: { en: "Category", rtl: "دسته‌بندی" },
-    statusLabel: { en: "Status", rtl: "وضعیت" },
-    featuredLabel: { en: "Featured on homepage", rtl: "نمایش در صفحه اصلی" },
+    categoryLabel: category,
+    statusLabel: postStatus,
+    featuredLabel: featureToHomePage,
 
     status: ManagePostTrans.statusLabels,
   },
@@ -64,14 +59,8 @@ export const CreateEditPostTrans = {
 
   AdvocacyEvent: {
     label: {
-      dateTime: {
-        en: "Event date & time",
-        rtl: "تاریخ و زمان برنامه",
-      },
-      location: {
-        en: "Event location",
-        rtl: "محل برگزاری",
-      },
+      dateTime: eventDateTime ,
+      location: eventLocation,
     },
     placeholder: {
       dateTime: {

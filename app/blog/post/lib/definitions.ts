@@ -1,5 +1,5 @@
 export const POST_STATUS = {
-  DRAFT: 1,
+  DRAFTED: 1,
   PUBLISHED: 2,
   ARCHIVED: 3,
 } as const;

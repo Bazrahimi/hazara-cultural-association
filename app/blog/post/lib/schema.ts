@@ -12,7 +12,7 @@ const StatusCodeSchema = z
   .preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
     z.union([
-      z.literal(POST_STATUS.DRAFT),
+      z.literal(POST_STATUS.DRAFTED),
       z.literal(POST_STATUS.PUBLISHED),
       z.literal(POST_STATUS.ARCHIVED),
     ])
