@@ -77,7 +77,7 @@ const FeaturedBlogPosts = async () => {
               {/* Main cards (first row) */}
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {mainPosts.map((post) => (
-                  <BlogPostCard key={post.id} post={post} />
+                  <BlogPostCard key={post.postId} post={post} />
                 ))}
               </div>
 
@@ -89,7 +89,7 @@ const FeaturedBlogPosts = async () => {
                   </h4>
                   <ul className="space-y-1">
                     {extraPosts.map((post) => (
-                      <li key={post.id}>
+                      <li key={post.postId}>
                         <Link
                           href={`/blog/${post.slug}`}
                           className="flex items-baseline justify-between text-sm text-blue-700 hover:text-blue-900"
