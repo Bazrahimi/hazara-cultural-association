@@ -80,7 +80,7 @@ export function SuccessModal({
             {success.slug ? (
               <Button
                 as="link"
-                href={`${BlogRoutes.post(success.slug)}?catId=${success.categoryId}&rtl=${success.isRtl ? 1 : 0}&id=${success.id}`}
+                href={`${BlogRoutes.post(success.slug)}?catId=${success.categoryId}&rtl=${success.isRtl ? 1 : 0}&id=${success.postId}`}
                 size="sm"
                 variant="outline"
                 fullWidth
@@ -108,7 +108,7 @@ export function SuccessModal({
           <div className="grid grid-cols-2 gap-3">
             <Button
               as="link"
-              href={`${BlogRoutes.edit(success.id)}`}
+              href={`${BlogRoutes.edit(success.postId)}`}
               size="sm"
               variant="outline"
               fullWidth

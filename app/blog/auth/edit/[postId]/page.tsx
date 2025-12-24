@@ -29,11 +29,8 @@ export default async function EditPostPage({ params }: PageProps) {
     isAdmin,
   });
 
-  const initialData = {
-    ...post,
-  };
-
+ 
   return (
-    <PostForm mode="edit" action={updatePost} initialData={initialData} />
+    <PostForm mode="edit" action={updatePost} initialData={post} />
   );
 }

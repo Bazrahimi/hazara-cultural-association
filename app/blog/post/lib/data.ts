@@ -1,4 +1,5 @@
 import { sql, type SqlFragment } from "@/app/lib/db";
+import { StatusCode } from "./definitions";
 import type { PostInput } from "./schema";
 
 import {
@@ -15,7 +16,7 @@ import { notFound } from "next/navigation";
 export async function getPostById(postId: number): Promise<PostRow> {
   const rows = await sql<PostRow[]>`
     SELECT
-      p.id,
+      p.id                   AS "postId",
       p.user_id              AS "userId",
       p.title,
       p.slug,
@@ -60,7 +61,7 @@ async function getPostsWithWhere(
 ): Promise<PostCardRow[]> {
   return sql<PostCardRow[]>`
     SELECT
-      p.id,
+      p.id              AS "postId",
       p.user_id         AS "userId",
       p.title,
       p.slug,
@@ -130,7 +131,7 @@ export const getEditPostById = async ({
 }): Promise<EditPostRow> => {
   const rows = await sql<EditPostRow[]>`
     SELECT
-      id,
+      id               AS postId,
       title,
       content_html     AS "contentHtml",
       category_id      AS "categoryId",
@@ -156,27 +157,55 @@ export const getEditPostById = async ({
   return post;
 };
 
-export const getAllPosts = async ({
+export const getPostCount = async (
+  userId: number
+): Promise<Record<StatusCode, number>> => {
+  const base: Record<StatusCode, number> = {
+    [POST_STATUS.DRAFT]: 0,
+    [POST_STATUS.PUBLISHED]: 0,
+    [POST_STATUS.ARCHIVED]: 0,
+  };
+
+  const rows = await sql<{ statusCode: StatusCode; count: number }[]>`
+    SELECT
+      status_code AS "statusCode",
+      COUNT(*)::int AS "count"
+    FROM blog_posts
+    WHERE user_id = ${userId}
+      AND status_code IN (
+        ${POST_STATUS.DRAFT},
+        ${POST_STATUS.PUBLISHED},
+        ${POST_STATUS.ARCHIVED}
+      )
+    GROUP BY status_code;
+  `;
+
+  for (const r of rows) base[r.statusCode] = r.count;
+  return base;
+};
+
+export const getPostsByStatusCode = async ({
+  statusCode,
   userId,
-  isAdmin,
 }: {
+  statusCode: StatusCode;
   userId: number;
-  isAdmin: boolean;
 }) => {
   const posts = await sql<PostsListRow[]>`
     SELECT
-      id,
+      id             AS "postId",
       title,
       slug,
       hero_img_path  AS "heroImgPath",
       is_featured    AS "isFeatured",
       is_rtl         AS "isRtl",
       category_id    AS "categoryId",
-      status_code    AS "StatusCode",
+      status_code    AS "statusCode",
       to_char(created_at, 'DD MON YYYY') AS "createdAt",
       to_char(updated_at, 'DD MON YYYY') AS "updatedAt"
     FROM blog_posts
-    ${isAdmin ? sql`` : sql`WHERE user_id = ${userId}`}
+    WHERE status_id = ${userId}
+      AND satus_code = ${statusCode}
     ORDER BY created_at DESC;
   `;
 
@@ -185,7 +214,7 @@ export const getAllPosts = async ({
 
 const RETURNING_INSERT_UPDATE_POST: SqlFragment = sql`
   RETURNING
-    id,
+    id         AS postId,
     slug,
     is_featured AS "isFeatured",
     category_id AS "categoryId",
@@ -235,13 +264,13 @@ export const insertPostRow = async (opts: {
 };
 
 export async function updatePostRow(opts: {
-  id: number;
+  postId: number;
   data: PostInput;
   userId: number;
   isAdmin: boolean;
   eventDate: Date | null;
 }): Promise<PostInsertUpdateSuccessDBReturn | null> {
-  const { id, data, userId, isAdmin, eventDate } = opts;
+  const { postId, data, userId, isAdmin, eventDate } = opts;
 
   const rows = await sql<PostInsertUpdateSuccessDBReturn[]>`
     UPDATE blog_posts
@@ -257,7 +286,7 @@ export async function updatePostRow(opts: {
       is_rtl         = ${data.isRtl},
       updated_at     = now(),
       created_at     = COALESCE(${isAdmin ? (data.createdAt ?? null) : null}, created_at)
-    WHERE id = ${id}
+    WHERE id = ${postId}
       AND (${isAdmin} OR user_id = ${userId})
     ${RETURNING_INSERT_UPDATE_POST}
   `;

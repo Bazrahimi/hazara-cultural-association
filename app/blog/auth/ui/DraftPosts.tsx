@@ -34,7 +34,7 @@ const DraftPosts = ({ drafts }: { drafts: PostsListRow[] }) => {
 
             return (
               <article
-                key={post.id}
+                key={post.postId}
                 className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-3 text-sm"
                 dir={isRTL ? "rtl" : "ltr"}
               >
@@ -51,7 +51,7 @@ const DraftPosts = ({ drafts }: { drafts: PostsListRow[] }) => {
 
                   <PostActionsMenu
                     isRTL={isRTL}
-                    postId={post.id}
+                    postId={post.postId}
                     slug={post.slug}
                     statusValue={POST_STATUS.DRAFT}
                   />

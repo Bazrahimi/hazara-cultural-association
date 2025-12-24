@@ -36,7 +36,7 @@ export default function ArchivedPosts({
 
             return (
               <article
-                key={post.id}
+                key={post.postId}
                 className="rounded-lg border border-red-100 bg-white px-3 py-3 text-sm"
                 dir={isRTL ? "rtl" : "ltr"}
               >
@@ -53,7 +53,7 @@ export default function ArchivedPosts({
 
                   <PostActionsMenu
                     isRTL={isRTL}
-                    postId={post.id}
+                    postId={post.postId}
                     slug={post.slug}
                     statusValue={POST_STATUS.ARCHIVED}
                   />

@@ -1,15 +1,17 @@
 import { BlogRoutes } from "@/app/lib/routes";
-import { requireUser } from "@/app/lib/session";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { Suspense } from "react";
+import { POST_STATUS, StatusCode } from "../post/lib/definitions";
 import PostsLoadingFallback from "./ui/PostsLoadingFallback";
 import PostsWrapper from "./ui/PostsWrapper";
 
-export default async function MyPostsPage() {
-  const { userId, roles } = await requireUser();
-
-  const isAdmin = roles.includes("admin");
+export default async function MyPostsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: StatusCode }>;
+}) {
+  const { tab } = await searchParams;
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 py-8">
@@ -25,7 +27,10 @@ export default async function MyPostsPage() {
 
       {/* Suspense boundary */}
       <Suspense fallback={<PostsLoadingFallback />}>
-        <PostsWrapper userId={userId} isAdmin={isAdmin} />
+        <PostsWrapper
+
+          tab={tab ?? POST_STATUS.PUBLISHED}
+        />
       </Suspense>
     </div>
   );

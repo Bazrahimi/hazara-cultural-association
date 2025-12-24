@@ -30,7 +30,7 @@ const PublishedPosts = ({ published }: { published: PostsListRow[] }) => {
 
             return (
               <article
-                key={post.id}
+                key={post.postId}
                 className="rounded-lg border border-emerald-100 bg-white px-3 py-3 text-sm"
                 dir={isRTL ? "rtl" : "ltr"}
               >
@@ -48,7 +48,7 @@ const PublishedPosts = ({ published }: { published: PostsListRow[] }) => {
 
                   <PostActionsMenu
                     isRTL={isRTL}
-                    postId={post.id}
+                    postId={post.postId}
                     slug={post.slug}
                     isFeatured={post.isFeatured}
                     statusValue={POST_STATUS.PUBLISHED}

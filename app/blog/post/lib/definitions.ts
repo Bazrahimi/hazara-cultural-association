@@ -7,7 +7,7 @@ export const POST_STATUS = {
 export type StatusCode = (typeof POST_STATUS)[keyof typeof POST_STATUS];
 
 type PostDbRow = {
-  id: number;
+  post_id: number; // id on the database. However, in front end we are handling it as postId
   user_id: number;
   title: string;
   slug: string;
@@ -41,7 +41,7 @@ export type PostBase = CamelizeKeys<PostDbRow>;
 
 export type PostCardRow = Pick<
   PostBase,
-  | "id"
+  | "postId"
   | "userId"
   | "title"
   | "slug"
@@ -59,7 +59,7 @@ export type PostRow = PostBase & {
 
 export type EditPostRow = Pick<
   PostBase,
-  | "id"
+  | "postId"
   | "title"
   | "contentHtml"
   | "categoryId"
@@ -73,7 +73,7 @@ export type EditPostRow = Pick<
 
 export type PostsListRow = Pick<
   PostBase,
-  | "id"
+  | "postId"
   | "title"
   | "slug"
   | "heroImgPath"
@@ -87,7 +87,8 @@ export type PostsListRow = Pick<
 
 export type PostInsertUpdateSuccessDBReturn = Pick<
   PostBase,
-  "id" | "slug" | "isFeatured" | "statusCode" | "categoryId" | "isRtl"
+  "postId" | "slug" | "isFeatured" | "statusCode" | "categoryId" | "isRtl"
 >;
 
 // export type ActionMode = "create" | "edit";
+

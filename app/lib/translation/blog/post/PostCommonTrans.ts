@@ -1,7 +1,5 @@
 // app/lib/translation/blog/post/PostTrans.ts
 
-import { POST_STATUS, type StatusCode } from "@/app/blog/post/lib/definitions";
-
 export const PostCommonTrans = {
   author: { en: "By:", rtl: "توسط" },
 
@@ -19,8 +17,4 @@ export const PostCommonTrans = {
     updatedOn: { en: "Updated on: ", rtl: "تاریخ به‌روزرسانی: " },
     archivedOn: { en: "Archived on: ", rtl: "آرشیو در: " }, // (fix)
   },
-
-   
-
-
 } as const;
