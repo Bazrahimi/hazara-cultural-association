@@ -1,6 +1,8 @@
+import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { getSession } from "@/app/lib/session";
 import { ManagePostTrans } from "@/app/lib/translation";
+import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostCount, getPostsByStatusCode } from "../../post/lib/data";
@@ -51,32 +53,32 @@ export default async function PostsWrapper({ tab }: { tab: StatusCode }) {
                 key={t.key}
                 href={hrefFor(t.key)}
                 aria-current={active ? "page" : undefined}
-                className={[
-                  "flex items-center justify-between rounded-xl px-3 py-2 text-sm transition",
+                className={cn(
+                   "flex items-center justify-between rounded-xl px-3 py-2 text-sm transition",
                   active
                     ? "bg-hca-blue-dark text-white"
-                    : "text-slate-700 hover:bg-slate-50",
-                ].join(" ")}
+                    : "text-slate-700 hover:bg-slate-50"
+                )}
               >
-                <span className="font-medium">{t.label}</span>
+                <P>{t.label}</P>
 
-                <span
-                  className={[
-                    "min-w-[2.25rem] rounded-full px-2 py-0.5 text-center text-xs font-semibold",
+                <P
+                  className={cn(
+                         "min-w-[2.25rem] rounded-full px-2 py-0.5 text-center text-xs font-semibold",
                     active
                       ? "bg-hca-yellow-dark text-white"
-                      : "bg-slate-100 text-slate-700",
-                  ].join(" ")}
+                      : "bg-slate-100 text-slate-700"
+                  )}
                 >
-                  {counts[t.key] ?? 2}
-                </span>
+                  {counts[t.key]}
+                </P>
               </Link>
             );
           })}
         </nav>
 
         <div className="mt-4 rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
-          Default view is <span className="font-semibold">Published</span>.
+          Default view is <P size="sm">Published</P>.
         </div>
       </aside>
 
