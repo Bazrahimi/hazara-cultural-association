@@ -1,4 +1,4 @@
-export * from "./PostCommonTrans";
+export * from "./CreateEditPostTrans";
+export * from "./ManagePostTrans";
+export * from "./PostActionTrans";
 export * from "./PostListConfigTrans";
-export * from "./ManagePostTrans"
-export * from "./CreateEditPostTrans"

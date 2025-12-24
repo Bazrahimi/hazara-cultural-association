@@ -2,11 +2,11 @@ import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 
 import type { CategoryId } from "@/app/blog/lib/category";
 import { CATEGORY_MAP } from "@/app/blog/lib/category";
+import { POST_FIELDS } from "@/app/blog/post/lib/helper";
 import { CreateEditPostTrans } from "@/app/lib/translation";
 import type { PostInput, PostState } from "../../../../post/lib/schema";
 import { ActionMode } from "../PostForm";
 import AdvocacyEvent from "./AdvocacyEvent";
-import { POST_FIELDS } from "@/app/blog/post/lib/helper";
 
 type Props = {
   isRTL: boolean;
@@ -92,7 +92,9 @@ const CategoryStatusFeaturedFields = ({
                 defaultChecked={statusValue === POST_STATUS.DRAFTED}
                 className="h-4 w-4"
               />
-              {isRTL ? t.status.draft[lang] : t.status.draft[lang]}
+              {isRTL
+                ? t.status[POST_STATUS.DRAFTED][lang]
+                : t.status[POST_STATUS.DRAFTED][lang]}
             </label>
 
             {/* Published */}
@@ -104,7 +106,9 @@ const CategoryStatusFeaturedFields = ({
                 defaultChecked={statusValue === POST_STATUS.PUBLISHED}
                 className="h-4 w-4"
               />
-              {isRTL ? t.status.published[lang] : t.status.published[lang]}
+              {isRTL
+                ? t.status[POST_STATUS.PUBLISHED][lang]
+                : t.status[POST_STATUS.PUBLISHED][lang]}
             </label>
 
             {/* Archived — ONLY for edit mode */}
@@ -117,7 +121,7 @@ const CategoryStatusFeaturedFields = ({
                   defaultChecked={statusValue === POST_STATUS.ARCHIVED}
                   className="h-4 w-4"
                 />
-                {isRTL ? t.status.archived[lang] : t.status.archived[lang]}
+                {isRTL ? t.status.[lang] : t.status.archived[lang]}
               </label>
             )}
           </div>

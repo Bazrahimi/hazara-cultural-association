@@ -1,43 +1,46 @@
-export const title = {
-  en: "Title",
-  rtl: "عنوان مطلب",
-};
-
-export const createNewPost = {
-  en: "Create Post",
+// app/lib/translation/blog/post/transHelper.ts
+export const Archive = { en: "Archive", rtl: "آرشیو" };
+export const Archived = { en: "Archived", rtl: "آرشیو شده" };
+export const archivedOn = { en: "Archived on: ", rtl: "آرشیو در: " };
+export const Category = { en: "Category", rtl: "دسته‌بندی" };
+export const CreateNewPost = {
+  en: "Create New Post",
   rtl: "ایجاد یک مطلب جدید",
 };
-
-export const uploadImage = {
-  en: "Upload Image",
-  rtl: "آپلود تصویر",
-};
-export const postStatus = {
-  en: "Article Status",
-  rtl: "وضع مطلب",
-};
-
-export const eventDateTime = {
+export const Delete = { en: "Delete", rtl: "حذف" };
+export const Draft = { en: "Draft", rtl: "پیش‌نویس" };
+export const Drafted = { en: "Drafted", rtl: "پیش‌نویس شده" };
+export const draftedOn = { en: "Drafted On: ", rtl: "تاریخ پیش‌نویس: " };
+export const Edit = { en: "Edit", rtl: "ویرایش" };
+export const EventDateAndTime = {
   en: "Event date & time",
   rtl: "تاریخ و زمان برنامه",
 };
-
-export const eventLocation = {
+export const EventLocation = {
   en: "Event location",
   rtl: "محل برگزاری",
 };
-
-export const edit = { en: "Edit", rtl: "ویرایش" };
-export const preview = { en: "Preview", rtl: "نمایش" };
-export const featureToHomePage = {
-  en: "Featured on homepage",
-  rtl: "نمایش در صفحه اصلی",
+export const FeaturedOnHomePage = {
+  en: "Featured On Homepage",
+  rtl: "در صفحه اصلی در حال نمایش است",
 };
-
-export const PostActions = {
-  edit,
-  preview,
-  featureToHomePage,
+export const FeatureToHomepage = {
+  en: "Feature on Homepage",
+  rtl: "در صفحه اصلی نمایش بده",
 };
-
-export const category = { en: "Category", rtl: "دسته‌بندی" };
+export const Preview = { en: "Preview", rtl: "نمایش" };
+export const Publish = { en: "Publish", rtl: "نشر" };
+export const Published = { en: "Published", rtl: "منتشر شده" };
+export const PublishedOn = { en: "Published On: ", rtl: "تاریخ نشر: " };
+export const RemoveFromHomepage = {
+  en: "Remove from Homepage",
+  rtl: "از صفحه اصلی بردار",
+};
+export const Save = { en: "Save", rtl: "ذخیره" };
+export const Saving = { en: "Saving…", rtl: "در حال ذخیره کردن…" };
+export const Status = { en: "Status", rtl: "وضعیت" };
+export const Title = { en: "Title", rtl: "عنوان مطلب" };
+export const Update = { en: "Update", rtl: "به‌روزرسانی" };
+export const updatedOn = { en: "Updated on: ", rtl: "تاریخ به‌روزرسانی: " };
+export const Updating = { en: "Updating…", rtl: "در حال به‌روزرسانی…" };
+export const UploadImage = { en: "Upload Image", rtl: "آپلود تصویر" };

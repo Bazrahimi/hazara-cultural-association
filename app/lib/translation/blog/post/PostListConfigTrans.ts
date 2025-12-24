@@ -1,10 +1,11 @@
 // app/lib/translation/blog/post/PostListConfigTrans.ts
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
-import { PostCommonTrans } from "./PostCommonTrans";
+import { Archived, archivedOn, Drafted, draftedOn, Edit, Preview, Published, PublishedOn } from "./transHelper";
+
 
 export const PostListConfigTrans = {
   [POST_STATUS.DRAFTED]: {
-    title: { en: "Drafts", rtl: "پیشنویس‌ها" },
+    title: Drafted,
     description: {
       en: "Posts that are not yet visible to the public.",
       rtl: "پست‌هایی که هنوز برای عموم قابل مشاهده نیستند.",
@@ -13,9 +14,9 @@ export const PostListConfigTrans = {
       en: "You don't have any drafts yet.",
       rtl: "شما هیچ پیشنویسی ندارید.",
     },
-    edit: { en: "Edit Draft", rtl: "ویرایش پیش‌نویس" }, // or keep rtl: "ویرایش"
-    preview: PostCommonTrans.actions.preview,
-    draftedOn: PostCommonTrans.labels.draftedOn,
+    edit: Edit,
+    preview: Preview,
+    draftedOn: draftedOn,
 
     border: "border-slate-200",
     bg: "bg-white",
@@ -24,7 +25,7 @@ export const PostListConfigTrans = {
   },
 
   [POST_STATUS.PUBLISHED]: {
-    title: { en: "Published", rtl: "منتشر شده" },
+    title: Published,
     description: {
       en: "Posts currently live and visible on the website.",
       rtl: "پست‌هایی که اکنون به صورت عمومی در وب‌سایت قابل مشاهده هستند.",
@@ -34,8 +35,8 @@ export const PostListConfigTrans = {
       rtl: "شما هنوز هیچ پستی منتشر نکرده‌اید.",
     },
     view: { en: "View Live", rtl: "مشاهده" },
-    edit: PostCommonTrans.actions.edit,
-    publishedOn: PostCommonTrans.labels.publishedOn,
+    edit: Edit,
+    publishedOn: PublishedOn,
     border: "border-emerald-200",
     bg: "bg-emerald-50/60",
     articleBorder: "border-emerald-100",
@@ -43,7 +44,7 @@ export const PostListConfigTrans = {
   },
 
   [POST_STATUS.ARCHIVED]: {
-    title: { en: "Archived", rtl: "آرشیو" },
+    title: Archived,
 
     description: {
       en: "Posts that are hidden from the public but kept for your records.",
@@ -55,7 +56,7 @@ export const PostListConfigTrans = {
     },
     restoreEdit: { en: "Restore / Edit", rtl: "بازگردانی / ویرایش" },
     // Rename key if this is truly "updated":
-    updatedOn: PostCommonTrans.labels.archivedOn,
+    updatedOn: archivedOn,
     border: "border-red-200",
     bg: "bg-red-50/60",
     articleBorder: "border-red-100",

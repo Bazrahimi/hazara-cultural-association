@@ -1,25 +1,41 @@
-import { ManagePostTrans } from "./ManagePostTrans";
-import { category, createNewPost, eventDateTime, eventLocation, featureToHomePage, postStatus, title, uploadImage } from "./transHelper";
+import {
+  Archived,
+  Category,
+  CreateNewPost,
+  Drafted,
+  Edit,
+  EventDateAndTime,
+  EventLocation,
+  FeatureToHomepage,
+  Published,
+  Save,
+  Saving,
+  Status,
+  Title,
+  Update,
+  Updating,
+  UploadImage,
+} from "./transHelper";
 
 export const CreateEditPostTrans = {
   PostForm: {
-    Title: title,
+    Title: Title,
     Placeholder: {
       en: "Enter a brief title for the post",
       rtl: "یک عنوان کوتاه برای مطلب خو نوشته کید",
     },
-    HeroImage: uploadImage,
+    HeroImage: UploadImage,
   },
   FormHeader: {
     create: {
-      heading: createNewPost,
+      heading: CreateNewPost,
       description: {
         en: "Share news, announcements, or advocacy events with the community.",
         rtl: "خبر، اعلان یا برنامه‌های دادخواهی را با جامعه هزاره شریک بسازید.",
       },
     },
     edit: {
-      heading: { en: "Edit Post", rtl: "ویرایش مطلب" },
+      heading: Edit,
       description: {
         en: "Update your content and publish changes.",
         rtl: "مطلب خود را ویرایش کرده و تغییرات را نشر کنید.",
@@ -39,11 +55,15 @@ export const CreateEditPostTrans = {
   },
 
   CategoryStatusFeaturedFields: {
-    categoryLabel: category,
-    statusLabel: postStatus,
-    featuredLabel: featureToHomePage,
+    categoryLabel: Category,
+    statusLabel: Status,
+    featuredLabel: FeatureToHomepage,
 
-    status: ManagePostTrans.statusLabels,
+    status: {
+      Published: Published,
+      Drafted: Drafted,
+      archived: Archived,
+    },
   },
 
   EditorField: {
@@ -59,8 +79,8 @@ export const CreateEditPostTrans = {
 
   AdvocacyEvent: {
     label: {
-      dateTime: eventDateTime ,
-      location: eventLocation,
+      dateTime: EventDateAndTime,
+      location: EventLocation,
     },
     placeholder: {
       dateTime: {
@@ -80,16 +100,16 @@ export const CreateEditPostTrans = {
         en: "Posts can be edited later from the admin panel.",
         rtl: "بعداً می‌توانید نوشته‌ها را از پنل مدیریت ویرایش کنید.",
       },
-      button: { en: "Save Post", rtl: "ذخیره مطلب" },
-      loading: { en: "Saving…", rtl: "در حال ذخیره…" },
+      button: Save,
+      loading: Saving,
     },
     edit: {
       helper: {
         en: "Your changes will update immediately.",
         rtl: "تغییرات شما فوراً به‌روز می‌شوند.",
       },
-      button: { en: "Update Post", rtl: "به‌روزرسانی مطلب" },
-      loading: { en: "Updating…", rtl: "در حال به‌روزرسانی…" },
+      button: Update,
+      loading: Updating,
     },
   },
 } as const;

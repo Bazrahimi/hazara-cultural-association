@@ -1,5 +1,6 @@
 import PostsLoadingFallback from "@/app/blog/auth/ui/PostsLoadingFallback";
 import PostsWrapper from "@/app/blog/auth/ui/PostsWrapper";
+import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import { BlogRoutes } from "@/app/lib/routes";
 import { requireUser } from "@/app/lib/session";
 import { Header } from "@/app/ui/global/Header";
@@ -25,7 +26,7 @@ const AdminAllBlockPostsPage = async () => {
       </div>
 
       <Suspense fallback={<PostsLoadingFallback />}>
-        <PostsWrapper userId={userId} isAdmin={isAdmin} />
+        <PostsWrapper tab={POST_STATUS.PUBLISHED} />
       </Suspense>
     </div>
   );
