@@ -67,7 +67,7 @@ export default function QuickActions() {
             desc="Write a news, event, or announcement"
           />
           <DashboardActionLink
-            href={BlogRoutes.myPosts()}
+            href={BlogRoutes.manageMyPosts()}
             Icon={FaRegNewspaper}
             label="My posts"
             desc="View, edit, publish, or archive your posts"

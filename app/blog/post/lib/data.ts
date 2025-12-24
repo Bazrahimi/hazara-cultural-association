@@ -204,8 +204,8 @@ export const getPostsByStatusCode = async ({
       to_char(created_at, 'DD MON YYYY') AS "createdAt",
       to_char(updated_at, 'DD MON YYYY') AS "updatedAt"
     FROM blog_posts
-    WHERE status_id = ${userId}
-      AND satus_code = ${statusCode}
+    WHERE user_id = ${userId}
+      AND status_code = ${statusCode}
     ORDER BY created_at DESC;
   `;
 

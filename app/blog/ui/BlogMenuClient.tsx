@@ -19,7 +19,7 @@ const baseItems = [
 
 const manageItems = [
   { label: "Add New Post", href: BlogRoutes.new() },
-  { label: "Manage my Posts", href: BlogRoutes.myPosts() },
+  { label: "Manage my Posts", href: BlogRoutes.manageMyPosts() },
 ];
 
 export default function BlogMenuClient({

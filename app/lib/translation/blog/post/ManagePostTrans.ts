@@ -6,11 +6,9 @@ export const ManagePostTrans = {
     en: "Only you (author) or an admin can see this section.",
     rtl: "فقط شما (نویسنده) یا مدیر سایت این بخش را می‌بینید.",
   },
-  status: {
-    text: {
-      [POST_STATUS.PUBLISHED]: { en: "Published", rtl: "منتشر شده" },
-      [POST_STATUS.DRAFT]: { en: "Draft", rtl: "پیش‌نویس" },
-      [POST_STATUS.ARCHIVED]: { en: "Archived", rtl: "آرشیو" },
-    } satisfies Record<StatusCode, { en: string; rtl: string }>,
-  },
+  statusLabels: {
+    [POST_STATUS.PUBLISHED]: { en: "Published", rtl: "منتشر شده" },
+    [POST_STATUS.DRAFT]: { en: "Draft", rtl: "پیش‌نویس" },
+    [POST_STATUS.ARCHIVED]: { en: "Archived", rtl: "آرشیو" },
+  } satisfies Record<StatusCode, { en: string; rtl: string }>,
 } as const;

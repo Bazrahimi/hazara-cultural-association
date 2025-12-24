@@ -1,3 +1,5 @@
+import { ManagePostTrans } from "./ManagePostTrans";
+
 export const CreateEditPostTrans = {
   PostForm: {
     Title: {
@@ -44,13 +46,9 @@ export const CreateEditPostTrans = {
   CategoryStatusFeaturedFields: {
     categoryLabel: { en: "Category", rtl: "دسته‌بندی" },
     statusLabel: { en: "Status", rtl: "وضعیت" },
-
-    status: {
-      draft: { en: "Draft", rtl: "پیش‌نویس" },
-      published: { en: "Published", rtl: "منتشر شده" },
-      archived: { en: "Archived", rtl: "آرشیو شده" },
-    },
     featuredLabel: { en: "Featured on homepage", rtl: "نمایش در صفحه اصلی" },
+
+    status: ManagePostTrans.statusLabels,
   },
 
   EditorField: {

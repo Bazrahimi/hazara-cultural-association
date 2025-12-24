@@ -1,8 +1,9 @@
 // app/lib/translation/blog/post/PostListConfigTrans.ts
+import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import { PostCommonTrans } from "./PostCommonTrans";
 
 export const PostListConfigTrans = {
-  draft: {
+  [POST_STATUS.DRAFT]: {
     title: { en: "Drafts", rtl: "پیشنویس‌ها" },
     description: {
       en: "Posts that are not yet visible to the public.",
@@ -17,7 +18,7 @@ export const PostListConfigTrans = {
     draftedOn: PostCommonTrans.labels.draftedOn,
   },
 
-  published: {
+  [POST_STATUS.PUBLISHED]: {
     title: { en: "Published", rtl: "منتشر شده" },
     description: {
       en: "Posts currently live and visible on the website.",
@@ -32,7 +33,7 @@ export const PostListConfigTrans = {
     publishedOn: PostCommonTrans.labels.publishedOn,
   },
 
-  archived: {
+  [POST_STATUS.ARCHIVED]: {
     title: { en: "Archived", rtl: "آرشیو" },
 
     description: {

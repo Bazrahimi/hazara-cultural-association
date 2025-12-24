@@ -1,6 +1,6 @@
 import { getCategoryLabel } from "@/app/blog/lib/category";
-import { join, q } from "./helper";
 import { slugify } from "@/app/shop/lib/helper";
+import { join, q } from "./helper";
 export const BlogRoutes = {
   root: () => "/blog",
   post: (slug: string) => `/blog/post/${slug}`,
@@ -8,17 +8,19 @@ export const BlogRoutes = {
   guideLines: () => "/blog/guidelines",
 
   // Author + category pages (your structure is /blog/p/u/[namePlusId] and /blog/p/[categoryId])
-  categoryById: (categoryId:number) => {
-    const label = getCategoryLabel(categoryId)
-    const slug = slugify(label)
-    return `/blog/post/category/${slug}?categoryId=${categoryId}`
-  } ,
+  categoryById: (categoryId: number) => {
+    const label = getCategoryLabel(categoryId);
+    const slug = slugify(label);
+    return `/blog/post/category/${slug}?categoryId=${categoryId}`;
+  },
   // authorByNamePlusId: (namePlusId: string) => `/blog/u/${namePlusId}`,
-    
 
   // Blog create/edit (you have /blog/new and /blog/myposts/edit/[postId])
   new: () => "/blog/auth/new",
-  myPosts: () => "/blog/auth",
+  manageMyPosts: (params?: { tab?: string | number }) => {
+    if (!params?.tab) return "/blog/auth";
+    return `/blog/auth?tab=${params.tab}`;
+  },
   edit: (postId: number | string) => `/blog/auth/edit/${postId}`,
 
   // If you want preview links to respect query toggles:

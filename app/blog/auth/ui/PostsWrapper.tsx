@@ -1,33 +1,89 @@
+import { BlogRoutes } from "@/app/lib/routes";
 import { getSession } from "@/app/lib/session";
+import { ManagePostTrans } from "@/app/lib/translation";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostCount, getPostsByStatusCode } from "../../post/lib/data";
-import { POST_STATUS, StatusCode } from "../../post/lib/definitions";
-import ArchivedPosts from "./ArchivedPosts";
-import DraftPosts from "./DraftPosts";
-import NullPost from "./NullPost";
-import PublishedPosts from "./PublishedPosts";
-import { count } from "console";
+import { POST_STATUS, type StatusCode } from "../../post/lib/definitions";
+import PostPanel from "./PostPanel";
+
+type Tab = { key: StatusCode; label: string };
+
+const hrefFor = (tab: StatusCode) => BlogRoutes.manageMyPosts({ tab });
+
+function getTabs(lang: "en" | "rtl" = "en"): readonly Tab[] {
+  const labels = ManagePostTrans.statusLabels;
+  return [
+    { key: POST_STATUS.PUBLISHED, label: labels[POST_STATUS.PUBLISHED][lang] },
+    { key: POST_STATUS.DRAFT, label: labels[POST_STATUS.DRAFT][lang] },
+    { key: POST_STATUS.ARCHIVED, label: labels[POST_STATUS.ARCHIVED][lang] },
+  ] as const;
+}
 
 export default async function PostsWrapper({ tab }: { tab: StatusCode }) {
   const session = await getSession();
   if (!session?.roles.includes("blogger")) return notFound();
 
-  const [count, posts] = await Promise.all([
+  // If you later store language in session/cookies:
+  // const lang: "en" | "rtl" = session.isRtl ? "rtl" : "en";
+  const lang: "en" | "rtl" = "en";
+  const TABS = getTabs(lang);
+
+  const [counts, posts] = await Promise.all([
     getPostCount(session.userId),
     getPostsByStatusCode({ statusCode: tab, userId: session.userId }),
   ]);
 
-  if (posts.length === 0) return <NullPost />;
-
-  const drafts = posts.filter((p) => p.statusCode === POST_STATUS.DRAFT);
-  const published = posts.filter((p) => p.statusCode === POST_STATUS.PUBLISHED);
-  const archived = posts.filter((p) => p.statusCode === POST_STATUS.ARCHIVED);
-
   return (
-    <div className="grid gap-6 md:grid-cols-2">
-      <DraftPosts drafts={drafts} />
-      <PublishedPosts published={published} />
-      <ArchivedPosts archived={archived} />
+    <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+      {/* Sidebar */}
+      <aside className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+          Status
+        </div>
+
+        <nav className="space-y-1">
+          {TABS.map((t) => {
+            const active = t.key === Number(tab);
+
+            return (
+              <Link
+                key={t.key}
+                href={hrefFor(t.key)}
+                aria-current={active ? "page" : undefined}
+                className={[
+                  "flex items-center justify-between rounded-xl px-3 py-2 text-sm transition",
+                  active
+                    ? "bg-hca-blue-dark text-white"
+                    : "text-slate-700 hover:bg-slate-50",
+                ].join(" ")}
+              >
+                <span className="font-medium">{t.label}</span>
+
+                <span
+                  className={[
+                    "min-w-[2.25rem] rounded-full px-2 py-0.5 text-center text-xs font-semibold",
+                    active
+                      ? "bg-hca-yellow-dark text-white"
+                      : "bg-slate-100 text-slate-700",
+                  ].join(" ")}
+                >
+                  {counts[t.key] ?? 2}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="mt-4 rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
+          Default view is <span className="font-semibold">Published</span>.
+        </div>
+      </aside>
+
+      {/* Main */}
+      <main className="min-w-0">
+        <PostPanel statusCode={tab} posts={posts} />
+      </main>
     </div>
   );
 }
