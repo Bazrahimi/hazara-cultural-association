@@ -15,11 +15,11 @@ type Tab = { key: StatusCode; label: string };
 const hrefFor = (tab: StatusCode) => BlogRoutes.manageMyPosts({ tab });
 
 function getTabs(lang: "en" | "rtl" = "en"): readonly Tab[] {
-  const labels = ManagePostTrans.statusLabels;
+  const labels = ManagePostTrans.Label;
   return [
-    { key: POST_STATUS.PUBLISHED, label: labels[POST_STATUS.PUBLISHED][lang] },
-    { key: POST_STATUS.DRAFTED, label: labels[POST_STATUS.DRAFTED][lang] },
-    { key: POST_STATUS.ARCHIVED, label: labels[POST_STATUS.ARCHIVED][lang] },
+    { key: POST_STATUS.PUBLISHED, label: labels.Published[lang] },
+    { key: POST_STATUS.DRAFTED, label: labels.Drafted[lang] },
+    { key: POST_STATUS.ARCHIVED, label: labels.Archived[lang] },
   ] as const;
 }
 

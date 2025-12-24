@@ -1,7 +1,7 @@
 import { getCategoryLabel } from "@/app/blog/lib/category";
 import { BlogRoutes } from "@/app/lib/routes";
 import { UserRoutes } from "@/app/lib/routes/UserRoutes";
-import { PostCommonTrans } from "@/app/lib/translation";
+import { PublishedOn } from "@/app/lib/translation/blog/post/transHelper";
 import { slugify } from "@/app/shop/lib/helper";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
@@ -50,7 +50,7 @@ const PostMetaEn = ({
             </P>
 
             <P className="text-xs text-gray-500">
-              {PostCommonTrans.labels.publishedOn.en} {createdAt}
+              {PublishedOn.en}: {createdAt}
             </P>
           </div>
         </Link>

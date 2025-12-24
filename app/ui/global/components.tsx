@@ -342,7 +342,7 @@ export const DeleteFormAction = (args: {
 }) => {
   return (
     <form action={args.action}>
-      <input type="hidden" name="id" value={args.id} />
+      <input type="hidden" name="postId" value={args.id} />
       <Button
         variant={args.variant}
         aria-label={`Delete this ${args.id}`}

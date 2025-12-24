@@ -51,7 +51,7 @@ const CategoryBlogPosts = async ({
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
-          <BlogPostCard key={post.id} post={post} />
+          <BlogPostCard key={post.postId} post={post} />
         ))}
       </div>
     </section>

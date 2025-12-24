@@ -92,9 +92,7 @@ const CategoryStatusFeaturedFields = ({
                 defaultChecked={statusValue === POST_STATUS.DRAFTED}
                 className="h-4 w-4"
               />
-              {isRTL
-                ? t.status[POST_STATUS.DRAFTED][lang]
-                : t.status[POST_STATUS.DRAFTED][lang]}
+              {isRTL ? t.status.Drafted[lang] : t.status.Drafted[lang]}
             </label>
 
             {/* Published */}
@@ -106,9 +104,7 @@ const CategoryStatusFeaturedFields = ({
                 defaultChecked={statusValue === POST_STATUS.PUBLISHED}
                 className="h-4 w-4"
               />
-              {isRTL
-                ? t.status[POST_STATUS.PUBLISHED][lang]
-                : t.status[POST_STATUS.PUBLISHED][lang]}
+              {isRTL ? t.status.Published[lang] : t.status.Published[lang]}
             </label>
 
             {/* Archived — ONLY for edit mode */}
@@ -121,7 +117,7 @@ const CategoryStatusFeaturedFields = ({
                   defaultChecked={statusValue === POST_STATUS.ARCHIVED}
                   className="h-4 w-4"
                 />
-                {isRTL ? t.status.[lang] : t.status.archived[lang]}
+                {isRTL ? t.status.archived[lang] : t.status.archived[lang]}
               </label>
             )}
           </div>

@@ -41,6 +41,6 @@ export const Saving = { en: "Saving…", rtl: "در حال ذخیره کردن�
 export const Status = { en: "Status", rtl: "وضعیت" };
 export const Title = { en: "Title", rtl: "عنوان مطلب" };
 export const Update = { en: "Update", rtl: "به‌روزرسانی" };
-export const updatedOn = { en: "Updated on: ", rtl: "تاریخ به‌روزرسانی: " };
+export const UpdatedOn = { en: "Updated on: ", rtl: "تاریخ به‌روزرسانی: " };
 export const Updating = { en: "Updating…", rtl: "در حال به‌روزرسانی…" };
 export const UploadImage = { en: "Upload Image", rtl: "آپلود تصویر" };

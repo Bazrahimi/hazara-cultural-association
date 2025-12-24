@@ -3,13 +3,13 @@
 
 import PostActionsMenu from "../../../auth/ui/postActionMenu/PostActionsMenu";
 
-import { ManagePostTrans, PostCommonTrans } from "@/app/lib/translation";
+import { ManagePostTrans,  } from "@/app/lib/translation";
 import { POST_STATUS, StatusCode } from "../../lib/definitions";
 
 export type PostActionMenuProps = {
   postId: number;
   slug: string;
-  statusValue: StatusCode;
+  statusCode: StatusCode;
   isFeatured: boolean;
   isRTL?: boolean;
   updatedAt: string; // formatted e.g. "22 NOV 2025"
@@ -18,7 +18,7 @@ export type PostActionMenuProps = {
 export function ManagePostControls({
   postId,
   slug,
-  statusValue,
+  statusCode,
   isFeatured,
   isRTL = false,
   updatedAt,
@@ -29,23 +29,24 @@ export function ManagePostControls({
   const note = isRTL ? ManagePostTrans.note.rtl : ManagePostTrans.note.en;
 
   const statusLabel = isRTL
-    ? PostCommonTrans.labels.statusLabel.rtl
-    : PostCommonTrans.labels.statusLabel.en;
+    ? ManagePostTrans.Label.Status.rtl
+    : ManagePostTrans.Label.Status.en
 
   const updatedLabel = isRTL
-    ? PostCommonTrans.labels.updatedLabel.rtl
-    : PostCommonTrans.labels.updatedLabel.en;
+  
+    ? ManagePostTrans.Label.UpdatedOn.rtl
+    : ManagePostTrans.Label.UpdatedOn.en;
 
   const statusText = isRTL
-    ? ManagePostTrans.status.text[statusValue].rtl
-    : ManagePostTrans.status.text[statusValue].en;
+    ? ManagePostTrans.Status[statusCode].rtl
+    : ManagePostTrans.Status[statusCode].en;
 
   // Colored chip per status
   const statusStyles = {
     [POST_STATUS.PUBLISHED]: "bg-green-100 text-green-700",
     [POST_STATUS.DRAFTED]: "bg-yellow-100 text-yellow-700",
     [POST_STATUS.ARCHIVED]: "bg-gray-200 text-gray-700",
-  }[statusValue];
+  }[statusCode];
 
   return (
     <section
@@ -70,7 +71,7 @@ export function ManagePostControls({
           isRTL={isRTL}
           postId={postId}
           slug={slug}
-          statusValue={statusValue}
+          statusCode={statusCode}
           isFeatured={isFeatured}
         />
       </div>

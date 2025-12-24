@@ -77,7 +77,7 @@ export async function createPost(
       postTitle: data.title,
       message,
       success: {
-        id: created.id,
+        postId: created.postId,
         statusCode: created.statusCode,
         isFeatured: created.isFeatured,
         slug: created.slug,
@@ -111,10 +111,10 @@ export async function updatePost(
   }
 
   // 1) Validate id
-  const idRaw = formData.get("id");
-  const id = Number(idRaw);
+  const postIdRaw = formData.get("postId");
+  const postId = Number(postIdRaw);
 
-  if (!id || !Number.isFinite(id) || id <= 0) {
+  if (!postId || !Number.isFinite(postId) || postId <= 0) {
     return {
       ok: false,
       message: "Invalid post id.",
@@ -125,7 +125,7 @@ export async function updatePost(
   const userId = session.userId;
 
   // 2) Use same parser as create, but without id
-  formData.delete("id");
+  formData.delete("posId");
   const result = parseBlogPostForm(formData);
 
   if (!result.ok) {
@@ -144,7 +144,7 @@ export async function updatePost(
 
   try {
     const updated = await updatePostRow({
-      id,
+      postId,
       data,
       userId,
       isAdmin,
@@ -169,7 +169,7 @@ export async function updatePost(
       postTitle: data.title,
       message,
       success: {
-        id: updated.id,
+        postId: updated.postId,
         slug: updated.slug,
         isFeatured: updated.isFeatured,
         statusCode: updated.statusCode,
@@ -225,7 +225,7 @@ export const featurePostAction = async (
     // This is the *new* value after toggle
     const nowFeatured = rows[0].is_featured === true;
 
-    revalidatePath(BlogRoutes.myPosts());
+    revalidatePath(BlogRoutes.manageMyPosts());
 
     return postSuccess(
       nowFeatured ? "Published to homepage." : "Removed from homepage."
@@ -352,5 +352,5 @@ export async function deletePostAction(
     return postFailure("Database error.");
   }
 
-  redirect(BlogRoutes.myPosts());
+  redirect(BlogRoutes.manageMyPosts());
 }

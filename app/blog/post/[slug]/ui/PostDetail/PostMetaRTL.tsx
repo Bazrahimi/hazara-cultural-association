@@ -1,14 +1,14 @@
 import { getCategoryLabel } from "@/app/blog/lib/category";
 import { BlogRoutes } from "@/app/lib/routes";
 import { UserRoutes } from "@/app/lib/routes/UserRoutes";
-
 import { slugify } from "@/app/shop/lib/helper";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import { MdPersonOutline } from "react-icons/md";
 import { PostMetaProps } from "./PostMetaEn";
-import {PostCommonTrans} from "@/app/lib/translation/index"
+import { PublishedOn } from "@/app/lib/translation/blog/post/transHelper";
+
 
 const PostMetaRTL = ({
   authorName,
@@ -62,7 +62,7 @@ const PostMetaRTL = ({
             </P>
 
             <P className="text-xs text-gray-500">
-              {PostCommonTrans.labels.publishedOn.rtl} {createdAt}
+              {PublishedOn.rtl} {createdAt}
             </P>
           </div>
         </Link>

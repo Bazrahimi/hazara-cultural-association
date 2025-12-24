@@ -1,14 +1,18 @@
+import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import { Preview } from "@react-email/components";
 import {
   Archive,
   Archived,
   Delete,
+  Draft,
   Drafted,
   Edit,
   FeatureToHomepage,
   Publish,
   Published,
   RemoveFromHomepage,
+  Status,
+  UpdatedOn,
 } from "./transHelper";
 
 export const ManagePostTrans = {
@@ -17,10 +21,17 @@ export const ManagePostTrans = {
     en: "Only you (author) or an admin can see this section.",
     rtl: "فقط شما (نویسنده) یا مدیر سایت این بخش را می‌بینید.",
   },
-  StatusLabels: {
-    Published: Published,
-    Drafted: Drafted,
-    archived: Archived,
+  Status: {
+    [POST_STATUS.PUBLISHED]: Published,
+    [POST_STATUS.DRAFTED]: Drafted,
+    [POST_STATUS.ARCHIVED]: Archived,
+  },
+  Label: {
+    Status: Status,
+    UpdatedOn: UpdatedOn,
+    Published:Published,
+    Drafted:Drafted,
+    Archived: Archived,
   },
   action: {
     Edit: Edit,
