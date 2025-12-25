@@ -20,38 +20,42 @@ const PostShell = ({ isRTL, categoryId, title, categoryLabel }: Props) => {
       ].join(" ")}
     >
       {/* Title (real text is fine; it's already known from slug) */}
-      <Header
-        as="h1"
-        size="md"
-        className="mb-3"
-        align={isRTL ? "right" : "left"}
-      >
-        {title}
-      </Header>
+      <div className="space-py-10">
+        <Header
+          as="h1"
+          size="md"
+          className="mb-3"
+          align={isRTL ? "right" : "left"}
+        >
+          {title}
+        </Header>
+      </div>
 
       {/* PostMeta skeleton (aligned to PostMetaEn/RTL) */}
-      <div className="mb-6 w-full border-b border-gray-100 pb-4 text-sm text-gray-600">
-        <div className="flex items-center justify-between">
-          {/* Author block */}
-          <div className="flex items-center gap-3">
-            {/* Avatar circle */}
-            <div className="h-12 w-12 rounded-full bg-gray-200" />
+      <div className="rounded-2xl border-slate-200 bg-white/70 px-4 py-3 shadow-sm backdrop-blur-2xl">
+        <div className="mb-6 w-full border-b border-gray-100 pb-4 text-sm text-gray-600">
+          <div className="flex items-center justify-between">
+            {/* Author block */}
+            <div className="flex items-center gap-3">
+              {/* Avatar circle */}
+              <div className="h-12 w-12 rounded-full bg-gray-200" />
 
-            {/* Name + date */}
-            <div
-              className={[
-                "flex flex-col leading-tight",
-                isRTL ? "items-end" : "items-start",
-              ].join(" ")}
-            >
-              <div className="h-4 w-40 rounded bg-gray-200" />
-              <div className="mt-2 h-3 w-32 rounded bg-gray-100" />
+              {/* Name + date */}
+              <div
+                className={[
+                  "flex flex-col leading-tight",
+                  isRTL ? "items-end" : "items-start",
+                ].join(" ")}
+              >
+                <div className="h-4 w-40 rounded bg-gray-200" />
+                <div className="mt-2 h-3 w-32 rounded bg-gray-100" />
+              </div>
             </div>
-          </div>
 
-          {/* Category pill (we already know label) */}
-          <div className="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs">
-            {categoryLabel}
+            {/* Category pill (we already know label) */}
+            <div className="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs">
+              {categoryLabel}
+            </div>
           </div>
         </div>
       </div>

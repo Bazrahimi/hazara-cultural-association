@@ -29,10 +29,7 @@ export const CreateEditPostTrans = {
   FormHeader: {
     create: {
       heading: CreateNewPost,
-      description: {
-        en: "Share news, announcements, or advocacy events with the community.",
-        rtl: "خبر، اعلان یا برنامه‌های دادخواهی را با جامعه هزاره شریک بسازید.",
-      },
+     
     },
     edit: {
       heading: Edit,
@@ -44,7 +41,7 @@ export const CreateEditPostTrans = {
     toggle: {
       labelOn: { en: "Switch to English", rtl: "تبدیل به انگلیسی" },
       labelOff: {
-        en: "Switch to فارسی|هزارگی",
+        en: "Switch Language to فارسی|هزارگی",
         rtl: "تبدیل به فارسی|هزارگی",
       },
       helper: {

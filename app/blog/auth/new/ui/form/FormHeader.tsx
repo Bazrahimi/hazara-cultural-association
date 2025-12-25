@@ -1,3 +1,4 @@
+import { cn } from "@/app/lib/helper";
 import { CreateEditPostTrans } from "@/app/lib/translation";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
@@ -19,33 +20,48 @@ const FormHeader = ({ mode, isRTL, setIsRTL }: Props) => {
           <Header as="h1" size="md">
             {t[mode].heading[lang]}
           </Header>
-
-          <P>{t[mode].description[lang]}</P>
         </div>
 
         {/* RTL Toggle */}
-        <div className={`flex flex-col ${isRTL ? "items-end" : "items-start"}`}>
-          <label
-            className={`inline-flex items-center gap-2 text-sm text-gray-700 cursor-pointer ${
+        <div
+          className={cn("flex flex-col", isRTL ? "items-end" : "items-start")}
+        >
+          <fieldset
+            className={cn(
+              "flex gap-4 text-sm text-gray-700",
               isRTL ? "flex-row-reverse" : ""
-            }`}
+            )}
           >
-            <input
-              type="checkbox"
-              className="h-4 w-4"
-              checked={isRTL}
-              onChange={(e) => setIsRTL(e.target.checked)}
-            />
-            <span className="font-extrabold flex items-center gap-1">
-              {isRTL ? t.toggle.labelOn[lang] : t.toggle.labelOff[lang]}
-            </span>
-          </label>
+            {/* Hazargi / RTL */}
+            <label className="inline-flex items-center gap-2 cursor-pointer ">
+              <input
+                type="radio"
+                name="language"
+                checked={isRTL === true}
+                onChange={() => setIsRTL(true)}
+              />
+              <P className="font-extrabold">فارسی | هزارگی</P>
+            </label>
+
+            {/* English / LTR */}
+            <label className="inline-flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="language"
+                checked={isRTL === false}
+                onChange={() => setIsRTL(false)}
+              />
+              <span className="font-extrabold">English</span>
+            </label>
+          </fieldset>
 
           {/* Language warning / helper message */}
-          <p className="mt-1 text-xs text-gray-500">
-            {isRTL ? t.toggle.helper[lang] : t.toggle.helper[lang]}
-         
-          </p>
+          <P className=" text-gray-500">
+            <span className="font-semibold">
+              {isRTL ? "قدم اول: " : "Step 1: "}
+            </span>
+            {t.toggle.helper[lang]}
+          </P>
         </div>
       </div>
     </header>

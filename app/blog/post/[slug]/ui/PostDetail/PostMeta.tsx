@@ -1,4 +1,5 @@
 import { getCategoryLabel } from "@/app/blog/lib/category";
+import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { UserRoutes } from "@/app/lib/routes/UserRoutes";
 import { PublishedOn } from "@/app/lib/translation/blog/post/transHelper";
@@ -13,20 +14,24 @@ export type PostMetaProps = {
   userId: number;
   createdAt: string;
   categoryId: number;
+  isRTL: boolean;
 };
 
-const PostMetaEn = ({
+const PostMeta = ({
   authorName,
   userId,
   createdAt,
   categoryId,
+  isRTL,
 }: PostMetaProps) => {
+  const dir = isRTL ? "rtl" : "ltr";
+
   return (
     <div
-      dir="ltr"
+      dir={dir}
       className="
         mb-6 w-full border-b border-gray-100
-        pb-4 text-sm text-gray-600
+        pb-4 
       "
     >
       <div className="flex items-center justify-between">
@@ -44,14 +49,35 @@ const PostMetaEn = ({
           </div>
 
           {/* Name + date */}
-          <div className="flex flex-col items-start leading-tight">
-            <P className="m-0 font-semibold text-gray-900 transition group-hover:text-gray-700">
+          <div
+            className={cn(
+              "flex flex-col leading-tight",
+              isRTL ? "items-center" : "item-start"
+            )}
+          >
+            <P className="m-0 font-semibold text-gray-900 transition-all group-hover:text-hca-blue-main group-hover:translate-x-0.5">
               {authorName}
             </P>
 
-            <P className="text-xs text-gray-500">
-              {PublishedOn.en}: {createdAt}
-            </P>
+            {isRTL ? (
+              <div className="flex items-center gap-2">
+                <P className="inline-flex text-gray-400 " size="sm">
+                  {PublishedOn.rtl}
+                </P>
+                <P className="inline-flex text-gray-500" dir="ltr" size="sm">
+                  {createdAt}
+                </P>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <P className="inline-flex text-gray-400" size="sm">
+                  {PublishedOn.en}
+                </P>
+                <P className="inline-flex text-gray-500" size="sm">
+                  {createdAt}
+                </P>
+              </div>
+            )}
           </div>
         </Link>
 
@@ -63,11 +89,11 @@ const PostMetaEn = ({
           className="rounded-3xl"
           variant="outline"
         >
-          {getCategoryLabel(categoryId, false)}
+          {getCategoryLabel(categoryId, isRTL)}
         </Button>
       </div>
     </div>
   );
 };
 
-export default PostMetaEn;
+export default PostMeta;

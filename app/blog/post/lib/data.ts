@@ -21,7 +21,7 @@ export async function getPostById(postId: number): Promise<PostRow> {
       p.title,
       p.slug,
       p.content_html          AS "contentHtml",
-      p.status_code,          AS "statusCode",
+      p.status_code          AS "statusCode",
       p.category_id            AS "categoryId",
       p.hero_img_path          AS "heroImgPath",
       p.is_featured            AS "isFeatured",
