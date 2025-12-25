@@ -129,6 +129,7 @@ export default function PostActionsMenu({
               isRTL={isRTL}
               href={BlogRoutes.edit(postId)}
               label={isRTL ? t.Edit.rtl : t.Edit.en}
+              onSelect={() => setOpen(false)}
             />
             {categoryId && (
               <MenuItem

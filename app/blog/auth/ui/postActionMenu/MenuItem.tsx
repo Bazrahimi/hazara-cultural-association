@@ -1,11 +1,14 @@
 "use client";
 
+import clsx from "clsx";
 import Link from "next/link";
+import { ImSpinner10 } from "react-icons/im";
 
 type CommonProps = {
   isRTL: boolean;
   label: string;
   className?: string;
+  onSelect?: () => void; // close menu immediately if you want
 };
 
 type LinkItemProps = CommonProps & {
@@ -23,9 +26,28 @@ type ActionItemProps = CommonProps & {
 export type MenuItemProps = LinkItemProps | ActionItemProps;
 
 export default function MenuItem(props: MenuItemProps) {
-  const base =
-    `block w-full px-3 py-2 hover:bg-slate-100 disabled:opacity-60 ` +
-    (props.isRTL ? "text-right" : "text-left");
+  const base = clsx(
+    "w-full px-3 py-2 text-sm rounded-md cursor-pointer",
+    "hover:bg-slate-100 transition",
+    "disabled:opacity-60",
+    props.isRTL ? "text-right" : "text-left",
+    props.className
+  );
+
+  const content = (
+    <span
+      className={clsx(
+        "inline-flex w-full items-center justify-between gap-2",
+        props.isRTL && "flex-row-reverse"
+      )}
+    >
+      <span className="truncate">{props.label}</span>
+
+      {props.type === "action" && props.isPending && (
+        <ImSpinner10 className="h-4 w-4 animate-spin text-slate-500" />
+      )}
+    </span>
+  );
 
   if (props.type === "link") {
     return (
@@ -33,9 +55,10 @@ export default function MenuItem(props: MenuItemProps) {
         <Link
           href={props.href}
           dir={props.isRTL ? "rtl" : "ltr"}
-          className={base}
+          onClick={props.onSelect}
+          className={clsx("block", base)}
         >
-          {props.label}
+          {content}
         </Link>
       </li>
     );
@@ -43,14 +66,15 @@ export default function MenuItem(props: MenuItemProps) {
 
   return (
     <li>
-      <form action={props.action}>
+      <form action={props.action} onSubmit={props.onSelect}>
         <input type="hidden" name="postId" value={props.postId} />
         <button
           type="submit"
+          dir={props.isRTL ? "rtl" : "ltr"}
           disabled={props.isPending}
-          className={base}
+          className={clsx("block", base)}
         >
-          {props.label}
+          {content}
         </button>
       </form>
     </li>
