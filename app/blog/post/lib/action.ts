@@ -255,12 +255,12 @@ export async function publishPostAction(
   const userId = session.userId;
 
   try {
-    const rows = await sql<{ status: string }[]>`
+    const rows = await sql<{ statusCode: number }[]>`
       UPDATE blog_posts 
-      SET status = 'published' 
+      SET status_code = ${POST_STATUS.PUBLISHED} 
       WHERE id = ${postId}
         AND (${isAdmin} OR user_id = ${userId})
-      RETURNING status;
+      RETURNING status_code;
     `;
 
     if (rows.length === 0) {
@@ -295,12 +295,12 @@ export async function archivePostAction(
   const userId = session.userId;
 
   try {
-    const rows = await sql<{ status: string }[]>`
+    const rows = await sql<{ statusCode: number }[]>`
       UPDATE blog_posts 
-      SET status = 'archived' 
+      SET status_code = ${POST_STATUS.ARCHIVED} 
       WHERE id = ${postId}
         AND (${isAdmin} OR user_id = ${userId})
-      RETURNING status;
+      RETURNING status_code "statusCode";
     `;
 
     if (rows.length === 0) {

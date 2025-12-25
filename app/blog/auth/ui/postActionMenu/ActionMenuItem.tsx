@@ -1,11 +1,11 @@
+"use client";
 import { ActionMenuItemProps } from "./PostActionsMenu";
-export default function PublishMenuItem({
-  isRTL,
-  postId,
-  isPending,
-  action,
-}: ActionMenuItemProps) {
-  return (
+
+type Props = ActionMenuItemProps & {
+  label: string;
+};
+const ActionMenuItem = ({ label, postId, action, isPending, isRTL }: Props) => {
+    return (
     <li>
       <form action={action}>
         <input type="hidden" name="postId" value={postId} />
@@ -16,9 +16,10 @@ export default function PublishMenuItem({
             isRTL ? "text-right" : "text-left"
           }`}
         >
-          {isRTL ? "منتشر کردن" : "Publish"}
+          {label}
         </button>
       </form>
     </li>
   );
 }
+export default ActionMenuItem;

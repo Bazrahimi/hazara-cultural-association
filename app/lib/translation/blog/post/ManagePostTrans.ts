@@ -40,6 +40,6 @@ export const ManagePostTrans = {
     RemoveFromHomepage: RemoveFromHomepage,
     Archive: Archive,
     Publish: Publish,
-    DeletePermanently: DeletePermanently,
+    Delete: DeletePermanently,
   },
 } as const;

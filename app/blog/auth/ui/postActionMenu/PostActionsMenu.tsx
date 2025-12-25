@@ -2,14 +2,13 @@
 
 import type { StatusCode } from "@/app/blog/post/lib/definitions";
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
+import { ManagePostTrans } from "@/app/lib/translation/";
 import Link from "next/link";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
-import ArchiveMenuItem from "./ArchiveMenuItem";
-import DeleteMenuItem from "./DeleteMenuItem";
-import FeatureMenuItem from "./FeatureMenuItem";
-import PublishMenuItem from "./PublishMenuItem";
-import {ManagePostTrans} from "@/app/lib/translation/"
+import ActionMenuItem from "./ActionMenuItem";
+
+const t = ManagePostTrans.action;
 
 import {
   archivePostAction,
@@ -27,7 +26,7 @@ type Props = {
   statusCode: StatusCode;
   isFeatured?: boolean;
 };
-const t = ManagePostTrans.action;
+
 export default function PostActionsMenu({
   isRTL,
   postId,
@@ -96,6 +95,19 @@ export default function PostActionsMenu({
     }
   }, [publishState, archiveState, deleteState, featureState]);
 
+  const labels = {
+    publish: isRTL ? t.Publish.rtl : t.Publish.en,
+    delete: isRTL ? t.Delete.rtl : t.Delete.en,
+    archive: isRTL ? t.Archive.rtl : t.Archive.en,
+    feature: isFeatured
+      ? isRTL
+        ? t.RemoveFromHomepage.rtl
+        : t.RemoveFromHomepage.en
+      : isRTL
+        ? t.FeatureToHomepage.rtl
+        : t.FeatureToHomepage.en,
+  };
+
   return (
     <div ref={rootRef} className="relative inline-block">
       <button
@@ -138,52 +150,57 @@ export default function PostActionsMenu({
             {/* Status-based actions */}
             {statusCode === POST_STATUS.DRAFTED && (
               <>
-                <PublishMenuItem
-                  isRTL={isRTL}
+                <ActionMenuItem
+                  label={labels.publish}
                   postId={postId}
-                  isPending={publishing}
                   action={publishAction}
-                />
-                <DeleteMenuItem
+                  isPending={publishing}
                   isRTL={isRTL}
+                />
+                <ActionMenuItem
+                  label={labels.delete}
                   postId={postId}
-                  isPending={deleting}
                   action={deleteAction}
+                  isPending={deleting}
+                  isRTL={isRTL}
                 />
               </>
             )}
 
             {statusCode === POST_STATUS.PUBLISHED && (
               <>
-                <FeatureMenuItem
-                  isRTL={isRTL}
+                <ActionMenuItem
+                  label={labels.feature}
                   postId={postId}
-                  isPending={featuring}
                   action={featureAction}
-                  isFeatured={isFeatured}
-                />
-                <ArchiveMenuItem
+                  isPending={featuring}
                   isRTL={isRTL}
+                />
+                <ActionMenuItem
+                  label={labels.archive}
                   postId={postId}
-                  isPending={archiving}
                   action={archiveAction}
+                  isPending={archiving}
+                  isRTL={isRTL}
                 />
               </>
             )}
 
             {statusCode === POST_STATUS.ARCHIVED && (
               <>
-                <PublishMenuItem
-                  isRTL={isRTL}
+                <ActionMenuItem
+                  label={labels.publish}
                   postId={postId}
-                  isPending={publishing}
                   action={publishAction}
-                />
-                <DeleteMenuItem
+                  isPending={publishing}
                   isRTL={isRTL}
+                />
+                <ActionMenuItem
+                  label={labels.delete}
                   postId={postId}
-                  isPending={deleting}
                   action={deleteAction}
+                  isPending={deleting}
+                  isRTL={isRTL}
                 />
               </>
             )}
