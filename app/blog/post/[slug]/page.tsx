@@ -5,7 +5,7 @@ import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getCategoryLabel } from "../../lib/category";
-import { extractPostFromSlug, truncateTitle } from "../../lib/helper";
+import { extractPostFromSlug } from "../../lib/helper";
 import PostBody from "./ui/PostDetail/PostBody";
 import PostShell from "./ui/PostDetail/PostShell";
 
@@ -15,7 +15,7 @@ const page = async ({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ catId: string; rtl: string; id:string }>;
+  searchParams: Promise<{ catId: string; rtl: string; id: string }>;
 }) => {
   const { slug } = await params;
 
@@ -43,7 +43,7 @@ const page = async ({
       href: BlogRoutes.categoryById(categoryId),
     },
     {
-      label: slugInfo?.title, 
+      label: slugInfo?.title,
       href: "#",
       active: true,
     },
