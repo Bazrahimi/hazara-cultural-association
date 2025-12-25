@@ -7,6 +7,7 @@ export const CreateNewPost = {
   en: "Create New Post",
   rtl: "ایجاد یک مطلب جدید",
 };
+// export const CreatedOn = { en: "Created on: ", rtl: "تاریخ ایجاد: " };
 export const Delete = { en: "Delete", rtl: "حذف" };
 export const DeletePermanently = { en: "Delete Permanently", rtl: "حذف کامل" };
 export const Draft = { en: "Draft", rtl: "پیش‌نویس" };

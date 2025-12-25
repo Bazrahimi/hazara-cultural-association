@@ -1,10 +1,16 @@
 // ManagePostControls.tsx
 "use client";
 
+import { Button } from "@/app/ui/global/components";
 import PostActionsMenu from "../../../auth/ui/postActionMenu/PostActionsMenu";
 
-import { ManagePostTrans,  } from "@/app/lib/translation";
+import { BlogRoutes } from "@/app/lib/routes";
+import { ManagePostTrans } from "@/app/lib/translation";
+import { P } from "@/app/ui/global/paragraph";
 import { POST_STATUS, StatusCode } from "../../lib/definitions";
+
+const labels = ManagePostTrans.Label;
+const headings = ManagePostTrans.heading;
 
 export type PostActionMenuProps = {
   postId: number;
@@ -13,6 +19,7 @@ export type PostActionMenuProps = {
   isFeatured: boolean;
   isRTL: boolean;
   updatedAt: string; // formatted e.g. "22 NOV 2025"
+  createdAt: string;
 };
 
 export function ManagePostControls({
@@ -22,20 +29,12 @@ export function ManagePostControls({
   isFeatured,
   isRTL = false,
   updatedAt,
+  createdAt,
 }: PostActionMenuProps) {
-  const heading = isRTL
-    ? ManagePostTrans.heading.rtl
-    : ManagePostTrans.heading.en;
+  const heading = isRTL ? headings.rtl : headings.en;
   const note = isRTL ? ManagePostTrans.note.rtl : ManagePostTrans.note.en;
 
-  const statusLabel = isRTL
-    ? ManagePostTrans.Label.Status.rtl
-    : ManagePostTrans.Label.Status.en
-
-  const updatedLabel = isRTL
-  
-    ? ManagePostTrans.Label.UpdatedOn.rtl
-    : ManagePostTrans.Label.UpdatedOn.en;
+  const statusLabel = isRTL ? labels.Status.rtl : labels.Status.en;
 
   const statusText = isRTL
     ? ManagePostTrans.Status[statusCode].rtl
@@ -47,6 +46,15 @@ export function ManagePostControls({
     [POST_STATUS.DRAFTED]: "bg-yellow-100 text-yellow-700",
     [POST_STATUS.ARCHIVED]: "bg-gray-200 text-gray-700",
   }[statusCode];
+
+  const actionLabel = isRTL
+    ? ManagePostTrans.actionedOn[statusCode].rtl
+    : ManagePostTrans.actionedOn[statusCode].en;
+
+  const actionDate =
+    statusCode === POST_STATUS.DRAFTED
+      ? (updatedAt ?? createdAt)
+      : (updatedAt ?? createdAt);
 
   return (
     <section
@@ -77,17 +85,11 @@ export function ManagePostControls({
       </div>
 
       {/* Status & Last Updated Panel */}
-      <div
-        className={`
-          mb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between 
-          gap-2 border rounded-lg bg-white px-3 py-2
-        `}
-      >
+
+      <div className="mb-3 flex flex-col gap-2 rounded-lg border bg-white px-3 py-2 sm:flex-row sm:items-center sm:justify-between">
         {/* Status */}
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-gray-500">
-            {statusLabel}:
-          </span>
+          <P className=" text-gray-500">{statusLabel}:</P>
           <span
             className={`inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusStyles}`}
           >
@@ -95,15 +97,34 @@ export function ManagePostControls({
           </span>
         </div>
 
-        {/* Last updated */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-gray-500">
-            {updatedLabel}:
-          </span>
-          <span className="text-xs font-semibold text-gray-700">
-            {updatedAt}
-          </span>
+        {isFeatured && (
+          <P className="rounded-full bg-blue-100 font-semibold text-hca-blue-light">
+            {isRTL
+              ? labels.FeaturedOnHomePage.rtl
+              : labels.FeaturedOnHomePage.en}
+          </P>
+        )}
+
+        <div className="flex items-center gap-4">
+          <P className=" text-gray-500">{actionLabel}</P>
+          <P className=" text-gray-700" dir="ltr">
+            {actionDate}
+          </P>
         </div>
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between mt-10">
+        <Button as="link" href={BlogRoutes.new()} size="xs" variant="outline">
+          Add new Post
+        </Button>
+        <Button
+          as="link"
+          href={BlogRoutes.manageMyPosts()}
+          variant="outline"
+          size="xs"
+        >
+          Manage other Posts
+        </Button>
       </div>
 
       {/* Author-only note */}

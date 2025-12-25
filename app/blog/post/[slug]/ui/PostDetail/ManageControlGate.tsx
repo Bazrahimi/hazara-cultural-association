@@ -4,6 +4,7 @@ import { ManagePostControls } from "../ManagePostControls";
 
 type Props = PostActionMenuProps & {
   userId: number;
+  createdAt: string
 };
 const ManageControlGate = async ({
   postId,
@@ -13,8 +14,9 @@ const ManageControlGate = async ({
   isRTL,
   updatedAt,
   userId,
+  createdAt,
 }: Props) => {
-  console.log("isRTL", isRTL)
+
   const session = await getSession();
   const canManage =
     !!session && (session.roles.includes("admin") || session.userId === userId);
@@ -29,6 +31,7 @@ const ManageControlGate = async ({
       isRTL={isRTL}
       slug={slug}
       updatedAt={updatedAt}
+      createdAt={createdAt}
     />
   );
 };

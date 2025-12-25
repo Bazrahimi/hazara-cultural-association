@@ -19,6 +19,7 @@ type PostDetailProps = {
 
 const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
   const post = await getPostById(postId);
+  console.log("post______", post)
 
   if (!post) notFound();
 
@@ -80,6 +81,7 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
             isFeatured={post.isFeatured}
             slug={post.slug}
             updatedAt={post.updatedAt}
+            createdAt={post.createdAt}
             userId={post.userId}
           />
         </Suspense>
