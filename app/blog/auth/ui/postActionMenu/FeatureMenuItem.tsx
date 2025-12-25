@@ -1,5 +1,7 @@
 
 import { ActionMenuItemProps } from "./PostActionsMenu";
+import { ManagePostTrans } from "@/app/lib/translation";
+const t = ManagePostTrans.action
 
 const  FeatureMenuItem = ({
   isRTL,
@@ -11,11 +13,11 @@ const  FeatureMenuItem = ({
   // Decide the button label based on feature status
   const label = isFeatured
     ? isRTL
-      ? "حذف از صفحه اصلی" // Remove from homepage (RTL)
-      : "Remove from Homepage"
+      ? t.RemoveFromHomepage.rtl
+      : t.RemoveFromHomepage.en
     : isRTL
-      ? "نشر در صفحه اصلی" // Publish to homepage (RTL)
-      : "Publish to Homepage";
+      ? t.FeatureToHomepage.rtl
+      : t.FeatureToHomepage.en;
 
   return (
     <li>

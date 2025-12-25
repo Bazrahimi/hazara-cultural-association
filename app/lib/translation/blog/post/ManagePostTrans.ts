@@ -1,13 +1,13 @@
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
-import { Preview } from "@react-email/components";
+
 import {
   Archive,
   Archived,
-  Delete,
-  Draft,
+  DeletePermanently,
   Drafted,
   Edit,
   FeatureToHomepage,
+  Preview,
   Publish,
   Published,
   RemoveFromHomepage,
@@ -29,8 +29,8 @@ export const ManagePostTrans = {
   Label: {
     Status: Status,
     UpdatedOn: UpdatedOn,
-    Published:Published,
-    Drafted:Drafted,
+    Published: Published,
+    Drafted: Drafted,
     Archived: Archived,
   },
   action: {
@@ -40,6 +40,6 @@ export const ManagePostTrans = {
     RemoveFromHomepage: RemoveFromHomepage,
     Archive: Archive,
     Publish: Publish,
-    Delete: Delete,
+    DeletePermanently: DeletePermanently,
   },
 } as const;

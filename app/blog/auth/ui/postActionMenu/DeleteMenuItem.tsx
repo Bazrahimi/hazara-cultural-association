@@ -1,4 +1,7 @@
+import { ManagePostTrans } from "@/app/lib/translation";
 import { ActionMenuItemProps } from "./PostActionsMenu";
+
+const t = ManagePostTrans.action;
 
 export default function DeleteMenuItem({
   isRTL,
@@ -17,7 +20,7 @@ export default function DeleteMenuItem({
             isRTL ? "text-right" : "text-left"
           }`}
         >
-          {isRTL ? "حذف کامل" : "Delete Permanently"}
+          {isRTL ? t.DeletePermanently.rtl : t.DeletePermanently.en}
         </button>
       </form>
     </li>

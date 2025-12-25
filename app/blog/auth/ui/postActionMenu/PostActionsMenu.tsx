@@ -9,6 +9,7 @@ import ArchiveMenuItem from "./ArchiveMenuItem";
 import DeleteMenuItem from "./DeleteMenuItem";
 import FeatureMenuItem from "./FeatureMenuItem";
 import PublishMenuItem from "./PublishMenuItem";
+import {ManagePostTrans} from "@/app/lib/translation/"
 
 import {
   archivePostAction,
@@ -26,7 +27,7 @@ type Props = {
   statusCode: StatusCode;
   isFeatured?: boolean;
 };
-
+const t = ManagePostTrans.action;
 export default function PostActionsMenu({
   isRTL,
   postId,
@@ -119,7 +120,7 @@ export default function PostActionsMenu({
                 className="block px-3 py-2 hover:bg-slate-100"
                 dir={isRTL ? "rtl" : "ltr"}
               >
-                {isRTL ? "ویرایش" : "Edit"}
+                {isRTL ? t.Edit.rtl : t.Edit.en}
               </Link>
             </li>
 
@@ -130,7 +131,7 @@ export default function PostActionsMenu({
                 className="block px-3 py-2 hover:bg-slate-100"
                 dir={isRTL ? "rtl" : "ltr"}
               >
-                {isRTL ? "پیش‌نمایش" : "Preview"}
+                {isRTL ? t.Preview.rtl : t.Preview.en}
               </Link>
             </li>
 

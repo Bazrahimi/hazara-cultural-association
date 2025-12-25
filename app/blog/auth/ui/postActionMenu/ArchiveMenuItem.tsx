@@ -1,4 +1,7 @@
+import { ManagePostTrans } from "@/app/lib/translation";
 import { ActionMenuItemProps } from "./PostActionsMenu";
+
+const t = ManagePostTrans.action;
 export default function ArchiveMenuItem({
   isRTL,
   postId,
@@ -16,7 +19,7 @@ export default function ArchiveMenuItem({
             isRTL ? "text-right" : "text-left"
           }`}
         >
-          {isRTL ? "آرشیف" : "Archive"}
+          {isRTL ? t.Archive.rtl : t.Archive.en}
         </button>
       </form>
     </li>

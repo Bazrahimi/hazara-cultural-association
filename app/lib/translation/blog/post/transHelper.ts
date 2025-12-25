@@ -8,6 +8,7 @@ export const CreateNewPost = {
   rtl: "ایجاد یک مطلب جدید",
 };
 export const Delete = { en: "Delete", rtl: "حذف" };
+export const DeletePermanently = { en: "Delete Permanently", rtl: "حذف کامل" };
 export const Draft = { en: "Draft", rtl: "پیش‌نویس" };
 export const Drafted = { en: "Drafted", rtl: "پیش‌نویس شده" };
 export const draftedOn = { en: "Drafted On: ", rtl: "تاریخ پیش‌نویس: " };
@@ -34,7 +35,7 @@ export const Published = { en: "Published", rtl: "منتشر شده" };
 export const PublishedOn = { en: "Published On: ", rtl: "تاریخ نشر: " };
 export const RemoveFromHomepage = {
   en: "Remove from Homepage",
-  rtl: "از صفحه اصلی بردار",
+  rtl: "حذف از صفحه اصلی",
 };
 export const Save = { en: "Save", rtl: "ذخیره" };
 export const Saving = { en: "Saving…", rtl: "در حال ذخیره کردن…" };
