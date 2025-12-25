@@ -14,6 +14,7 @@ const ManageControlGate = async ({
   updatedAt,
   userId,
 }: Props) => {
+  console.log("isRTL", isRTL)
   const session = await getSession();
   const canManage =
     !!session && (session.roles.includes("admin") || session.userId === userId);

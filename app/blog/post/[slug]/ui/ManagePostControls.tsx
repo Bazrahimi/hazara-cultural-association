@@ -11,7 +11,7 @@ export type PostActionMenuProps = {
   slug: string;
   statusCode: StatusCode;
   isFeatured: boolean;
-  isRTL?: boolean;
+  isRTL: boolean;
   updatedAt: string; // formatted e.g. "22 NOV 2025"
 };
 

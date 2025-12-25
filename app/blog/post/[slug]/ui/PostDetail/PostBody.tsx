@@ -74,6 +74,7 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
       <div className="mt-6">
         <Suspense fallback={null}>
           <ManageControlGate
+          isRTL ={post.isRtl}
             postId={post.postId}
             statusCode={post.statusCode}
             isFeatured={post.isFeatured}
