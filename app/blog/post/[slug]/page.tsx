@@ -43,7 +43,7 @@ const page = async ({
       href: BlogRoutes.categoryById(categoryId),
     },
     {
-      label: truncateTitle(slugInfo?.title, 40),
+      label: slugInfo?.title, 
       href: "#",
       active: true,
     },
