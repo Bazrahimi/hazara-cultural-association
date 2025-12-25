@@ -45,6 +45,7 @@ export default function PostsPanel({
                 </Header>
 
                 <PostActionsMenu
+                categoryId={post.categoryId}
                   postId={post.postId}
                   slug={post.slug}
                   statusCode={post.statusCode}

@@ -3,13 +3,13 @@
 import type { StatusCode } from "@/app/blog/post/lib/definitions";
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import { ManagePostTrans } from "@/app/lib/translation/";
-import Link from "next/link";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
-import ActionMenuItem from "./ActionMenuItem";
+import MenuItem from "./MenuItem";
 
 const t = ManagePostTrans.action;
 
+import { CategoryId } from "@/app/blog/lib/category";
 import {
   archivePostAction,
   deletePostAction,
@@ -25,6 +25,7 @@ type Props = {
   slug: string;
   statusCode: StatusCode;
   isFeatured?: boolean;
+  categoryId?: CategoryId;
 };
 
 export default function PostActionsMenu({
@@ -33,6 +34,7 @@ export default function PostActionsMenu({
   slug,
   statusCode,
   isFeatured,
+  categoryId,
 }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -126,38 +128,35 @@ export default function PostActionsMenu({
         >
           <ul className="py-1 text-sm text-slate-700 space-y-1">
             {/* Edit always available */}
-            <li>
-              <Link
-                href={BlogRoutes.edit(postId)}
-                className="block px-3 py-2 hover:bg-slate-100"
-                dir={isRTL ? "rtl" : "ltr"}
-              >
-                {isRTL ? t.Edit.rtl : t.Edit.en}
-              </Link>
-            </li>
 
-            {/* Preview always available */}
-            <li>
-              <Link
-                href={BlogRoutes.post(slug)}
-                className="block px-3 py-2 hover:bg-slate-100"
-                dir={isRTL ? "rtl" : "ltr"}
-              >
-                {isRTL ? t.Preview.rtl : t.Preview.en}
-              </Link>
-            </li>
+            <MenuItem
+              type="link"
+              isRTL={isRTL}
+              href={BlogRoutes.edit(postId)}
+              label={isRTL ? t.Edit.rtl : t.Edit.en}
+            />
+            {categoryId && (
+              <MenuItem
+                type="link"
+                isRTL={isRTL}
+                href={`${BlogRoutes.post(slug)}?catId=${categoryId}&rtl=${isRTL ? 1 : 0}&id=${postId}`}
+                label={isRTL ? t.Preview.rtl : t.Preview.en}
+              />
+            )}
 
             {/* Status-based actions */}
             {statusCode === POST_STATUS.DRAFTED && (
               <>
-                <ActionMenuItem
+                <MenuItem
+                  type="action"
                   label={labels.publish}
                   postId={postId}
                   action={publishAction}
                   isPending={publishing}
                   isRTL={isRTL}
                 />
-                <ActionMenuItem
+                <MenuItem
+                  type="action"
                   label={labels.delete}
                   postId={postId}
                   action={deleteAction}
@@ -169,14 +168,16 @@ export default function PostActionsMenu({
 
             {statusCode === POST_STATUS.PUBLISHED && (
               <>
-                <ActionMenuItem
+                <MenuItem
+                  type="action"
                   label={labels.feature}
                   postId={postId}
                   action={featureAction}
                   isPending={featuring}
                   isRTL={isRTL}
                 />
-                <ActionMenuItem
+                <MenuItem
+                  type="action"
                   label={labels.archive}
                   postId={postId}
                   action={archiveAction}
@@ -188,14 +189,16 @@ export default function PostActionsMenu({
 
             {statusCode === POST_STATUS.ARCHIVED && (
               <>
-                <ActionMenuItem
+                <MenuItem
+                  type="action"
                   label={labels.publish}
                   postId={postId}
                   action={publishAction}
                   isPending={publishing}
                   isRTL={isRTL}
                 />
-                <ActionMenuItem
+                <MenuItem
+                  type="action"
                   label={labels.delete}
                   postId={postId}
                   action={deleteAction}
@@ -210,11 +213,3 @@ export default function PostActionsMenu({
     </div>
   );
 }
-
-export type ActionMenuItemProps = {
-  isRTL: boolean;
-  postId: number;
-  isPending: boolean;
-  action: (formData: FormData) => void;
-  isFeatured?: boolean;
-};

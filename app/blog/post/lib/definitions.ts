@@ -1,3 +1,5 @@
+import { CategoryId } from "../../lib/category";
+
 export const POST_STATUS = {
   DRAFTED: 1,
   PUBLISHED: 2,
@@ -21,7 +23,7 @@ type PostDbRow = {
   created_at: string; // timestamptz
   updated_at: string; // timestamptz
   is_rtl: boolean;
-  category_id: number; // smallint but number in TS
+  category_id: CategoryId
 };
 
 // 1) Convert "event_date" -> "eventDate"
