@@ -120,8 +120,8 @@ export default function PostActionsMenu({
       </button>
 
       {open && (
-        <div className="absolute z-30 w-40 rounded-lg border bg-white shadow-lg right-0">
-          <ul className="py-1 text-sm text-slate-700 space-y-1">
+        <div className="absolute z-30 w-50 rounded-lg border bg-hca-blue-main shadow-lg right-0">
+          <ul className="py-1 text-sm text-gray-100 space-y-1">
             {/* Edit always available */}
 
             <MenuItem

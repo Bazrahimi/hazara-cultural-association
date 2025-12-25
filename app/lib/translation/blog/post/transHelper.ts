@@ -38,6 +38,11 @@ export const RemoveFromHomepage = {
   en: "Remove from Homepage",
   rtl: "حذف از صفحه اصلی",
 };
+export const sendingRequest = {
+  en: "Sending request...",
+  rtl: "در حال ارسال..."
+};
+
 export const Save = { en: "Save", rtl: "ذخیره" };
 export const Saving = { en: "Saving…", rtl: "در حال ذخیره کردن…" };
 export const Status = { en: "Status", rtl: "وضعیت" };

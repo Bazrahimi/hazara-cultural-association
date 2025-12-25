@@ -1,14 +1,15 @@
 "use client";
 
-import clsx from "clsx";
+import { cn } from "@/app/lib/helper";
 import Link from "next/link";
 import { ImSpinner10 } from "react-icons/im";
+import { sendingRequest } from "@/app/lib/translation/blog/post/transHelper";
 
 type CommonProps = {
   isRTL: boolean;
   label: string;
   className?: string;
-  onSelect?: () => void; // close menu immediately if you want
+  onSelect?: () => void;
 };
 
 type LinkItemProps = CommonProps & {
@@ -26,25 +27,39 @@ type ActionItemProps = CommonProps & {
 export type MenuItemProps = LinkItemProps | ActionItemProps;
 
 export default function MenuItem(props: MenuItemProps) {
-  const base = clsx(
-    "w-full px-3 py-2 text-sm rounded-md cursor-pointer",
-    "hover:bg-slate-100 transition",
-    "disabled:opacity-60",
+  const base = cn(
+    "w-full px-3 py-2 text-sm rounded-md cursor-pointer transition",
+    "hover:bg-hca-blue-light disabled:opacity-60",
+    // alignment
     props.isRTL ? "text-right" : "text-left",
     props.className
   );
 
+  const loadingLabel = props.isRTL ? sendingRequest.rtl : sendingRequest.en
+
+  const labelText =
+    props.type === "action" && props.isPending ? loadingLabel : props.label;
+
   const content = (
     <span
-      className={clsx(
-        "inline-flex w-full items-center justify-between gap-2",
+      className={cn(
+        "inline-flex w-full items-center gap-2",
+        // keep spinner at the edge
+        "justify-between",
         props.isRTL && "flex-row-reverse"
       )}
     >
-      <span className="truncate">{props.label}</span>
+      <span
+        className={cn(
+          "flex-1 truncate",
+          props.isRTL ? "text-right" : "text-left"
+        )}
+      >
+        {labelText}
+      </span>
 
       {props.type === "action" && props.isPending && (
-        <ImSpinner10 className="h-4 w-4 animate-spin text-slate-500" />
+        <ImSpinner10 className="h-4 w-4 shrink-0 animate-spin text-slate-500" />
       )}
     </span>
   );
@@ -56,7 +71,7 @@ export default function MenuItem(props: MenuItemProps) {
           href={props.href}
           dir={props.isRTL ? "rtl" : "ltr"}
           onClick={props.onSelect}
-          className={clsx("block", base)}
+          className={cn("block", base)}
         >
           {content}
         </Link>
@@ -71,8 +86,9 @@ export default function MenuItem(props: MenuItemProps) {
         <button
           type="submit"
           dir={props.isRTL ? "rtl" : "ltr"}
-          disabled={props.isPending}
-          className={clsx("block", base)}
+          disabled={props.type === "action" ? props.isPending : false}
+          aria-busy={props.type === "action" ? props.isPending : undefined}
+          className={cn("block", base)}
         >
           {content}
         </button>
