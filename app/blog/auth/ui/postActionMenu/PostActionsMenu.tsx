@@ -120,12 +120,7 @@ export default function PostActionsMenu({
       </button>
 
       {open && (
-        <div
-          className={`
-            absolute z-30 w-40 rounded-lg border bg-white shadow-lg
-            ${isRTL ? "left-0" : "right-0"}
-          `}
-        >
+        <div className="absolute z-30 w-40 rounded-lg border bg-white shadow-lg right-0">
           <ul className="py-1 text-sm text-slate-700 space-y-1">
             {/* Edit always available */}
 
