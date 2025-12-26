@@ -13,11 +13,13 @@ import {
 
 import { notFound } from "next/navigation";
 
-export const firstOrNotFound = <T,>(rows: T[]): T => {
+export const firstOrNotFound = <T>(rows: T[]): T => {
   const row = rows[0];
   if (!row) notFound();
   return row;
 };
+
+const firstOrNull = <T,>(rows: T[]) => rows[0] ?? null;
 
 
 export async function getPostById(postId: number): Promise<PostRow> {
@@ -263,7 +265,7 @@ export const insertPostRow = async (opts: {
    ${RETURNING_INSERT_UPDATE_POST}
   `;
 
-  return rows[0] ?? null;
+  return firstOrNull(rows);
 };
 
 export async function updatePostRow(opts: {
@@ -293,12 +295,11 @@ export async function updatePostRow(opts: {
     ${RETURNING_INSERT_UPDATE_POST}
   `;
 
-  return rows[0] ?? null;
+  return firstOrNull(rows);
 }
 
 const whereBloggerOrAdmin = ({ postId, isAdmin, userId }: PostAuthCtx) =>
   sql`WHERE id = ${postId} AND (${isAdmin} OR user_id = ${userId})`;
-
 
 export const toggleFeatured = async (ctx: PostAuthCtx) => {
   const rows = await sql<{ is_featured: boolean }[]>`
@@ -307,7 +308,7 @@ export const toggleFeatured = async (ctx: PostAuthCtx) => {
     ${whereBloggerOrAdmin(ctx)}
     RETURNING is_featured;
   `;
-  return rows[0]?.is_featured ?? null; // null => not updated / not found / not allowed
+  return firstOrNull(rows); 
 };
 
 export async function setStatusCode(ctx: PostAuthCtx, statusCode: StatusCode) {
@@ -317,7 +318,7 @@ export async function setStatusCode(ctx: PostAuthCtx, statusCode: StatusCode) {
     ${whereBloggerOrAdmin(ctx)}
     RETURNING status_code;
   `;
-  return rows[0]?.status_code ?? null;
+  return firstOrNull(rows);
 }
 
 export const deletePost = async (ctx: PostAuthCtx) => {
@@ -326,5 +327,5 @@ export const deletePost = async (ctx: PostAuthCtx) => {
     ${whereBloggerOrAdmin(ctx)}
     RETURNING id;
   `;
-  return rows[0]?.id ?? null;
+  return firstOrNull(rows);
 };
