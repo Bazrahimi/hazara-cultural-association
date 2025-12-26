@@ -11,12 +11,8 @@ import MenuItem from "./MenuItem";
 const t = ManagePostTrans.action;
 
 import { CategoryId } from "@/app/blog/lib/category";
-import {
-  archivePostAction,
-  deletePostAction,
-  featurePostAction,
-  publishPostAction,
-} from "@/app/blog/post/lib/action";
+import { PostAction } from "@/app/blog/post/lib/action";
+import { PostActionIntent } from "@/app/blog/post/lib/actionHelper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { setNotification } from "@/app/u/auth/lib/setNotification";
 
@@ -39,23 +35,9 @@ export default function PostActionsMenu({
 }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
-
-  // Server action states
-  const [publishState, publishAction, publishing] = useActionState(
-    publishPostAction,
-    undefined
-  );
-  const [archiveState, archiveAction, archiving] = useActionState(
-    archivePostAction,
-    undefined
-  );
-  const [deleteState, deleteAction, deleting] = useActionState(
-    deletePostAction,
-    undefined
-  );
-  const [featureState, featureAction, featuring] = useActionState(
-    featurePostAction,
-    undefined
+  const [state, formAction, isPending] = useActionState(PostAction, undefined);
+  const [pendingIntent, setPendingIntent] = useState<PostActionIntent | null>(
+    null
   );
 
   // Close menu when clicking outside
@@ -70,33 +52,19 @@ export default function PostActionsMenu({
   }, []);
 
   useEffect(() => {
-    // Publish
-    if (publishState?.ok) {
-      setNotification(publishState.message);
-      setOpen(false);
-      return;
-    }
+    if (!state) return;
 
-    // Archive
-    if (archiveState?.ok) {
-      setNotification(archiveState.message);
+    if (state.ok) {
+      setNotification(state.message);
       setOpen(false);
-      return;
+    } else if (state.message) {
+      setNotification(state.message);
     }
+  }, [state]);
 
-    // Delete
-    if (deleteState?.ok) {
-      setNotification(deleteState.message);
-      setOpen(false);
-    }
-
-    // Feature / Unfeature
-    if (featureState?.ok) {
-      setNotification(featureState.message);
-      setOpen(false);
-      return;
-    }
-  }, [publishState, archiveState, deleteState, featureState]);
+  useEffect(() => {
+    if (!isPending) setPendingIntent(null);
+  }, [isPending]);
 
   const labels = {
     publish: isRTL ? t.Publish.rtl : t.Publish.en,
@@ -116,10 +84,9 @@ export default function PostActionsMenu({
       <Button
         size="xs"
         onClick={() => setOpen((o) => !o)}
-        aria-haspopup='menu'
+        aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Post Actions"
-
         className="flex items-center gap-1.5"
       >
         <span>Post Action</span>
@@ -154,17 +121,21 @@ export default function PostActionsMenu({
                   type="action"
                   label={labels.publish}
                   postId={postId}
-                  action={publishAction}
-                  isPending={publishing}
+                  action={formAction}
+                  isPending={isPending && pendingIntent === "publish"}
                   isRTL={isRTL}
+                  intent="publish"
+                  onSelect={() => setPendingIntent("publish")}
                 />
                 <MenuItem
                   type="action"
                   label={labels.delete}
                   postId={postId}
-                  action={deleteAction}
-                  isPending={deleting}
+                  action={formAction}
+                  isPending={isPending && pendingIntent === "delete"}
                   isRTL={isRTL}
+                  intent="delete"
+                   onSelect={() => setPendingIntent("delete")}
                 />
               </>
             )}
@@ -175,17 +146,21 @@ export default function PostActionsMenu({
                   type="action"
                   label={labels.feature}
                   postId={postId}
-                  action={featureAction}
-                  isPending={featuring}
+                  action={formAction}
+                  isPending={isPending && pendingIntent === "feature"}
                   isRTL={isRTL}
+                  intent="feature"
+                   onSelect={() => setPendingIntent("feature")}
                 />
                 <MenuItem
                   type="action"
                   label={labels.archive}
                   postId={postId}
-                  action={archiveAction}
-                  isPending={archiving}
+                  action={formAction}
+                  isPending={isPending && pendingIntent === "archive"}
                   isRTL={isRTL}
+                  intent="archive"
+                   onSelect={() => setPendingIntent("archive")}
                 />
               </>
             )}
@@ -196,17 +171,21 @@ export default function PostActionsMenu({
                   type="action"
                   label={labels.publish}
                   postId={postId}
-                  action={publishAction}
-                  isPending={publishing}
+                  action={formAction}
+                  isPending={isPending && pendingIntent === "publish"}
                   isRTL={isRTL}
+                  intent="publish"
+                   onSelect={() => setPendingIntent("publish")}
                 />
                 <MenuItem
                   type="action"
                   label={labels.delete}
                   postId={postId}
-                  action={deleteAction}
-                  isPending={deleting}
+                  action={formAction}
+                  isPending={isPending && pendingIntent === "delete"}
                   isRTL={isRTL}
+                  intent="delete"
+                   onSelect={() => setPendingIntent("delete")}
                 />
               </>
             )}

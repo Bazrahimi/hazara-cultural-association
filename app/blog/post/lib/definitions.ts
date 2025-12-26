@@ -92,5 +92,5 @@ export type PostInsertUpdateSuccessDBReturn = Pick<
   "postId" | "slug" | "isFeatured" | "statusCode" | "categoryId" | "isRtl"
 >;
 
-// export type ActionMode = "create" | "edit";
+
 

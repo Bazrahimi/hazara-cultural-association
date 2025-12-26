@@ -1,9 +1,10 @@
 "use client";
 
+import type { PostActionIntent } from "@/app/blog/post/lib/actionHelper";
 import { cn } from "@/app/lib/helper";
+import { sendingRequest } from "@/app/lib/translation/blog/post/transHelper";
 import Link from "next/link";
 import { ImSpinner10 } from "react-icons/im";
-import { sendingRequest } from "@/app/lib/translation/blog/post/transHelper";
 
 type CommonProps = {
   isRTL: boolean;
@@ -22,6 +23,7 @@ type ActionItemProps = CommonProps & {
   postId: number;
   action: (formData: FormData) => void;
   isPending: boolean;
+  intent: PostActionIntent;
 };
 
 export type MenuItemProps = LinkItemProps | ActionItemProps;
@@ -35,7 +37,7 @@ export default function MenuItem(props: MenuItemProps) {
     props.className
   );
 
-  const loadingLabel = props.isRTL ? sendingRequest.rtl : sendingRequest.en
+  const loadingLabel = props.isRTL ? sendingRequest.rtl : sendingRequest.en;
 
   const labelText =
     props.type === "action" && props.isPending ? loadingLabel : props.label;
@@ -83,12 +85,14 @@ export default function MenuItem(props: MenuItemProps) {
     <li>
       <form action={props.action} onSubmit={props.onSelect}>
         <input type="hidden" name="postId" value={props.postId} />
+        <input type="hidden" name="intent" value={props.intent} />
         <button
           type="submit"
           dir={props.isRTL ? "rtl" : "ltr"}
           disabled={props.type === "action" ? props.isPending : false}
           aria-busy={props.type === "action" ? props.isPending : undefined}
           className={cn("block", base)}
+          onSelect={() => onselect}
         >
           {content}
         </button>

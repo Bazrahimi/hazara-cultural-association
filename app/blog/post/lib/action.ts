@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import { canCreateOrEditPosts } from "../../lib/permissions";
 import {
   parseBlogPostForm,
+  parsePostActionIntent,
   PostActionState,
   postFailure,
   postSuccess,
@@ -188,8 +189,7 @@ export async function updatePost(
   }
 }
 
-// FEATURE TOGGLE
-export const featurePostAction = async (
+export const PostAction = async (
   _prev: PostActionState | undefined,
   formData: FormData
 ): Promise<PostActionState> => {
@@ -197,146 +197,81 @@ export const featurePostAction = async (
   if (!session) {
     return postFailure("You must be logged in.");
   }
-
   const postId = parsePostId(formData);
   if (!postId) {
     return postFailure("Invalid post ID.");
   }
 
+  const intent = parsePostActionIntent(formData);
+  if (!intent) return postFailure("invalid action");
+
   const isAdmin = session.roles.includes("admin");
   const userId = session.userId;
 
   try {
-    const rows = await sql<{ is_featured: boolean }[]>`
-      UPDATE blog_posts
-      SET is_featured = NOT is_featured
-      WHERE id = ${postId}
-        AND (${isAdmin} OR user_id = ${userId})
-      RETURNING is_featured;
-    `;
+    if (intent === "feature") {
+      const rows = await sql<{ is_featured: boolean }[]>`
+        UPDATE blog_posts
+        SET is_featured = NOT is_featured
+        WHERE id = ${postId}
+          AND (${isAdmin} OR user_id = ${userId})
+        RETURNING is_featured;
+      `;
 
-    // If no row was updated: not authorised or post not found
-    if (rows.length === 0) {
-      return postFailure(
-        "Not authorized to manage this post or post not found."
+      if (rows.length === 0) {
+        return postFailure(
+          "Not authorized to manage this post or post not found."
+        );
+      }
+
+      const nowFeatured = rows[0].is_featured === true;
+      revalidatePath(BlogRoutes.manageMyPosts());
+      return postSuccess(
+        nowFeatured ? "Published to homepage." : "Removed from homepage."
       );
     }
 
-    // This is the *new* value after toggle
-    const nowFeatured = rows[0].is_featured === true;
+    if (intent === "publish") {
+      const rows = await sql<{ status_code: number }[]>`
+        UPDATE blog_posts
+        SET status_code = ${POST_STATUS.PUBLISHED}
+        WHERE id = ${postId}
+          AND (${isAdmin} OR user_id = ${userId})
+        RETURNING status_code;
+      `;
 
-    revalidatePath(BlogRoutes.manageMyPosts());
+      if (rows.length === 0) {
+        return postFailure(
+          "Not authorized to publish this post or post not found."
+        );
+      }
 
-    return postSuccess(
-      nowFeatured ? "Published to homepage." : "Removed from homepage."
-    );
-  } catch (err) {
-    console.error("Failed to toggle featured", err);
-    return postFailure("Database error");
-  }
-};
-
-// PUBLISH
-export async function publishPostAction(
-  _prev: PostActionState | undefined,
-  formData: FormData
-): Promise<PostActionState> {
-  const session = await getSession();
-  if (!session) {
-    return postFailure("You must be logged in.");
-  }
-
-  const postId = parsePostId(formData);
-  if (!postId) {
-    return postFailure("Invalid post ID.");
-  }
-
-  const isAdmin = session.roles.includes("admin");
-  const userId = session.userId;
-
-  try {
-    const rows = await sql<{ statusCode: number }[]>`
-      UPDATE blog_posts 
-      SET status_code = ${POST_STATUS.PUBLISHED} 
-      WHERE id = ${postId}
-        AND (${isAdmin} OR user_id = ${userId})
-      RETURNING status_code;
-    `;
-
-    if (rows.length === 0) {
-      return postFailure(
-        "Not authorized to publish this post or post not found."
-      );
+      revalidatePath(BlogRoutes.manageMyPosts());
+      return postSuccess("Post published.");
     }
 
-    return postSuccess("Post published.");
-  } catch (err) {
-    console.error("Failed to publish post", err);
-    return postFailure("Database error.");
-  }
-}
+    if (intent === "archive") {
+      const rows = await sql<{ status_code: number }[]>`
+        UPDATE blog_posts
+        SET status_code = ${POST_STATUS.ARCHIVED}
+        WHERE id = ${postId}
+          AND (${isAdmin} OR user_id = ${userId})
+        RETURNING status_code;
+      `;
 
-// ARCHIVE
-export async function archivePostAction(
-  _prev: PostActionState | undefined,
-  formData: FormData
-): Promise<PostActionState> {
-  const session = await getSession();
-  if (!session) {
-    return postFailure("You must be logged in.");
-  }
+      if (rows.length === 0) {
+        return postFailure(
+          "Not authorized to archive this post or post not found."
+        );
+      }
 
-  const postId = parsePostId(formData);
-  if (!postId) {
-    return postFailure("Invalid post ID.");
-  }
-
-  const isAdmin = session.roles.includes("admin");
-  const userId = session.userId;
-
-  try {
-    const rows = await sql<{ statusCode: number }[]>`
-      UPDATE blog_posts 
-      SET status_code = ${POST_STATUS.ARCHIVED} 
-      WHERE id = ${postId}
-        AND (${isAdmin} OR user_id = ${userId})
-      RETURNING status_code "statusCode";
-    `;
-
-    if (rows.length === 0) {
-      return postFailure(
-        "Not authorized to archive this post or post not found."
-      );
+      revalidatePath(BlogRoutes.manageMyPosts());
+      return postSuccess("Post archived.");
     }
 
-    return postSuccess("Post archived.");
-  } catch (err) {
-    console.error("Failed to archive post", err);
-    return postFailure("Database error.");
-  }
-}
-
-// DELETE
-export async function deletePostAction(
-  _prev: PostActionState | undefined,
-  formData: FormData
-): Promise<PostActionState> {
-  const session = await getSession();
-  if (!session) {
-    return postFailure("You must be logged in.");
-  }
-
-  const postId = parsePostId(formData);
-  if (!postId) {
-    return postFailure("Invalid post ID.");
-  }
-
-  const isAdmin = session.roles.includes("admin");
-  const userId = session.userId;
-
-  try {
+    // intent === "delete"
     const rows = await sql<{ id: number }[]>`
-      DELETE FROM blog_posts 
+      DELETE FROM blog_posts
       WHERE id = ${postId}
         AND (${isAdmin} OR user_id = ${userId})
       RETURNING id;
@@ -347,10 +282,11 @@ export async function deletePostAction(
         "Not authorized to delete this post or post not found."
       );
     }
+
+    // You can either redirect, OR return success and let client refresh.
+    redirect(BlogRoutes.manageMyPosts());
   } catch (err) {
-    console.error("Failed to delete post", err);
+    console.error("postAction failed", err);
     return postFailure("Database error.");
   }
-
-  redirect(BlogRoutes.manageMyPosts());
-}
+};

@@ -46,6 +46,16 @@ export const parseBlogPostForm = (formData: FormData): ParseResult => {
   return { ok: false, errors: fieldErrors, normalizedData };
 };
 
+export type PostActionIntent = "publish" | "archive" | "delete" | "feature";
+export const parsePostActionIntent = (
+  formData: FormData
+): PostActionIntent | null => {
+  const v = formData.get("intent");
+  if (v === "publish" || v === "archive" || v === "delete" || v === "feature")
+    return v;
+  return null;
+};
+
 export type PostActionState = {
   ok: boolean;
   message: string;
