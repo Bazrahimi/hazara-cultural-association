@@ -87,10 +87,10 @@ export default function PostActionsMenu({
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Post Actions"
-        className="flex items-center gap-1.5"
+       className="inline-flex items-center gap-1 whitespace-nowrap"
       >
         <span>Post Action</span>
-        <IoEllipsisVertical className="w-5 h-5 text-slate-600" />
+        <IoEllipsisVertical className="w-5 h-5 text-slate-600 inline-flex" />
       </Button>
 
       {open && (
@@ -135,7 +135,7 @@ export default function PostActionsMenu({
                   isPending={isPending && pendingIntent === "delete"}
                   isRTL={isRTL}
                   intent="delete"
-                   onSelect={() => setPendingIntent("delete")}
+                  onSelect={() => setPendingIntent("delete")}
                 />
               </>
             )}
@@ -150,7 +150,7 @@ export default function PostActionsMenu({
                   isPending={isPending && pendingIntent === "feature"}
                   isRTL={isRTL}
                   intent="feature"
-                   onSelect={() => setPendingIntent("feature")}
+                  onSelect={() => setPendingIntent("feature")}
                 />
                 <MenuItem
                   type="action"
@@ -160,7 +160,7 @@ export default function PostActionsMenu({
                   isPending={isPending && pendingIntent === "archive"}
                   isRTL={isRTL}
                   intent="archive"
-                   onSelect={() => setPendingIntent("archive")}
+                  onSelect={() => setPendingIntent("archive")}
                 />
               </>
             )}
@@ -175,7 +175,7 @@ export default function PostActionsMenu({
                   isPending={isPending && pendingIntent === "publish"}
                   isRTL={isRTL}
                   intent="publish"
-                   onSelect={() => setPendingIntent("publish")}
+                  onSelect={() => setPendingIntent("publish")}
                 />
                 <MenuItem
                   type="action"
@@ -185,7 +185,7 @@ export default function PostActionsMenu({
                   isPending={isPending && pendingIntent === "delete"}
                   isRTL={isRTL}
                   intent="delete"
-                   onSelect={() => setPendingIntent("delete")}
+                  onSelect={() => setPendingIntent("delete")}
                 />
               </>
             )}

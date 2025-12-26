@@ -265,7 +265,7 @@ export const insertPostRow = async (opts: {
    ${RETURNING_INSERT_UPDATE_POST}
   `;
 
-  return firstOrNull(rows);
+  return rows[0];
 };
 
 export async function updatePostRow(opts: {
@@ -295,7 +295,7 @@ export async function updatePostRow(opts: {
     ${RETURNING_INSERT_UPDATE_POST}
   `;
 
-  return firstOrNull(rows);
+  return rows[0];
 }
 
 const whereBloggerOrAdmin = ({ postId, isAdmin, userId }: PostAuthCtx) =>
