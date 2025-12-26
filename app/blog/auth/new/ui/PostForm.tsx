@@ -25,7 +25,7 @@ type Props = {
     prev: PostState | undefined,
     formData: FormData
   ) => Promise<PostState>;
-  initialData?: Partial<PostInput> & { id?: number };
+  initialData?: Partial<PostInput> & { postId?: number };
 };
 
 export default function PostForm({ mode, action, initialData }: Props) {
@@ -103,8 +103,8 @@ export default function PostForm({ mode, action, initialData }: Props) {
       <FormHeader mode={mode} isRTL={isRTL} setIsRTL={setIsRTL} />
 
       <form action={formAction} className="space-y-6" noValidate>
-        {mode === "edit" && initialData?.id && (
-          <input type="hidden" name="id" value={initialData.id} />
+        {mode === "edit" && initialData?.postId && (
+          <input type="hidden" name="postId" value={initialData.postId} />
         )}
 
         {/* is_rtl is always sent as "true"/"false" */}

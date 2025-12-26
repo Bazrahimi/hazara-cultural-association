@@ -136,7 +136,7 @@ export const getEditPostById = async ({
 }): Promise<EditPostRow> => {
   const rows = await sql<EditPostRow[]>`
     SELECT
-      id               AS postId,
+      id               AS "postId",
       title,
       content_html     AS "contentHtml",
       category_id      AS "categoryId",

@@ -24,7 +24,6 @@ export type PostActionMenuProps = {
 
 export function ManagePostControls({
   postId,
-  slug,
   statusCode,
   isFeatured,
   isRTL = false,
@@ -78,7 +77,6 @@ export function ManagePostControls({
         <PostActionsMenu
           isRTL={isRTL}
           postId={postId}
-          slug={slug}
           statusCode={statusCode}
           isFeatured={isFeatured}
         />
