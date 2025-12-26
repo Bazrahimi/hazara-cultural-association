@@ -3,6 +3,7 @@
 import type { StatusCode } from "@/app/blog/post/lib/definitions";
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import { ManagePostTrans } from "@/app/lib/translation/";
+import { Button } from "@/app/ui/global/components";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import MenuItem from "./MenuItem";
@@ -112,12 +113,18 @@ export default function PostActionsMenu({
 
   return (
     <div ref={rootRef} className="relative inline-block">
-      <button
+      <Button
+        size="xs"
         onClick={() => setOpen((o) => !o)}
-        className="p-1 rounded hover:bg-slate-200 transition"
+        aria-haspopup='menu'
+        aria-expanded={open}
+        aria-label="Post Actions"
+
+        className="flex items-center gap-1.5"
       >
+        <span>Post Action</span>
         <IoEllipsisVertical className="w-5 h-5 text-slate-600" />
-      </button>
+      </Button>
 
       {open && (
         <div className="absolute z-30 w-50 rounded-lg border bg-hca-blue-main shadow-lg right-0">
