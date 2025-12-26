@@ -13,6 +13,13 @@ import {
 
 import { notFound } from "next/navigation";
 
+export const firstOrNotFound = <T,>(rows: T[]): T => {
+  const row = rows[0];
+  if (!row) notFound();
+  return row;
+};
+
+
 export async function getPostById(postId: number): Promise<PostRow> {
   const rows = await sql<PostRow[]>`
     SELECT
@@ -46,11 +53,7 @@ export async function getPostById(postId: number): Promise<PostRow> {
     LIMIT 1;
   `;
 
-  const post = rows[0];
-
-  if (!post) {
-    notFound();
-  }
+  const post = firstOrNotFound(rows);
 
   return post;
 }
@@ -293,9 +296,9 @@ export async function updatePostRow(opts: {
   return rows[0] ?? null;
 }
 
-const whereBloggerOrAdmin = ({ postId, isAdmin, userId }: PostAuthCtx) => {
-  return sql`WHERE id =${postId} AND (${isAdmin} OR user_id = ${userId})`;
-};
+const whereBloggerOrAdmin = ({ postId, isAdmin, userId }: PostAuthCtx) =>
+  sql`WHERE id = ${postId} AND (${isAdmin} OR user_id = ${userId})`;
+
 
 export const toggleFeatured = async (ctx: PostAuthCtx) => {
   const rows = await sql<{ is_featured: boolean }[]>`
