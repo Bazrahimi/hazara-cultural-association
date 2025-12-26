@@ -53,27 +53,16 @@ export const cardImgPlaceholder = (categoryId: CategoryId, isRTL: boolean) => {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 };
 
-export type SlugInfo = {
-  title: string;
-  postId: number;
-}
+export const extractTitleFromSlug = (param?: string | null): string => {
+  if (!param) return "Post";
 
-export const extractPostFromSlug = (
-  param: string
-): SlugInfo | null => {
-  if (!param) return null;
+  try {
+    const title = decodeURIComponent(param).replace(/-/g, " ").trim();
 
-  const match = param.match(/^(.*)-(\d+)$/);
-  if (!match) return null;
-
-  const [, rawTitle, postIdStr] = match;
-
-  const postId = Number(postIdStr);
-  if (!Number.isInteger(postId) || postId <= 0) return null;
-
-  const title = decodeURIComponent(rawTitle).replace(/-/g, " ").trim();
-
-  return { postId, title };
+    return title || "Post";
+  } catch {
+    return "Post";
+  }
 };
 
 export function truncateTitle(text: string, maxChar = 4) {

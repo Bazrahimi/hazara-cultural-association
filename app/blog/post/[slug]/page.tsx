@@ -5,7 +5,7 @@ import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getCategoryLabel } from "../../lib/category";
-import { extractPostFromSlug } from "../../lib/helper";
+import { extractTitleFromSlug } from "../../lib/helper";
 import PostBody from "./ui/PostDetail/PostBody";
 import PostShell from "./ui/PostDetail/PostShell";
 
@@ -22,10 +22,12 @@ const page = async ({
   const { catId, rtl, id } = await searchParams;
   const categoryId = Number(catId);
 
+
   const isRTL = rtl === "1";
 
-  const slugInfo = extractPostFromSlug(slug);
-  if (!slugInfo) return notFound();
+  const title = extractTitleFromSlug(slug);
+
+
   const categoryLabel = getCategoryLabel(categoryId, isRTL);
   const breadcrumbs: Breadcrumb[] = [
     {
@@ -43,7 +45,7 @@ const page = async ({
       href: BlogRoutes.categoryById(categoryId),
     },
     {
-      label: slugInfo?.title,
+      label: title,
       href: "#",
       active: true,
     },
@@ -57,7 +59,7 @@ const page = async ({
           <PostShell
             isRTL={isRTL}
             categoryId={categoryId}
-            title={slugInfo.title}
+            title={title}
             categoryLabel={categoryLabel}
           />
         }
