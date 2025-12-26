@@ -10,6 +10,7 @@ import { getPostCount, getPostsByStatusCode } from "../../post/lib/data";
 import { POST_STATUS, type StatusCode } from "../../post/lib/definitions";
 import PostPanel from "./PostPanel";
 
+
 type Tab = { key: StatusCode; label: string };
 
 const hrefFor = (tab: StatusCode) => BlogRoutes.manageMyPosts({ tab });
@@ -36,6 +37,8 @@ export default async function PostsWrapper({ tab }: { tab: StatusCode }) {
     getPostCount(session.userId),
     getPostsByStatusCode({ statusCode: tab, userId: session.userId }),
   ]);
+
+  
 
   return (
     <div className="grid gap-6 lg:grid-cols-[260px_1fr]">

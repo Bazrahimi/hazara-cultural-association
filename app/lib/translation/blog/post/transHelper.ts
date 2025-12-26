@@ -34,13 +34,15 @@ export const Preview = { en: "Preview", rtl: "نمایش" };
 export const Publish = { en: "Publish", rtl: "نشر" };
 export const Published = { en: "Published", rtl: "منتشر شده" };
 export const PublishedOn = { en: "Published On: ", rtl: "تاریخ نشر: " };
+export const postAction = { en: "Post Actions", rtl: "اقدامات پست" };
+
 export const RemoveFromHomepage = {
   en: "Remove from Homepage",
   rtl: "حذف از صفحه اصلی",
 };
 export const sendingRequest = {
   en: "Sending request...",
-  rtl: "در حال ارسال..."
+  rtl: "در حال ارسال...",
 };
 
 export const Save = { en: "Save", rtl: "ذخیره" };

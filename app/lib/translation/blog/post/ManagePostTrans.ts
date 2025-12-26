@@ -3,22 +3,20 @@ import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import {
   Archive,
   Archived,
-  archivedOn,
   DeletePermanently,
   Drafted,
   draftedOn,
   Edit,
   FeaturedOnHomePage,
   FeatureToHomepage,
+  postAction,
   Preview,
   Publish,
   Published,
-  PublishedOn,
   RemoveFromHomepage,
   Status,
   UpdatedOn,
 } from "./transHelper";
-import { updatePost } from "@/app/blog/post/lib/action";
 
 export const ManagePostTrans = {
   heading: { en: "Manage this post", rtl: "مدیریت این مطلب" },
@@ -45,6 +43,7 @@ export const ManagePostTrans = {
     [POST_STATUS.ARCHIVED]: UpdatedOn,
   },
   action: {
+    button: postAction,
     Edit: Edit,
     Preview: Preview,
     FeatureToHomepage: FeatureToHomepage,

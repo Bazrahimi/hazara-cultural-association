@@ -4,6 +4,7 @@ import type { StatusCode } from "@/app/blog/post/lib/definitions";
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import { ManagePostTrans } from "@/app/lib/translation/";
 import { Button } from "@/app/ui/global/components";
+import { P } from "@/app/ui/global/paragraph";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import MenuItem from "./MenuItem";
@@ -13,6 +14,7 @@ const t = ManagePostTrans.action;
 import { CategoryId } from "@/app/blog/lib/category";
 import { PostAction } from "@/app/blog/post/lib/action";
 import { PostActionIntent } from "@/app/blog/post/lib/actionHelper";
+import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { setNotification } from "@/app/u/auth/lib/setNotification";
 
@@ -31,7 +33,7 @@ export default function PostActionsMenu({
   statusCode,
   isFeatured,
   categoryId,
-  slug
+  slug,
 }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -87,14 +89,19 @@ export default function PostActionsMenu({
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Post Actions"
-       className="inline-flex items-center gap-1 whitespace-nowrap"
+        className="inline-flex items-center gap-1 whitespace-nowrap"
       >
-        <span>Post Action</span>
+        <P> {isRTL ? t.button.rtl : t.button.en}</P>
         <IoEllipsisVertical className="w-5 h-5 text-slate-600 inline-flex" />
       </Button>
 
       {open && (
-        <div className="absolute z-30 w-50 rounded-lg border bg-hca-blue-main shadow-lg right-0">
+        <div
+          className={cn(
+            "absolute z-30 w-50 rounded-lg border bg-hca-blue-main shadow-lg",
+            isRTL ? "left-0" : "right-0"
+          )}
+        >
           <ul className="py-1 text-sm text-gray-100 space-y-1">
             {/* Edit always available */}
 
@@ -105,7 +112,7 @@ export default function PostActionsMenu({
               label={isRTL ? t.Edit.rtl : t.Edit.en}
               onSelect={() => setOpen(false)}
             />
-            {categoryId && (
+            {statusCode === POST_STATUS.PUBLISHED && (
               <MenuItem
                 type="link"
                 isRTL={isRTL}

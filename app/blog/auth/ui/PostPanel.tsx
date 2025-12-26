@@ -1,6 +1,10 @@
 // app/blog/auth/ui/PostPanel.tsx
 
+import { cn } from "@/app/lib/helper";
+import { BlogRoutes } from "@/app/lib/routes";
 import { PostListConfigTrans } from "@/app/lib/translation";
+import { Preview } from "@/app/lib/translation/blog/post/transHelper";
+import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import type { PostsListRow } from "../../post/lib/definitions";
@@ -31,42 +35,69 @@ export default function PostsPanel({
           <P className="text-slate-500" size="sm">
             {cfg.empty.en}
           </P>
+          <P dir="rtl">{cfg.empty.rtl}</P>
         </div>
       ) : (
         <div className="space-y-3">
           {posts.map((post) => (
             <article
               key={post.postId}
-              className={`rounded-lg border px-3 py-3 text-sm ${cfg.articleBorder} ${cfg.articleBg}`}
+              className={cn(
+                "rounded-lg border px-3 py-3 text-sm",
+                cfg.articleBorder,
+                cfg.articleBg
+              )}
             >
-              <div className="flex items-start justify-between">
+              <div
+                className="flex items-start justify-between gap-3"
+                dir={post.isRtl ? "rtl" : "ltr"}
+              >
                 <Header
                   as="h4"
                   size="xs"
-                  className="font-semibold text-slate-900"
+                  className="min-w-0 truncate font-semibold text-slate-900"
                 >
                   {post.title}
                 </Header>
 
-                <PostActionsMenu
-                  categoryId={post.categoryId}
-                  postId={post.postId}
-                  slug={post.slug}
-                  statusCode={post.statusCode}
-                  isRTL={post.isRtl}
-                  // only publish needs this
-                  {...(statusCode === POST_STATUS.PUBLISHED
-                    ? { isFeatured: post.isFeatured }
-                    : {})}
-                />
+                <div className="shrink-0">
+                  <PostActionsMenu
+                    categoryId={post.categoryId}
+                    postId={post.postId}
+                    slug={post.slug}
+                    statusCode={post.statusCode}
+                    isRTL={post.isRtl}
+                    {...(post.statusCode === POST_STATUS.PUBLISHED
+                      ? { isFeatured: post.isFeatured }
+                      : {})}
+                  />
+                </div>
               </div>
 
-              <P className="mt-1 text-slate-500" size="sm">
-                Updated at:{" "}
-                <span className="inline-block" dir="ltr">
-                  {post.updatedAt}
-                </span>
-              </P>
+              <div
+                dir={post.isRtl ? "rtl" : "ltr"}
+                className="mt-2 flex items-center justify-between gap-3"
+              >
+                <div className="flex items-center gap-2">
+                  <P className="text-gray-400" size="sm">
+                    {post.isRtl ? cfg.UpdatedOn.rtl : cfg.UpdatedOn.en}
+                  </P>
+                  <P className="text-gray-500" dir="ltr" size="sm">
+                    {post.updatedAt}
+                  </P>
+                </div>
+
+                {post.statusCode === POST_STATUS.PUBLISHED && (
+                  <Button
+                    size="xs"
+                    as="link"
+                    href={`${BlogRoutes.post(post.slug)}?catId=${post.categoryId}&rtl=${post.isRtl ? 1 : 0}&id=${post.postId}`}
+                    className="shrink-0"
+                  >
+                    {post.isRtl ? Preview.rtl : Preview.en}
+                  </Button>
+                )}
+              </div>
             </article>
           ))}
         </div>

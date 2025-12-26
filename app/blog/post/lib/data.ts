@@ -19,9 +19,18 @@ export const firstOrNotFound = <T>(rows: T[]): T => {
   return row;
 };
 
-const firstOrNull = <T,>(rows: T[]) => rows[0] ?? null;
+const firstOrNull = <T>(rows: T[]) => rows[0] ?? null;
 
+export const getPostSlugById = async(postId:number):Promise<string | null> => {
+    const rows = await sql<{ slug: string }[]>`
+    SELECT slug
+    FROM blog_posts
+    WHERE id = ${postId}
+    LIMIT 1;
+  `;
 
+  return rows[0]?.slug ?? null;
+}
 export async function getPostById(postId: number): Promise<PostRow> {
   const rows = await sql<PostRow[]>`
     SELECT
@@ -198,8 +207,10 @@ export const getPostsByStatusCode = async ({
       is_rtl         AS "isRtl",
       category_id    AS "categoryId",
       status_code    AS "statusCode",
-      updated_at AT TIME ZONE 'Australia/Melbourne',
-      'DD Mon YYYY FMHH12:MI am'
+       to_char(
+    updated_at AT TIME ZONE 'Australia/Melbourne',
+    'DD Mon YYYY FMHH12:MI am'
+  ) AS "updatedAt"
     FROM blog_posts
     WHERE user_id = ${userId}
       AND status_code = ${statusCode}
@@ -300,7 +311,7 @@ export const toggleFeatured = async (ctx: PostAuthCtx) => {
     ${whereBloggerOrAdmin(ctx)}
     RETURNING is_featured;
   `;
-  return firstOrNull(rows); 
+  return firstOrNull(rows);
 };
 
 export async function setStatusCode(ctx: PostAuthCtx, statusCode: StatusCode) {
