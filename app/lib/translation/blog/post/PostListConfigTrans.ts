@@ -1,7 +1,13 @@
 // app/lib/translation/blog/post/PostListConfigTrans.ts
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
-import { Archived, archivedOn, Drafted, draftedOn, Edit, Preview, Published, PublishedOn } from "./transHelper";
-
+import {
+  Archived,
+  Drafted,
+  Edit,
+  Preview,
+  Published,
+  UpdatedOn,
+} from "./transHelper";
 
 export const PostListConfigTrans = {
   [POST_STATUS.DRAFTED]: {
@@ -16,7 +22,7 @@ export const PostListConfigTrans = {
     },
     edit: Edit,
     preview: Preview,
-    draftedOn: draftedOn,
+    UpdatedOn: UpdatedOn,
 
     border: "border-slate-200",
     bg: "bg-white",
@@ -36,7 +42,8 @@ export const PostListConfigTrans = {
     },
     view: { en: "View Live", rtl: "مشاهده" },
     edit: Edit,
-    publishedOn: PublishedOn,
+    Preview: Preview,
+    UpdatedOn: UpdatedOn,
     border: "border-emerald-200",
     bg: "bg-emerald-50/60",
     articleBorder: "border-emerald-100",
@@ -55,8 +62,9 @@ export const PostListConfigTrans = {
       rtl: "شما هیچ پست بایگانی‌شده‌ای ندارید.",
     },
     restoreEdit: { en: "Restore / Edit", rtl: "بازگردانی / ویرایش" },
+    
     // Rename key if this is truly "updated":
-    updatedOn: archivedOn,
+    UpdatedOn: UpdatedOn,
     border: "border-red-200",
     bg: "bg-red-50/60",
     articleBorder: "border-red-100",

@@ -55,7 +55,7 @@ export type PostCardRow = Pick<
   authorName: string;
 };
 
-export type PostRow = PostBase & {
+export type PostRow = Omit <PostBase, "createdAt"> & {
   authorName: string;
 };
 
@@ -77,6 +77,7 @@ export type PostsListRow = Pick<
   PostBase,
   | "postId"
   | "title"
+  | "slug"
   | "isFeatured"
   | "isRtl"
   | "categoryId"

@@ -1,13 +1,12 @@
 // app/blog/auth/ui/PostPanel.tsx
 
+import { PostListConfigTrans } from "@/app/lib/translation";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
+import type { PostsListRow } from "../../post/lib/definitions";
 import { POST_STATUS, type StatusCode } from "../../post/lib/definitions";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
 import PostHeader from "./PostHeader";
-import type{ PostsListRow } from "../../post/lib/definitions";
-import { PostListConfigTrans } from "@/app/lib/translation";
-
 
 export default function PostsPanel({
   statusCode,
@@ -20,7 +19,12 @@ export default function PostsPanel({
 
   return (
     <section className={`rounded-xl border p-5 ${cfg.border} ${cfg.bg}`}>
-      <PostHeader title={cfg.title.en} rtlTitle={cfg.title.rtl} description={cfg.description.en} rtlDescription={cfg.description.rtl} />
+      <PostHeader
+        title={cfg.title.en}
+        rtlTitle={cfg.title.rtl}
+        description={cfg.description.en}
+        rtlDescription={cfg.description.rtl}
+      />
 
       {posts.length === 0 ? (
         <div>
@@ -45,9 +49,9 @@ export default function PostsPanel({
                 </Header>
 
                 <PostActionsMenu
-                categoryId={post.categoryId}
+                  categoryId={post.categoryId}
                   postId={post.postId}
-           
+                  slug={post.slug}
                   statusCode={post.statusCode}
                   isRTL={post.isRtl}
                   // only publish needs this

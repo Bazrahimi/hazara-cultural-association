@@ -41,14 +41,7 @@ export async function getPostById(postId: number): Promise<PostRow> {
       to_char(
       p.updated_at AT TIME ZONE 'Australia/Melbourne',
       'DD Mon YYYY FMHH12:MI am'
-      ) AS "updatedAt",
-
-      to_char(
-      p.created_at AT TIME ZONE 'Australia/Melbourne',
-      'DD Mon YYYY FMHH12:MI am'
-       ) AS "createdAt"
-
-
+      ) AS "updatedAt"
     FROM blog_posts p
     LEFT JOIN user_profiles up ON up.user_id = p.user_id
     WHERE p.id = ${postId}
@@ -201,13 +194,12 @@ export const getPostsByStatusCode = async ({
       id             AS "postId",
       title,
       slug,
-      hero_img_path  AS "heroImgPath",
       is_featured    AS "isFeatured",
       is_rtl         AS "isRtl",
       category_id    AS "categoryId",
       status_code    AS "statusCode",
-      to_char(created_at, 'DD MON YYYY') AS "createdAt",
-      to_char(updated_at, 'DD MON YYYY') AS "updatedAt"
+      updated_at AT TIME ZONE 'Australia/Melbourne',
+      'DD Mon YYYY FMHH12:MI am'
     FROM blog_posts
     WHERE user_id = ${userId}
       AND status_code = ${statusCode}

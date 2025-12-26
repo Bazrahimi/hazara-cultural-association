@@ -22,6 +22,7 @@ type Props = {
   statusCode: StatusCode;
   isFeatured?: boolean;
   categoryId?: CategoryId;
+  slug: string;
 };
 
 export default function PostActionsMenu({
@@ -30,6 +31,7 @@ export default function PostActionsMenu({
   statusCode,
   isFeatured,
   categoryId,
+  slug
 }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -107,7 +109,7 @@ export default function PostActionsMenu({
               <MenuItem
                 type="link"
                 isRTL={isRTL}
-                href={`${BlogRoutes.post("slug")}?catId=${categoryId}&rtl=${isRTL ? 1 : 0}&id=${postId}`}
+                href={`${BlogRoutes.post(slug)}?catId=${categoryId}&rtl=${isRTL ? 1 : 0}&id=${postId}`}
                 label={isRTL ? t.Preview.rtl : t.Preview.en}
               />
             )}
