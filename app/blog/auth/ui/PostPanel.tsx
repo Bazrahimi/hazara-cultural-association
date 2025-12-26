@@ -47,7 +47,7 @@ export default function PostsPanel({
                 <PostActionsMenu
                 categoryId={post.categoryId}
                   postId={post.postId}
-                  slug={post.slug}
+           
                   statusCode={post.statusCode}
                   isRTL={post.isRtl}
                   // only publish needs this
@@ -58,9 +58,9 @@ export default function PostsPanel({
               </div>
 
               <P className="mt-1 text-slate-500" size="sm">
-                Created at:{" "}
+                Updated at:{" "}
                 <span className="inline-block" dir="ltr">
-                  {post.createdAt}
+                  {post.updatedAt}
                 </span>
               </P>
             </article>

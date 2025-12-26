@@ -19,7 +19,6 @@ import { setNotification } from "@/app/u/auth/lib/setNotification";
 type Props = {
   isRTL: boolean;
   postId: number;
-  slug: string;
   statusCode: StatusCode;
   isFeatured?: boolean;
   categoryId?: CategoryId;
@@ -28,7 +27,6 @@ type Props = {
 export default function PostActionsMenu({
   isRTL,
   postId,
-  slug,
   statusCode,
   isFeatured,
   categoryId,
@@ -109,7 +107,7 @@ export default function PostActionsMenu({
               <MenuItem
                 type="link"
                 isRTL={isRTL}
-                href={`${BlogRoutes.post(slug)}?catId=${categoryId}&rtl=${isRTL ? 1 : 0}&id=${postId}`}
+                href={`${BlogRoutes.post("")}?catId=${categoryId}&rtl=${isRTL ? 1 : 0}&id=${postId}`}
                 label={isRTL ? t.Preview.rtl : t.Preview.en}
               />
             )}

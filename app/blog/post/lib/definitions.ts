@@ -77,13 +77,10 @@ export type PostsListRow = Pick<
   PostBase,
   | "postId"
   | "title"
-  | "slug"
-  | "heroImgPath"
   | "isFeatured"
   | "isRtl"
   | "categoryId"
   | "statusCode"
-  | "createdAt"
   | "updatedAt"
 >;
 
