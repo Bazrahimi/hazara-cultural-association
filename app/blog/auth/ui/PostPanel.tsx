@@ -11,6 +11,7 @@ import type { PostsListRow } from "../../post/lib/definitions";
 import { POST_STATUS, type StatusCode } from "../../post/lib/definitions";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
 import PostHeader from "./PostHeader";
+import { getCategoryLabel } from "../../lib/category";
 
 export default function PostsPanel({
   statusCode,
@@ -55,7 +56,7 @@ export default function PostsPanel({
                 <Header
                   as="h4"
                   size="xs"
-                  className="min-w-0 truncate font-semibold text-slate-900"
+                  className="min-w-0 font-semibold text-slate-900"
                 >
                   {post.title}
                 </Header>
@@ -87,16 +88,9 @@ export default function PostsPanel({
                   </P>
                 </div>
 
-                {post.statusCode === POST_STATUS.PUBLISHED && (
-                  <Button
-                    size="xs"
-                    as="link"
-                    href={`${BlogRoutes.post(post.slug)}?catId=${post.categoryId}&rtl=${post.isRtl ? 1 : 0}&id=${post.postId}`}
-                    className="shrink-0"
-                  >
-                    {post.isRtl ? Preview.rtl : Preview.en}
-                  </Button>
-                )}
+                <div>
+                  <P>{getCategoryLabel(post.categoryId, post.isRtl)}</P>
+                </div>
               </div>
             </article>
           ))}
