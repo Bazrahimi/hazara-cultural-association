@@ -23,7 +23,7 @@ type PostDbRow = {
   created_at: string; // timestamptz
   updated_at: string; // timestamptz
   is_rtl: boolean;
-  category_id: CategoryId
+  category_id: CategoryId;
 };
 
 // 1) Convert "event_date" -> "eventDate"
@@ -92,5 +92,8 @@ export type PostInsertUpdateSuccessDBReturn = Pick<
   "postId" | "slug" | "isFeatured" | "statusCode" | "categoryId" | "isRtl"
 >;
 
-
-
+export type PostAuthCtx = {
+  postId: number;
+  isAdmin: boolean;
+  userId: number;
+};

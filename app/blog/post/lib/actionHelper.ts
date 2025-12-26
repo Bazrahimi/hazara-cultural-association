@@ -1,8 +1,9 @@
 import { toBoolean } from "@/app/lib/helper";
 
-import { POST_STATUS, StatusCode } from "./definitions";
+import { POST_STATUS, StatusCode, PostAuthCtx } from "./definitions";
 import type { ParseResult, PostInput, PostState } from "./schema";
 import { PostSchema } from "./schema";
+import { toggleFeatured, setStatusCode, deletePost } from "./data";
 
 export const parseBlogPostForm = (formData: FormData): ParseResult => {
   const raw = Object.fromEntries(formData.entries());
@@ -75,3 +76,24 @@ export const postSuccess = (
 ): PostActionState => {
   return { ok: true, message, ...extra };
 };
+
+export async function applyPostIntent(ctx: PostAuthCtx, intent: PostActionIntent) {
+  switch (intent) {
+    case "feature": {
+      const isFeatured = await toggleFeatured(ctx);
+      return { kind: "feature" as const, isFeatured };
+    }
+    case "publish": {
+      const status = await setStatusCode(ctx, POST_STATUS.PUBLISHED);
+      return { kind: "publish" as const, status };
+    }
+    case "archive": {
+      const status = await setStatusCode(ctx, POST_STATUS.ARCHIVED);
+      return { kind: "archive" as const, status };
+    }
+    case "delete": {
+      const id = await deletePost(ctx);
+      return { kind: "delete" as const, id };
+    }
+  }
+}

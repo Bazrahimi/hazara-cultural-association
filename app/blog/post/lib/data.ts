@@ -1,5 +1,5 @@
 import { sql, type SqlFragment } from "@/app/lib/db";
-import { StatusCode } from "./definitions";
+import { PostAuthCtx, StatusCode } from "./definitions";
 import type { PostInput } from "./schema";
 
 import {
@@ -286,10 +286,42 @@ export async function updatePostRow(opts: {
       is_rtl         = ${data.isRtl},
       updated_at     = now(),
       created_at     = COALESCE(${isAdmin ? (data.createdAt ?? null) : null}, created_at)
-    WHERE id = ${postId}
-      AND (${isAdmin} OR user_id = ${userId})
+    ${whereBloggerOrAdmin({ postId, isAdmin, userId })}
     ${RETURNING_INSERT_UPDATE_POST}
   `;
 
   return rows[0] ?? null;
 }
+
+const whereBloggerOrAdmin = ({ postId, isAdmin, userId }: PostAuthCtx) => {
+  return sql`WHERE id =${postId} AND (${isAdmin} OR user_id = ${userId})`;
+};
+
+export const toggleFeatured = async (ctx: PostAuthCtx) => {
+  const rows = await sql<{ is_featured: boolean }[]>`
+    UPDATE blog_posts
+    SET is_featured = NOT is_featured
+    ${whereBloggerOrAdmin(ctx)}
+    RETURNING is_featured;
+  `;
+  return rows[0]?.is_featured ?? null; // null => not updated / not found / not allowed
+};
+
+export async function setStatusCode(ctx: PostAuthCtx, statusCode: StatusCode) {
+  const rows = await sql<{ status_code: number }[]>`
+    UPDATE blog_posts
+    SET status_code = ${statusCode}
+    ${whereBloggerOrAdmin(ctx)}
+    RETURNING status_code;
+  `;
+  return rows[0]?.status_code ?? null;
+}
+
+export const deletePost = async (ctx: PostAuthCtx) => {
+  const rows = await sql<{ id: number }[]>`
+    DELETE FROM blog_posts
+    ${whereBloggerOrAdmin(ctx)}
+    RETURNING id;
+  `;
+  return rows[0]?.id ?? null;
+};

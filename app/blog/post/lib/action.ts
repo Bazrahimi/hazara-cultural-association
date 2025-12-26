@@ -2,7 +2,6 @@
 
 "use server";
 
-import { sql } from "@/app/lib/db";
 import { BlogRoutes } from "@/app/lib/routes";
 import { getSession, requireUser } from "@/app/lib/session";
 import { slugify } from "@/app/shop/lib/helper";
@@ -10,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { canCreateOrEditPosts } from "../../lib/permissions";
 import {
+  applyPostIntent,
   parseBlogPostForm,
   parsePostActionIntent,
   PostActionState,
@@ -205,88 +205,42 @@ export const PostAction = async (
   const intent = parsePostActionIntent(formData);
   if (!intent) return postFailure("invalid action");
 
-  const isAdmin = session.roles.includes("admin");
-  const userId = session.userId;
+  const ctx = {
+    postId,
+    isAdmin: session.roles.includes("admin"),
+    userId: session.userId,
+  };
 
   try {
-    if (intent === "feature") {
-      const rows = await sql<{ is_featured: boolean }[]>`
-        UPDATE blog_posts
-        SET is_featured = NOT is_featured
-        WHERE id = ${postId}
-          AND (${isAdmin} OR user_id = ${userId})
-        RETURNING is_featured;
-      `;
+    const result = await applyPostIntent(ctx, intent);
 
-      if (rows.length === 0) {
-        return postFailure(
-          "Not authorized to manage this post or post not found."
-        );
-      }
-
-      const nowFeatured = rows[0].is_featured === true;
-      revalidatePath(BlogRoutes.manageMyPosts());
-      return postSuccess(
-        nowFeatured ? "Published to homepage." : "Removed from homepage."
-      );
-    }
-
-    if (intent === "publish") {
-      const rows = await sql<{ status_code: number }[]>`
-        UPDATE blog_posts
-        SET status_code = ${POST_STATUS.PUBLISHED}
-        WHERE id = ${postId}
-          AND (${isAdmin} OR user_id = ${userId})
-        RETURNING status_code;
-      `;
-
-      if (rows.length === 0) {
-        return postFailure(
-          "Not authorized to publish this post or post not found."
-        );
-      }
-
-      revalidatePath(BlogRoutes.manageMyPosts());
-      return postSuccess("Post published.");
-    }
-
-    if (intent === "archive") {
-      const rows = await sql<{ status_code: number }[]>`
-        UPDATE blog_posts
-        SET status_code = ${POST_STATUS.ARCHIVED}
-        WHERE id = ${postId}
-          AND (${isAdmin} OR user_id = ${userId})
-        RETURNING status_code;
-      `;
-
-      if (rows.length === 0) {
-        return postFailure(
-          "Not authorized to archive this post or post not found."
-        );
-      }
-
-      revalidatePath(BlogRoutes.manageMyPosts());
-      return postSuccess("Post archived.");
-    }
-
-    // intent === "delete"
-    const rows = await sql<{ id: number }[]>`
-      DELETE FROM blog_posts
-      WHERE id = ${postId}
-        AND (${isAdmin} OR user_id = ${userId})
-      RETURNING id;
-    `;
-
-    if (rows.length === 0) {
+    // not updated = unauthorized or missing post
+    if (
+      (result.kind === "feature" && result.isFeatured === null) ||
+      ((result.kind === "publish" || result.kind === "archive") &&
+        result.status === null) ||
+      (result.kind === "delete" && result.id === null)
+    ) {
       return postFailure(
-        "Not authorized to delete this post or post not found."
+        "Not authorized to manage this post or post not found."
       );
     }
+    // Revalidate list page for non-delete actions
+    revalidatePath(BlogRoutes.manageMyPosts());
 
-    // You can either redirect, OR return success and let client refresh.
+    // Messages
+    if (result.kind === "feature") {
+      return postSuccess(
+        result.isFeatured ? "Published to homepage." : "Removed from homepage."
+      );
+    }
+    if (result.kind === "publish") return postSuccess("Post published.");
+    if (result.kind === "archive") return postSuccess("Post archived.");
+
+    // delete
     redirect(BlogRoutes.manageMyPosts());
   } catch (err) {
-    console.error("postAction failed", err);
+    console.error("PostAction failed", err);
     return postFailure("Database error.");
   }
 };
