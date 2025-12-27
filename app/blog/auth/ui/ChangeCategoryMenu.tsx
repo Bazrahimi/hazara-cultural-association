@@ -55,16 +55,13 @@ const ChangeCategoryMenu = ({
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold",
-          "ring-1 ring-white/15 bg-white/10 text-gray-100",
-          "hover:bg-white/15 transition",
-          "whitespace-nowrap"
+          "rounded-full bg-hca-yellow-dark/15 text-hca-blue-dark ring-1 px-3 ring-hca-blue-dark/40 cursor-pointer select-none hover:bg-hca-yellow-dark/25 active:scale-[0.97] transition "
         )}
         dir={isRTL ? "rtl" : "ltr"}
         aria-haspopup="dialog"
         aria-expanded={open}
       >
-        {label}
+        <P size="sm"> {label}</P>
       </button>
       {open && (
         <div
