@@ -1,6 +1,6 @@
 import {
   Archived,
-  Category,
+Category,
   CreateNewPost,
   Drafted,
   Edit,

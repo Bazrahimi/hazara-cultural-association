@@ -1,17 +1,15 @@
 // app/blog/auth/ui/PostPanel.tsx
 
 import { cn } from "@/app/lib/helper";
-import { BlogRoutes } from "@/app/lib/routes";
 import { PostListConfigTrans } from "@/app/lib/translation";
-import { Preview } from "@/app/lib/translation/blog/post/transHelper";
-import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
+import { getCategoryLabel } from "../../lib/category";
 import type { PostsListRow } from "../../post/lib/definitions";
 import { POST_STATUS, type StatusCode } from "../../post/lib/definitions";
+import ChangeCategoryMenu from "./ChangeCategoryMenu";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
 import PostHeader from "./PostHeader";
-import { getCategoryLabel } from "../../lib/category";
 
 export default function PostsPanel({
   statusCode,
@@ -88,8 +86,13 @@ export default function PostsPanel({
                   </P>
                 </div>
 
-                <div>
-                  <P>{getCategoryLabel(post.categoryId, post.isRtl)}</P>
+                <div className="shrink-0">
+                  <ChangeCategoryMenu
+                    isRTL={post.isRtl}
+                    postId={post.postId}
+                    categoryId={post.categoryId}
+                    label={getCategoryLabel(post.categoryId, post.isRtl)}
+                  />
                 </div>
               </div>
             </article>

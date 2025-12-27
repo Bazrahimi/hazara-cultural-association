@@ -2,7 +2,11 @@
 export const Archive = { en: "Archive", rtl: "آرشیو" };
 export const Archived = { en: "Archived", rtl: "آرشیو شده" };
 export const archivedOn = { en: "Archived on: ", rtl: "آرشیو در: " };
-export const Category = { en: "Post Category", rtl: "دسته‌بندی" };
+export const Category = { rtl: "دسته‌بندی", en: "Category" };
+export const ChangePostCategory = {
+  en: "Change Categorhy",
+  rtl: "تغییر دسته‌بندی",
+};
 export const CreateNewPost = {
   en: "Create New Post",
   rtl: "ایجاد یک مطلب جدید",

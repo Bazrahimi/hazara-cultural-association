@@ -3,6 +3,8 @@ import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 import {
   Archive,
   Archived,
+  Category,
+  ChangePostCategory,
   DeletePermanently,
   Drafted,
   draftedOn,
@@ -10,6 +12,7 @@ import {
   FeaturedOnHomePage,
   FeatureToHomepage,
   postAction,
+
   Preview,
   Publish,
   Published,
@@ -53,3 +56,8 @@ export const ManagePostTrans = {
     Delete: DeletePermanently,
   },
 } as const;
+
+export const ChangeCategoryMenuTrans = {
+  changeCategory: ChangePostCategory,
+  category: Category,
+}
