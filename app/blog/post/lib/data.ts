@@ -21,8 +21,10 @@ export const firstOrNotFound = <T>(rows: T[]): T => {
 
 const firstOrNull = <T>(rows: T[]) => rows[0] ?? null;
 
-export const getPostSlugById = async(postId:number):Promise<string | null> => {
-    const rows = await sql<{ slug: string }[]>`
+export const getPostSlugById = async (
+  postId: number
+): Promise<string | null> => {
+  const rows = await sql<{ slug: string }[]>`
     SELECT slug
     FROM blog_posts
     WHERE id = ${postId}
@@ -30,7 +32,7 @@ export const getPostSlugById = async(postId:number):Promise<string | null> => {
   `;
 
   return rows[0]?.slug ?? null;
-}
+};
 export async function getPostById(postId: number): Promise<PostRow> {
   const rows = await sql<PostRow[]>`
     SELECT
@@ -331,4 +333,19 @@ export const deletePost = async (ctx: PostAuthCtx) => {
     RETURNING id;
   `;
   return firstOrNull(rows);
+};
+
+export const setPostCategory = async (ctx: {
+  postId: number;
+  categoryId: number;
+  userId: number;
+  isAdmin: boolean;
+}) => {
+  const rows = await sql<{ categoryId: number }[]>`
+    UPDATE blog_posts
+    SET category_id = ${ctx.categoryId}
+    ${whereBloggerOrAdmin(ctx)}
+    RETURNING category_id as "categoryId"
+  `;
+  return rows[0].categoryId ?? null;
 };

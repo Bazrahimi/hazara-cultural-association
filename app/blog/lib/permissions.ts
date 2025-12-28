@@ -9,12 +9,12 @@ export type SessionLike = {
  * Can this user create or edit any blog post at all?
  * (Used to gate access to create/edit actions)
  */
-export function canCreateOrEditPosts(
-  session: SessionLike | null | undefined
-): boolean {
-  if (!session) return false;
-  return session.roles.includes("admin") || session.roles.includes("blogger");
-}
+// export function canCreateOrEditPosts(
+//   session: SessionLike | null | undefined
+// ): boolean {
+//   if (!session) return false;
+//   return session.roles.includes("admin") || session.roles.includes("blogger");
+// }
 
 /**
  * Can this user manage a specific post (edit/delete)?

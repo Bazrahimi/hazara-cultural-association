@@ -19,16 +19,15 @@ export type PostActionMenuProps = {
   isFeatured: boolean;
   isRTL: boolean;
   updatedAt: string; // formatted e.g. "22 NOV 2025"
-  createdAt: string;
 };
 
 export function ManagePostControls({
   postId,
+  slug,
   statusCode,
   isFeatured,
   isRTL = false,
   updatedAt,
-  createdAt,
 }: PostActionMenuProps) {
   const heading = isRTL ? headings.rtl : headings.en;
   const note = isRTL ? ManagePostTrans.note.rtl : ManagePostTrans.note.en;
@@ -50,10 +49,6 @@ export function ManagePostControls({
     ? ManagePostTrans.actionedOn[statusCode].rtl
     : ManagePostTrans.actionedOn[statusCode].en;
 
-  const actionDate =
-    statusCode === POST_STATUS.DRAFTED
-      ? (updatedAt ?? createdAt)
-      : (updatedAt ?? createdAt);
 
   return (
     <section
@@ -79,6 +74,7 @@ export function ManagePostControls({
           postId={postId}
           statusCode={statusCode}
           isFeatured={isFeatured}
+          slug={slug}
         />
       </div>
 
@@ -106,7 +102,7 @@ export function ManagePostControls({
         <div className="flex items-center gap-4">
           <P className=" text-gray-500">{actionLabel}</P>
           <P className=" text-gray-700" dir="ltr">
-            {actionDate}
+            {updatedAt}
           </P>
         </div>
       </div>

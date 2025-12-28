@@ -7,7 +7,7 @@ import { getSession, requireUser } from "@/app/lib/session";
 import { slugify } from "@/app/shop/lib/helper";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { canCreateOrEditPosts } from "../../lib/permissions";
+
 import {
   applyPostIntent,
   parseBlogPostForm,
@@ -16,9 +16,13 @@ import {
   postFailure,
   postSuccess,
 } from "./actionHelper";
-import { insertPostRow, updatePostRow } from "./data";
+import { insertPostRow, setPostCategory, updatePostRow } from "./data";
 import { POST_STATUS } from "./definitions";
-import type { PostState } from "./schema";
+import {
+  UpdateCategorySchema,
+  type PostState,
+  type UpdateCategoryState,
+} from "./schema";
 
 const parsePostId = (formData: FormData): number | null => {
   const rawPostId = formData.get("postId");
@@ -35,13 +39,7 @@ export async function createPost(
   formData: FormData
 ): Promise<PostState> {
   const session = await requireUser();
-
-  if (!canCreateOrEditPosts(session)) {
-    return {
-      ok: false,
-      message: "You are not allowed to create blog posts.",
-    };
-  }
+  if (!session) return postFailure("You are not allowed");
 
   const result = parseBlogPostForm(formData);
 
@@ -98,13 +96,42 @@ export async function createPost(
   }
 }
 
+export const updatePostCategory = async (
+  _prev: UpdateCategoryState | undefined,
+  formData: FormData
+): Promise<UpdateCategoryState> => {
+  const session = await getSession();
+
+  if (!session) return postFailure("you must be logged in.");
+
+  const raw = Object.fromEntries(formData.entries());
+  const parsed = UpdateCategorySchema.safeParse(raw);
+
+  if (!parsed.success) return postFailure("Invalid input");
+
+  const { postId, categoryId } = parsed.data;
+  const isAdmin = session.roles.includes("admin");
+  const userId = session.userId;
+
+  const updated = await setPostCategory({
+    postId,
+    categoryId,
+    userId,
+    isAdmin,
+  });
+  if (!updated) return postFailure("Not Authorised or post not found");
+
+  revalidatePath(BlogRoutes.manageMyPosts());
+  return postSuccess("Category updated.");
+};
+
 export async function updatePost(
   _prevState: PostState | undefined,
   formData: FormData
 ): Promise<PostState> {
-  const session = await requireUser();
+  const session = await getSession();
 
-  if (!canCreateOrEditPosts(session)) {
+  if (!session) {
     return {
       ok: false,
       message: "You are not allowed to edit blog posts.",

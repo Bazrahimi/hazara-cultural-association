@@ -91,7 +91,7 @@ export default function PostsPanel({
                     isRTL={post.isRtl}
                     postId={post.postId}
                     categoryId={post.categoryId}
-                    label={getCategoryLabel(post.categoryId, post.isRtl)}
+            
                   />
                 </div>
               </div>

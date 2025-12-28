@@ -12,11 +12,12 @@ import {
   FeaturedOnHomePage,
   FeatureToHomepage,
   postAction,
-
   Preview,
   Publish,
   Published,
   RemoveFromHomepage,
+  Save,
+  Saving,
   Status,
   UpdatedOn,
 } from "./transHelper";
@@ -60,4 +61,8 @@ export const ManagePostTrans = {
 export const ChangeCategoryMenuTrans = {
   changeCategory: ChangePostCategory,
   category: Category,
-}
+  action: {
+    Saving: Saving,
+    Save: Save,
+  },
+};

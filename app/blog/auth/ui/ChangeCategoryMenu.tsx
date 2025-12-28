@@ -2,16 +2,19 @@
 
 import { cn } from "@/app/lib/helper";
 import { ChangeCategoryMenuTrans } from "@/app/lib/translation";
+import { setNotification } from "@/app/u/auth/lib/setNotification";
+import { ActionButton } from "@/app/ui/global/clientComponent";
 import { P } from "@/app/ui/global/paragraph";
-import { useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { CATEGORY_MAP, CategoryId } from "../../lib/category";
+import { updatePostCategory } from "../../post/lib/action";
 const t = ChangeCategoryMenuTrans;
 
 type Props = {
   isRTL: boolean;
   postId: number;
   categoryId: CategoryId;
-  label: string;
+
   onChangeCategory?: (next: CategoryId) => void;
 };
 
@@ -19,13 +22,18 @@ const ChangeCategoryMenu = ({
   isRTL,
   postId,
   categoryId: initialCategoryId,
-  label,
+
   onChangeCategory,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const [categoryId, setCategoryId] = useState<CategoryId>(initialCategoryId);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
+
+  const [state, formAction, isPending] = useActionState(
+    updatePostCategory,
+    undefined
+  );
 
   useEffect(() => {
     setCategoryId(initialCategoryId);
@@ -48,6 +56,25 @@ const ChangeCategoryMenu = ({
     };
   }, []);
 
+  // notify after save
+  useEffect(() => {
+    if (!state) return;
+    if (state.ok) {
+      setNotification(state.message ?? "Saved.");
+    } else if (state.message) {
+      setNotification(state.message);
+    }
+  }, [state]);
+
+  const isDirty = useMemo(
+    () => categoryId !== initialCategoryId,
+    [categoryId, initialCategoryId]
+  );
+
+  const currentLabel = isRTL
+    ? CATEGORY_MAP[categoryId].rtl
+    : CATEGORY_MAP[categoryId].en;
+
   return (
     <div ref={rootRef} className="relative inline-block">
       {/* clickable chip */}
@@ -61,7 +88,7 @@ const ChangeCategoryMenu = ({
         aria-haspopup="dialog"
         aria-expanded={open}
       >
-        <P size="sm"> {label}</P>
+        <P size="sm"> {currentLabel}</P>
       </button>
       {open && (
         <div
@@ -103,12 +130,11 @@ const ChangeCategoryMenu = ({
                       <li key={id}>
                         <button
                           type="button"
-                          role="options"
+                          role="option"
                           aria-selected={isActive}
                           onClick={() => {
                             setCategoryId(id);
                             onChangeCategory?.(id);
-                            setOpen(false);
                           }}
                           className={cn(
                             "flex w-full items-center px-3 py-2 text-left transition",
@@ -125,9 +151,32 @@ const ChangeCategoryMenu = ({
                   }
                 )}
               </ul>
-              <input type="hidden" name="postId" value={postId} />
             </div>
           </div>
+
+          {/* Action only when dirty */}
+          {isDirty && (
+            <div
+              className={cn(
+                "mt-3 items-center gap-2",
+                isRTL && "flex-row-reverse"
+              )}
+            >
+              <form action={formAction}>
+                <input type="hidden" name="postId" value={postId} />
+                <input type="hidden" name="categoryId" value={categoryId} />
+                <ActionButton disabled={isPending} size="xs" variant="outline">
+                  {isPending
+                    ? isRTL
+                      ? t.action.Saving.rtl
+                      : t.action.Saving.en
+                    : isRTL
+                      ? t.action.Save.rtl
+                      : t.action.Save.en}
+                </ActionButton>
+              </form>
+            </div>
+          )}
         </div>
       )}
     </div>

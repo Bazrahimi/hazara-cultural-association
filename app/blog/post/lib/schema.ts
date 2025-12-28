@@ -8,6 +8,13 @@ import { toBoolean } from "@/app/lib/helper";
 import z from "zod";
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
 
+const CategoryIdSchema = z.coerce
+  .number()
+  .int()
+  .refine((val) => allowedCategoryIds.includes(val), {
+    message: "Invalid category",
+  });
+
 const StatusCodeSchema = z
   .preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
@@ -30,12 +37,7 @@ export const PostSchema = z.object({
     .string()
     .min(20, "Content is required and must be at least 20 characters."),
 
-  categoryId: z.coerce
-    .number()
-    .int()
-    .refine((val) => allowedCategoryIds.includes(val), {
-      message: "Invalid category",
-    }),
+  categoryId: CategoryIdSchema,
 
   statusCode: StatusCodeSchema,
 
@@ -50,7 +52,14 @@ export const PostSchema = z.object({
   eventLocation: z.string().trim().optional().nullable(),
   createdAt: z.coerce.date().optional(),
 });
+
+export const UpdateCategorySchema = z.object({
+  postId: z.coerce.number().int().positive(),
+  categoryId: CategoryIdSchema,
+});
+
 export type PostInput = z.infer<typeof PostSchema>;
+export type UpdateCategoryInput = z.infer<typeof UpdateCategorySchema>;
 
 export type ParseResult =
   | {
@@ -70,4 +79,9 @@ export type PostState = {
   errors?: Partial<Record<keyof PostInput, string[]>>;
   data?: Partial<PostInput>;
   success?: PostInsertUpdateSuccessDBReturn;
+};
+export type UpdateCategoryState = {
+  ok?: boolean;
+  message?: string;
+  errors?: Partial<Record<keyof UpdateCategoryInput, string[]>>;
 };

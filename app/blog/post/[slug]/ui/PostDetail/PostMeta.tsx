@@ -12,7 +12,7 @@ import { MdPersonOutline } from "react-icons/md";
 export type PostMetaProps = {
   authorName: string;
   userId: number;
-  createdAt: string;
+  updatedAt: string;
   categoryId: number;
   isRTL: boolean;
 };
@@ -20,7 +20,7 @@ export type PostMetaProps = {
 const PostMeta = ({
   authorName,
   userId,
-  createdAt,
+  updatedAt,
   categoryId,
   isRTL,
 }: PostMetaProps) => {
@@ -65,7 +65,7 @@ const PostMeta = ({
                   {PublishedOn.rtl}
                 </P>
                 <P className="inline-flex text-gray-500" dir="ltr" size="sm">
-                  {createdAt}
+                  {updatedAt}
                 </P>
               </div>
             ) : (
@@ -74,7 +74,7 @@ const PostMeta = ({
                   {PublishedOn.en}
                 </P>
                 <P className="inline-flex text-gray-500" size="sm">
-                  {createdAt}
+                  {updatedAt}
                 </P>
               </div>
             )}

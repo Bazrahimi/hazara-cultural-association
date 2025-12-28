@@ -39,7 +39,7 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
         <PostMetaEn
           authorName={post.authorName}
           userId={post.userId}
-          createdAt={post.createdAt}
+          updatedAt={post.updatedAt}
           categoryId={post.categoryId}
           isRTL={post.isRtl}
         />
@@ -81,7 +81,7 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
             isFeatured={post.isFeatured}
             slug={post.slug}
             updatedAt={post.updatedAt}
-            createdAt={post.createdAt}
+            updatedAt={post.updatedAt}
             userId={post.userId}
           />
         </Suspense>
