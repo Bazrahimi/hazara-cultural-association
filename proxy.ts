@@ -1,6 +1,5 @@
 // proxy.ts
-
-import { isProtectedPath } from "@/app/lib/session/protectedRoutes";
+import { isProtectedPath } from "./app/lib/session/protectedRoutes";
 import { NextRequest, NextResponse } from "next/server";
 import { AuthRoutes } from "./app/lib/routes";
 import { SESSION_COOKIE } from "./app/lib/session/sessionConfig";
@@ -28,10 +27,10 @@ export const config = {
 
 // test mode
 /** Helper: add noindex headers to any response */
-function disallowCrawlers(res: NextResponse) {
-  res.headers.set(
-    "X-Robots-Tag",
-    "noindex, nofollow, noarchive, nosnippet, noimageindex"
-  );
-  return res;
-}
+// function disallowCrawlers(res: NextResponse) {
+//   res.headers.set(
+//     "X-Robots-Tag",
+//     "noindex, nofollow, noarchive, nosnippet, noimageindex"
+//   );
+//   return res;
+// }
