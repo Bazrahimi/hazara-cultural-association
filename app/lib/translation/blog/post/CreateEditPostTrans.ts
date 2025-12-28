@@ -1,6 +1,6 @@
 import {
   Archived,
-Category,
+  Category,
   CreateNewPost,
   Drafted,
   Edit,
@@ -29,7 +29,6 @@ export const CreateEditPostTrans = {
   FormHeader: {
     create: {
       heading: CreateNewPost,
-     
     },
     edit: {
       heading: Edit,
@@ -71,6 +70,27 @@ export const CreateEditPostTrans = {
     placeholder: {
       en: "Write the body of your post here…",
       rtl: "متن خبر یا اعلان خود را اینجا بنویسید…",
+    },
+  },
+
+  Excerpt: {
+    label: {
+      en: "Excerpt",
+      rtl: "خلاصه",
+    },
+
+    placeholder: {
+      en: "Short summary shown on cards and used for SEO (max 160 characters)",
+      rtl: "یک خلاصهٔ کوتاه که در کارت‌ها نمایش داده می‌شود و برای نمایش بهتر در نتایج جستجوی گوگل و دسترسی‌پذیری بیشتر استفاده می‌شود (حداکثر ۱۶۰ نویسه)",
+    },
+    autoGenerate: {
+      en: "Auto-generate from content",
+      rtl: "به‌صورت خودکار از محتوای نوشته ساخته شود",
+    },
+
+    charactersLeft: {
+      en: "Characters left",
+      rtl: "تعداد نویسه‌های باقی‌مانده",
     },
   },
 

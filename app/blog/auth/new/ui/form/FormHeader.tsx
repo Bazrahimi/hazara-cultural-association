@@ -16,8 +16,8 @@ const FormHeader = ({ mode, isRTL, setIsRTL }: Props) => {
   return (
     <header className="mt-10 md:mt-5" dir={isRTL ? "rtl" : "ltr"}>
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <div className={isRTL ? "text-right" : "text-left"}>
-          <Header as="h1" size="md">
+        <div>
+          <Header as="h2" size="md">
             {t[mode].heading[lang]}
           </Header>
         </div>

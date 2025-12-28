@@ -13,6 +13,7 @@ import { useActionState, useEffect, useState } from "react";
 import type { PostInput, PostState } from "../../../post/lib/schema";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
 import EditorField from "./form/EditorField";
+import ExcerptField from "./form/ExcerptField";
 import FormFooter from "./form/FormFooter";
 import FormHeader from "./form/FormHeader";
 import { SuccessModal } from "./form/SuccessModal";
@@ -44,6 +45,7 @@ export default function PostForm({ mode, action, initialData }: Props) {
   const [contentHTML, setContentHTML] = useState(
     initialData?.contentHtml ?? ""
   );
+  const [excerpt, setExcerpt] = useState(initialData?.excerpt ?? "");
   const [heroImage, setHeroImage] = useState(initialData?.heroImgPath ?? "");
 
   const derivedCategoryId = (Number(
@@ -145,6 +147,14 @@ export default function PostForm({ mode, action, initialData }: Props) {
           type="hidden"
           name={f.contentHtml}
           value={cleanQuillHtml(contentHTML)}
+        />
+
+        <ExcerptField
+          isRTL={isRTL}
+          value={excerpt}
+          onChange={setExcerpt}
+          contentHtml={contentHTML}
+          error={state?.errors?.excerpt}
         />
 
         {/* Hero image */}

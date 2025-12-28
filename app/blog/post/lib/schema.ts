@@ -37,6 +37,12 @@ export const PostSchema = z.object({
     .string()
     .min(20, "Content is required and must be at least 20 characters."),
 
+  excerpt: z
+    .string()
+    .trim()
+    .min(20, "Excerpt must be at least 20 characters.")
+    .max(160, "Excerpt must not exceed 160 characters."),
+
   categoryId: CategoryIdSchema,
 
   statusCode: StatusCodeSchema,
