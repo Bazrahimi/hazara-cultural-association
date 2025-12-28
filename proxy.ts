@@ -1,29 +1,29 @@
 // proxy.ts
+
+import { isProtectedPath } from "@/app/lib/session/protectedRoutes";
 import { NextRequest, NextResponse } from "next/server";
-import { AdminRoutes, AuthRoutes } from "./app/lib/routes";
-import { decrypt } from "./app/lib/session/session";
+import { AuthRoutes } from "./app/lib/routes";
+import { SESSION_COOKIE } from "./app/lib/session/sessionConfig";
 
 export const proxy = async (req: NextRequest) => {
   const { pathname, search } = req.nextUrl;
 
-  // only protect /admin
-  if (!pathname.startsWith(AdminRoutes.root())) return NextResponse.next();
+  if (!isProtectedPath(pathname)) return NextResponse.next();
 
-  const cookie = req.cookies.get("session")?.value;
-  const session = cookie ? await decrypt(cookie) : null;
+  const hasSession = req.cookies.get(SESSION_COOKIE)?.value;
 
-  if (!session?.roles.includes("admin")) {
-    const url = req.nextUrl.clone();
-    url.pathname = AuthRoutes.login();
-    url.searchParams.set("next", pathname);
-    return NextResponse.redirect(url);
+  if (!hasSession) {
+    const loginUrl = req.nextUrl.clone();
+    loginUrl.pathname = AuthRoutes.login();
+    loginUrl.searchParams.set("next", pathname + search);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
 };
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/blog/auth:path*"],
 };
 
 // test mode
