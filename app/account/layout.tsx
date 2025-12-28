@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { requireUser } from "../lib/session";
+import { requireUser } from "../lib/session/session";
 
 export const metaData: Metadata = {
   title: "Account Dashboard | HCA",

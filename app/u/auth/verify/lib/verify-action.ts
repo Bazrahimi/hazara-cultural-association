@@ -2,7 +2,7 @@
 "use server";
 
 import { AccountRoutes, AuthRoutes } from "@/app/lib/routes";
-import { createSession } from "@/app/lib/session";
+import { createSession } from "@/app/lib/session/session";
 import {
   issueVerificationCode,
   verifyEmailCode,

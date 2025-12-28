@@ -1,7 +1,7 @@
 "use server";
 
 import { sql } from "@/app/lib/db";
-import { requireUser } from "@/app/lib/session";
+import { requireUser } from "@/app/lib/session/session";
 import { revalidatePath } from "next/cache";
 
 export async function toggleUserRole(formData: FormData) {

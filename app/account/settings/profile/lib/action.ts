@@ -1,7 +1,7 @@
 "use server";
 import { sql } from "@/app/lib/db";
 import { AccountRoutes } from "@/app/lib/routes";
-import { requireUser } from "@/app/lib/session";
+import { requireUser } from "@/app/lib/session/session";
 import { redirect } from "next/navigation";
 import { FieldErrors, Profile, ProfileSchema, ProfileState } from "./schema";
 

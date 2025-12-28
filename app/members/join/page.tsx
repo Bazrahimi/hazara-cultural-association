@@ -1,10 +1,10 @@
 // app/members/join/page.tsx
 import { sql } from "@/app/lib/db";
-import { getSession } from "@/app/lib/session";
-import { redirect } from "next/navigation";
-import JoinForm from "./ui/JoinForm";
-import type { MemberInput } from "./lib/definitions";
 import { AuthRoutes } from "@/app/lib/routes";
+import { getSession } from "@/app/lib/session/session";
+import { redirect } from "next/navigation";
+import type { MemberInput } from "./lib/definitions";
+import JoinForm from "./ui/JoinForm";
 
 const page = async () => {
   const session = await getSession();
@@ -16,17 +16,19 @@ const page = async () => {
   const userId = session.userId;
 
   // 1) Load profile (if any)
-  const [profile] = await sql<{
-    first_name: string | null;
-    last_name: string | null;
-    phone: string | null;
-    english_proficiency: number | null;
-    hazaragi_proficiency: number | null;
-    interest_blog: boolean | null;
-    interest_store: boolean | null;
-    newsletter_opt_in: boolean | null;
-    virtual_meeting_opt_in: boolean | null;
-  }[]>`
+  const [profile] = await sql<
+    {
+      first_name: string | null;
+      last_name: string | null;
+      phone: string | null;
+      english_proficiency: number | null;
+      hazaragi_proficiency: number | null;
+      interest_blog: boolean | null;
+      interest_store: boolean | null;
+      newsletter_opt_in: boolean | null;
+      virtual_meeting_opt_in: boolean | null;
+    }[]
+  >`
     SELECT
       first_name,
       last_name,
@@ -42,14 +44,16 @@ const page = async () => {
   `;
 
   // 2) Load default address (if any)
-  const [address] = await sql<{
-    address1: string | null;
-    address2: string | null;
-    suburb: string | null;
-    state_code: string | null;
-    postcode: string | null;
-    country: string | null;
-  }[]>`
+  const [address] = await sql<
+    {
+      address1: string | null;
+      address2: string | null;
+      suburb: string | null;
+      state_code: string | null;
+      postcode: string | null;
+      country: string | null;
+    }[]
+  >`
     SELECT
       address1,
       address2,

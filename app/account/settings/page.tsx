@@ -7,7 +7,7 @@ import AddressesCard from "./ui/AddressesCard";
 
 import ProfileCard from "./ui/ProfileCard";
 
-import { requireUser } from "@/app/lib/session";
+import { requireUser } from "@/app/lib/session/session";
 
 import { AccountRoutes } from "@/app/lib/routes";
 import { Header } from "@/app/ui/global/Header";

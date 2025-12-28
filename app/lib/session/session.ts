@@ -10,7 +10,7 @@ import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { AuthRoutes } from "./routes";
+import { AuthRoutes } from "../routes";
 
 /* ============ Single source of truth (schema) ============ */
 

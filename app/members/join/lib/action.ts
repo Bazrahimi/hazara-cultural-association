@@ -2,7 +2,7 @@
 "use server";
 
 import { sql } from "@/app/lib/db";
-import { getSession } from "@/app/lib/session";
+import { getSession } from "@/app/lib/session/session";
 import type { MemberState } from "./definitions";
 import { parseMemberForm } from "./helper";
 

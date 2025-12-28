@@ -1,5 +1,5 @@
 //app/blog/new/page.tsx
-import { requireUser } from "@/app/lib/session";
+import { requireUser } from "@/app/lib/session/session";
 import { notFound } from "next/navigation";
 import { createPost } from "../../post/lib/action";
 import PostForm from "./ui/PostForm";

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
-import { decrypt } from "./lib/session";
+import { decrypt } from "./lib/session/session";
 
 import "./globals.css";
 

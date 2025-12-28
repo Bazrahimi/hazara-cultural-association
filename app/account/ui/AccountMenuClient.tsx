@@ -2,7 +2,7 @@
 "use client";
 
 import { AccountRoutes, AdminRoutes, AuthRoutes } from "@/app/lib/routes";
-import { destroySession } from "@/app/lib/session";
+import { destroySession } from "@/app/lib/session/session";
 import { setNotification } from "@/app/u/auth/lib/setNotification";
 import Link from "next/link";
 import { HiChevronDown, HiUser } from "react-icons/hi";

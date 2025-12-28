@@ -4,7 +4,7 @@ import {
   DonateRoutes,
   PublicRoutes,
 } from "@/app/lib/routes";
-import type { SessionRole } from "@/app/lib/session";
+import type { SessionRole } from "@/app/lib/session/session";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";

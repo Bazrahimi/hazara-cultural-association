@@ -1,6 +1,6 @@
+import { getUserId } from "@/app/lib/session/session";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getUserId } from "@/app/lib/session";
 
 export const metadata: Metadata = {
   title: "Sign up | Hazara Cultural Association",
@@ -15,7 +15,6 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const userId = await getUserId();
-
 
   if (userId) redirect("/account");
 

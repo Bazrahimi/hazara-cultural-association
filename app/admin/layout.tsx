@@ -1,7 +1,7 @@
 // app/admin/layout.tsx
 
 import type { Metadata } from "next";
-import { requireAdmin } from "../lib/session";
+import { requireAdmin } from "../lib/session/session";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | HCA",

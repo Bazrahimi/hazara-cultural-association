@@ -1,14 +1,14 @@
 "use server";
 
-import { requireUser } from "@/app/lib/session";
 import { sql } from "@/app/lib/db";
+import { requireUser } from "@/app/lib/session/session";
+import { redirect } from "next/navigation";
 import {
   BillingAddressInput,
   BillingAddressInputState,
   BillingAddressSchema,
   FieldErrors,
 } from "./schema";
-import { redirect } from "next/navigation";
 
 type PgError = {
   code?: string;
@@ -64,8 +64,6 @@ export const billingAddressInput = async (
          ${data.suburb}, ${data.state}, ${data.postcode}, ${data.country})
       RETURNING id
     `;
-
-
   } catch (e: unknown) {
     const err = e as PgError;
     console.error("Failed to create address", err);
@@ -102,5 +100,5 @@ export const billingAddressInput = async (
     };
   }
 
-  redirect('/account')
+  redirect("/account");
 };

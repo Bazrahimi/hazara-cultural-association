@@ -1,7 +1,7 @@
 "use server";
 
 import { sql } from "@/app/lib/db"; // must return { rows: T[] }
-import { createSession, getSession } from "@/app/lib/session";
+import { createSession, getSession } from "@/app/lib/session/session";
 import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

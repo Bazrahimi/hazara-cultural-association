@@ -1,6 +1,6 @@
 import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
-import { getSession } from "@/app/lib/session";
+import { getSession } from "@/app/lib/session/session";
 import { ManagePostTrans } from "@/app/lib/translation";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
@@ -9,7 +9,6 @@ import { notFound } from "next/navigation";
 import { getPostCount, getPostsByStatusCode } from "../../post/lib/data";
 import { POST_STATUS, type StatusCode } from "../../post/lib/definitions";
 import PostPanel from "./PostPanel";
-
 
 type Tab = { key: StatusCode; label: string };
 
@@ -37,8 +36,6 @@ export default async function PostsWrapper({ tab }: { tab: StatusCode }) {
     getPostCount(session.userId),
     getPostsByStatusCode({ statusCode: tab, userId: session.userId }),
   ]);
-
-  
 
   return (
     <div className="grid gap-6 lg:grid-cols-[260px_1fr]">

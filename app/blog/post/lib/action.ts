@@ -3,7 +3,7 @@
 "use server";
 
 import { BlogRoutes } from "@/app/lib/routes";
-import { getSession, requireUser } from "@/app/lib/session";
+import { getSession, requireUser } from "@/app/lib/session/session";
 import { slugify } from "@/app/shop/lib/helper";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

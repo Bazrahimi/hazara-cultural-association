@@ -1,7 +1,7 @@
 "use server";
 import { sql } from "@/app/lib/db";
 import { sanitizeHtml } from "@/app/lib/sanitize";
-import { requireUser } from "@/app/lib/session";
+import { requireUser } from "@/app/lib/session/session";
 import { ListingActionState, ListingInput, ListingSchema } from "./schema";
 
 export async function createListing(

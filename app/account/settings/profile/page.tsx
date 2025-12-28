@@ -1,12 +1,11 @@
-import { requireUser } from "@/app/lib/session";
 import { sql } from "@/app/lib/db";
 import type { Breadcrumb } from "@/app/lib/definitions";
+import { AccountRoutes } from "@/app/lib/routes";
+import { requireUser } from "@/app/lib/session/session";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import { Profile } from "./lib/schema";
 import ProfileForm from "./ui/ProfileForm";
-import { AccountRoutes } from "@/app/lib/routes";
-
 
 const breadcrumbs: Breadcrumb[] = [
   {
@@ -47,7 +46,7 @@ export default async function ProfileFullPage() {
 
   return (
     <>
-    <Breadcrumbs breadcrumbs={breadcrumbs} />
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
       <div className="mx-auto max-w-3xl p-6 md:p-8 space-y-6">
         <Header as="h1">Set Up Profile</Header>
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">

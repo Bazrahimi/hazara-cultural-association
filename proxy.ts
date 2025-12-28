@@ -1,10 +1,10 @@
-// middleware.ts
+// proxy.ts
 import { NextRequest, NextResponse } from "next/server";
 import { AdminRoutes, AuthRoutes } from "./app/lib/routes";
-import { decrypt } from "./app/lib/session";
+import { decrypt } from "./app/lib/session/session";
 
-export const middleware = async (req: NextRequest) => {
-  const { pathname } = req.nextUrl;
+export const proxy = async (req: NextRequest) => {
+  const { pathname, search } = req.nextUrl;
 
   // only protect /admin
   if (!pathname.startsWith(AdminRoutes.root())) return NextResponse.next();
