@@ -337,15 +337,15 @@ export const deletePost = async (ctx: PostAuthCtx) => {
 
 export const setPostCategory = async (ctx: {
   postId: number;
-  categoryId: number;
+  newCategoryId: number;
   userId: number;
   isAdmin: boolean;
 }) => {
-  const rows = await sql<{ categoryId: number }[]>`
+  const rows = await sql<{ newCategoryId: number }[]>`
     UPDATE blog_posts
-    SET category_id = ${ctx.categoryId}
+    SET category_id = ${ctx.newCategoryId}
     ${whereBloggerOrAdmin(ctx)}
-    RETURNING category_id as "categoryId"
+    RETURNING category_id as "newCategoryId"
   `;
-  return rows[0].categoryId ?? null;
+  return rows[0].newCategoryId ?? null;
 };

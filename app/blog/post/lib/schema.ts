@@ -1,5 +1,5 @@
 // app/blog/new/schema.ts
-import { CATEGORY_MAP } from "@/app/blog/lib/category";
+import { CATEGORY_MAP, CategoryId } from "@/app/blog/lib/category";
 import {
   POST_STATUS,
   PostInsertUpdateSuccessDBReturn,
@@ -55,7 +55,7 @@ export const PostSchema = z.object({
 
 export const UpdateCategorySchema = z.object({
   postId: z.coerce.number().int().positive(),
-  categoryId: CategoryIdSchema,
+  newCategoryId: CategoryIdSchema,
 });
 
 export type PostInput = z.infer<typeof PostSchema>;
@@ -84,4 +84,5 @@ export type UpdateCategoryState = {
   ok?: boolean;
   message?: string;
   errors?: Partial<Record<keyof UpdateCategoryInput, string[]>>;
+  newCategoryId?: CategoryId
 };

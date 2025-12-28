@@ -19,7 +19,6 @@ type PostDetailProps = {
 
 const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
   const post = await getPostById(postId);
-  console.log("post______", post)
 
   if (!post) notFound();
 
@@ -75,12 +74,11 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
       <div className="mt-6">
         <Suspense fallback={null}>
           <ManageControlGate
-          isRTL ={post.isRtl}
+            isRTL={post.isRtl}
             postId={post.postId}
             statusCode={post.statusCode}
             isFeatured={post.isFeatured}
             slug={post.slug}
-            updatedAt={post.updatedAt}
             updatedAt={post.updatedAt}
             userId={post.userId}
           />

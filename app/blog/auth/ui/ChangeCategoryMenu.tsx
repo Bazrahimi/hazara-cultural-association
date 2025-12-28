@@ -14,20 +14,15 @@ type Props = {
   isRTL: boolean;
   postId: number;
   categoryId: CategoryId;
-
-  onChangeCategory?: (next: CategoryId) => void;
 };
 
 const ChangeCategoryMenu = ({
   isRTL,
   postId,
   categoryId: initialCategoryId,
-
-  onChangeCategory,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const [categoryId, setCategoryId] = useState<CategoryId>(initialCategoryId);
-
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   const [state, formAction, isPending] = useActionState(
@@ -35,9 +30,10 @@ const ChangeCategoryMenu = ({
     undefined
   );
 
-  useEffect(() => {
-    setCategoryId(initialCategoryId);
-  }, [initialCategoryId]);
+  // useEffect(() => {
+  //   setCategoryId(initialCategoryId);
+  //   setSavedCategoryId(initialCategoryId)
+  // }, [initialCategoryId]);
 
   useEffect(() => {
     const onDocMouseDown = (e: MouseEvent) => {
@@ -60,6 +56,8 @@ const ChangeCategoryMenu = ({
   useEffect(() => {
     if (!state) return;
     if (state.ok) {
+      setOpen(false);
+      setCategoryId(state.newCategoryId as CategoryId);
       setNotification(state.message ?? "Saved.");
     } else if (state.message) {
       setNotification(state.message);
@@ -95,7 +93,7 @@ const ChangeCategoryMenu = ({
           role="dialog"
           aria-label="Change category"
           className={cn(
-            "absolute z-40 mt-2 w-64 rounded-xl border border-white/10 bg-hca-blue-main shadow-lg",
+            "absolute z-40 mt-2 w-84 rounded-xl border border-white/10 bg-hca-blue-main shadow-lg",
             isRTL ? "left-0" : "right-0"
           )}
         >
@@ -134,7 +132,6 @@ const ChangeCategoryMenu = ({
                           aria-selected={isActive}
                           onClick={() => {
                             setCategoryId(id);
-                            onChangeCategory?.(id);
                           }}
                           className={cn(
                             "flex w-full items-center px-3 py-2 text-left transition",
@@ -155,6 +152,7 @@ const ChangeCategoryMenu = ({
           </div>
 
           {/* Action only when dirty */}
+          {/* TODO: right everhying working as epxepected I only want hide this section after a successfull form action. so, I always trying to create less state, for clarity */}
           {isDirty && (
             <div
               className={cn(
@@ -164,15 +162,15 @@ const ChangeCategoryMenu = ({
             >
               <form action={formAction}>
                 <input type="hidden" name="postId" value={postId} />
-                <input type="hidden" name="categoryId" value={categoryId} />
-                <ActionButton disabled={isPending} size="xs" variant="outline">
+                <input type="hidden" name="newCategoryId" value={categoryId} />
+                <ActionButton disabled={isPending} size="sm" fullWidth>
                   {isPending
                     ? isRTL
                       ? t.action.Saving.rtl
                       : t.action.Saving.en
                     : isRTL
-                      ? t.action.Save.rtl
-                      : t.action.Save.en}
+                      ? t.action.SaveChange.rtl
+                      : t.action.SaveChange.en}
                 </ActionButton>
               </form>
             </div>

@@ -4,7 +4,6 @@ import { cn } from "@/app/lib/helper";
 import { PostListConfigTrans } from "@/app/lib/translation";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import { getCategoryLabel } from "../../lib/category";
 import type { PostsListRow } from "../../post/lib/definitions";
 import { POST_STATUS, type StatusCode } from "../../post/lib/definitions";
 import ChangeCategoryMenu from "./ChangeCategoryMenu";
@@ -91,7 +90,6 @@ export default function PostsPanel({
                     isRTL={post.isRtl}
                     postId={post.postId}
                     categoryId={post.categoryId}
-            
                   />
                 </div>
               </div>

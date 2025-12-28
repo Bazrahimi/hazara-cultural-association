@@ -17,6 +17,7 @@ import {
   Published,
   RemoveFromHomepage,
   Save,
+  SaveChange,
   Saving,
   Status,
   UpdatedOn,
@@ -63,6 +64,6 @@ export const ChangeCategoryMenuTrans = {
   category: Category,
   action: {
     Saving: Saving,
-    Save: Save,
+    SaveChange: SaveChange,
   },
 };

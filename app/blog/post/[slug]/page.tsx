@@ -2,7 +2,6 @@ import type { Breadcrumb } from "@/app/lib/definitions";
 import { BlogRoutes } from "@/app/lib/routes";
 import { BreadcrumbsTrans } from "@/app/lib/translation/BreadcrumbsTrans";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getCategoryLabel } from "../../lib/category";
 import { extractTitleFromSlug } from "../../lib/helper";
@@ -22,11 +21,9 @@ const page = async ({
   const { catId, rtl, id } = await searchParams;
   const categoryId = Number(catId);
 
-
   const isRTL = rtl === "1";
 
   const title = extractTitleFromSlug(slug);
-
 
   const categoryLabel = getCategoryLabel(categoryId, isRTL);
   const breadcrumbs: Breadcrumb[] = [

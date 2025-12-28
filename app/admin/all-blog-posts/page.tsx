@@ -9,7 +9,7 @@ import { Suspense } from "react";
 
 const AdminAllBlockPostsPage = async () => {
   const session = await requireUser();
-  const { userId, roles } = session;
+  const { roles } = session;
 
   const isAdmin = roles.includes("admin");
 

@@ -23,6 +23,7 @@ import {
   type PostState,
   type UpdateCategoryState,
 } from "./schema";
+import { CategoryId } from "../../lib/category";
 
 const parsePostId = (formData: FormData): number | null => {
   const rawPostId = formData.get("postId");
@@ -109,20 +110,26 @@ export const updatePostCategory = async (
 
   if (!parsed.success) return postFailure("Invalid input");
 
-  const { postId, categoryId } = parsed.data;
+  const { postId, newCategoryId } = parsed.data;
   const isAdmin = session.roles.includes("admin");
   const userId = session.userId;
 
-  const updated = await setPostCategory({
+
+  console.log("post", parsed.data)
+  const updateCategoryId = await setPostCategory({
     postId,
-    categoryId,
+    newCategoryId,
     userId,
     isAdmin,
   });
-  if (!updated) return postFailure("Not Authorised or post not found");
+  if (!updateCategoryId) return postFailure("Not Authorised or post not found");
 
   revalidatePath(BlogRoutes.manageMyPosts());
-  return postSuccess("Category updated.");
+  return {
+    ok: true,
+    message: "Post Category Updated",
+    newCategoryId: updateCategoryId as CategoryId
+  }
 };
 
 export async function updatePost(

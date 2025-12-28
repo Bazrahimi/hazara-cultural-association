@@ -12,7 +12,7 @@ const ManageControlGate = async ({
   isFeatured,
   isRTL,
   userId,
-  createdAt,
+  updatedAt,
 }: Props) => {
   const session = await getSession();
   const canManage =
@@ -27,7 +27,7 @@ const ManageControlGate = async ({
       isFeatured={isFeatured}
       isRTL={isRTL}
       slug={slug}
-      createdAt={createdAt}
+      updatedAt={updatedAt}
     />
   );
 };

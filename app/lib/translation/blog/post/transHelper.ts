@@ -50,6 +50,7 @@ export const sendingRequest = {
 };
 
 export const Save = { en: "Save", rtl: "ذخیره" };
+export const SaveChange = { en: "Save Change", rtl: "ذخیره تغییرات" };
 export const Saving = { en: "Saving…", rtl: "در حال ذخیره کردن…" };
 export const Status = { en: "Status", rtl: "وضعیت" };
 export const Title = { en: "Title", rtl: "عنوان مطلب" };
