@@ -2,7 +2,7 @@
 
 import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/post/lib/category";
 import { getFeaturedPostsByCategory } from "@/app/blog/post/lib/data";
-import BlogPostCard from "@/app/blog/ui/PostCard";
+import BlogPostCard from "@/app/blog/ui/posts/PostCard";
 import { Header } from "@/app/ui/global/Header";
 import Link from "next/link";
 import { P } from "../../global/paragraph";

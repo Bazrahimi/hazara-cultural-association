@@ -2,7 +2,7 @@
 import { getCategoryLabel } from "@/app/blog/post/lib/category";
 import { getPublishedPostsByCategory } from "@/app/blog/post/lib/data";
 import { Header } from "@/app/ui/global/Header";
-import BlogPostCard from "../../../ui/PostCard";
+import BlogPostCard from "../../../ui/posts//PostCard";
 
 type CategoryBlogPostsProps = {
   categoryId: number;
