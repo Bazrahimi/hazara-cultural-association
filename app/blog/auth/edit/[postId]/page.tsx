@@ -29,5 +29,5 @@ export default async function EditPostPage({ params }: PageProps) {
     isAdmin,
   });
 
-  return <PostForm mode="edit" action={updatePost} initialData={post} />;
+  return <PostForm mode="edit" action={updatePost} initialData={post}  />;
 }

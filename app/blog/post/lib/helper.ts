@@ -4,6 +4,7 @@ export const POST_FIELDS = {
   // id: "id",
   title: "title",
   contentHtml: "contentHtml",
+  excerpt: "excerpt",
   categoryId: "categoryId",
   statusCode: "statusCode",
   heroImgPath: "heroImgPath",

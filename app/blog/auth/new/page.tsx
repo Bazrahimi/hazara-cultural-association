@@ -13,6 +13,7 @@ const NewBlog = async () => {
   if (!canPost) {
     notFound();
   }
+  
 
   return <PostForm mode="create" action={createPost} />;
 };

@@ -157,6 +157,8 @@ export default function PostForm({ mode, action, initialData }: Props) {
           error={state?.errors?.excerpt}
         />
 
+        <input type="hidden" name={f.excerpt} value={excerpt} />
+
         {/* Hero image */}
         <CldFileUpload
           title={isRTL ? t.HeroImage[lang] : t.HeroImage[lang]}
