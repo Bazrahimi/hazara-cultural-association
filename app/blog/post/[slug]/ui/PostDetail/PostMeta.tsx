@@ -1,4 +1,4 @@
-import { getCategoryLabel } from "@/app/blog/lib/category";
+import { getCategoryLabel } from "@/app/blog/post/lib/category";
 import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { UserRoutes } from "@/app/lib/routes/UserRoutes";

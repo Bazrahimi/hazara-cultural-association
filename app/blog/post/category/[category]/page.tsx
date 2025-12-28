@@ -1,6 +1,6 @@
 import NotFound from "@/app/not-found";
 import { Suspense } from "react";
-import { getCategoryMeta } from "../../../lib/category";
+import { getCategoryMeta } from "../../lib/category";
 import CategoryBlogPosts from "../ui/CategoryBlogPosts";
 import PostCardSkeleton from "../ui/PostCardSkeleton";
 
@@ -9,7 +9,7 @@ const BlogCategoryPage = async ({
   searchParams,
 }: {
   params: Promise<{ category: string }>;
-  searchParams: {categoryId:string}
+  searchParams: { categoryId: string };
 }) => {
   const { category } = await params;
   const id = Number(searchParams.categoryId);

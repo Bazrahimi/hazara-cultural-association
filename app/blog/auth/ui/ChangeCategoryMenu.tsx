@@ -6,8 +6,8 @@ import { setNotification } from "@/app/u/auth/lib/setNotification";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
-import { CATEGORY_MAP, CategoryId } from "../../lib/category";
 import { updatePostCategory } from "../../post/lib/action";
+import { CATEGORY_MAP, CategoryId } from "../../post/lib/category";
 const t = ChangeCategoryMenuTrans;
 
 type Props = {

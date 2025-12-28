@@ -8,9 +8,9 @@ import {
 } from "react-icons/hi";
 import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineJoinInner } from "react-icons/md";
+import { buildPostCategoryQuickLinks } from "../blog/post/lib/category";
 import {
   AuthRoutes,
-  BlogRoutes,
   DonateRoutes,
   PublicRoutes,
   ShopRoutes,
@@ -47,7 +47,8 @@ const ORG = {
 const QUICK_LINKS = [
   { href: PublicRoutes.home(), label: "Home" },
   { href: PublicRoutes.about(), label: "About HCA" },
-  { href: BlogRoutes.root(), label: "News & Blogs" },
+  // { href: BlogRoutes.root(), label: "News & Blogs" },
+  ...buildPostCategoryQuickLinks(false),
   { href: ShopRoutes.root(), label: "Shop Merchandise" },
   { href: PublicRoutes.privacyPolicy(), label: "Privacy Policy" },
   { href: PublicRoutes.termsOfService(), label: "Terms of Service" },

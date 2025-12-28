@@ -1,10 +1,13 @@
+import { BlogRoutes } from "@/app/lib/routes";
+import { id } from "zod/locales";
+
 export const CATEGORY_MAP = {
   1: {
-    en: "news",
+    en: "News and Update",
     rtl: "اخبار و روز رسانی‌ها",
     theme: {
       icon: "📰",
-      label: "News",
+      label: "News and Update",
       from: "#1d4ed8",
       to: "#0ea5e9",
     },
@@ -20,7 +23,7 @@ export const CATEGORY_MAP = {
     },
   },
   3: {
-    en: "hazaristan",
+    en: "Hazaristan",
     rtl: "هزارستان",
     theme: {
       icon: "⛰️",
@@ -30,7 +33,7 @@ export const CATEGORY_MAP = {
     },
   },
   4: {
-    en: "hazara persecution",
+    en: "Hazara Persecution",
     rtl: "آزار و آزیت هزاره",
     theme: {
       icon: "🕯️",
@@ -40,7 +43,7 @@ export const CATEGORY_MAP = {
     },
   },
   5: {
-    en: "hope & freedom",
+    en: "Hope & Freedom",
     rtl: "امید و آزادی",
     theme: {
       icon: "🌅",
@@ -50,7 +53,7 @@ export const CATEGORY_MAP = {
     },
   },
   99: {
-    en: "external resources & references",
+    en: "External Resources & References",
     rtl: "منابع و مطالب بیرونی",
     theme: {
       icon: "📚",
@@ -67,6 +70,34 @@ export function getCategoryLabel(categoryId: number, isRTL: boolean = false): st
   if (!item) return "";
   return isRTL ? item.rtl : item.en;
 }
+
+/** Build links returning BOTH labels */
+export const buildPostCategoryLinks = () => {
+  return (Object.entries(CATEGORY_MAP) as Array<
+    [`${CategoryId}`, (typeof CATEGORY_MAP)[CategoryId]]
+  >).map(([id, cat]) => {
+    const categoryId = Number(id) as CategoryId;
+
+    return {
+      categoryId,
+      href: BlogRoutes.categoryById(categoryId),
+      label: {
+        en: cat.en,
+        rtl: cat.rtl,
+      },
+      theme: cat.theme, // optional (handy for icons/colors)
+    };
+  });
+};
+
+/** Convenience: build links but return a single label for current direction */
+export const buildPostCategoryQuickLinks = (isRTL: boolean) => {
+  return buildPostCategoryLinks().map((x) => ({
+    href: x.href,
+    label: isRTL ? x.label.rtl : x.label.en,
+  }));
+};
+
 
 const capitalizeCat = (label: string) => {
   return label

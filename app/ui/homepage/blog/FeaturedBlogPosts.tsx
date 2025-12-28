@@ -1,7 +1,7 @@
 // app/ui/global/FeaturedBlogPosts.tsx
 
+import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/post/lib/category";
 import { getFeaturedPostsByCategory } from "@/app/blog/post/lib/data";
-import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/lib/category";
 import BlogPostCard from "@/app/blog/ui/PostCard";
 import { Header } from "@/app/ui/global/Header";
 import Link from "next/link";

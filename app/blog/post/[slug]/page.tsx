@@ -3,8 +3,8 @@ import { BlogRoutes } from "@/app/lib/routes";
 import { BreadcrumbsTrans } from "@/app/lib/translation/BreadcrumbsTrans";
 import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
 import { Suspense } from "react";
-import { getCategoryLabel } from "../../lib/category";
 import { extractTitleFromSlug } from "../../lib/helper";
+import { getCategoryLabel } from "../lib/category";
 import PostBody from "./ui/PostDetail/PostBody";
 import PostShell from "./ui/PostDetail/PostShell";
 

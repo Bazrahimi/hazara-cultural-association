@@ -2,7 +2,7 @@
 
 "use client";
 
-import type { CategoryId } from "@/app/blog/lib/category";
+import type { CategoryId } from "@/app/blog/post/lib/category";
 import { POST_FIELDS } from "@/app/blog/post/lib/helper";
 import { toBoolean } from "@/app/lib/helper";
 import { CreateEditPostTrans } from "@/app/lib/translation";

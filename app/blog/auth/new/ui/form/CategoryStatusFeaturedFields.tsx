@@ -1,7 +1,7 @@
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 
-import type { CategoryId } from "@/app/blog/lib/category";
-import { CATEGORY_MAP } from "@/app/blog/lib/category";
+import type { CategoryId } from "@/app/blog/post/lib/category";
+import { CATEGORY_MAP } from "@/app/blog/post/lib/category";
 import { POST_FIELDS } from "@/app/blog/post/lib/helper";
 import { CreateEditPostTrans } from "@/app/lib/translation";
 import type { PostInput, PostState } from "../../../../post/lib/schema";

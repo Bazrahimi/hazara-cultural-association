@@ -1,4 +1,4 @@
-import { CategoryId } from "../../lib/category";
+import { CategoryId } from "./category";
 
 export const POST_STATUS = {
   DRAFTED: 1,
@@ -55,7 +55,7 @@ export type PostCardRow = Pick<
   authorName: string;
 };
 
-export type PostRow = Omit <PostBase, "createdAt"> & {
+export type PostRow = Omit<PostBase, "createdAt"> & {
   authorName: string;
 };
 

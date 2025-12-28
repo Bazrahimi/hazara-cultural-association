@@ -16,6 +16,7 @@ import {
   postFailure,
   postSuccess,
 } from "./actionHelper";
+import { CategoryId } from "./category";
 import { insertPostRow, setPostCategory, updatePostRow } from "./data";
 import { POST_STATUS } from "./definitions";
 import {
@@ -23,7 +24,6 @@ import {
   type PostState,
   type UpdateCategoryState,
 } from "./schema";
-import { CategoryId } from "../../lib/category";
 
 const parsePostId = (formData: FormData): number | null => {
   const rawPostId = formData.get("postId");
@@ -114,8 +114,7 @@ export const updatePostCategory = async (
   const isAdmin = session.roles.includes("admin");
   const userId = session.userId;
 
-
-  console.log("post", parsed.data)
+  console.log("post", parsed.data);
   const updateCategoryId = await setPostCategory({
     postId,
     newCategoryId,
@@ -128,8 +127,8 @@ export const updatePostCategory = async (
   return {
     ok: true,
     message: "Post Category Updated",
-    newCategoryId: updateCategoryId as CategoryId
-  }
+    newCategoryId: updateCategoryId as CategoryId,
+  };
 };
 
 export async function updatePost(

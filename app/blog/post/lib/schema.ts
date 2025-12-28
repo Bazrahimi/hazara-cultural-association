@@ -1,5 +1,5 @@
 // app/blog/new/schema.ts
-import { CATEGORY_MAP, CategoryId } from "@/app/blog/lib/category";
+import { CATEGORY_MAP, CategoryId } from "@/app/blog/post/lib/category";
 import {
   POST_STATUS,
   PostInsertUpdateSuccessDBReturn,
@@ -84,5 +84,5 @@ export type UpdateCategoryState = {
   ok?: boolean;
   message?: string;
   errors?: Partial<Record<keyof UpdateCategoryInput, string[]>>;
-  newCategoryId?: CategoryId
+  newCategoryId?: CategoryId;
 };

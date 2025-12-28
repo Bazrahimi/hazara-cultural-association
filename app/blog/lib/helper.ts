@@ -1,4 +1,4 @@
-import { CATEGORY_MAP, CategoryId } from "./category";
+import { CATEGORY_MAP, CategoryId } from "../post/lib/category";
 
 function escapeSvgText(text: string): string {
   return text

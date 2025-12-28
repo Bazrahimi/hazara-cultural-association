@@ -1,4 +1,4 @@
-import { getCategoryLabel } from "@/app/blog/lib/category";
+import { getCategoryLabel } from "@/app/blog/post/lib/category";
 import { slugify } from "@/app/shop/lib/helper";
 import { join, q } from "./helper";
 export const BlogRoutes = {
