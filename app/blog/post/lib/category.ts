@@ -1,5 +1,4 @@
 import { BlogRoutes } from "@/app/lib/routes";
-import { id } from "zod/locales";
 
 export const CATEGORY_MAP = {
   1: {
@@ -65,17 +64,22 @@ export const CATEGORY_MAP = {
 
 export type CategoryId = keyof typeof CATEGORY_MAP; // 1 | 2 | 3 | 4
 
-export function getCategoryLabel(categoryId: number, isRTL: boolean = false): string {
+export function getCategoryLabel(
+  categoryId: number,
+  isRTL: boolean = false
+): string {
   const item = CATEGORY_MAP[categoryId as CategoryId];
   if (!item) return "";
   return isRTL ? item.rtl : item.en;
 }
 
 /** Build links returning BOTH labels */
-export const buildPostCategoryLinks = () => {
-  return (Object.entries(CATEGORY_MAP) as Array<
-    [`${CategoryId}`, (typeof CATEGORY_MAP)[CategoryId]]
-  >).map(([id, cat]) => {
+const buildPostCategoryLinks = () => {
+  return (
+    Object.entries(CATEGORY_MAP) as Array<
+      [`${CategoryId}`, (typeof CATEGORY_MAP)[CategoryId]]
+    >
+  ).map(([id, cat]) => {
     const categoryId = Number(id) as CategoryId;
 
     return {
@@ -97,24 +101,6 @@ export const buildPostCategoryQuickLinks = (isRTL: boolean) => {
     label: isRTL ? x.label.rtl : x.label.en,
   }));
 };
-
-
-const capitalizeCat = (label: string) => {
-  return label
-    .split(" ")
-    .map((w) => (w[0] ? w[0].toUpperCase() + w.slice(1) : w))
-    .join(" ");
-};
-
-export const getCategoryLinks = Object.entries(CATEGORY_MAP)
-  .sort(([a], [b]) => Number(a) - Number(b))
-  .map(([id, value]) => ({
-    id: Number(id),
-    href: `/blog/p/${id}`,
-    label: capitalizeCat(value.en),
-  }));
-
-export const catItems = getCategoryLinks;
 
 type CategoryKey = keyof typeof CATEGORY_MAP;
 
@@ -176,7 +162,7 @@ export function getCategoryMeta(categoryId: number) {
 
   return {
     id: categoryId,
-    heading: capitalizeCat(base.en),
+    heading: base.en,
     rtlHeading: base.rtl,
     fullDesc: desc.fullDesc,
     shortDesc: desc.shortDesc,

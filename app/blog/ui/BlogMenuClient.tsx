@@ -3,14 +3,14 @@
 import { BlogRoutes } from "@/app/lib/routes";
 import Link from "next/link";
 import { HiCalendar, HiChevronDown } from "react-icons/hi";
-import { catItems } from "../post/lib/category";
+import { buildPostCategoryQuickLinks } from "../post/lib/category";
 import { BlogMenuProps } from "./BlogMenu";
 import { useDropdownMenu } from "./useDropdownMenu";
 
 type BlogMenuClientProps = BlogMenuProps & { isAllowed: boolean };
 
 const baseItems = [
-  ...catItems,
+  ...buildPostCategoryQuickLinks(false),
   {
     label: "Hazara Genocide Memorial",
     href: "/blog/hazara-genocide-memorial/133",
