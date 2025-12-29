@@ -11,7 +11,7 @@ export const BlogRoutes = {
   categoryById: (categoryId: number) => {
     const label = getCategoryLabel(categoryId);
     const slug = slugify(label);
-    return `/blog/post/category/${slug}?categoryId=${categoryId}`;
+    return `/blog/post/category/${slug}-${categoryId}`;
   },
   // authorByNamePlusId: (namePlusId: string) => `/blog/u/${namePlusId}`,
 

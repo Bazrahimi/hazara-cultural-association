@@ -8,13 +8,13 @@ import TricolorRule from "@/app/ui/global/TricolorRule";
 
 const BlogCategoryPage = async ({
   params,
-  searchParams,
 }: {
   params: Promise<{ category: string }>;
-  searchParams: { categoryId: string };
+
 }) => {
   const { category } = await params;
-  const categoryId = Number(searchParams.categoryId);
+  const parts = category.split("-");
+  const categoryId = Number(parts.at(-1))
 
   const meta = getCategoryMeta(categoryId);
 
