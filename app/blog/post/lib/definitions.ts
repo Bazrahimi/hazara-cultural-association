@@ -95,3 +95,5 @@ export type PostAuthCtx = {
   isAdmin: boolean;
   userId: number;
 };
+
+export type FetchPostsMode = "allPosts" | "featured" | "author";

@@ -91,7 +91,7 @@ async function getPostsWithWhere(
 
 export async function getFeaturedPostsByCategory(
   categoryId: number,
-  limit: number = 4
+  limit: number
 ): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
@@ -105,7 +105,7 @@ export async function getFeaturedPostsByCategory(
 
 export async function getPublishedPostsByCategory(
   categoryId: number,
-  limit: number = 20
+  limit: number
 ): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
@@ -118,7 +118,7 @@ export async function getPublishedPostsByCategory(
 
 export async function getPublishedPostsByAuthor(
   authorId: number,
-  limit: number = 20
+  limit: number
 ): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`

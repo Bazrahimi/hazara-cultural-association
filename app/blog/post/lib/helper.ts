@@ -15,3 +15,5 @@ export const POST_FIELDS = {
   createdAt: "createdAt",
 } as const satisfies Record<keyof PostInput, keyof PostInput>;
 
+export const POSTS_SECTION_GRID_CLASS =
+  "grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 md:gap-6 lg:grid-cols-4 lg:gap-6";
