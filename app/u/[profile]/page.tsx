@@ -1,7 +1,7 @@
 // app/blog/(pages)/u/[userId]/page.tsx
 import { Suspense } from "react";
 import PostCardSkeleton from "../../blog/post/category/ui/PostCardSkeleton";
-import AuthorBlogPosts from "./ui/AuthorBlogPosts";
+import ProfilePosts from "./ui/ProfilePosts";
 
 const AuthorPublicPostsPage = async ({
   params,
@@ -12,11 +12,21 @@ const AuthorPublicPostsPage = async ({
 
   const parts = profile.split("-");
 
-  const authorId = Number(parts[parts.length - 1]);
+  const profileName = parts
+    .slice(0, -1)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+
+  const profileId = Number(parts[parts.length - 1]);
 
   return (
     <Suspense fallback={<PostCardSkeleton />}>
-      <AuthorBlogPosts authorId={authorId} />;
+      <ProfilePosts
+        profileId={profileId}
+        profileName={profileName}
+        limit={20}
+      />
+      ;
     </Suspense>
   );
 };

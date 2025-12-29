@@ -4,32 +4,35 @@ import {
   getPublishedPostsByAuthor,
   getPublishedPostsByCategory,
 } from "../../post/lib/data";
-import { FetchPostsMode } from "../../post/lib/definitions";
 import { POSTS_SECTION_GRID_CLASS } from "../../post/lib/helper";
 import PostCard from "./PostCard";
 
-type Props = {
-  categoryId: number;
-  mode: FetchPostsMode;
-  limit: number;
-};
+type Base = { limit: number };
 
-const PostsSection = async ({ categoryId, mode, limit }: Props) => {
+type Props =
+  | (Base & { mode: "allPosts"; categoryId: number })
+  | (Base & { mode: "featured"; categoryId: number })
+  | (Base & { mode: "author"; authorId: number });
+
+const PostsSection = async (props: Props) => {
   let posts;
 
-  switch (mode) {
+  switch (props.mode) {
     case "allPosts":
-      posts = await getPublishedPostsByCategory(categoryId, limit);
+      posts = await getPublishedPostsByCategory(props.categoryId, props.limit);
       break;
 
     case "featured":
-      posts = await getFeaturedPostsByCategory(categoryId, limit);
+      posts = await getFeaturedPostsByCategory(props.categoryId, props.limit);
       break;
     case "author":
-      posts = await getPublishedPostsByAuthor(categoryId, limit);
+      posts = await getPublishedPostsByAuthor(props.authorId, props.limit);
       break;
-    default:
-      throw new Error(`Unhandled mode: ${mode}`);
+    default: {
+      // extra safety for future modes
+      const _exhaustive: never = props;
+      throw new Error(`Unhandled mode`);
+    }
   }
 
   if (!posts.length)

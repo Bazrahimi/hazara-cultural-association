@@ -96,4 +96,4 @@ export type PostAuthCtx = {
   userId: number;
 };
 
-export type FetchPostsMode = "allPosts" | "featured" | "author";
+// export type FetchPostsMode = "allPosts" | "featured" | "author";
