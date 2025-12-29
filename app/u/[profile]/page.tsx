@@ -1,6 +1,5 @@
 // app/blog/(pages)/u/[userId]/page.tsx
-import { Suspense } from "react";
-import PostCardSkeleton from "../../blog/post/category/ui/PostCardSkeleton";
+
 import ProfilePosts from "./ui/ProfilePosts";
 
 const AuthorPublicPostsPage = async ({
@@ -20,14 +19,7 @@ const AuthorPublicPostsPage = async ({
   const profileId = Number(parts[parts.length - 1]);
 
   return (
-    <Suspense fallback={<PostCardSkeleton />}>
-      <ProfilePosts
-        profileId={profileId}
-        profileName={profileName}
-        limit={20}
-      />
-      ;
-    </Suspense>
+    <ProfilePosts profileId={profileId} profileName={profileName} limit={20} />
   );
 };
 

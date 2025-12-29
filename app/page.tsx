@@ -18,18 +18,16 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="w-full bg-gray-50 border-b border-gray-200 py-14">
+        <div className="mx-auto max-w-6xl px-4">
+          <FeaturedBlogPosts limit={8} />
+        </div>
+      </section>
+
       <section className="w-full bg-white border-b border-gray-200 py-14">
         <div className="mx-auto max-w-6xl px-4">
           <Suspense fallback={null}>
             <Memorial133Spotlight />
-          </Suspense>
-        </div>
-      </section>
-
-      <section className="w-full bg-gray-50 border-b border-gray-200 py-14">
-        <div className="mx-auto max-w-6xl px-4">
-          <Suspense fallback={null}>
-            <FeaturedBlogPosts />
           </Suspense>
         </div>
       </section>
