@@ -1,15 +1,33 @@
+// app/blog/post/category/ui/PostCardSkeleton.tsx (or your path)
+
+import { POST_CARD } from "../../post/lib/helper";
+
 const PostCardSkeleton = () => {
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm animate-pulse">
-      <article className="flex h-full flex-col">
-        {/* Title (above image) */}
-        <div className="px-4 pt-4 space-y-2">
-          <div className="h-4 w-11/12 rounded bg-gray-200" />
-          <div className="h-4 w-8/12 rounded bg-gray-200" />
+    <div className={POST_CARD.link + " animate-pulse"}>
+      <article className={POST_CARD.article}>
+        {/* Title */}
+        <div className="p-1">
+          <div className="space-y-2">
+            <div className="h-4 w-11/12 rounded bg-gray-200" />
+            <div className="h-4 w-8/12 rounded bg-gray-200" />
+          </div>
         </div>
 
-        {/* Image */}
-        <div className="relative mt-3 h-44 w-full bg-gray-200" />
+        {/* Media block */}
+        <div className={POST_CARD.media}>
+          {/* Image placeholder */}
+          <div className="absolute inset-0 bg-gray-200" />
+
+          {/* Static CTA overlay (like real card) */}
+          <div
+            className={
+              POST_CARD.ctaOverlay + " group-hover:bg-hca-yellow-dark/80"
+            }
+          >
+            <span className={POST_CARD.ctaText}>View Details</span>
+          </div>
+        </div>
       </article>
     </div>
   );

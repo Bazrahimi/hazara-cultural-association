@@ -10,6 +10,7 @@ import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import Link from "next/link";
 import type { PostCardRow } from "../../post/lib/definitions";
+import { POST_CARD } from "../../post/lib/helper";
 
 type PostCardProps = {
   post: PostCardRow;
@@ -24,9 +25,9 @@ const PostCard = ({ post }: PostCardProps) => {
   return (
     <Link
       href={`${BlogRoutes.post(post.slug)}?catId=${post.categoryId}&rtl=${isRTL ? 1 : 0}&id=${post.postId}`}
-      className="group overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
+      className={POST_CARD.link}
     >
-      <article className="flex h-full flex-col p-1">
+      <article className={POST_CARD.article}>
         {/* Top: title*/}
 
         <Header
@@ -51,7 +52,7 @@ const PostCard = ({ post }: PostCardProps) => {
         </Header>
 
         {/* Bottom: media block */}
-        <div className="relative mt-auto h-44 w-full overflow-hidden">
+        <div className={POST_CARD.media}>
           {post.heroImgPath ? (
             <>
               <Image
@@ -63,10 +64,8 @@ const PostCard = ({ post }: PostCardProps) => {
                 blurDataURL={IMAGE_DEFAULT_BLUR}
               />
               {/* CTA overlay */}
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-hca-yellow-dark/80 group-hover:bg-hca-yellow-main px-3 py-2 backdrop-blur-sm">
-                <span className="text-xs font-semibold text-white text-center">
-                  {ctaText}
-                </span>
+              <div className={POST_CARD.ctaOverlay}>
+                <span className={POST_CARD.ctaText}>{ctaText}</span>
               </div>
             </>
           ) : (
