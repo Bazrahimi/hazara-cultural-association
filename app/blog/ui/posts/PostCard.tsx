@@ -39,7 +39,7 @@ const PostCard = ({ post }: PostCardProps) => {
 
             // underline hover animation
             "after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-full",
-            "after:origin-left after:scale-x-0 after:bg-hca-blue-dark",
+            "after:origin-left after:scale-x-0 after:bg-hca-yellow-dark",
             "after:transition-transform after:duration-300",
             "group-hover:after:scale-x-100",
 
@@ -63,7 +63,7 @@ const PostCard = ({ post }: PostCardProps) => {
                 blurDataURL={IMAGE_DEFAULT_BLUR}
               />
               {/* CTA overlay */}
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-hca-blue-dark/80 group-hover:bg-hca-blue-main px-3 py-2 backdrop-blur-sm">
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-hca-yellow-dark/80 group-hover:bg-hca-yellow-main px-3 py-2 backdrop-blur-sm">
                 <span className="text-xs font-semibold text-white text-center">
                   {ctaText}
                 </span>
@@ -86,11 +86,12 @@ const PostCard = ({ post }: PostCardProps) => {
                 size="xs"
                 variant="outline"
                 className="
+                  flex items-center justify-center
                   transition
-                  hover:bg-hca-blue-main hover:text-white hover:border-hca-blue-dark
-                  group-hover:bg-hca-blue-main
+                  hover:bg-hca-yellow-main hover:text-white hover:border-hca-yellow-dark
+                  group-hover:bg-hca-yellow-main
                   group-hover:text-white
-                  group-hover:border-hca-blue-dark
+                  group-hover:border-hca-yellow-dark
                 "
               >
                 {ctaText}
