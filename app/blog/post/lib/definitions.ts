@@ -14,6 +14,7 @@ type PostDbRow = {
   title: string;
   slug: string;
   content_html: string;
+  excerpt: string;
   status_code: StatusCode;
   // status: "draft" | "published" | "archived"; TODO: remove the column from the database after pushing the the code
   hero_img_path: string | null;
@@ -44,7 +45,6 @@ export type PostBase = CamelizeKeys<PostDbRow>;
 export type PostCardRow = Pick<
   PostBase,
   | "postId"
-  | "userId"
   | "title"
   | "slug"
   | "heroImgPath"
@@ -52,7 +52,8 @@ export type PostCardRow = Pick<
   | "categoryId"
   | "isRtl"
 > & {
-  authorName: string;
+   excerpt?: PostBase["excerpt"];
+  
 };
 
 export type PostRow = Omit<PostBase, "createdAt"> & {

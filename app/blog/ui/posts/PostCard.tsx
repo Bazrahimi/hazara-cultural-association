@@ -1,13 +1,14 @@
 // app/blog/ui/BlogPostCard.tsx
 
 import { cldCardHeroAuto } from "@/app/lib/cloudinary";
+import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
+import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
+import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import Link from "next/link";
-import { cardImgPlaceholder } from "../../lib/helper";
-import { CategoryId } from "../../post/lib/category";
 import type { PostCardRow } from "../../post/lib/definitions";
 
 type PostCardProps = {
@@ -18,16 +19,7 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
   const isRTL = post.isRtl;
-
-  const byLabel = isRTL ? "منتشر شده توسط" : "Published by";
-  const fallbackAuthor = "Unknown";
-  const ctaText = isRTL ? "مطلب و مقاله را کامل بخوانید" : "Read Full Article";
-
-  const placeholderSrc = cardImgPlaceholder(
-    post.categoryId as CategoryId,
-
-    isRTL
-  );
+  const ctaText = isRTL ? "ادامه مطلب" : "View Details";
 
   return (
     <Link
@@ -35,23 +27,28 @@ const PostCard = ({ post }: PostCardProps) => {
       className="group overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
     >
       <article className="flex h-full flex-col">
-        {/* Top: title + author */}
-        <div className="p-4" dir={isRTL ? "rtl" : "ltr"}>
-          <Header
-            as="h3"
-            size="sm"
-            className={`text-gray-700 ${isRTL ? "text-right" : ""}`}
-          >
-            {post.title}
-          </Header>
+        {/* Top: title*/}
 
-          <p className="mt-1 text-xs text-gray-500">
-            {byLabel}{" "}
-            <span className="font-semibold">
-              {post.authorName || fallbackAuthor}
-            </span>
-          </p>
-        </div>
+        <Header
+          as="h4"
+          size="sm"
+          align={isRTL ? "right" : "left"}
+          className={cn(
+            "relative inline-block leading-snug text-gray-800",
+            "wrap-break-word",
+
+            // underline hover animation
+            "after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-full",
+            "after:origin-left after:scale-x-0 after:bg-hca-blue-dark",
+            "after:transition-transform after:duration-300",
+            "group-hover:after:scale-x-100",
+
+            // RTL underline correction
+            isRTL ? "after:right-0 after:left-auto after:origin-right" : ""
+          )}
+        >
+          {post.title}
+        </Header>
 
         {/* Bottom: media block */}
         <div className="relative mt-auto h-44 w-full overflow-hidden">
@@ -65,28 +62,40 @@ const PostCard = ({ post }: PostCardProps) => {
                 placeholder="blur"
                 blurDataURL={IMAGE_DEFAULT_BLUR}
               />
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-black/40 px-3 py-2 backdrop-blur-sm">
+              {/* CTA overlay */}
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-hca-blue-dark/80 group-hover:bg-hca-blue-main px-3 py-2 backdrop-blur-sm">
                 <span className="text-xs font-semibold text-white text-center">
                   {ctaText}
                 </span>
               </div>
             </>
           ) : (
-            <>
-              {/* Category-based SVG poster */}
-              <Image
-                src={placeholderSrc}
-                alt={post.title}
-                fill
-                className="object-cover"
-                unoptimized
-              />
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-black/35 px-3 py-2 backdrop-blur-sm">
-                <span className="text-xs font-semibold text-white text-center">
-                  {ctaText}
-                </span>
-              </div>
-            </>
+            <div className="relative flex h-full flex-col justify-between bg-gray-50 px-4 py-3">
+              <P
+                size="sm"
+                dir={isRTL ? "rtl" : "ltr"}
+                className={cn(
+                  "line-clamp-5 leading-relaxed text-gray-700",
+                  isRTL ? "text-right" : "text-left"
+                )}
+              >
+                {post.excerpt || "No preview available."}
+              </P>
+
+              <Button
+                size="xs"
+                variant="outline"
+                className="
+                  transition
+                  hover:bg-hca-blue-main hover:text-white hover:border-hca-blue-dark
+                  group-hover:bg-hca-blue-main
+                  group-hover:text-white
+                  group-hover:border-hca-blue-dark
+                "
+              >
+                {ctaText}
+              </Button>
+            </div>
           )}
         </div>
       </article>

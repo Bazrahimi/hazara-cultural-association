@@ -71,14 +71,19 @@ async function getPostsWithWhere(
   return sql<PostCardRow[]>`
     SELECT
       p.id              AS "postId",
-      p.user_id         AS "userId",
       p.title,
       p.slug,
       p.hero_img_path    AS "heroImgPath",
+
+      CASE
+        WHEN p.hero_img_path IS NULL OR BTRIM(p.hero_img_path) = ''
+        THEN p.excerpt
+        ELSE NULL
+      END AS "excerpt",
+
       p.is_featured      AS "isFeatured",
       p.category_id      AS "categoryId",
-      p.is_rtl           AS "isRtl",
-      CONCAT_WS(' ', up.first_name, up.last_name) AS "authorName"
+      p.is_rtl           AS "isRtl"
     FROM blog_posts p
     LEFT JOIN user_profiles up ON up.user_id = p.user_id
     WHERE ${whereFragment}
