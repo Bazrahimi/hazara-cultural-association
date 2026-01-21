@@ -24,7 +24,7 @@ type Props = {
   mode: ActionMode;
   action: (
     prev: PostState | undefined,
-    formData: FormData
+    formData: FormData,
   ) => Promise<PostState>;
   initialData?: Partial<PostInput> & { postId?: number };
 };
@@ -43,13 +43,13 @@ export default function PostForm({ mode, action, initialData }: Props) {
 
   // Controlled fields
   const [contentHTML, setContentHTML] = useState(
-    initialData?.contentHtml ?? ""
+    initialData?.contentHtml ?? "",
   );
   const [excerpt, setExcerpt] = useState(initialData?.excerpt ?? "");
   const [heroImage, setHeroImage] = useState(initialData?.heroImgPath ?? "");
 
   const derivedCategoryId = (Number(
-    state?.data?.categoryId ?? initialData?.categoryId ?? 1
+    state?.data?.categoryId ?? initialData?.categoryId ?? 1,
   ) || 1) as CategoryId;
 
   // Local state so the select is controlled immediately on change

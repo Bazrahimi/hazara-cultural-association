@@ -65,7 +65,7 @@ const ExcerptField = ({
           hasError ? "border-red-300" : "border-gray-200"
         )}
       />
-      {contentHtml && (
+      {contentHtml && contentHtml.length > 20 && (
         <div className="flex items-center justify-between text-xs text-gray-500">
           <Button
             variant="outline"
