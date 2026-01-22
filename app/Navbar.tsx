@@ -1,7 +1,7 @@
 // app/Navbar.tsx
 import Image from "next/image";
 import Link from "next/link";
-import { CiShoppingCart } from "react-icons/ci";
+// import { CiShoppingCart } from "react-icons/ci";
 import { HiInformationCircle } from "react-icons/hi";
 import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
 import CartIcon from "./(disabled)/_shop/ui/cart/CartBadge";
@@ -54,10 +54,10 @@ const NavBar = () => {
           <BlogMenu navLinkBase={navLinkBase} navIcon={navIcon} />
         </nav>
 
-        <Link href="/shop" className={navLinkBase} aria-label="Programs">
+        {/* <Link href="/shop" className={navLinkBase} aria-label="Programs">
           <CiShoppingCart className={navIcon} />
           <span className="hidden sm:inline">Shop</span>
-        </Link>
+        </Link> */}
 
         <Link href="/contact-us" className={navLinkBase} aria-label="Contact">
           <MdOutlineEmail className={navIcon} />

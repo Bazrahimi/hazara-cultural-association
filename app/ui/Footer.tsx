@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BsFillCartFill } from "react-icons/bs";
+// import { BsFillCartFill } from "react-icons/bs";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaWpforms } from "react-icons/fa6";
 import {
@@ -13,7 +13,7 @@ import {
   AuthRoutes,
   DonateRoutes,
   PublicRoutes,
-  ShopRoutes,
+  // ShopRoutes,
 } from "../lib/routes";
 import { Header } from "./global/Header";
 import { P } from "./global/paragraph";
@@ -49,7 +49,7 @@ const QUICK_LINKS = [
   { href: PublicRoutes.about(), label: "About HCA" },
   // { href: BlogRoutes.root(), label: "News & Blogs" },
   ...buildPostCategoryQuickLinks(false),
-  { href: ShopRoutes.root(), label: "Shop Merchandise" },
+  // { href: ShopRoutes.root(), label: "Shop Merchandise" },
   { href: PublicRoutes.privacyPolicy(), label: "Privacy Policy" },
   { href: PublicRoutes.termsOfService(), label: "Terms of Service" },
   { href: DonateRoutes.root(), label: "Support HCA" },
@@ -195,12 +195,12 @@ const Footer = () => {
                 Sign Up
               </Link>
             </li>
-            <li className={CN.Item}>
+            {/* <li className={CN.Item}>
               <BsFillCartFill className={CN.Icon} aria-hidden="true" />
               <Link href={ShopRoutes.shopCart()} className={CN.link}>
                 My Cart
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>
