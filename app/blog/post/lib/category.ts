@@ -76,24 +76,9 @@ export const CATEGORY_DESCRIPTIONS = {
     shortDesc:
       "Invitations, reports, and reflections on rallies and advocacy events that build awareness and social cohesion.",
   },
-  3: {
-    fullDesc:
-      "Hazaristan is the ancestral homeland of the Hazara people. Before the late 19th century, it held its own local governance and cultural autonomy. Historical accounts describe a Hazara land stretching across the central highlands, rich with valleys, rivers, and mountain life—until conquest, displacement, and forced migrations changed the region forever. This section preserves stories, memory, and heritage for both local and diaspora communities, including those now living in Australia.",
-    shortDesc:
-      "History and heritage of Hazaristan, preserved for Hazara communities in Australia and worldwide.",
-  },
-  4: {
-    fullDesc:
-      "This section documents the long history of Hazara persecution—from Abdur Rahman’s reign to modern genocidal attacks—leading to displacement, diaspora, and generations of trauma. It examines structural discrimination, massacres, and targeted violence. For communities now rebuilding in Australia, remembering this history is essential for healing, recognition, and ensuring that these injustices are never ignored again.",
-    shortDesc:
-      "Documentation of historic and modern persecution of Hazaras, with focus on memory and recognition.",
-  },
-  5: {
-    fullDesc:
-      "Despite generations of exclusion, Hazaras have risen through education, community organising, and global advocacy. In Australia, a vibrant Hazara community has grown over the last two decades, contributing to culture, academia, business, and civic life. This category highlights stories of resilience, hope, social contribution, and the continued pursuit of dignity, equality, and freedom—values at the heart of true social cohesion.",
-    shortDesc:
-      "Stories of resilience and contribution from Hazaras in Australia and worldwide, building a dignified future.",
-  },
+
+
+ 
 
   99: {
     fullDesc:
