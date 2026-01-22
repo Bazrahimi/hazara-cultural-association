@@ -14,7 +14,7 @@ function extractTextExcerpt(html?: string, maxLength = 160): string {
     .trim();
 
   if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength).trimEnd() + "…";
+  return text.slice(0, maxLength).trimEnd();
 }
 
 type Props = {

@@ -6,21 +6,10 @@ export const CATEGORY_MAP = {
     rtl: "اخبار و روز رسانی‌ها",
   },
   2: {
-    en: "Community and Advocacy Events",
+    en: "Community Events",
     rtl: "برنامه و گردهمایی",
   },
-  3: {
-    en: "Hazaristan",
-    rtl: "هزارستان",
-  },
-  4: {
-    en: "Hazara Persecution",
-    rtl: "آزار و آزیت هزاره",
-  },
-  5: {
-    en: "Hope & Freedom",
-    rtl: "امید و آزادی",
-  },
+
   99: {
     en: "External Resources & References",
     rtl: "منابع و مطالب بیرونی",
@@ -54,7 +43,6 @@ const buildPostCategoryLinks = () => {
         en: cat.en,
         rtl: cat.rtl,
       },
-      theme: cat.theme, // optional (handy for icons/colors)
     };
   });
 };
@@ -106,6 +94,7 @@ export const CATEGORY_DESCRIPTIONS = {
     shortDesc:
       "Stories of resilience and contribution from Hazaras in Australia and worldwide, building a dignified future.",
   },
+
   99: {
     fullDesc:
       "This category features external articles, historical documents, book excerpts, research papers, and third-party publications related to Hazara history, culture, politics, and broader regional issues. Many of these works connect to the lived experiences of Hazara communities in Australia, their journey of rebuilding, and the national conversation around belonging, multiculturalism, and social cohesion. All sources are credited to their original authors.",
