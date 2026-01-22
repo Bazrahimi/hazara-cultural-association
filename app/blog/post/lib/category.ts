@@ -4,61 +4,26 @@ export const CATEGORY_MAP = {
   1: {
     en: "News and Update",
     rtl: "اخبار و روز رسانی‌ها",
-    theme: {
-      icon: "📰",
-      label: "News and Update",
-      from: "#1d4ed8",
-      to: "#0ea5e9",
-    },
   },
   2: {
     en: "Community and Advocacy Events",
     rtl: "برنامه و گردهمایی",
-    theme: {
-      icon: "📣",
-      label: "Events",
-      from: "#7c2d12",
-      to: "#f97316",
-    },
   },
   3: {
     en: "Hazaristan",
     rtl: "هزارستان",
-    theme: {
-      icon: "⛰️",
-      label: "Hazaristan",
-      from: "#047857",
-      to: "#22c55e",
-    },
   },
   4: {
     en: "Hazara Persecution",
     rtl: "آزار و آزیت هزاره",
-    theme: {
-      icon: "🕯️",
-      label: "Persecution",
-      from: "#111827",
-      to: "#4b5563",
-    },
   },
   5: {
     en: "Hope & Freedom",
     rtl: "امید و آزادی",
-    theme: {
-      icon: "🌅",
-      label: "Hope & Freedom",
-      from: "#7c3aed",
-      to: "#ec4899",
-    },
   },
   99: {
     en: "External Resources & References",
     rtl: "منابع و مطالب بیرونی",
-    theme: {
-      icon: "📚",
-      from: "#334155",
-      to: "#0f172a",
-    },
   },
 } as const;
 
@@ -66,7 +31,7 @@ export type CategoryId = keyof typeof CATEGORY_MAP; // 1 | 2 | 3 | 4
 
 export function getCategoryLabel(
   categoryId: number,
-  isRTL: boolean = false
+  isRTL: boolean = false,
 ): string {
   const item = CATEGORY_MAP[categoryId as CategoryId];
   if (!item) return "";
