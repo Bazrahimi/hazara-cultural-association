@@ -148,6 +148,7 @@ export const getEditPostById = async ({
       id               AS "postId",
       title,
       content_html     AS "contentHtml",
+      excerpt,
       category_id      AS "categoryId",
       status_code      AS "statusCode",
       hero_img_path    AS "heroImgPath",
@@ -229,7 +230,7 @@ export const getPostsByStatusCode = async ({
 
 const RETURNING_INSERT_UPDATE_POST: SqlFragment = sql`
   RETURNING
-    id         AS postId,
+    id         AS "postId",
     slug,
     is_featured AS "isFeatured",
     category_id AS "categoryId",

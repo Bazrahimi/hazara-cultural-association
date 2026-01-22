@@ -114,7 +114,7 @@ export const updatePostCategory = async (
   const isAdmin = session.roles.includes("admin");
   const userId = session.userId;
 
-  console.log("post", parsed.data);
+
   const updateCategoryId = await setPostCategory({
     postId,
     newCategoryId,

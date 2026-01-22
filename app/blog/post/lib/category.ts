@@ -77,9 +77,6 @@ export const CATEGORY_DESCRIPTIONS = {
       "Invitations, reports, and reflections on rallies and advocacy events that build awareness and social cohesion.",
   },
 
-
- 
-
   99: {
     fullDesc:
       "This category features external articles, historical documents, book excerpts, research papers, and third-party publications related to Hazara history, culture, politics, and broader regional issues. Many of these works connect to the lived experiences of Hazara communities in Australia, their journey of rebuilding, and the national conversation around belonging, multiculturalism, and social cohesion. All sources are credited to their original authors.",

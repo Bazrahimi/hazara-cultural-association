@@ -65,6 +65,7 @@ export type EditPostRow = Pick<
   | "postId"
   | "title"
   | "contentHtml"
+  | "excerpt"
   | "categoryId"
   | "statusCode"
   | "heroImgPath"
