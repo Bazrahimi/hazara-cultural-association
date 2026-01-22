@@ -7,9 +7,9 @@ import { decrypt } from "./lib/session/session";
 
 import "./globals.css";
 
+import { CartProvider } from "./(disabled)/_shop/ui/cart/CartContext";
 import { NotificationCenter } from "./blog/ui/NotificationCenter";
 import NavBar from "./Navbar";
-import { CartProvider } from "./_shop/ui/cart/CartContext";
 import Footer from "./ui/Footer";
 
 const geistSans = Geist({

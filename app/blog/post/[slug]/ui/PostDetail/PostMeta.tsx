@@ -1,9 +1,9 @@
+import { slugify } from "@/app/(disabled)/_shop/lib/helper";
 import { getCategoryLabel } from "@/app/blog/post/lib/category";
 import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { UserRoutes } from "@/app/lib/routes/UserRoutes";
 import { PublishedOn } from "@/app/lib/translation/blog/post/transHelper";
-import { slugify } from "@/app/_shop/lib/helper";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
@@ -52,7 +52,7 @@ const PostMeta = ({
           <div
             className={cn(
               "flex flex-col leading-tight",
-              isRTL ? "items-center" : "item-start"
+              isRTL ? "items-center" : "item-start",
             )}
           >
             <P className="m-0 font-semibold text-gray-900 transition-all group-hover:text-hca-blue-main group-hover:translate-x-0.5">

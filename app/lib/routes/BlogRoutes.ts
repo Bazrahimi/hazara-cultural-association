@@ -1,5 +1,5 @@
+import { slugify } from "@/app/(disabled)/_shop/lib/helper";
 import { getCategoryLabel } from "@/app/blog/post/lib/category";
-import { slugify } from "@/app/_shop/lib/helper";
 import { join, q } from "./helper";
 export const BlogRoutes = {
   root: () => "/blog",
@@ -26,6 +26,6 @@ export const BlogRoutes = {
   // If you want preview links to respect query toggles:
   postWithQuery: (
     slug: string,
-    params?: Record<string, string | number | boolean | null | undefined>
+    params?: Record<string, string | number | boolean | null | undefined>,
   ) => `${join("blog", slug)}${q(params)}`,
 } as const;

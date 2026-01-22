@@ -1,6 +1,6 @@
 "use client";
+import { CartItem } from "@/app/(disabled)/_shop/lib/definitions";
 import { cldCardHeroAuto } from "@/app/lib/cloudinary";
-import { CartItem } from "@/app/_shop/lib/definitions";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { CiShoppingCart } from "react-icons/ci";
 import { HiInformationCircle } from "react-icons/hi";
 import { MdOutlineEmail, MdVolunteerActivism } from "react-icons/md";
+import CartIcon from "./(disabled)/_shop/ui/cart/CartBadge";
 import BlogMenu from "./blog/ui/BlogMenu";
-import CartIcon from "./_shop/ui/cart/CartBadge";
 // import AccountMenu from "./ui/global/AccountMenu";
 import AccountMenu from "./account/ui/AccountMenu";
 import { DonateRoutes, PublicRoutes } from "./lib/routes";
@@ -50,7 +50,6 @@ const NavBar = () => {
           <span className="hidden sm:inline">About Us</span>
         </Link>
 
-       
         <nav>
           <BlogMenu navLinkBase={navLinkBase} navIcon={navIcon} />
         </nav>

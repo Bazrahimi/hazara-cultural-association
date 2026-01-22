@@ -1,15 +1,15 @@
 // app/shop/ui/ShippingDetails.tsx
 "use client";
-import { Contact, FullAddress } from "@/app/_shop/lib/definitions";
+import { Contact, FullAddress } from "@/app/(disabled)/_shop/lib/definitions";
 import {
   ADDRESS_KEY,
   CONTACT_KEY,
   emptyAddress,
   emptyContact,
-  postalLabelFromFull,
   isNonEmpty,
-  isPostcode
-} from "@/app/_shop/lib/helper";
+  isPostcode,
+  postalLabelFromFull,
+} from "@/app/(disabled)/_shop/lib/helper";
 import { Button } from "@/app/ui/global/components";
 import { useMemo, useState } from "react";
 
@@ -23,11 +23,11 @@ const ShippingDetails = ({ onContinue }: { onContinue: () => void }) => {
   // persisted state (hydration + saving handled by the hook)
   const [fullAddress, setFullAddress] = usePersistedState<FullAddress>(
     ADDRESS_KEY,
-    emptyAddress
+    emptyAddress,
   );
   const [contact, setContact] = usePersistedState<Contact>(
     CONTACT_KEY,
-    emptyContact
+    emptyContact,
   );
 
   const [manually, setManually] = useState(false);
@@ -39,19 +39,17 @@ const ShippingDetails = ({ onContinue }: { onContinue: () => void }) => {
       !!fullAddress.address ||
       !!fullAddress.suburb ||
       !!fullAddress.postcode,
-    [manually, fullAddress]
+    [manually, fullAddress],
   );
 
   const defaultAutoLabel = useMemo(
     () => postalLabelFromFull(fullAddress),
-    [fullAddress]
+    [fullAddress],
   );
-
 
   const canContinue = useMemo(() => {
     const stateLike = (fullAddress.stateCode || fullAddress.state || "").trim();
     return (
- 
       isNonEmpty(contact.fullName) &&
       isNonEmpty(contact.phone) &&
       isNonEmpty(fullAddress.address) &&

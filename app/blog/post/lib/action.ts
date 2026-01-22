@@ -2,9 +2,9 @@
 
 "use server";
 
+import { slugify } from "@/app/(disabled)/_shop/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { getSession, requireUser } from "@/app/lib/session/session";
-import { slugify } from "@/app/_shop/lib/helper";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -37,7 +37,7 @@ const parsePostId = (formData: FormData): number | null => {
 
 export async function createPost(
   _prevState: PostState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<PostState> {
   const session = await requireUser();
   if (!session) return postFailure("You are not allowed");
@@ -99,7 +99,7 @@ export async function createPost(
 
 export const updatePostCategory = async (
   _prev: UpdateCategoryState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<UpdateCategoryState> => {
   const session = await getSession();
 
@@ -113,7 +113,6 @@ export const updatePostCategory = async (
   const { postId, newCategoryId } = parsed.data;
   const isAdmin = session.roles.includes("admin");
   const userId = session.userId;
-
 
   const updateCategoryId = await setPostCategory({
     postId,
@@ -133,7 +132,7 @@ export const updatePostCategory = async (
 
 export async function updatePost(
   _prevState: PostState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<PostState> {
   const session = await getSession();
 
@@ -224,7 +223,7 @@ export async function updatePost(
 
 export const PostAction = async (
   _prev: PostActionState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<PostActionState> => {
   const session = await getSession();
   if (!session) {
@@ -255,7 +254,7 @@ export const PostAction = async (
       (result.kind === "delete" && result.id === null)
     ) {
       return postFailure(
-        "Not authorized to manage this post or post not found."
+        "Not authorized to manage this post or post not found.",
       );
     }
     // Revalidate list page for non-delete actions
@@ -264,7 +263,7 @@ export const PostAction = async (
     // Messages
     if (result.kind === "feature") {
       return postSuccess(
-        result.isFeatured ? "Published to homepage." : "Removed from homepage."
+        result.isFeatured ? "Published to homepage." : "Removed from homepage.",
       );
     }
     if (result.kind === "publish") return postSuccess("Post published.");

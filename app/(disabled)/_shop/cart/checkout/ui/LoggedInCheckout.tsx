@@ -6,19 +6,22 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useEffect, useState } from "react";
 
-import CheckoutPayForm from "../ui/CheckoutPayForm";
-import OrderSummary from "../ui/OrderSummary";
-import ShippingDetails from "../ui/ShippingDetails";
-import StepCard from "../ui/StepCard";
+import CheckoutPayForm from "./CheckoutPayForm";
+import OrderSummary from "./OrderSummary";
+import ShippingDetails from "./ShippingDetails";
+import StepCard from "./StepCard";
 
-import type { Contact, FullAddress } from "@/app/_shop/lib/definitions";
+import type {
+  Contact,
+  FullAddress,
+} from "@/app/(disabled)/_shop/lib/definitions";
 import {
   ADDRESS_KEY,
   CONTACT_KEY,
   emptyAddress,
   isAddressComplete,
   postalLabelFromFull,
-} from "@/app/_shop/lib/helper";
+} from "@/app/(disabled)/_shop/lib/helper";
 
 type Props = {
   userId: number;
@@ -38,7 +41,7 @@ export default function LoggedInCheckout({
 
   // Start from profile/default address if available; allow user edits via ShippingDetails
   const [summaryAddress, setSummaryAddress] = useState<FullAddress>(
-    defaultAddress ?? emptyAddress
+    defaultAddress ?? emptyAddress,
   );
   const [summaryContact, setSummaryContact] = useState<Contact>({
     fullName: [profile.firstName, profile.lastName].filter(Boolean).join(" "),

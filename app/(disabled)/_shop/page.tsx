@@ -1,9 +1,10 @@
 // app/shop/page.tsx
-import { sql } from "../lib/db";
-import type { Breadcrumb } from "../lib/definitions";
-import Breadcrumbs from "../ui/global/Breadcrumbs";
-import { Header } from "../ui/global/Header";
-import { P } from "../ui/global/paragraph";
+
+import { sql } from "@/app/lib/db";
+import type { Breadcrumb } from "@/app/lib/definitions";
+import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
+import { Header } from "@/app/ui/global/Header";
+import { P } from "@/app/ui/global/paragraph";
 import type { ProductHead } from "./lib/definitions";
 import ProductCard from "./ui/ProductCard";
 
