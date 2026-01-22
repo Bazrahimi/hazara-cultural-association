@@ -22,7 +22,7 @@ export const firstOrNotFound = <T>(rows: T[]): T => {
 const firstOrNull = <T>(rows: T[]) => rows[0] ?? null;
 
 export const getPostSlugById = async (
-  postId: number
+  postId: number,
 ): Promise<string | null> => {
   const rows = await sql<{ slug: string }[]>`
     SELECT slug
@@ -66,7 +66,7 @@ export async function getPostById(postId: number): Promise<PostRow> {
 
 async function getPostsWithWhere(
   whereFragment: SqlFragment,
-  limit: number
+  limit: number,
 ): Promise<PostCardRow[]> {
   return sql<PostCardRow[]>`
     SELECT
@@ -88,7 +88,6 @@ async function getPostsWithWhere(
     LEFT JOIN user_profiles up ON up.user_id = p.user_id
     WHERE ${whereFragment}
     ORDER BY
-      p.published_at DESC NULLS LAST,
       p.created_at DESC
     LIMIT ${limit};
   `;
@@ -96,7 +95,7 @@ async function getPostsWithWhere(
 
 export async function getFeaturedPostsByCategory(
   categoryId: number,
-  limit: number
+  limit: number,
 ): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
@@ -104,33 +103,33 @@ export async function getFeaturedPostsByCategory(
       AND p.is_featured = true
       AND p.category_id = ${categoryId}
     `,
-    limit
+    limit,
   );
 }
 
 export async function getPublishedPostsByCategory(
   categoryId: number,
-  limit: number
+  limit: number,
 ): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
       p.status_code = ${POST_STATUS.PUBLISHED}
       AND p.category_id = ${categoryId}
     `,
-    limit
+    limit,
   );
 }
 
 export async function getPublishedPostsByAuthor(
   authorId: number,
-  limit: number
+  limit: number,
 ): Promise<PostCardRow[]> {
   return getPostsWithWhere(
     sql`
       p.status_code = ${POST_STATUS.PUBLISHED}
       AND p.user_id = ${authorId}
     `,
-    limit
+    limit,
   );
 }
 
@@ -173,7 +172,7 @@ export const getEditPostById = async ({
 };
 
 export const getPostCount = async (
-  userId: number
+  userId: number,
 ): Promise<Record<StatusCode, number>> => {
   const base: Record<StatusCode, number> = {
     [POST_STATUS.DRAFTED]: 0,
