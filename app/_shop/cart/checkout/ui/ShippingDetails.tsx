@@ -1,6 +1,6 @@
 // app/shop/ui/ShippingDetails.tsx
 "use client";
-import { Contact, FullAddress } from "@/app/shop/lib/definitions";
+import { Contact, FullAddress } from "@/app/_shop/lib/definitions";
 import {
   ADDRESS_KEY,
   CONTACT_KEY,
@@ -9,7 +9,7 @@ import {
   postalLabelFromFull,
   isNonEmpty,
   isPostcode
-} from "@/app/shop/lib/helper";
+} from "@/app/_shop/lib/helper";
 import { Button } from "@/app/ui/global/components";
 import { useMemo, useState } from "react";
 

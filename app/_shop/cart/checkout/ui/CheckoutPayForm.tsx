@@ -1,10 +1,10 @@
-// app/shop/ui/CheckoutPayForm.tsx
+// app/_shop/ui/CheckoutPayForm.tsx
 "use client";
 
 import { useActionState } from "react";
-import { createCheckoutSession } from "@/app/shop/lib/action";
-import type { Contact, FullAddress } from "@/app/shop/lib/definitions";
-import { useCart } from "@/app/shop/ui/cart/CartContext";
+import { createCheckoutSession } from "@/app/_shop/lib/action";
+import type { Contact, FullAddress } from "@/app/_shop/lib/definitions";
+import { useCart } from "@/app/_shop/ui/cart/CartContext";
 import { Button } from "@/app/ui/global/components";
 
 type Props = {

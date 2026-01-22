@@ -1,7 +1,7 @@
 // app/shop/ui/ContactFields.tsx
 "use client";
 
-import type { Contact } from "@/app/shop/lib/definitions";
+import type { Contact } from "@/app/_shop/lib/definitions";
 import { Input } from "@/app/ui/global/components";
 import { CiUser } from "react-icons/ci";
 import { IoIosPhonePortrait } from "react-icons/io";

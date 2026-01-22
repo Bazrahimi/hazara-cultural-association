@@ -1,5 +1,5 @@
 "use client";
-import { useCart } from "@/app/shop/ui/cart/CartContext";
+import { useCart } from "@/app/_shop/ui/cart/CartContext";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";

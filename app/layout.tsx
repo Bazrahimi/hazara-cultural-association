@@ -9,7 +9,7 @@ import "./globals.css";
 
 import { NotificationCenter } from "./blog/ui/NotificationCenter";
 import NavBar from "./Navbar";
-import { CartProvider } from "./shop/ui/cart/CartContext";
+import { CartProvider } from "./_shop/ui/cart/CartContext";
 import Footer from "./ui/Footer";
 
 const geistSans = Geist({

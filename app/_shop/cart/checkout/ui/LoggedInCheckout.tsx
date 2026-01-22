@@ -1,4 +1,4 @@
-// app/shop/cart/checkout/ui/LoggedInCheckout.tsx
+// app/_shop/cart/checkout/ui/LoggedInCheckout.tsx
 "use client";
 
 import { Button } from "@/app/ui/global/components";
@@ -11,14 +11,14 @@ import OrderSummary from "../ui/OrderSummary";
 import ShippingDetails from "../ui/ShippingDetails";
 import StepCard from "../ui/StepCard";
 
-import type { Contact, FullAddress } from "@/app/shop/lib/definitions";
+import type { Contact, FullAddress } from "@/app/_shop/lib/definitions";
 import {
   ADDRESS_KEY,
   CONTACT_KEY,
   emptyAddress,
   isAddressComplete,
   postalLabelFromFull,
-} from "@/app/shop/lib/helper";
+} from "@/app/_shop/lib/helper";
 
 type Props = {
   userId: number;

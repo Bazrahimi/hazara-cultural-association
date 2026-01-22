@@ -12,7 +12,7 @@ import {
   type Cart,
   type CartItem,
   type FieldErrors,
-} from "@/app/shop/lib/schema";
+} from "@/app/_shop/lib/schema";
 
 /* utils */
 const toAUDCents = (n: number) => Math.max(0, Math.round(n * 100));
