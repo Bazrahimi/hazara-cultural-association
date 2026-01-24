@@ -42,6 +42,7 @@ const PostsSection = async (props: Props) => {
         postId: props.postId,
         categoryId: props.categoryId,
         title: props.title,
+        isRTL:props.isRTL,
         limit: props.limit,
       });
       break;

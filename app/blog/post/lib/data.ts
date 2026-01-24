@@ -137,12 +137,14 @@ export const getRelatedPostsByTitle = async ({
   postId,
   categoryId,
   title,
-  limit,
+  isRTL,
+  limit = 6,
 }: {
   postId: number;
   categoryId: number;
   title: string;
-  limit: number;
+  isRTL: boolean;
+  limit?: number;
 }): Promise<PostCardRow[]> => {
   const rows = await sql<PostCardRow[]>`
     WITH q AS (
@@ -154,6 +156,7 @@ export const getRelatedPostsByTitle = async ({
       p.status_code = ${POST_STATUS.PUBLISHED}
       AND p.id <> ${postId}
       AND p.category_id = ${categoryId}
+      AND p.is_rtl = ${isRTL}
       AND q.query <> ''::tsquery
       AND to_tsvector('simple', COALESCE(p.title, '')) @@ q.query
     ORDER BY
@@ -174,6 +177,7 @@ export const getRelatedPostsByTitle = async ({
       p.status_code = ${POST_STATUS.PUBLISHED}
       AND p.id <> ${postId}
       AND p.category_id = ${categoryId}
+
     ORDER BY p.created_at DESC
     LIMIT ${limit};
   `;
