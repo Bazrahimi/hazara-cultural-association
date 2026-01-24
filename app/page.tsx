@@ -1,44 +1,39 @@
 import { Suspense } from "react";
 import Acknowledgements from "./about-us/ui/Acknowledgements";
 import PartnersAndSupporters from "./partners/page";
+import TricolorRule from "./ui/global/TricolorRule";
 import Hero from "./ui/Hero";
 import FeaturedBlogPosts from "./ui/homepage/blog/FeaturedBlogPosts";
 import Memorial133Spotlight from "./ui/homepage/blog/Memorial133Spotlight";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col">
-      <section className="w-screen relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] bg-white border-b border-gray-200">
+    <>
+      <section className="w-screen relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw]">
         <Hero />
       </section>
-
-      <section className="w-full bg-gray-50 border-b border-gray-200 py-12">
-        <div className="mx-auto max-w-6xl px-4">
+      <div className="flex flex-col">
+        <section className=" bg-gray-50 ">
           <Acknowledgements />
-        </div>
-      </section>
+          <TricolorRule />
+        </section>
 
-      <section className="w-full bg-gray-50 border-b border-gray-200 py-14">
-        <div className="mx-auto max-w-6xl px-4">
+        <section className="pt-10">
           <FeaturedBlogPosts limit={8} />
-        </div>
-      </section>
+        </section>
 
-      <section className="w-full bg-white border-b border-gray-200 py-14">
-        <div className="mx-auto max-w-6xl px-4">
+        <section className=" pt-10">
           <Suspense fallback={null}>
             <Memorial133Spotlight />
           </Suspense>
-        </div>
-      </section>
+        </section>
 
-      <section className="w-full bg-white py-16">
-        <div className="mx-auto max-w-6xl px-4">
+        <section className="pt-10">
           <Suspense fallback={null}>
             <PartnersAndSupporters />
           </Suspense>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }

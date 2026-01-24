@@ -9,7 +9,7 @@ export const POST_STATUS = {
 export type StatusCode = (typeof POST_STATUS)[keyof typeof POST_STATUS];
 
 type PostDbRow = {
-  post_id: number; // id on the database. However, in front end we are handling it as postId
+  post_id: number; 
   user_id: number;
   title: string;
   slug: string;

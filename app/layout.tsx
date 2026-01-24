@@ -81,7 +81,17 @@ export default async function RootLayout({
         <CartProvider userId={Number(session?.userId)}>
           <NavBar />
 
-          <main className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <main
+            className="
+                      mx-auto
+                      w-full
+                      max-w-7xl
+                      px-1
+                      md:px-3
+                      lg:px-5
+          
+          "
+          >
             {children}
           </main>
 

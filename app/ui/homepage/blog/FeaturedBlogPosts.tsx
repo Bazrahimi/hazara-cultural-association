@@ -14,7 +14,7 @@ const CATEGORY_IDS = Object.keys(CATEGORY_MAP)
 const FeaturedBlogPosts = ({ limit }: { limit: number }) => {
   return (
     <section className="mx-auto">
-      <Header as="h2" size="md" className="mb-8 text-center">
+      <Header as="h2" size="md" align="center" className="my-5 text-center">
         Latest News, Stories &amp; Community Updates
       </Header>
 
@@ -24,12 +24,12 @@ const FeaturedBlogPosts = ({ limit }: { limit: number }) => {
           if (!meta) return null;
 
           return (
-            <section key={categoryId}>
-              <div className="mb-6">
-                <Header as="h3" size="sm" className="text-hca-blue-dark mb-1">
+            <section key={categoryId} className="pt-5">
+              <div className="mb-6 px-3">
+                <Header as="h3" align="center" size="sm" className="text-hca-blue-dark mb-1">
                   {meta.heading}
                 </Header>
-                <P className="text-sm text-gray-600">{meta.shortDesc}</P>
+                <P className="text-sm text-gray-600 text-center">{meta.shortDesc}</P>
               </div>
 
               <Suspense fallback={<PostsSectionSkeleton cardCount={limit} />}>

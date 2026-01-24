@@ -7,7 +7,7 @@ import { Button } from "../../global/components";
 
 export default function Memorial133Spotlight() {
   return (
-    <section className="mx-auto mt-16 max-w-6xl px-4">
+    <section className="mx-auto">
       <Header as="h2" size="sm" align="center" className="mb-4">
         133rd Hazara Genocide Memorial — Community Spotlight
       </Header>

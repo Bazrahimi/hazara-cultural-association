@@ -49,10 +49,7 @@ export async function getPostById(postId: number): Promise<PostRow> {
       p.event_date             AS "eventDate",
       p.event_location         AS "eventLocation",
       concat_ws(' ', up.first_name, up.last_name) AS "authorName",  -- 👈 NEW
-      to_char(
-      p.updated_at AT TIME ZONE 'Australia/Melbourne',
-      'DD Mon YYYY FMHH12:MI am'
-      ) AS "updatedAt"
+      p.updated_at            AS "updatedAt"
     FROM blog_posts p
     LEFT JOIN user_profiles up ON up.user_id = p.user_id
     WHERE p.id = ${postId}

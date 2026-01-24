@@ -1,13 +1,15 @@
+import Link from "next/link";
+import { MdPersonOutline } from "react-icons/md";
+
 import { slugify } from "@/app/(disabled)/_shop/lib/helper";
 import { getCategoryLabel } from "@/app/blog/post/lib/category";
+import { formatDateTimeAU } from "@/app/lib/Date";
 import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
 import { UserRoutes } from "@/app/lib/routes/UserRoutes";
 import { PublishedOn } from "@/app/lib/translation/blog/post/transHelper";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
-import Link from "next/link";
-import { MdPersonOutline } from "react-icons/md";
 
 export type PostMetaProps = {
   authorName: string;
@@ -25,17 +27,13 @@ const PostMeta = ({
   isRTL,
 }: PostMetaProps) => {
   const dir = isRTL ? "rtl" : "ltr";
+  const publishedLabel = isRTL ? PublishedOn.rtl : PublishedOn.en;
+  const formattedDate = formatDateTimeAU(updatedAt);
 
   return (
-    <div
-      dir={dir}
-      className="
-        mb-6 w-full border-b border-gray-100
-        pb-4 
-      "
-    >
-      <div className="flex items-center justify-between">
-        {/* Left side: Author block */}
+    <div dir={dir} className="mb-6 w-full border-b border-gray-100 pb-4">
+      <div className="flex items-center justify-between gap-4">
+        {/* Author block */}
         <Link
           href={UserRoutes.profile(`${slugify(authorName)}-${userId}`)}
           className="group flex items-center gap-3 transition hover:opacity-95"
@@ -52,41 +50,30 @@ const PostMeta = ({
           <div
             className={cn(
               "flex flex-col leading-tight",
-              isRTL ? "items-center" : "item-start",
+              isRTL ? "items-end text-right" : "items-start text-left",
             )}
           >
-            <P className="m-0 font-semibold text-gray-900 transition-all group-hover:text-hca-blue-main group-hover:translate-x-0.5">
+            <P className="m-0 font-semibold text-gray-900 transition group-hover:text-hca-blue-main">
               {authorName}
             </P>
 
-            {isRTL ? (
-              <div className="flex items-center gap-2">
-                <P className="inline-flex text-gray-400 " size="sm">
-                  {PublishedOn.rtl}
-                </P>
-                <P className="inline-flex text-gray-500" dir="ltr" size="sm">
-                  {updatedAt}
-                </P>
-              </div>
-            ) : (
-              <div className="flex gap-2">
-                <P className="inline-flex text-gray-400" size="sm">
-                  {PublishedOn.en}
-                </P>
-                <P className="inline-flex text-gray-500" size="sm">
-                  {updatedAt}
-                </P>
-              </div>
-            )}
+            <div className="flex items-center gap-2">
+              <P className="inline-flex text-gray-400" size="sm">
+                {publishedLabel}
+              </P>
+              <P className="inline-flex text-gray-500" size="sm" dir="ltr">
+                {formattedDate}
+              </P>
+            </div>
           </div>
         </Link>
 
-        {/* Right side: Category */}
+        {/* Category */}
         <Button
           as="link"
           href={BlogRoutes.categoryById(categoryId)}
           size="xs"
-          className="rounded-3xl"
+          className="shrink-0 rounded-3xl"
           variant="outline"
         >
           {getCategoryLabel(categoryId, isRTL)}

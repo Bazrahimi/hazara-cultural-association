@@ -73,7 +73,7 @@ const SUPPORTERS_CTA: CTA = {
 
 export default function Page() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
+    <main >
       <Header as="h1" align="center">
         Partners & Supporters
       </Header>
