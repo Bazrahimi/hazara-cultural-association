@@ -21,8 +21,8 @@ type PostDbRow = {
   is_featured: boolean;
   event_date: string | null; // timestamptz
   event_location: string | null;
-  created_at: string; // timestamptz
-  updated_at: string; // timestamptz
+  created_at: Date; // timestamptz
+  updated_at: Date; // timestamptz
   is_rtl: boolean;
   category_id: CategoryId;
 };

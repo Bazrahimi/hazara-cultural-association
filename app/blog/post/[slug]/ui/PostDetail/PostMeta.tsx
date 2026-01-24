@@ -14,7 +14,7 @@ import { P } from "@/app/ui/global/paragraph";
 export type PostMetaProps = {
   authorName: string;
   userId: number;
-  updatedAt: string;
+  updatedAt: string | Date | null;
   categoryId: number;
   isRTL: boolean;
 };

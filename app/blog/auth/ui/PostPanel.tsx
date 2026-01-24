@@ -9,6 +9,7 @@ import { POST_STATUS, type StatusCode } from "../../post/lib/definitions";
 import ChangeCategoryMenu from "./ChangeCategoryMenu";
 import PostActionsMenu from "./postActionMenu/PostActionsMenu";
 import PostHeader from "./PostHeader";
+import { formatDateTimeAU } from "@/app/lib/Date";
 
 export default function PostsPanel({
   statusCode,
@@ -81,7 +82,7 @@ export default function PostsPanel({
                     {post.isRtl ? cfg.UpdatedOn.rtl : cfg.UpdatedOn.en}
                   </P>
                   <P className="text-gray-500" dir="ltr" size="sm">
-                    {post.updatedAt}
+                    {formatDateTimeAU(post.updatedAt)}
                   </P>
                 </div>
 

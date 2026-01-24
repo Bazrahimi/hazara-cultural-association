@@ -8,6 +8,7 @@ import { BlogRoutes } from "@/app/lib/routes";
 import { ManagePostTrans } from "@/app/lib/translation";
 import { P } from "@/app/ui/global/paragraph";
 import { POST_STATUS, StatusCode } from "../../lib/definitions";
+import { formatDateTimeAU } from "@/app/lib/Date";
 
 const labels = ManagePostTrans.Label;
 const headings = ManagePostTrans.heading;
@@ -18,7 +19,7 @@ export type PostActionMenuProps = {
   statusCode: StatusCode;
   isFeatured: boolean;
   isRTL: boolean;
-  updatedAt: string; // formatted e.g. "22 NOV 2025"
+  updatedAt: Date; // formatted e.g. "22 NOV 2025"
 };
 
 export function ManagePostControls({
@@ -102,7 +103,7 @@ export function ManagePostControls({
         <div className="flex items-center gap-4">
           <P className=" text-gray-500">{actionLabel}</P>
           <P className=" text-gray-700" dir="ltr">
-            {updatedAt}
+            {formatDateTimeAU(updatedAt) }
           </P>
         </div>
       </div>
