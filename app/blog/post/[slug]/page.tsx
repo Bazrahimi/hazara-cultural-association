@@ -29,7 +29,7 @@ const page = async ({
   const breadcrumbs: Breadcrumb[] = [
     {
       label: isRTL ? BreadcrumbsTrans.home.rtl : BreadcrumbsTrans.home.en,
-      href: BlogRoutes.root(),
+      href: "/",
     },
     {
       label: isRTL
