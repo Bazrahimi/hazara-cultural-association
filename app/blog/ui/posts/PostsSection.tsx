@@ -3,6 +3,7 @@ import {
   getFeaturedPostsByCategory,
   getPublishedPostsByAuthor,
   getPublishedPostsByCategory,
+  getRelatedPostsByTitle,
 } from "../../post/lib/data";
 import { POSTS_SECTION_GRID_CLASS } from "../../post/lib/helper";
 import PostCard from "./PostCard";
@@ -12,7 +13,15 @@ type Base = { limit: number };
 type Props =
   | (Base & { mode: "allPosts"; categoryId: number })
   | (Base & { mode: "featured"; categoryId: number })
-  | (Base & { mode: "author"; authorId: number });
+  | (Base & { mode: "author"; authorId: number })
+  | (Base & {
+      mode: "relatedPosts";
+      postId: number;
+      categoryId: number;
+      title: string;
+      isRTL: boolean;
+      limit: number;
+    });
 
 const PostsSection = async (props: Props) => {
   let posts;
@@ -27,6 +36,14 @@ const PostsSection = async (props: Props) => {
       break;
     case "author":
       posts = await getPublishedPostsByAuthor(props.authorId, props.limit);
+      break;
+    case "relatedPosts":
+      posts = await getRelatedPostsByTitle({
+        postId: props.postId,
+        categoryId: props.categoryId,
+        title: props.title,
+        limit: props.limit,
+      });
       break;
     default: {
       // extra safety for future modes

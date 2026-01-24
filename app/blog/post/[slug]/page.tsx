@@ -7,6 +7,7 @@ import { extractTitleFromSlug } from "../../lib/helper";
 import { getCategoryLabel } from "../lib/category";
 import PostBody from "./ui/PostDetail/PostBody";
 import PostShell from "./ui/PostDetail/PostShell";
+import RelatedPostsSection from "./ui/RelatedPostsSection";
 
 // app/blog/post/[slug]/page.tsx
 const page = async ({
@@ -63,6 +64,8 @@ const page = async ({
       >
         <PostBody postId={Number(id)} isRTL={isRTL} />
       </Suspense>
+
+  
     </>
   );
 };

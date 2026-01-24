@@ -9,6 +9,7 @@ import ManageControlGate from "./ManageControlGate";
 
 import TricolorRule from "@/app/ui/global/TricolorRule";
 import { getPostById } from "../../../lib/data";
+import RelatedPostsSection from "../RelatedPostsSection";
 import ClickableHeroImage from "./ClickableHeroImage";
 import PostMetaEn from "./PostMeta";
 
@@ -25,66 +26,79 @@ const PostBody = async ({ postId, isRTL }: PostDetailProps) => {
   const isEvent = post.categoryId === 2;
 
   return (
-    <article className="mx-auto max-w-4xl px-4 py-10">
-      {/* Title */}
-      <div className="space-py-10">
-        <Header as="h1" size="md" align={isRTL ? "right" : "left"}>
-          {post.title}
-        </Header>
-      </div>
+    <>
+      <article className="mx-auto max-w-4xl px-4 py-10">
+        {/* Title */}
+        <div className="space-py-10">
+          <Header as="h1" size="md" align={isRTL ? "right" : "left"}>
+            {post.title}
+          </Header>
+        </div>
 
-      {/* Meta wrapper */}
-      <div className="rounded-2xl border-slate-200 bg-white/70 px-4 py-3 shadow-sm backdrop-blur-2xl">
-        <PostMetaEn
-          authorName={post.authorName}
-          userId={post.userId}
-          updatedAt={post.updatedAt}
-          categoryId={post.categoryId}
-          isRTL={post.isRtl}
-        />
-      </div>
-
-      <TricolorRule />
-
-      {/* Advocacy event meta */}
-      {isEvent && (
-        <div className="mt-6">
-          <EventSection
-            eventDate={post.eventDate!}
-            eventLocation={post.eventLocation!}
-            isRTL={isRTL}
+        {/* Meta wrapper */}
+        <div className="rounded-2xl border-slate-200 bg-white/70 px-4 py-3 shadow-sm backdrop-blur-2xl">
+          <PostMetaEn
+            authorName={post.authorName}
+            userId={post.userId}
+            updatedAt={post.updatedAt}
+            categoryId={post.categoryId}
+            isRTL={post.isRtl}
           />
         </div>
-      )}
-      <div className="mt-6">
-        <ContentSection
-          isRTL={post.isRtl}
-          content={post.contentHtml}
-          isLink={post.categoryId === 99}
-        />
-      </div>
 
-      {/* Content */}
-      <div className="mt-6">
-        <Suspense fallback={null}>
-          <ClickableHeroImage src={post.heroImgPath} alt={post.title} />
-        </Suspense>
-      </div>
+        <TricolorRule />
 
-      <div className="mt-6">
+        {/* Advocacy event meta */}
+        {isEvent && (
+          <div className="mt-6">
+            <EventSection
+              eventDate={post.eventDate!}
+              eventLocation={post.eventLocation!}
+              isRTL={isRTL}
+            />
+          </div>
+        )}
+        <div className="mt-6">
+          <ContentSection
+            isRTL={post.isRtl}
+            content={post.contentHtml}
+            isLink={post.categoryId === 99}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="mt-6">
+          <Suspense fallback={null}>
+            <ClickableHeroImage src={post.heroImgPath} alt={post.title} />
+          </Suspense>
+        </div>
+
+        <div className="mt-6">
+          <Suspense fallback={null}>
+            <ManageControlGate
+              isRTL={post.isRtl}
+              postId={post.postId}
+              statusCode={post.statusCode}
+              isFeatured={post.isFeatured}
+              slug={post.slug}
+              updatedAt={post.updatedAt}
+              userId={post.userId}
+            />
+          </Suspense>
+        </div>
+      </article>
+
+      <div>
         <Suspense fallback={null}>
-          <ManageControlGate
+          <RelatedPostsSection
             isRTL={post.isRtl}
             postId={post.postId}
-            statusCode={post.statusCode}
-            isFeatured={post.isFeatured}
-            slug={post.slug}
-            updatedAt={post.updatedAt}
-            userId={post.userId}
+            categoryId={post.categoryId}
+            title={post.title}
           />
         </Suspense>
       </div>
-    </article>
+    </>
   );
 };
 

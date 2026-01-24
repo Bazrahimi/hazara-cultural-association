@@ -61,28 +61,31 @@ export async function getPostById(postId: number): Promise<PostRow> {
   return post;
 }
 
+const POST_CARD_SELECT: SqlFragment = sql`
+  SELECT
+    p.id               AS "postId",
+    p.title,
+    p.slug,
+    p.hero_img_path    AS "heroImgPath",
+
+    CASE
+      WHEN p.hero_img_path IS NULL OR BTRIM(p.hero_img_path) = ''
+      THEN p.excerpt
+      ELSE NULL
+    END                AS "excerpt",
+
+    p.is_featured      AS "isFeatured",
+    p.category_id      AS "categoryId",
+    p.is_rtl           AS "isRtl"
+  FROM blog_posts p
+`;
+
 async function getPostsWithWhere(
   whereFragment: SqlFragment,
   limit: number,
 ): Promise<PostCardRow[]> {
   return sql<PostCardRow[]>`
-    SELECT
-      p.id              AS "postId",
-      p.title,
-      p.slug,
-      p.hero_img_path    AS "heroImgPath",
-
-      CASE
-        WHEN p.hero_img_path IS NULL OR BTRIM(p.hero_img_path) = ''
-        THEN p.excerpt
-        ELSE NULL
-      END AS "excerpt",
-
-      p.is_featured      AS "isFeatured",
-      p.category_id      AS "categoryId",
-      p.is_rtl           AS "isRtl"
-    FROM blog_posts p
-    LEFT JOIN user_profiles up ON up.user_id = p.user_id
+    ${POST_CARD_SELECT}
     WHERE ${whereFragment}
     ORDER BY
       p.created_at DESC
@@ -129,6 +132,52 @@ export async function getPublishedPostsByAuthor(
     limit,
   );
 }
+
+export const getRelatedPostsByTitle = async ({
+  postId,
+  categoryId,
+  title,
+  limit,
+}: {
+  postId: number;
+  categoryId: number;
+  title: string;
+  limit: number;
+}): Promise<PostCardRow[]> => {
+  const rows = await sql<PostCardRow[]>`
+    WITH q AS (
+      SELECT websearch_to_tsquery('simple', ${title}) AS query
+    )
+    ${POST_CARD_SELECT}
+    CROSS JOIN q
+    WHERE
+      p.status_code = ${POST_STATUS.PUBLISHED}
+      AND p.id <> ${postId}
+      AND p.category_id = ${categoryId}
+      AND q.query <> ''::tsquery
+      AND to_tsvector('simple', COALESCE(p.title, '')) @@ q.query
+    ORDER BY
+      ts_rank_cd(
+        to_tsvector('simple', COALESCE(p.title, '')),
+        q.query
+      ) DESC,
+      p.created_at DESC
+    LIMIT ${limit};
+  `;
+
+  // Fallback: latest posts in same category
+  if (rows.length > 0) return rows;
+
+  return sql<PostCardRow[]>`
+    ${POST_CARD_SELECT}
+    WHERE
+      p.status_code = ${POST_STATUS.PUBLISHED}
+      AND p.id <> ${postId}
+      AND p.category_id = ${categoryId}
+    ORDER BY p.created_at DESC
+    LIMIT ${limit};
+  `;
+};
 
 export const getEditPostById = async ({
   postId,
