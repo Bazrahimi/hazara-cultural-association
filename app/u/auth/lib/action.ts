@@ -201,7 +201,6 @@ export const auth = async (
 
     // ✅ Only create session if verified
     await createSession(Number(user.userId), user.roles, { fullName });
-    
   } catch (error) {
     console.error("Failed to login", error);
     return {
@@ -336,7 +335,7 @@ export async function signup(
 
   // Server-side redirect is OK here because this action is used in a simple form,
   // not with useActionState expecting a state back.
-  redirect(AuthRoutes.verifyEmail());
+  redirect(`${AuthRoutes.verifyEmail()}?next=${formData.get("next")}`);
 }
 
 export const resetPassword = async (

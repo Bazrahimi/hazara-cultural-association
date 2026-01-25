@@ -138,7 +138,7 @@ const MembershipInfoPage = () => {
             <li>
               <P>
                 <Link
-                  href={AuthRoutes.signUp()}
+                  href={`${AuthRoutes.signUp()}?next=/members/join`}
                   className="font-medium text-hca-blue-main underline-offset-4 hover:underline"
                 >
                   Create a new account

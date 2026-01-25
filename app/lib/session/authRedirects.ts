@@ -25,7 +25,7 @@ export const safeAccountNext = (input: unknown): string => {
   return isAllowed ? decoded : AccountRoutes.root();
 };
 
-export const redirectToLoginWithNext = async (fallbackNext = "/") => {
+export const redirectToLoginWithNext = async (fallbackNext = "/"):Promise<never> => {
   const h = headers();
   const pathname = (await h).get("x-pathname") ?? fallbackNext;
   redirect(`${AuthRoutes.login()}?next=${encodeURIComponent(pathname)}`);

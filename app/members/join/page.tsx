@@ -9,11 +9,10 @@ const page = async () => {
   const session = await getSession();
 
   if (!session?.userId) {
-    redirectToLoginWithNext("/members/join");
-  
+    await redirectToLoginWithNext("/members/join");
   }
 
-  const userId = session.userId;
+  const userId = session!.userId;
 
   // 1) Load profile (if any)
   const [profile] = await sql<
