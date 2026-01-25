@@ -5,8 +5,7 @@ import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Input } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { forgotPassword } from "../lib/action";
 // we will create this action in the next step
 // import { requestPasswordReset } from "../lib/password-actions";
@@ -15,16 +14,8 @@ const ForgotPasswordPage = () => {
   // Placeholder until we wire the real action
   const [state, formAction, isPending] = useActionState(
     forgotPassword,
-    undefined
+    undefined,
   );
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (state?.requiresVerification && state.redirectTo) {
-      router.push(state.redirectTo);
-    }
-  }, [state, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex flex-col items-center px-4 justify-center">

@@ -225,7 +225,7 @@ export const auth = async (
 export const forgotPassword = async (
   _prevState: ForgotPasswordState | undefined,
   formData: FormData,
-): Promise<ForgotPasswordState> => {
+): Promise<ForgotPasswordState | undefined> => {
   const rawEmail = String(formData.get("email") ?? "");
 
   // 1) Validate input
@@ -249,17 +249,11 @@ export const forgotPassword = async (
         email,
         mode: "reset",
       });
+
+      redirect(AuthRoutes.verifyEmail());
     }
 
     // 5) Always return the SAME message (don’t leak if email exists)
-    return {
-      ok: true,
-      message:
-        "If this email exists in our system, a verification code has been sent.",
-      requiresVerification: true,
-      redirectTo: AuthRoutes.verifyEmail(),
-      data: { email },
-    };
   } catch (err) {
     console.error("forgotPassword error:", err);
     return {
@@ -386,13 +380,6 @@ export const resetPassword = async (
       path: VERIFY_EMAIL_COOKIE_PATH,
       maxAge: 0,
     });
-
-    // If you prefer returning a state and handling redirect client-side:
-    return {
-      ok: true,
-      message: "Your password has been updated. You can now log in.",
-      redirectTo: AuthRoutes.login(),
-    };
   } catch (err) {
     console.error("resetPassword error:", err);
     return {
@@ -400,4 +387,5 @@ export const resetPassword = async (
       message: "Failed to update your password. Please try again.",
     };
   }
+  redirect(AuthRoutes.login());
 };
