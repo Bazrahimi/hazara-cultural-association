@@ -4,26 +4,13 @@ import {
   FormErrorMessage,
 } from "@/app/ui/global/clientComponent";
 import { Input } from "@/app/ui/global/components";
-import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
 import { auth } from "../../lib/action";
-import { setNotification } from "../../lib/setNotification";
 
 const LoginForm = ({ next }: { next: string }) => {
   const [state, formAction, isPending] = useActionState(auth, undefined);
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!state) return;
-    if (state.requiresVerification && state.redirectTo) {
-      if (state.message) {
-        setNotification(state.message);
-      }
-      router.push(state.redirectTo);
-      return;
-    }
-  }, [state, router]);
   return (
     <form
       action={formAction}
@@ -31,6 +18,7 @@ const LoginForm = ({ next }: { next: string }) => {
       noValidate
       aria-busy={isPending}
     >
+      <input type="hidden" name="next" value={next} />
       <div className="space-y-5">
         <Input
           id="email"

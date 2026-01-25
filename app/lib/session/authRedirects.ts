@@ -2,13 +2,10 @@ import { AccountRoutes } from "../routes";
 import { PROTECTED_ROUTE_PREFIXES } from "./protectedRoutes";
 
 export const safeAccountNext = (input: unknown): string => {
+  console.log("input____", input)
   if (!input) return AccountRoutes.root();
 
-  console.log("input", input)
-
   let decoded = String(input);
-
-   console.log("decode", decoded)
 
   try {
     decoded = decodeURIComponent(decoded);

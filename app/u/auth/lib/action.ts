@@ -22,6 +22,7 @@ import {
 } from "./schema";
 
 import { AuthRoutes } from "@/app/lib/routes";
+import { safeAccountNext } from "@/app/lib/session/authRedirects";
 import type {
   AuthState,
   ChangePasswordState,
@@ -32,7 +33,7 @@ import type {
 
 export const changePassword = async (
   _prevState: ChangePasswordState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<ChangePasswordState> => {
   const rawCurrent = String(formData.get("currentPassword") ?? "");
   const rawNew = String(formData.get("newPassword") ?? "");
@@ -116,7 +117,7 @@ export const changePassword = async (
 
 export const auth = async (
   _prevState: AuthState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<AuthState | undefined> => {
   const rawEmail = String(formData.get("email") ?? "");
   const rawPassword = String(formData.get("password") ?? "");
@@ -193,19 +194,14 @@ export const auth = async (
         mode: "login",
       });
 
-      return {
-        ok: false,
-        requiresVerification: true,
-        redirectTo: AuthRoutes.verifyEmail(),
-        data: { email },
-        // message: "Email Verification is required.",
-      };
+      redirect(AuthRoutes.verifyEmail());
     }
 
     const fullName = buildFullName(user.fullName, email);
 
     // ✅ Only create session if verified
     await createSession(Number(user.userId), user.roles, { fullName });
+    
   } catch (error) {
     console.error("Failed to login", error);
     return {
@@ -215,6 +211,9 @@ export const auth = async (
       data: { email },
     };
   }
+
+  const next = safeAccountNext(formData.get("next"));
+  redirect(next);
 };
 
 /**
@@ -226,7 +225,7 @@ export const auth = async (
  */
 export const forgotPassword = async (
   _prevState: ForgotPasswordState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<ForgotPasswordState> => {
   const rawEmail = String(formData.get("email") ?? "");
 
@@ -278,7 +277,7 @@ export const forgotPassword = async (
  */
 export async function signup(
   _prevState: SignupState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<SignupState> {
   const rawEmail = String(formData.get("email") ?? "");
   const rawPassword = String(formData.get("password") ?? "");
@@ -342,7 +341,7 @@ export async function signup(
 
 export const resetPassword = async (
   _prevState: ResetPasswordState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<ResetPasswordState> => {
   const rawPassword = String(formData.get("password") ?? "");
   const rawConfirm = String(formData.get("confirmPassword") ?? "");

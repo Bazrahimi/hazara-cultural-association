@@ -13,8 +13,8 @@ export type ActionState<T> = {
   errors?: FieldErrors<T>;
   message?: string;
   ok?: boolean;
-  redirectTo?: string;
-  requiresVerification?: boolean;
+  // redirectTo?: string;
+  // requiresVerification?: boolean;
 };
 
 type ResetPassword = z.infer<typeof ResetPasswordSchema>;

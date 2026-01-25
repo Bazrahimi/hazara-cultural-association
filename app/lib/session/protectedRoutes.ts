@@ -1,7 +1,7 @@
 // app/lib/protectedRoutes.ts
 
 // ✅ SINGLE SOURCE OF TRUTH (static literals)
-export const PROTECTED_ROUTE_PREFIXES = ["/admin", "/blog/auth"] as const;
+export const PROTECTED_ROUTE_PREFIXES = ["/admin", "/blog/auth", "/account", "/members/join"] as const;
 
 /**
  * Utility: check if a pathname is protected
