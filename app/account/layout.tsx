@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
-import { requireUser } from "../lib/session/session";
+import { redirectToLoginWithNext } from "../lib/session/authRedirects";
+import { getSession } from "../lib/session/session";
 
-export const metaData: Metadata = {
+export const metadata: Metadata = {
   title: "Account Dashboard | HCA",
   description: "Secure Account Dashboard to view and manage your account",
 };
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  await requireUser();
+  const session = await getSession();
+  if (!session?.userId) {
+    await redirectToLoginWithNext("/account");
+    // TODO please review why this not working on layout which is "/account"
+  }
+
+
 
   return <>{children}</>;
 };

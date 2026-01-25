@@ -1,7 +1,8 @@
 // app/admin/layout.tsx
 
 import type { Metadata } from "next";
-import { requireAdmin } from "../lib/session/session";
+import { redirectToLoginWithNext } from "../lib/session/authRedirects";
+import { getSession } from "../lib/session/session";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | HCA",
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
 };
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  await requireAdmin();
+  const session = await getSession();
+  if (!session?.roles.includes("admin")) {
+    redirectToLoginWithNext("/admin");
+  }
 
   return <>{children}</>;
 };

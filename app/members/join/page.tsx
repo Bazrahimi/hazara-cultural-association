@@ -1,16 +1,16 @@
 // app/members/join/page.tsx
 import { sql } from "@/app/lib/db";
-import { AuthRoutes } from "@/app/lib/routes";
+import { redirectToLoginWithNext } from "@/app/lib/session/authRedirects";
 import { getSession } from "@/app/lib/session/session";
-import { redirect } from "next/navigation";
 import type { MemberInput } from "./lib/definitions";
 import JoinForm from "./ui/JoinForm";
 
 const page = async () => {
   const session = await getSession();
 
-  if (!session || !session.userId) {
-    redirect(`${AuthRoutes.login()}?next=/members/join`);
+  if (!session?.userId) {
+    redirectToLoginWithNext("/members/join");
+  
   }
 
   const userId = session.userId;

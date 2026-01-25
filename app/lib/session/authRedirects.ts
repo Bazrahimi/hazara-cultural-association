@@ -1,8 +1,9 @@
-import { AccountRoutes } from "../routes";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { AccountRoutes, AuthRoutes } from "../routes";
 import { PROTECTED_ROUTE_PREFIXES } from "./protectedRoutes";
 
 export const safeAccountNext = (input: unknown): string => {
-  console.log("input____", input)
   if (!input) return AccountRoutes.root();
 
   let decoded = String(input);
@@ -22,4 +23,10 @@ export const safeAccountNext = (input: unknown): string => {
   );
 
   return isAllowed ? decoded : AccountRoutes.root();
+};
+
+export const redirectToLoginWithNext = async (fallbackNext = "/") => {
+  const h = headers();
+  const pathname = (await h).get("x-pathname") ?? fallbackNext;
+  redirect(`${AuthRoutes.login()}?next=${encodeURIComponent(pathname)}`);
 };
