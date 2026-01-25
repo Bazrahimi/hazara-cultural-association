@@ -1,8 +1,9 @@
 // app/member/page.tsx
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
+import Link from "next/link";
 import TermsAndPrivacyNotice from "../(term-and-privacy)/ui/TermsAndPrivacyNotice";
-import { PublicRoutes } from "../lib/routes";
+import { AuthRoutes, PublicRoutes } from "../lib/routes";
 import { Button } from "../ui/global/components";
 
 const MembershipInfoPage = () => {
@@ -135,17 +136,44 @@ const MembershipInfoPage = () => {
 
           <ol className="mt-6 list-decimal space-y-4 pl-6 text-sm">
             <li>
-              <P>Log in or create an account on the HCA website.</P>
+              <P>
+                <Link
+                  href={AuthRoutes.signUp()}
+                  className="font-medium text-hca-blue-main underline-offset-4 hover:underline"
+                >
+                  Create a new account
+                </Link>{" "}
+                if you’re joining HCA for the first time, or{" "}
+                <Link
+                  href={AuthRoutes.login()}
+                  className="font-medium text-hca-blue-main underline-offset-4 hover:underline"
+                >
+                  log in
+                </Link>{" "}
+                if you already have an account.
+              </P>
             </li>
+
             <li>
-              <P>Complete the membership form with your details.</P>
+              <P>
+                Complete the{" "}
+                <Link
+                  href={PublicRoutes.joinMember()}
+                  className="font-medium text-hca-blue-main underline-offset-4 hover:underline"
+                >
+                  membership form
+                </Link>{" "}
+                with your details.
+              </P>
             </li>
+
             <li>
               <P>
                 Our team reviews your application and confirms your membership
                 status.
               </P>
             </li>
+
             <li>
               <P>
                 Once approved, you’ll receive updates and invitations to
