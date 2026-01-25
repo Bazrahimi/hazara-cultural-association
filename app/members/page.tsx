@@ -7,29 +7,31 @@ import { Button } from "../ui/global/components";
 
 const MembershipInfoPage = () => {
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10">
-      <section className="space-y-6">
-        <Header as="h1" size="lg">
+    <main className="mx-auto max-w-5xl px-4 py-12">
+      <section className="space-y-10">
+        {/* Page title */}
+        <Header as="h1" size="lg" align="center">
           HCA Membership
         </Header>
 
         {/* Overview */}
-        <div className="space-y-3 text-gray-700">
+        <div className="mx-auto max-w-3xl space-y-4 text-gray-700">
           <P>
             Membership is open to people currently residing in Australia. You
             may choose either a{" "}
-            <span className="font-semibold">$10 monthly</span> payment or a{" "}
-            <span className="font-semibold">$115 annual</span> membership fee.
-            These rates apply to all members, including the executive team.
+            <span className="font-semibold text-gray-900">$10 monthly</span>{" "}
+            payment or a{" "}
+            <span className="font-semibold text-gray-900">$115 annual</span>{" "}
+            membership fee. These rates apply to all members, including the
+            executive team.
           </P>
 
           <P>
-            All membership income is used to support HCA programs: cultural
+            All membership income is used to support HCA programs—cultural
             events, community gatherings, educational workshops, advocacy
-            campaigns, and maintaining our online platforms and other digital
-            tools (website, blog, and modern online marketplace). Executive
-            members and volunteers are unpaid; your contribution goes directly
-            back into the community.
+            campaigns, and the maintenance of our digital platforms (website,
+            blog, and online marketplace). Executive members and volunteers are
+            unpaid; your contribution goes directly back into the community.
           </P>
 
           <P>
@@ -42,65 +44,83 @@ const MembershipInfoPage = () => {
 
         {/* Benefits / responsibilities */}
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-            <h2 className="text-sm font-semibold text-gray-900">
+          {/* Benefits */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <Header as="h2" size="sm" align="center" className="mb-4">
               What you gain as a member
-            </h2>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-700">
-              <li>Priority updates on HCA events and programs.</li>
-              <li>
-                Invitations to cultural gatherings, workshops, and community
-                consultations.
-              </li>
-              <li>
-                Opportunity to contribute blog posts, stories, and community
-                news.
-              </li>
-              <li>
-                Option to express interest in having your own page or store in
-                our online marketplace.
-              </li>
+            </Header>
 
-              {/* New items */}
+            <ul className="list-disc space-y-2 pl-5 text-sm text-gray-700">
               <li>
-                Monthly and regular newsletters keeping you informed about HCA
-                activities, community initiatives, and important updates.
+                <P>Priority updates on HCA events and programs.</P>
               </li>
               <li>
-                Access to relevant announcements, programs, and information
-                shared by Australian government agencies, community services,
-                and partner organisations — helping strengthen the connection
-                between the Hazara community and key institutions.
+                <P>
+                  Invitations to cultural gatherings, workshops, and community
+                  consultations.
+                </P>
+              </li>
+              <li>
+                <P>
+                  Opportunity to contribute blog posts, stories, and community
+                  news.
+                </P>
+              </li>
+              <li>
+                <P>
+                  Option to express interest in having your own page or store in
+                  our online marketplace.
+                </P>
+              </li>
+              <li>
+                <P>
+                  Monthly newsletters keeping you informed about HCA activities
+                  and initiatives.
+                </P>
+              </li>
+              <li>
+                <P>
+                  Access to announcements and information from government
+                  agencies and partner organisations.
+                </P>
               </li>
             </ul>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-            <h2 className="text-sm font-semibold text-gray-900">
+          {/* Responsibilities */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <Header as="h2" size="sm" align="center" className="mb-4">
               What we ask from members
-            </h2>
+            </Header>
 
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-700">
+            <ul className="list-disc space-y-2 pl-5 text-sm text-gray-700">
               <li>
-                Respect for HCA’s values of dignity, inclusion, and safety.
+                <P>
+                  Respect for HCA’s values of dignity, inclusion, and safety.
+                </P>
               </li>
               <li>
-                Commitment to positive, constructive engagement with other
-                members.
+                <P>
+                  Commitment to positive and constructive engagement with other
+                  members.
+                </P>
               </li>
               <li>
-                Agreement to follow HCA policies, including our Terms of Service
-                and Privacy Policy.
+                <P>
+                  Agreement to follow HCA policies, including Terms of Service
+                  and Privacy Policy.
+                </P>
               </li>
               <li>
-                Payment of the annual membership fee (or approved fee waiver, if
-                applicable).
+                <P>
+                  Payment of the membership fee (or approved fee waiver, if
+                  applicable).
+                </P>
               </li>
             </ul>
 
-            {/* Terms notice added HERE */}
             <TermsAndPrivacyNotice
-              className="mt-3 text-left text-xs text-gray-600"
+              className="mt-4 text-left text-xs text-gray-500"
               prefix="By becoming a member, you agree to our"
               size="xs"
             />
@@ -108,27 +128,43 @@ const MembershipInfoPage = () => {
         </div>
 
         {/* How membership works */}
-        <section className="space-y-2 text-gray-700">
-          <h2 className="text-sm font-semibold text-gray-900">
+        <section className="mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-gradient-to-b from-gray-50 to-white px-8 py-10 text-gray-700 shadow-sm">
+          <Header as="h2" size="sm" align="center" className="text-gray-900">
             How the membership process works
-          </h2>
-          <ol className="list-decimal space-y-1 pl-5 text-sm">
-            <li>Log in or create an account on the HCA website.</li>
-            <li>Complete the membership form with your details.</li>
+          </Header>
+
+          <ol className="mt-6 list-decimal space-y-4 pl-6 text-sm">
             <li>
-              Our team reviews your application and confirms your membership
-              status.
+              <P>Log in or create an account on the HCA website.</P>
             </li>
             <li>
-              Once approved, you&apos;ll receive updates and invitations to
-              participate in HCA activities.
+              <P>Complete the membership form with your details.</P>
+            </li>
+            <li>
+              <P>
+                Our team reviews your application and confirms your membership
+                status.
+              </P>
+            </li>
+            <li>
+              <P>
+                Once approved, you’ll receive updates and invitations to
+                participate in HCA activities.
+              </P>
             </li>
           </ol>
-        </section>
 
-        <Button as="link" href={PublicRoutes.joinMember()} variant="secondary">
-          Apply for membership
-        </Button>
+          <div className="mt-10 flex justify-center">
+            <Button
+              as="link"
+              href={PublicRoutes.joinMember()}
+              variant="secondary"
+              size="lg"
+            >
+              Apply for membership
+            </Button>
+          </div>
+        </section>
       </section>
     </main>
   );
