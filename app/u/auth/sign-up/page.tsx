@@ -1,21 +1,19 @@
 // app/u/signup/page.tsx
+"use client";
 
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
 import { AuthRoutes } from "@/app/lib/routes";
 import { Header } from "@/app/ui/global/Header";
-import { Button } from "@/app/ui/global/components";
+import { ActionButton } from "@/app/ui/global/clientComponent";
+import { Button, Input } from "@/app/ui/global/components";
+import { P } from "@/app/ui/global/paragraph";
+import { useActionState } from "react";
+import { MdEmail, MdPassword } from "react-icons/md";
+import { signup } from "../lib/action";
 import SocialLoginButtons from "../login/ui/SocialLoginButtons";
-import SignupForm from "./ui/SignupForm";
-import { safeAccountNext } from "@/app/lib/session/authRedirects";
 
-const SignupPage = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ next?: string }>;
-}) => {
-
-  const {next} = await searchParams;
-  
+export default function Page() {
+  const [state, formAction, isPending] = useActionState(signup, undefined);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-600 to-white flex items-center justify-center px-4 py-10">
@@ -37,7 +35,48 @@ const SignupPage = async ({
         </div>
 
         {/* Signup Form */}
-        <SignupForm next={decodeURIComponent(next ?? "")} />
+        <form action={formAction} noValidate className="space-y-5">
+          <div className="space-y-4">
+            <Input
+              id="email"
+              label="Email address"
+              placeholder="Enter your email address"
+              type="email"
+              defaultValue={state?.data?.email}
+              Icon={MdEmail}
+              error={state?.errors?.email}
+            />
+            <Input
+              id="password"
+              label="Password"
+              placeholder="Set your password"
+              type="password"
+              defaultValue={state?.data?.password}
+              Icon={MdPassword}
+              error={state?.errors?.password}
+            />
+          </div>
+
+          <ActionButton
+            type="submit"
+            fullWidth
+            isLoading={isPending}
+            overlay
+            loadingText="Signing Up..."
+          >
+            Sign Up
+          </ActionButton>
+
+          {state?.message && (
+            <P
+              className={`text-center text-sm ${
+                state.ok ? "text-green-700" : "text-red-600"
+              }`}
+            >
+              {state.message}
+            </P>
+          )}
+        </form>
 
         <TermsAndPrivacyNotice prefix="By creating an account, you agree to our" />
 
@@ -54,6 +93,4 @@ const SignupPage = async ({
       </div>
     </div>
   );
-};
-
-export default SignupPage;
+}

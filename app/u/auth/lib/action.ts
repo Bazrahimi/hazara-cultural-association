@@ -329,7 +329,7 @@ export async function signup(
 
   // Server-side redirect is OK here because this action is used in a simple form,
   // not with useActionState expecting a state back.
-  redirect(`${AuthRoutes.verifyEmail()}?next=${formData.get("next")}`);
+  redirect(AuthRoutes.verifyEmail());
 }
 
 export const resetPassword = async (
