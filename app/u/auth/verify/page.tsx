@@ -1,32 +1,21 @@
 // app/u/verify/page.tsx
-"use client";
 
-import { useActionState, useEffect, useState } from "react";
-
+import { safeAccountNext } from "@/app/lib/session/authRedirects";
 import { Header } from "@/app/ui/global/Header";
-import { ActionButton } from "@/app/ui/global/clientComponent";
-import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
-import {
-  resendCodeAction,
-  verifyCodeAction,
-  type VerifyState,
-} from "./lib/verify-action";
+import { cookies } from "next/headers";
+import VerifyEmailForm from "./ui/VerifyEmailForm";
 
-export default function VerifyEmailForm({ email }: { email: string }) {
-  const [state, formAction, isPending] = useActionState<
-    VerifyState | undefined,
-    FormData
-  >(verifyCodeAction, undefined);
+const VerifyEmailPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) => {
+  const { next } = await searchParams;
+  const cookieStore = cookies();
 
-  const [cooldown, setCooldown] = useState(0);
-
-  // Countdown for resend
-  useEffect(() => {
-    if (cooldown <= 0) return;
-    const t = setInterval(() => setCooldown((s) => s - 1), 1000);
-    return () => clearInterval(t);
-  }, [cooldown]);
+  const email = String((await cookieStore).get("verify_email")?.value) ?? "";
+  const exp = (await cookieStore).get("verify_exp")?.value ?? "";
 
   const mask = email ? email.replace(/(.{2}).+(@.+)/, "$1••••••$2") : "";
 
@@ -42,67 +31,13 @@ export default function VerifyEmailForm({ email }: { email: string }) {
           <span className="font-medium">{mask || "your email"}</span>. It
           expires in 10 minutes.
         </P>
-
-        <form action={formAction} className="space-y-4" noValidate>
-          <Input
-            type="text"
-            id="code"
-            label="Verification code"
-            placeholder="123456"
-            inputProps={{
-              inputMode: "numeric",
-              pattern: "\\d{6}",
-              maxLength: 6,
-              autoComplete: "one-time-code",
-            }}
-            required
-          />
-
-          <ActionButton
-            type="submit"
-            fullWidth
-            isLoading={isPending}
-            overlay
-            loadingText="Verifying..."
-          >
-            Verify
-          </ActionButton>
-        </form>
-
-        {state?.message && (
-          <P
-            className={`mt-3 text-sm ${
-              state.ok ? "text-green-700" : "text-red-600"
-            }`}
-          >
-            {state.message}
-          </P>
-        )}
-
-        <div className="mt-4 flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <P className="text-xs text-slate-500">Didn’t get a code?</P>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={async () => {
-                if (cooldown > 0) return;
-                const res = await resendCodeAction();
-                if (res.ok) setCooldown(60);
-              }}
-              disabled={cooldown > 0}
-            >
-              {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend code"}
-            </Button>
-          </div>
-
-          {cooldown > 0 && (
-            <P className="text-xs text-slate-500 text-right">
-              You can request another code in <strong>{cooldown}s</strong>
-            </P>
-          )}
-        </div>
+        <VerifyEmailForm
+          next={safeAccountNext(next)}
+          expiresAtMs={Number(exp)}
+        />
       </div>
     </div>
   );
-}
+};
+
+export default VerifyEmailPage;

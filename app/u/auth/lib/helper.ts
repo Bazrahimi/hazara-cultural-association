@@ -37,6 +37,14 @@ const setVerifyCookies = async ({
     maxAge: MaxAgeSeconds,
   });
 
+  cookiesStore.set("verify_exp", String(Date.now() + MaxAgeSeconds * 1000), {
+    httpOnly: false,
+    sameSite: "lax",
+    secure: true,
+    path: VERIFY_EMAIL_COOKIE_PATH,
+    maxAge: MaxAgeSeconds,
+  });
+
   cookiesStore.set("verify_mode", mode, {
     httpOnly: true,
     sameSite: "lax",
@@ -62,7 +70,7 @@ export const startVerificationFlow = async ({
 export const toActionErrors = <TErrors>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: z.ZodError<any>,
-  message = "Please review and correct the highlighted fields."
+  message = "Please review and correct the highlighted fields.",
 ): { ok: false; message: string; errors: TErrors } => {
   const { fieldErrors } = z.flattenError(error);
 
@@ -74,7 +82,7 @@ export const toActionErrors = <TErrors>(
 };
 
 export const findUserIdByEmail = async (
-  email: string
+  email: string,
 ): Promise<number | null> => {
   const rows = await sql<{ id: number }[]>`
     SELECT
@@ -90,7 +98,7 @@ export const findUserIdByEmail = async (
 
 export const buildFullName = (
   maybeFullName: string | null,
-  email: string
+  email: string,
 ): string => {
   const trimmed = (maybeFullName ?? "").trim();
   if (trimmed.length > 0) return trimmed;
