@@ -41,7 +41,7 @@ const VerifyEmailForm = ({
   }, [expiresAtMs]);
 
   const expired = expiresAtMs ? remaining <= 0 : true;
-  console.log("expired", expired)
+
 
   // Resend cooldown
   useEffect(() => {

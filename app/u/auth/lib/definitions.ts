@@ -31,3 +31,30 @@ export type AuthState = ActionState<Auth>;
 
 type ChangePassword = z.infer<typeof ChangePasswordSchema>;
 export type ChangePasswordState = ActionState<ChangePassword>;
+
+export type VerifyMode = "login" | "signup" | "reset";
+
+export const VERIFY_COOKIES = {
+  uid: "verify_uid",
+  email: "verify_email",
+  mode: "verify_mode",
+  exp: "verify_exp",
+} as const;
+
+export type VerifyCookieKey = typeof VERIFY_COOKIES[keyof typeof VERIFY_COOKIES];
+
+
+export type VerifyContext = {
+  userId: number;
+  email: string;
+  mode: VerifyMode;
+  maxAgeSeconds?: number;
+  expiresAtMs?: number;
+};
+
+// export type SetVerifyCookiesOption = {
+//   userId: number;
+//   email: string;
+//   mode: VerifyMode;
+//   MaxAgeSeconds?: number;
+// };

@@ -1,9 +1,11 @@
 // app/u/verify/page.tsx
 
+import { AuthRoutes } from "@/app/lib/routes";
 import { safeAccountNext } from "@/app/lib/session/authRedirects";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { readVerifyCookies } from "../lib/cookies";
 import VerifyEmailForm from "./ui/VerifyEmailForm";
 
 const VerifyEmailPage = async ({
@@ -12,12 +14,15 @@ const VerifyEmailPage = async ({
   searchParams: Promise<{ next?: string }>;
 }) => {
   const { next } = await searchParams;
-  const cookieStore = cookies();
 
-  const email = String((await cookieStore).get("verify_email")?.value) ?? "";
-  const exp = (await cookieStore).get("verify_exp")?.value ?? "";
+  const ctx = await readVerifyCookies();
+  if (!ctx) redirect(AuthRoutes.signUp());
 
-  const mask = email ? email.replace(/(.{2}).+(@.+)/, "$1••••••$2") : "";
+  const { email, expiresAtMs } = ctx;
+
+  const mask = email
+    ? email.replace(/(.{2}).+(@.+)/, "$1••••••$2")
+    : "your email";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-600 to-white flex items-center justify-center px-4 py-10">
@@ -33,7 +38,7 @@ const VerifyEmailPage = async ({
         </P>
         <VerifyEmailForm
           next={safeAccountNext(next)}
-          expiresAtMs={Number(exp)}
+          expiresAtMs={Number(expiresAtMs)}
         />
       </div>
     </div>

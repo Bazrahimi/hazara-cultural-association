@@ -6,12 +6,12 @@ import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { VERIFY_EMAIL_COOKIE_PATH } from "./cookies";
 import {
   buildFullName,
   findUserIdByEmail,
   startVerificationFlow,
   toActionErrors,
-  VERIFY_EMAIL_COOKIE_PATH,
 } from "./helper";
 import {
   AuthSchema,
