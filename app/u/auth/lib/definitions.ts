@@ -68,3 +68,9 @@ export type VerifyState = {
   ok?: boolean;
   message?: string;
 };
+
+export type VerifyCookieEntry = {
+  key: VerifyCookieKey;
+  value: string;
+  httpOnly: boolean;
+};

@@ -3,6 +3,7 @@ import {
   VERIFY_COOKIES,
   VerifyMode,
   type VerifyContext,
+  type VerifyCookieEntry,
   type VerifyCookieKey,
 } from "./definitions";
 
@@ -35,25 +36,37 @@ export const setVerifyCookies = async ({
 }: VerifyContext): Promise<VerifyContext> => {
   const expiresAtMs = Date.now() + maxAgeSeconds * 1000;
 
-  await Promise.all([
-    setCookie(VERIFY_COOKIES.uid, String(userId), {
+  const cookiesToSet: VerifyCookieEntry[] = [
+    {
+      key: VERIFY_COOKIES.uid,
+      value: String(userId),
       httpOnly: true,
-      maxAge: maxAgeSeconds,
-    }),
-    setCookie(VERIFY_COOKIES.email, email, {
+    },
+    {
+      key: VERIFY_COOKIES.email,
+      value: email,
       httpOnly: true,
-      maxAge: maxAgeSeconds,
-    }),
-    setCookie(VERIFY_COOKIES.mode, mode, {
+    },
+    {
+      key: VERIFY_COOKIES.mode,
+      value: mode,
       httpOnly: true,
-      maxAge: maxAgeSeconds,
-    }),
-    // UI-only cookie (readable in client)
-    setCookie(VERIFY_COOKIES.exp, String(expiresAtMs), {
-      httpOnly: false,
-      maxAge: maxAgeSeconds,
-    }),
-  ]);
+    },
+    {
+      key: VERIFY_COOKIES.exp,
+      value: String(expiresAtMs),
+      httpOnly: false, // UI-only
+    },
+  ];
+
+  await Promise.all(
+    cookiesToSet.map(({ key, value, httpOnly }) =>
+      setCookie(key, value, {
+        httpOnly,
+        maxAge: maxAgeSeconds,
+      }),
+    ),
+  );
 
   return { userId, email, mode, expiresAtMs };
 };
@@ -84,10 +97,9 @@ export const clearVerifyCookies = async () => {
   const store = await cookies();
   const clearOpts = { path: VERIFY_EMAIL_COOKIE_PATH, maxAge: 0 };
 
-  store.set(VERIFY_COOKIES.uid, "", clearOpts);
-  store.set(VERIFY_COOKIES.email, "", clearOpts);
-  store.set(VERIFY_COOKIES.mode, "", clearOpts);
-  store.set(VERIFY_COOKIES.exp, "", clearOpts);
+  for (const k of Object.values(VERIFY_COOKIES)) {
+    store.set(k, "", clearOpts);
+  }
 };
 
 export const setResetUid = async (userId: number, maxAgeSeconds = 10 * 60) => {

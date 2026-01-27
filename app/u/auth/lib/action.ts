@@ -11,6 +11,7 @@ import {
   readResetUid,
   readVerifyCookies,
   setResetUid,
+  setVerifyCookies,
 } from "./cookies";
 import {
   findUserIdByEmail,
@@ -403,6 +404,14 @@ export const resendCode = async () => {
         "Verification session expired. Please try again or request a new code.",
     };
   }
+
+  // refresh cookie expiry window (new verify_exp + maxAge refresh)
+  await setVerifyCookies({
+    userId: ctx.userId,
+    email: ctx.email,
+    mode: ctx.mode,
+    maxAgeSeconds: 10 * 60,
+  });
 
   // ctx has: userId, email, mode, expiresAtMs
   return issueVerificationCode({ userId: ctx.userId, email: ctx.email });
