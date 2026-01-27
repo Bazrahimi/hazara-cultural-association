@@ -7,12 +7,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { VERIFY_EMAIL_COOKIE_PATH } from "./cookies";
-import {
-  buildFullName,
-  findUserIdByEmail,
-  startVerificationFlow,
-  toActionErrors,
-} from "./helper";
+import { startVerificationFlow } from "./flow";
+import { buildFullName, findUserIdByEmail, toActionErrors } from "./helper";
 import {
   AuthSchema,
   ChangePasswordSchema,

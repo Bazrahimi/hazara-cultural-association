@@ -9,7 +9,7 @@ import {
 } from "@/app/u/auth/lib/verification";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { VERIFY_EMAIL_COOKIE_PATH } from "../../lib/helper";
+import { VERIFY_EMAIL_COOKIE_PATH } from "../../lib/cookies";
 
 export type VerifyState = {
   ok?: boolean;
@@ -33,7 +33,7 @@ async function getVerifyContext() {
 
 export async function verifyCodeAction(
   _prev: VerifyState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<VerifyState | never> {
   const code = String(formData.get("code") ?? "").trim();
   const { userId, email, mode, sessionCookie } = await getVerifyContext();
