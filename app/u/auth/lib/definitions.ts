@@ -29,6 +29,14 @@ export type ForgotPasswordState = ActionState<ForgotPassword>;
 type Auth = z.infer<typeof AuthSchema>;
 export type AuthState = ActionState<Auth>;
 
+export type UserForLogin = {
+  userId: number;
+  hashedPassword: string;
+  roles: string[];
+  fullName: string | null;
+  emailVerifiedAt: Date | null;
+};
+
 type ChangePassword = z.infer<typeof ChangePasswordSchema>;
 export type ChangePasswordState = ActionState<ChangePassword>;
 
@@ -41,8 +49,8 @@ export const VERIFY_COOKIES = {
   exp: "verify_exp",
 } as const;
 
-export type VerifyCookieKey = typeof VERIFY_COOKIES[keyof typeof VERIFY_COOKIES];
-
+export type VerifyCookieKey =
+  (typeof VERIFY_COOKIES)[keyof typeof VERIFY_COOKIES];
 
 export type VerifyContext = {
   userId: number;

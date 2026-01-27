@@ -1,4 +1,50 @@
 app
+├── (disabled)
+│   └── _shop
+│       ├── [productSlug]
+│       │   ├── page.tsx
+│       │   └── ui
+│       │       └── ProdcutDetails.tsx
+│       ├── cart
+│       │   ├── checkout
+│       │   │   ├── cancel
+│       │   │   │   └── page.tsx
+│       │   │   ├── hooks
+│       │   │   │   └── usePersistedState.ts
+│       │   │   ├── page.tsx
+│       │   │   ├── success
+│       │   │   │   └── page.tsx
+│       │   │   └── ui
+│       │   │       ├── AuAddressAutocomplete.tsx
+│       │   │       ├── CheckoutPage.tsx
+│       │   │       ├── CheckoutPayForm.tsx
+│       │   │       ├── GuestCheckout.tsx
+│       │   │       ├── LoggedInCheckout.tsx
+│       │   │       ├── OrderSummary.tsx
+│       │   │       ├── ShippingDetails.tsx
+│       │   │       ├── SocialAccount.tsx
+│       │   │       ├── StepCard.tsx
+│       │   │       ├── order-summary
+│       │   │       │   ├── Row.tsx
+│       │   │       │   └── SummaryRow.tsx
+│       │   │       └── shipping-details
+│       │   │           ├── AddressFields.tsx
+│       │   │           ├── ContactFields.tsx
+│       │   │           └── ManualAddressToggle.tsx
+│       │   └── page.tsx
+│       ├── layout.tsx
+│       ├── lib
+│       │   ├── action.ts
+│       │   ├── definitions.ts
+│       │   ├── helper.ts
+│       │   └── schema.ts
+│       ├── page.tsx
+│       └── ui
+│           ├── ProductCard.tsx
+│           ├── ProductPriceTag.tsx
+│           └── cart
+│               ├── CartBadge.tsx
+│               └── CartContext.tsx
 ├── (term-and-privacy)
 │   ├── privacy-policy
 │   │   ├── data-deletion
@@ -10,6 +56,10 @@ app
 │   │   └── page.tsx
 │   └── ui
 │       └── TermsAndPrivacyNotice.tsx
+├── Navbar.tsx
+├── _shop
+│   └── lib
+│       └── action.ts
 ├── about-us
 │   ├── layout.tsx
 │   ├── loading.tsx
@@ -31,15 +81,15 @@ app
 │   │       │   └── schema.ts
 │   │       ├── page.tsx
 │   │       └── ui
-│   │           ├── new-listing-form.tsx
-│   │           └── ProductImgUpload.tsx
+│   │           ├── ProductImgUpload.tsx
+│   │           └── new-listing-form.tsx
 │   ├── loading.tsx
 │   ├── page.tsx
 │   ├── settings
 │   │   ├── addresses
 │   │   │   ├── lib
-│   │   │   │   ├── action.ts
 │   │   │   │   ├── AddressAutoComplete.tsx
+│   │   │   │   ├── action.ts
 │   │   │   │   └── schema.ts
 │   │   │   ├── new
 │   │   │   │   └── page.tsx
@@ -108,25 +158,25 @@ app
 │   │   │   ├── page.tsx
 │   │   │   └── ui
 │   │   │       ├── BlogPostFormSkeleton.tsx
-│   │   │       ├── form
-│   │   │       │   ├── AdvocacyEvent.tsx
-│   │   │       │   ├── CategoryStatusFeaturedFields.tsx
-│   │   │       │   ├── EditorField.tsx
-│   │   │       │   ├── ExcerptField.tsx
-│   │   │       │   ├── FormFooter.tsx
-│   │   │       │   ├── FormHeader.tsx
-│   │   │       │   └── SuccessModal.tsx
-│   │   │       └── PostForm.tsx
+│   │   │       ├── PostForm.tsx
+│   │   │       └── form
+│   │   │           ├── AdvocacyEvent.tsx
+│   │   │           ├── CategoryStatusFeaturedFields.tsx
+│   │   │           ├── EditorField.tsx
+│   │   │           ├── ExcerptField.tsx
+│   │   │           ├── FormFooter.tsx
+│   │   │           ├── FormHeader.tsx
+│   │   │           └── SuccessModal.tsx
 │   │   ├── page.tsx
 │   │   └── ui
 │   │       ├── ChangeCategoryMenu.tsx
-│   │       ├── postActionMenu
-│   │       │   ├── MenuItem.tsx
-│   │       │   └── PostActionsMenu.tsx
 │   │       ├── PostHeader.tsx
 │   │       ├── PostPanel.tsx
 │   │       ├── PostsLoadingFallback.tsx
-│   │       └── PostsWrapper.tsx
+│   │       ├── PostsWrapper.tsx
+│   │       └── postActionMenu
+│   │           ├── MenuItem.tsx
+│   │           └── PostActionsMenu.tsx
 │   ├── hazara-genocide-memorial
 │   │   └── 133
 │   │       ├── layout.tsx
@@ -140,7 +190,6 @@ app
 │   │           └── helper.ts
 │   ├── layout.tsx
 │   ├── lib
-│   │   ├── action.ts
 │   │   ├── helper.ts
 │   │   └── permissions.ts
 │   ├── page.tsx
@@ -151,16 +200,17 @@ app
 │   │   │   ├── page.tsx
 │   │   │   └── ui
 │   │   │       ├── ManagePostControls.tsx
-│   │   │       └── PostDetail
-│   │   │           ├── ClickableHeroImage.tsx
-│   │   │           ├── ContentSection.tsx
-│   │   │           ├── enhanceContent.ts
-│   │   │           ├── EventSection.tsx
-│   │   │           ├── HeroImage.tsx
-│   │   │           ├── ManageControlGate.tsx
-│   │   │           ├── PostBody.tsx
-│   │   │           ├── PostMeta.tsx
-│   │   │           └── PostShell.tsx
+│   │   │       ├── PostDetail
+│   │   │       │   ├── ClickableHeroImage.tsx
+│   │   │       │   ├── ContentSection.tsx
+│   │   │       │   ├── EventSection.tsx
+│   │   │       │   ├── HeroImage.tsx
+│   │   │       │   ├── ManageControlGate.tsx
+│   │   │       │   ├── PostBody.tsx
+│   │   │       │   ├── PostMeta.tsx
+│   │   │       │   ├── PostShell.tsx
+│   │   │       │   └── enhanceContent.ts
+│   │   │       └── RelatedPostsSection.tsx
 │   │   ├── category
 │   │   │   └── [category]
 │   │   │       └── page.tsx
@@ -201,18 +251,18 @@ app
 │   │   └── page.tsx
 │   └── ui
 │       ├── DonateForm.tsx
-│       ├── form
-│       │   ├── DonationAmount.tsx
-│       │   └── DonationDetails.tsx
-│       └── TransparencySection.tsx
+│       ├── TransparencySection.tsx
+│       └── form
+│           ├── DonationAmount.tsx
+│           └── DonationDetails.tsx
 ├── error.tsx
 ├── favicon.ico
 ├── globals.css
 ├── layout.tsx
 ├── lib
+│   ├── Date.ts
 │   ├── action.ts
 │   ├── cloudinary.ts
-│   ├── Date.ts
 │   ├── db.ts
 │   ├── definitions.ts
 │   ├── font.ts
@@ -226,28 +276,29 @@ app
 │   │   ├── AuthRoutes.ts
 │   │   ├── BlogRoutes.ts
 │   │   ├── DonateRoutes.ts
-│   │   ├── helper.ts
-│   │   ├── index.ts
 │   │   ├── PublicRoutes.ts
 │   │   ├── ShopRoutes.ts
-│   │   └── UserRoutes.ts
+│   │   ├── UserRoutes.ts
+│   │   ├── helper.ts
+│   │   └── index.ts
 │   ├── sanitize.ts
 │   ├── schema.ts
 │   ├── session
+│   │   ├── authRedirects.ts
 │   │   ├── protectedRoutes.ts
 │   │   ├── session.ts
 │   │   └── sessionConfig.ts
 │   ├── stripe.ts
 │   └── translation
+│       ├── BreadcrumbsTrans.ts
 │       ├── blog
 │       │   ├── index.ts
 │       │   └── post
 │       │       ├── CreateEditPostTrans.ts
-│       │       ├── index.ts
 │       │       ├── ManagePostTrans.ts
 │       │       ├── PostListConfigTrans.ts
+│       │       ├── index.ts
 │       │       └── transHelper.ts
-│       ├── BreadcrumbsTrans.ts
 │       └── index.ts
 ├── loading.tsx
 ├── members
@@ -264,7 +315,6 @@ app
 │   │       ├── JoinForm.tsx
 │   │       └── PersonalDetailsSection.tsx
 │   └── page.tsx
-├── Navbar.tsx
 ├── not-found.tsx
 ├── page.tsx
 ├── partners
@@ -273,53 +323,6 @@ app
 │   ├── page.tsx
 │   └── ui
 │       └── LogoGrid.tsx
-├── shop
-│   ├── [productSlug]
-│   │   ├── page.tsx
-│   │   └── ui
-│   │       └── ProdcutDetails.tsx
-│   ├── cart
-│   │   ├── checkout
-│   │   │   ├── cancel
-│   │   │   │   └── page.tsx
-│   │   │   ├── hooks
-│   │   │   │   └── usePersistedState.ts
-│   │   │   ├── page.tsx
-│   │   │   ├── success
-│   │   │   │   └── page.tsx
-│   │   │   └── ui
-│   │   │       ├── AuAddressAutocomplete.tsx
-│   │   │       ├── CheckoutPage.tsx
-│   │   │       ├── CheckoutPayForm.tsx
-│   │   │       ├── GuestCheckout.tsx
-│   │   │       ├── LoggedInCheckout.tsx
-│   │   │       ├── order-summary
-│   │   │       │   ├── Row.tsx
-│   │   │       │   └── SummaryRow.tsx
-│   │   │       ├── OrderSummary.tsx
-│   │   │       ├── shipping-details
-│   │   │       │   ├── AddressFields.tsx
-│   │   │       │   ├── ContactFields.tsx
-│   │   │       │   └── ManualAddressToggle.tsx
-│   │   │       ├── ShippingDetails.tsx
-│   │   │       ├── SocialAccount.tsx
-│   │   │       └── StepCard.tsx
-│   │   └── page.tsx
-│   ├── layout.tsx
-│   ├── lib
-│   │   ├── action.ts
-│   │   ├── definitions.ts
-│   │   ├── helper.ts
-│   │   └── schema.ts
-│   ├── page.tsx
-│   ├── seller
-│   │   └── [sellerIdStr]
-│   └── ui
-│       ├── cart
-│       │   ├── CartBadge.tsx
-│       │   └── CartContext.tsx
-│       ├── ProductCard.tsx
-│       └── ProductPriceTag.tsx
 ├── u
 │   ├── [profile]
 │   │   ├── page.tsx
@@ -331,7 +334,9 @@ app
 │       │   └── page.tsx
 │       ├── lib
 │       │   ├── action.ts
+│       │   ├── cookies.ts
 │       │   ├── definitions.ts
+│       │   ├── flow.ts
 │       │   ├── helper.ts
 │       │   ├── schema.ts
 │       │   ├── setNotification.ts
@@ -341,6 +346,7 @@ app
 │       │   ├── loading.tsx
 │       │   ├── page.tsx
 │       │   └── ui
+│       │       ├── LoginForm.tsx
 │       │       └── SocialLoginButtons.tsx
 │       ├── oauth
 │       │   └── google
@@ -354,40 +360,42 @@ app
 │       ├── sign-up
 │       │   ├── layout.tsx
 │       │   ├── loading.tsx
-│       │   └── page.tsx
+│       │   ├── page.tsx
+│       │   └── ui
+│       │       └── SignupForm.tsx
 │       ├── ui
 │       │   └── resend
-│       │       ├── email.ts
 │       │       ├── EmailFooter.tsx
-│       │       └── VerifyEmailCode.tsx
+│       │       ├── VerifyEmailCode.tsx
+│       │       └── email.ts
 │       └── verify
 │           ├── lib
 │           │   └── verify-action.ts
 │           ├── page.tsx
 │           └── ui
-│               └── verify-form.tsx
+│               └── VerifyEmailForm.tsx
 └── ui
     ├── Footer.tsx
+    ├── Hero.tsx
     ├── global
     │   ├── Breadcrumbs.tsx
-    │   ├── Checkbox.tsx
     │   ├── CLdFileUpload.tsx
-    │   ├── clientComponent.tsx
-    │   ├── components.tsx
+    │   ├── Checkbox.tsx
     │   ├── FormMessage.tsx
     │   ├── Header.tsx
     │   ├── ImageShimer.tsx
+    │   ├── QuillEditor.tsx
+    │   ├── SelectInput.tsx
+    │   ├── TricolorRule.tsx
+    │   ├── clientComponent.tsx
+    │   ├── components.tsx
     │   ├── modal.tsx
     │   ├── paragraph.tsx
-    │   ├── QuillEditor.tsx
     │   ├── resend
-    │   │   ├── email.tsx
-    │   │   └── NewEnquiry.tsx
-    │   ├── SelectInput.tsx
-    │   ├── skeleton
-    │   │   └── spinner.tsx
-    │   └── TricolorRule.tsx
-    ├── Hero.tsx
+    │   │   ├── NewEnquiry.tsx
+    │   │   └── email.tsx
+    │   └── skeleton
+    │       └── spinner.tsx
     ├── homepage
     │   └── blog
     │       ├── FeaturedBlogPosts.tsx
@@ -397,4 +405,4 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-127 directories, 271 files
+129 directories, 277 files

@@ -1,14 +1,19 @@
 "use server";
 
-import { sql } from "@/app/lib/db"; // must return { rows: T[] }
 import { createSession, getSession } from "@/app/lib/session/session";
 import bcrypt from "bcrypt"; // or see note below for bcryptjs
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { VERIFY_EMAIL_COOKIE_PATH } from "./cookies";
+import { clearResetUid, readResetUid } from "./cookies";
+import {
+  findUserIdByEmail,
+  getHashedPassword,
+  getUserForLogin,
+  insertUser,
+  updateUserPassword,
+} from "./data";
 import { startVerificationFlow } from "./flow";
-import { buildFullName, findUserIdByEmail, toActionErrors } from "./helper";
+import { buildFullName, toActionErrors } from "./helper";
 import {
   AuthSchema,
   ChangePasswordSchema,
@@ -60,22 +65,14 @@ export const changePassword = async (
   const userId = session.userId;
 
   try {
-    // 2) Fetch current hashed password from DB
-    const rows = await sql<{ password: string }[]>`
-      SELECT password
-      FROM users
-      WHERE id = ${userId}
-      LIMIT 1;
-    `;
+    const hashedPassword = await getHashedPassword(userId);
 
-    if (rows.length === 0) {
+    if (!hashedPassword) {
       return {
         ok: false,
         message: "Account not found.",
       };
     }
-
-    const hashedPassword = rows[0].password;
 
     // 3) Compare current password
     const match = await bcrypt.compare(currentPassword, hashedPassword);
@@ -91,12 +88,7 @@ export const changePassword = async (
 
     // 4) Hash and update new password
     const newHash = await bcrypt.hash(newPassword, 12);
-
-    await sql`
-      UPDATE users
-      SET password = ${newHash}
-      WHERE id = ${userId};
-    `;
+    await updateUserPassword(userId, newHash);
 
     return {
       ok: true,
@@ -117,6 +109,7 @@ export const auth = async (
 ): Promise<AuthState | undefined> => {
   const rawEmail = String(formData.get("email") ?? "");
   const rawPassword = String(formData.get("password") ?? "");
+  const next = String(formData.get("next")) ?? "";
 
   const parsed = AuthSchema.safeParse({
     email: rawEmail,
@@ -133,38 +126,7 @@ export const auth = async (
   const { email, password } = parsed.data;
 
   try {
-    const result = await sql<
-      {
-        userId: number;
-        hashedPassword: string;
-        roles: string[];
-        fullName: string | null;
-        emailVerifiedAt: Date | null;
-      }[]
-    >`
-        SELECT
-          u.id AS "userId",
-          u.password AS "hashedPassword",
-          u.email_verified_at AS "emailVerifiedAt",
-          COALESCE(
-            up.first_name || ' ' || up.last_name,
-            ''  
-          ) AS "fullName",
-          COALESCE(
-            array_agg(r.name ORDER BY r.name)
-          FILTER (WHERE r.name IS NOT NULL), 
-          '{}'
-          ) AS roles
-        FROM users u
-        LEFT JOIN user_profiles up  ON up.user_id = u.id
-        LEFT JOIN user_roles ur     ON ur.user_id = u.id
-        LEFT JOIN roles r           ON r.id = ur.role_id
-        WHERE u.email = ${email}
-        GROUP BY u.id, up.first_name, up.last_name, u.email_verified_at
-        LIMIT 1
-    `;
-
-    const user = result[0];
+    const user = await getUserForLogin(email);
 
     if (!user) {
       return {
@@ -190,7 +152,8 @@ export const auth = async (
         mode: "login",
       });
 
-      redirect(AuthRoutes.verifyEmail());
+      // redirect(AuthRoutes.verifyEmail());
+      redirect(`${AuthRoutes.verifyEmail}?next=${encodeURIComponent(next)}`);
     }
 
     const fullName = buildFullName(user.fullName, email);
@@ -207,8 +170,7 @@ export const auth = async (
     };
   }
 
-  const next = safeAccountNext(formData.get("next"));
-  redirect(next);
+  redirect(safeAccountNext(next));
 };
 
 /**
@@ -270,6 +232,7 @@ export async function signup(
 ): Promise<SignupState> {
   const rawEmail = String(formData.get("email") ?? "");
   const rawPassword = String(formData.get("password") ?? "");
+  const next = String(formData.get("next"));
 
   // Validate
   const parsed = SignupSchema.safeParse({
@@ -301,13 +264,7 @@ export async function signup(
     // 2) Hash & create user
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const inserted = await sql`
-      INSERT INTO users (email, password)
-      VALUES (${email}, ${hashedPassword})
-      RETURNING id;
-    `;
-
-    const userId = inserted[0]?.id;
+    const userId = await insertUser(email, hashedPassword);
 
     await startVerificationFlow({
       userId,
@@ -325,7 +282,7 @@ export async function signup(
 
   // Server-side redirect is OK here because this action is used in a simple form,
   // not with useActionState expecting a state back.
-  redirect(`${AuthRoutes.verifyEmail()}?next=${formData.get("next")}`);
+  redirect(`${AuthRoutes.verifyEmail()}?next=${decodeURIComponent(next)}`);
 }
 
 export const resetPassword = async (
@@ -350,9 +307,7 @@ export const resetPassword = async (
   const { password } = parsed.data;
 
   // Read reset_uid from cookies
-  const cookieStore = await cookies();
-  const resetUidRaw = cookieStore.get("reset_uid")?.value;
-  const userId = resetUidRaw ? Number(resetUidRaw) : undefined;
+  const userId = await readResetUid();
 
   if (!userId) {
     return {
@@ -365,17 +320,10 @@ export const resetPassword = async (
   try {
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    await sql`
-      UPDATE users
-      SET password = ${hashedPassword}
-      WHERE id = ${userId};
-    `;
+    await updateUserPassword(userId, hashedPassword);
 
     // Clear reset_uid cookie
-    cookieStore.set("reset_uid", "", {
-      path: VERIFY_EMAIL_COOKIE_PATH,
-      maxAge: 0,
-    });
+    await clearResetUid();
   } catch (err) {
     console.error("resetPassword error:", err);
     return {

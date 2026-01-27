@@ -15,20 +15,7 @@ export const toActionErrors = <TErrors>(
   };
 };
 
-export const findUserIdByEmail = async (
-  email: string,
-): Promise<number | null> => {
-  const rows = await sql<{ id: number }[]>`
-    SELECT
-      id
-    FROM
-      users
-    WHERE
-      lower(email) = lower(${email})
-    LIMIT 1
-  `;
-  return rows.length > 0 ? rows[0].id : null;
-};
+
 
 export const buildFullName = (
   maybeFullName: string | null,

@@ -7,6 +7,7 @@ import {
 } from "./definitions";
 
 export const VERIFY_EMAIL_COOKIE_PATH = "/u";
+const RESET_UID = "reset_uid";
 
 const baseCookieOptions = {
   sameSite: "lax" as const,
@@ -76,4 +77,19 @@ export const readVerifyCookies = async (): Promise<VerifyContext | null> => {
     return null;
 
   return { userId, email, mode, expiresAtMs };
+};
+
+export const readResetUid = async (): Promise<number | null> => {
+  const store = await cookies();
+  const raw = store.get(RESET_UID)?.value;
+  const id = raw ? Number(raw) : NaN;
+  return Number.isFinite(id) ? id : null;
+};
+
+export const clearResetUid = async () => {
+  const store = await cookies();
+  store.set(RESET_UID, "", {
+    path: VERIFY_EMAIL_COOKIE_PATH,
+    maxAge: 0,
+  });
 };
