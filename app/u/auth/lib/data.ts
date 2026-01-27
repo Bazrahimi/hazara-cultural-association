@@ -31,12 +31,14 @@ export const getHashedPassword = async (
 export const updateUserPassword = async (
   userId: number,
   hashedPassword: string,
-): Promise<void> => {
-  await sql`
+): Promise<boolean> => {
+  const rows = await sql<{ id: number }[]>`
       UPDATE users
       SET password = ${hashedPassword}
       WHERE id = ${userId};
     `;
+
+  return rows.length === 1;
 };
 
 export const getUserForLogin = async (
@@ -65,10 +67,9 @@ export const getUserForLogin = async (
   return rows[0] ?? null;
 };
 
-
 export const insertUser = async (
   email: string,
-  hashedPassword: string
+  hashedPassword: string,
 ): Promise<number> => {
   const rows = await sql<{ id: number }[]>`
     INSERT INTO users (email, password)
@@ -80,4 +81,3 @@ export const insertUser = async (
   if (!id) throw new Error("Failed to insert user");
   return id;
 };
-

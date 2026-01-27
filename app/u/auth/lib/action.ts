@@ -1,10 +1,17 @@
 "use server";
+// app/u/auth/lib/action.ts
 
 import { createSession, getSession } from "@/app/lib/session/session";
 import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { redirect } from "next/navigation";
 
-import { clearResetUid, readResetUid } from "./cookies";
+import {
+  clearResetUid,
+  clearVerifyCookies,
+  readResetUid,
+  readVerifyCookies,
+  setResetUid,
+} from "./cookies";
 import {
   findUserIdByEmail,
   getHashedPassword,
@@ -20,9 +27,10 @@ import {
   ForgotPasswordSchema,
   ResetPasswordSchema,
   SignupSchema,
+  VerifyCodeSchema,
 } from "./schema";
 
-import { AuthRoutes } from "@/app/lib/routes";
+import { AccountRoutes, AuthRoutes } from "@/app/lib/routes";
 import { safeAccountNext } from "@/app/lib/session/authRedirects";
 import type {
   AuthState,
@@ -30,12 +38,14 @@ import type {
   ForgotPasswordState,
   ResetPasswordState,
   SignupState,
+  VerifyCodeState,
 } from "./definitions";
+import { issueVerificationCode, verifyEmailCode } from "./verification";
 
 export const changePassword = async (
   _prevState: ChangePasswordState | undefined,
   formData: FormData,
-): Promise<ChangePasswordState> => {
+): Promise<ChangePasswordState | undefined> => {
   const rawCurrent = String(formData.get("currentPassword") ?? "");
   const rawNew = String(formData.get("newPassword") ?? "");
   const rawConfirm = String(formData.get("confirmNewPassword") ?? "");
@@ -88,12 +98,14 @@ export const changePassword = async (
 
     // 4) Hash and update new password
     const newHash = await bcrypt.hash(newPassword, 12);
-    await updateUserPassword(userId, newHash);
+    const ok = await updateUserPassword(userId, newHash);
 
-    return {
-      ok: true,
-      message: "Your password has been updated successfully.",
-    };
+    if (!ok) {
+      return {
+        ok: false,
+        message: "Email or password is incorrect.",
+      };
+    }
   } catch (err) {
     console.error("changePassword error:", err);
     return {
@@ -320,8 +332,8 @@ export const resetPassword = async (
   try {
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    await updateUserPassword(userId, hashedPassword);
-
+    const ok = await updateUserPassword(userId, hashedPassword);
+    if (!ok) return { ok: false, message: "Account not found." };
     // Clear reset_uid cookie
     await clearResetUid();
   } catch (err) {
@@ -332,4 +344,66 @@ export const resetPassword = async (
     };
   }
   redirect(AuthRoutes.login());
+};
+
+export const verifyCode = async (
+  _prev: VerifyCodeState | undefined,
+  formData: FormData,
+): Promise<VerifyCodeState | never> => {
+  const parsed = VerifyCodeSchema.safeParse({
+    code: String(formData.get("code") ?? "").trim(),
+  });
+
+  if (!parsed.success) {
+    return toActionErrors<VerifyCodeState["errors"]>(
+      parsed.error,
+      "Please enter the verification code.",
+    );
+  }
+
+  const { code } = parsed.data;
+
+  const ctx = await readVerifyCookies();
+  if (!ctx) {
+    return {
+      ok: false,
+      message: "Verification session expired. Please try again.",
+    };
+  }
+
+  const res = await verifyEmailCode({ userId: ctx.userId, code });
+  if (!res.ok) {
+    return { ok: false, message: res.message };
+  }
+
+  // ✅ success: clear verify cookies
+  await clearVerifyCookies();
+
+  // ✅ reset flow
+  if (ctx.mode === "reset") {
+    await setResetUid(ctx.userId);
+    redirect(AuthRoutes.resetPassword());
+  }
+
+  // ✅ login/signup flow
+  // (if your createSession needs roles/fullName, fetch them here or keep minimal)
+  await createSession(ctx.userId);
+
+  const next = safeAccountNext(formData.get("next"));
+  redirect(next || AccountRoutes.profile());
+};
+
+export const resendCode = async () => {
+  const ctx = await readVerifyCookies();
+
+  if (!ctx) {
+    return {
+      ok: false,
+      message:
+        "Verification session expired. Please try again or request a new code.",
+    };
+  }
+
+  // ctx has: userId, email, mode, expiresAtMs
+  return issueVerificationCode({ userId: ctx.userId, email: ctx.email });
 };

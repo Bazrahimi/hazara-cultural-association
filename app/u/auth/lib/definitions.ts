@@ -6,6 +6,7 @@ import {
   ForgotPasswordSchema,
   ResetPasswordSchema,
   SignupSchema,
+  VerifyCodeSchema,
 } from "./schema";
 
 export type ActionState<T> = {
@@ -25,6 +26,9 @@ export type SignupState = ActionState<Signup>;
 
 type ForgotPassword = z.infer<typeof ForgotPasswordSchema>;
 export type ForgotPasswordState = ActionState<ForgotPassword>;
+
+type VerifyCode = z.infer<typeof VerifyCodeSchema>
+export type VerifyCodeState = ActionState<VerifyCode>
 
 type Auth = z.infer<typeof AuthSchema>;
 export type AuthState = ActionState<Auth>;
@@ -60,9 +64,7 @@ export type VerifyContext = {
   expiresAtMs?: number;
 };
 
-// export type SetVerifyCookiesOption = {
-//   userId: number;
-//   email: string;
-//   mode: VerifyMode;
-//   MaxAgeSeconds?: number;
-// };
+export type VerifyState = {
+  ok?: boolean;
+  message?: string;
+};

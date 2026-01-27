@@ -35,24 +35,25 @@ export const setVerifyCookies = async ({
 }: VerifyContext): Promise<VerifyContext> => {
   const expiresAtMs = Date.now() + maxAgeSeconds * 1000;
 
-  setCookie(VERIFY_COOKIES.uid, String(userId), {
-    httpOnly: true,
-    maxAge: maxAgeSeconds,
-  });
-  setCookie(VERIFY_COOKIES.email, email, {
-    httpOnly: true,
-    maxAge: maxAgeSeconds,
-  });
-  setCookie(VERIFY_COOKIES.mode, mode, {
-    httpOnly: true,
-    maxAge: maxAgeSeconds,
-  });
-
-  // UI-only cookie (readable in client)
-  setCookie(VERIFY_COOKIES.exp, String(expiresAtMs), {
-    httpOnly: false,
-    maxAge: maxAgeSeconds,
-  });
+  await Promise.all([
+    setCookie(VERIFY_COOKIES.uid, String(userId), {
+      httpOnly: true,
+      maxAge: maxAgeSeconds,
+    }),
+    setCookie(VERIFY_COOKIES.email, email, {
+      httpOnly: true,
+      maxAge: maxAgeSeconds,
+    }),
+    setCookie(VERIFY_COOKIES.mode, mode, {
+      httpOnly: true,
+      maxAge: maxAgeSeconds,
+    }),
+    // UI-only cookie (readable in client)
+    setCookie(VERIFY_COOKIES.exp, String(expiresAtMs), {
+      httpOnly: false,
+      maxAge: maxAgeSeconds,
+    }),
+  ]);
 
   return { userId, email, mode, expiresAtMs };
 };
@@ -77,6 +78,25 @@ export const readVerifyCookies = async (): Promise<VerifyContext | null> => {
     return null;
 
   return { userId, email, mode, expiresAtMs };
+};
+
+export const clearVerifyCookies = async () => {
+  const store = await cookies();
+  const clearOpts = { path: VERIFY_EMAIL_COOKIE_PATH, maxAge: 0 };
+
+  store.set(VERIFY_COOKIES.uid, "", clearOpts);
+  store.set(VERIFY_COOKIES.email, "", clearOpts);
+  store.set(VERIFY_COOKIES.mode, "", clearOpts);
+  store.set(VERIFY_COOKIES.exp, "", clearOpts);
+};
+
+export const setResetUid = async (userId: number, maxAgeSeconds = 10 * 60) => {
+  const store = await cookies();
+  store.set(RESET_UID, String(userId), {
+    ...baseCookieOptions,
+    httpOnly: true,
+    maxAge: maxAgeSeconds,
+  });
 };
 
 export const readResetUid = async (): Promise<number | null> => {

@@ -5,11 +5,9 @@ import { useActionState, useEffect, useState } from "react";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
-import {
-  resendCodeAction,
-  verifyCodeAction,
-  type VerifyState,
-} from "../lib/verify-action";
+
+import { resendCode, verifyCode } from "../../lib/action";
+import { VerifyCodeState } from "../../lib/definitions";
 
 const VerifyEmailForm = ({
   next,
@@ -19,9 +17,9 @@ const VerifyEmailForm = ({
   expiresAtMs?: number;
 }) => {
   const [state, formAction, isPending] = useActionState<
-    VerifyState | undefined,
+    VerifyCodeState | undefined,
     FormData
-  >(verifyCodeAction, undefined);
+  >(verifyCode, undefined);
 
   const [cooldown, setCooldown] = useState(0);
 
@@ -41,7 +39,6 @@ const VerifyEmailForm = ({
   }, [expiresAtMs]);
 
   const expired = expiresAtMs ? remaining <= 0 : true;
-
 
   // Resend cooldown
   useEffect(() => {
@@ -119,7 +116,7 @@ const VerifyEmailForm = ({
             onClick={async () => {
               if (cooldown > 0) return;
 
-              const res = await resendCodeAction();
+              const res = await resendCode();
               if (res.ok) {
                 setCooldown(60);
                 // optional: if your resend action resets cookies with a new exp,
