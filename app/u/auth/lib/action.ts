@@ -33,6 +33,7 @@ import {
 
 import { AccountRoutes, AuthRoutes } from "@/app/lib/routes";
 import { safeAccountNext } from "@/app/lib/session/authRedirects";
+import { VERIFICATION_TTL_SECONDS } from "./constants";
 import type {
   AuthState,
   ChangePasswordState,
@@ -394,7 +395,11 @@ export const verifyCode = async (
   redirect(next || AccountRoutes.profile());
 };
 
-export const resendCode = async () => {
+export const resendCode = async (): Promise<{
+  ok: boolean;
+  message: string;
+  expiresAtMs?: number;
+}> => {
   const ctx = await readVerifyCookies();
 
   if (!ctx) {
@@ -410,7 +415,7 @@ export const resendCode = async () => {
     userId: ctx.userId,
     email: ctx.email,
     mode: ctx.mode,
-    maxAgeSeconds: 10 * 60,
+    maxAgeSeconds: VERIFICATION_TTL_SECONDS,
   });
 
   // ctx has: userId, email, mode, expiresAtMs

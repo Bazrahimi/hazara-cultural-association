@@ -4,6 +4,11 @@ import { AuthRoutes } from "@/app/lib/routes";
 import crypto from "crypto";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import {
+  COOKIE_SAMESITE,
+  VERIFICATION_TTL_SECONDS,
+  VERIFY_EMAIL_COOKIE_PATH,
+} from "../../../lib/constants";
 
 const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 
@@ -18,10 +23,10 @@ export const GET = async () => {
   // Save state in a secure cookie so we can verify it on callback
   cookieStore.set("oauth_state_google", state, {
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: COOKIE_SAMESITE,
     secure: true,
-    path: "/u",
-    maxAge: 10 * 60, // 10 minutes
+    path: VERIFY_EMAIL_COOKIE_PATH,
+    maxAge: VERIFICATION_TTL_SECONDS, // 10 minutes
   });
 
   const params = new URLSearchParams({

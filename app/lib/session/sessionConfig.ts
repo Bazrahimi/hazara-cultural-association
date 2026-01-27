@@ -1,3 +1,5 @@
+import { COOKIE_SAMESITE, COOKIE_SECURE } from "@/app/u/auth/lib/constants";
+
 // app/lib/session/sessionConfig.ts
 export const SESSION_COOKIE = "session" as const;
 
@@ -13,8 +15,8 @@ export const SESSION_DURATION = "12h" as const;
 export function sessionCookieOptions(expires?: Date) {
   return {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
+    secure: COOKIE_SECURE,
+    sameSite: COOKIE_SAMESITE,
     path: "/",
     ...(expires ? { expires } : {}),
   };

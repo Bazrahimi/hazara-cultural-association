@@ -27,8 +27,8 @@ export type SignupState = ActionState<Signup>;
 type ForgotPassword = z.infer<typeof ForgotPasswordSchema>;
 export type ForgotPasswordState = ActionState<ForgotPassword>;
 
-type VerifyCode = z.infer<typeof VerifyCodeSchema>
-export type VerifyCodeState = ActionState<VerifyCode>
+type VerifyCode = z.infer<typeof VerifyCodeSchema>;
+export type VerifyCodeState = ActionState<VerifyCode>;
 
 type Auth = z.infer<typeof AuthSchema>;
 export type AuthState = ActionState<Auth>;
@@ -73,4 +73,10 @@ export type VerifyCookieEntry = {
   key: VerifyCookieKey;
   value: string;
   httpOnly: boolean;
+};
+
+export type EmailVerificationRow = {
+  codeHash: string;
+  expiresAt: Date;
+  attempts: number;
 };

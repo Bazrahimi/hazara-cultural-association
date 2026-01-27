@@ -1,5 +1,11 @@
 import { cookies } from "next/headers";
 import {
+  COOKIE_SAMESITE,
+  COOKIE_SECURE,
+  VERIFICATION_TTL_SECONDS,
+  VERIFY_EMAIL_COOKIE_PATH,
+} from "./constants";
+import {
   VERIFY_COOKIES,
   VerifyMode,
   type VerifyContext,
@@ -7,13 +13,12 @@ import {
   type VerifyCookieKey,
 } from "./definitions";
 
-export const VERIFY_EMAIL_COOKIE_PATH = "/u";
 const RESET_UID = "reset_uid";
 
 const baseCookieOptions = {
-  sameSite: "lax" as const,
+  sameSite: COOKIE_SAMESITE,
   path: VERIFY_EMAIL_COOKIE_PATH,
-  secure: process.env.NODE_ENV === "production",
+  secure: COOKIE_SECURE,
 };
 
 const setCookie = async (
@@ -32,9 +37,8 @@ export const setVerifyCookies = async ({
   userId,
   email,
   mode,
-  maxAgeSeconds = 10 * 60,
 }: VerifyContext): Promise<VerifyContext> => {
-  const expiresAtMs = Date.now() + maxAgeSeconds * 1000;
+  const expiresAtMs = Date.now() + VERIFICATION_TTL_SECONDS * 1000;
 
   const cookiesToSet: VerifyCookieEntry[] = [
     {
@@ -63,7 +67,7 @@ export const setVerifyCookies = async ({
     cookiesToSet.map(({ key, value, httpOnly }) =>
       setCookie(key, value, {
         httpOnly,
-        maxAge: maxAgeSeconds,
+        maxAge: VERIFICATION_TTL_SECONDS,
       }),
     ),
   );
@@ -102,12 +106,12 @@ export const clearVerifyCookies = async () => {
   }
 };
 
-export const setResetUid = async (userId: number, maxAgeSeconds = 10 * 60) => {
+export const setResetUid = async (userId: number) => {
   const store = await cookies();
   store.set(RESET_UID, String(userId), {
     ...baseCookieOptions,
     httpOnly: true,
-    maxAge: maxAgeSeconds,
+    maxAge: VERIFICATION_TTL_SECONDS,
   });
 };
 

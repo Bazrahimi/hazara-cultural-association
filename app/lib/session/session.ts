@@ -6,6 +6,7 @@
  * - roles: ['seller'|'volunteer'|'blogger'|'admin'][]   (empty [] = authenticated buyer)
  */
 
+import { COOKIE_SAMESITE, COOKIE_SECURE } from "@/app/u/auth/lib/constants";
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -38,7 +39,7 @@ const SESSION_COOKIE = "session";
 const SESSION_DAYS = 0.5;
 const alg = "HS256";
 const encodedKey = new TextEncoder().encode(
-  process.env.SESSION_SECRET ?? "dev-insecure-secret"
+  process.env.SESSION_SECRET ?? "dev-insecure-secret",
 );
 
 /* ============ Sign / Verify ============ */
@@ -80,15 +81,15 @@ const normalizeRoles = (
     | string
     | ReadonlyArray<SessionRole | string>
     | null
-    | undefined
+    | undefined,
 ): SessionRole[] => {
   const arr = roles == null ? [] : Array.isArray(roles) ? roles : [roles];
   return Array.from(
     new Set(
       arr
         .map((r) => (typeof r === "string" ? r.toLowerCase() : r))
-        .filter((r): r is SessionRole => ROLE_SET.has(r as string))
-    )
+        .filter((r): r is SessionRole => ROLE_SET.has(r as string)),
+    ),
   ).sort((a, b) => ROLES.indexOf(a) - ROLES.indexOf(b));
 };
 
@@ -97,7 +98,7 @@ const normalizeRoles = (
 export const createSession = async (
   userId: number | string, // allow raw '10' from DB
   roles: SessionRole | string | ReadonlyArray<SessionRole | string> = [],
-  extra: Record<string, unknown> = {}
+  extra: Record<string, unknown> = {},
 ): Promise<void> => {
   const expiresAt = new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000);
 
@@ -112,8 +113,8 @@ export const createSession = async (
   const jar = await cookies();
   jar.set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: COOKIE_SECURE,
+    sameSite: COOKIE_SAMESITE,
     path: "/",
     expires: payload.expiresAt,
   });
@@ -123,8 +124,8 @@ export const destroySession = async (): Promise<void> => {
   const jar = await cookies();
   jar.set(SESSION_COOKIE, "", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: COOKIE_SECURE,
+    sameSite: COOKIE_SAMESITE,
     path: "/",
     expires: new Date(0),
   });
@@ -138,7 +139,7 @@ export const encrypt = async (payload: SessionInput): Promise<string> => {
 };
 
 export const decrypt = async (
-  session: string | undefined = ""
+  session: string | undefined = "",
 ): Promise<DecodedSession | undefined> => {
   if (!session) return undefined;
   const v = await verifySession(session);
@@ -183,7 +184,7 @@ export const isAdmin = async (): Promise<boolean> => {
 };
 
 export const hasAnyRole = async (
-  required: SessionRole | SessionRole[]
+  required: SessionRole | SessionRole[],
 ): Promise<boolean> => {
   const req = Array.isArray(required) ? required : [required];
   const s = await getSession();
@@ -192,7 +193,7 @@ export const hasAnyRole = async (
 };
 
 export const hasAllRoles = async (
-  required: SessionRole | SessionRole[]
+  required: SessionRole | SessionRole[],
 ): Promise<boolean> => {
   const req = Array.isArray(required) ? required : [required];
   const s = await getSession();

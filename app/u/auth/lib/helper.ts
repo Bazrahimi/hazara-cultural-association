@@ -1,4 +1,3 @@
-import { sql } from "@/app/lib/db";
 import z from "zod";
 
 export const toActionErrors = <TErrors>(
@@ -15,8 +14,6 @@ export const toActionErrors = <TErrors>(
   };
 };
 
-
-
 export const buildFullName = (
   maybeFullName: string | null,
   email: string,
@@ -25,3 +22,6 @@ export const buildFullName = (
   if (trimmed.length > 0) return trimmed;
   return email.split("@")[0];
 };
+
+export const generate6DigitCode = () =>
+  String(Math.floor(Math.random() * 1_000_000)).padStart(6, "0");
