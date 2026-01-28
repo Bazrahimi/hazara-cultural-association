@@ -8,6 +8,7 @@ import {
 } from "react-icons/hi";
 import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineJoinInner } from "react-icons/md";
+import { ORG_PROFILE } from "../_lib/org/profile";
 import { AuthRoutes, DonateRoutes, PublicRoutes } from "../_lib/routes";
 import { buildPostCategoryQuickLinks } from "../blog/post/lib/category";
 import { Header } from "./global/Header";
@@ -35,7 +36,7 @@ const CN = {
 // Data
 // -------------------------------
 const ORG = {
-  name: "Hazara Cultural Association",
+  name: ORG_PROFILE.orgName,
   abn: "60 858 912 479",
 };
 
@@ -76,8 +77,10 @@ const SOCIAL_LINKS = [
 
 const CONTACT = {
   // location: "Melbourne, Victoria, Australia",
-  email: "info@hazara.org.au",
-  // phone: "+61 400 00 0 00 ",
+  email: ORG_PROFILE.email,
+  ...(ORG_PROFILE.contactNumber && {
+    phone: ORG_PROFILE.contactNumber,
+  }),
 };
 
 const Footer = () => {
@@ -222,12 +225,12 @@ const Footer = () => {
 
           {/* Country Acknowledgement */}
           <p className="text-sm leading-6 text-gray-900">
-            Hazara Cultural Association acknowledges the Bunurong people of the
-            Kulin Nation as the Traditional Custodians of the lands and waters
-            in and around Greater Dandenong. We pay our respects to Elders past
-            and present and extend that respect to all Aboriginal and Torres
-            Strait Islander peoples. We honour their enduring connection to
-            Country, culture, and community.
+            {ORG_PROFILE.orgName} acknowledges the Bunurong people of the Kulin
+            Nation as the Traditional Custodians of the lands and waters in and
+            around Greater Dandenong. We pay our respects to Elders past and
+            present and extend that respect to all Aboriginal and Torres Strait
+            Islander peoples. We honour their enduring connection to Country,
+            culture, and community.
           </p>
 
           {/* Hazara Acknowledgement */}

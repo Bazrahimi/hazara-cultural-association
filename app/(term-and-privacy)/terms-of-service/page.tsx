@@ -1,9 +1,10 @@
 // app/terms-of-service/page.tsx
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 
 export const metadata = {
-  title: "Terms of Service | Hazara Cultural Association (HCA)",
+  title: "Terms of Service | " + ORG_PROFILE.orgName,
   description:
     "Simple terms governing your use of HCA’s website, programs, and donations.",
 };
@@ -35,8 +36,8 @@ export default function Page() {
             2) Who We Are
           </Header>
           <P>
-            The Hazara Cultural Association (HCA) is a community-driven,
-            volunteer-led nonprofit based in Melbourne’s South-Eastern suburbs.
+            The {ORG_PROFILE.orgName} is a community-driven, volunteer-led
+            nonprofit based in Melbourne’s South-Eastern suburbs.
           </P>
         </div>
 
@@ -153,9 +154,9 @@ export default function Page() {
             Questions about these Terms? Contact us at{" "}
             <a
               className="text-blue-600 hover:underline"
-              href="mailto:info@hazara.org.au"
+              href={`mailto:${ORG_PROFILE.email}`}
             >
-              info@hazara.org.au
+              {ORG_PROFILE.email}
             </a>
             .
           </P>

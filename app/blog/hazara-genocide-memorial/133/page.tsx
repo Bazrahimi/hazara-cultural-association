@@ -6,6 +6,7 @@ import Image from "next/image";
 import ImageGallery from "./ui/ImageGallery";
 import { IMAGE_GALLERY, KEYNOTE_SPEAKERS, VIDEO_GALLERY } from "./util/helper";
 import VideoGalleries from "./ui/VideoGallery";
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 
 // ---------------------------
 // Memorial133
@@ -29,7 +30,7 @@ export default function Memorial133() {
           Overview
         </Header>
         <P>
-          The Hazara Cultural Association (HCA) hosted the{" "}
+          The {ORG_PROFILE.orgName} hosted the{" "}
           <strong>133rd Hazara Genocide Memorial</strong> at the Drum Theatre,
           Dandenong (360 seats). The theatre reached a{" "}
           <strong>full house</strong>, with an additional{" "}

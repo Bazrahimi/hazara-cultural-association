@@ -1,6 +1,7 @@
 // app/not-found.tsx
 import Image from "next/image";
 import { HiArrowLeft } from "react-icons/hi";
+import { ORG_PROFILE } from "./_lib/org/profile";
 import { Button } from "./ui/global/components";
 import { P } from "./ui/global/paragraph";
 
@@ -9,8 +10,8 @@ export default function NotFound() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-6 py-16 text-center text-slate-800">
       {/* Logo */}
       <Image
-        src="/images/logo-transparent-hd.png"
-        alt="Hazara Cultural Association Logo"
+        src={ORG_PROFILE.logoUrl}
+        alt={`${ORG_PROFILE.orgName} logo`}
         width={200}
         height={240}
         className="mb-6 opacity-90"

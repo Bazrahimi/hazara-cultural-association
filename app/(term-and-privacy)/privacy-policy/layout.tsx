@@ -1,9 +1,10 @@
 // app/privacy-policy/layout.tsx
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import { PublicRoutes } from "@/app/_lib/routes";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Hazara Cultural Association (HCA)",
+  title: "Privacy Policy | " + ORG_PROFILE.orgName,
   description:
     "How HCA handles personal data, Neon Postgres storage, password hashing, and breach response.",
   alternates: { canonical: PublicRoutes.privacyPolicy() },

@@ -1,3 +1,4 @@
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import {
   AdminRoutes,
   BlogRoutes,
@@ -34,7 +35,7 @@ const RoleBanner = ({ roles, fullName }: Props) => {
             <P>
               {" "}
               <span className="font-semibold">
-                Hazara Cultural Association:
+                {ORG_PROFILE.orgName}:
               </span>{" "}
               a non-profit marketplace dedicated to preserving Hazaragi
               heritage. Listings must be culturally related and

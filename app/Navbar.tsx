@@ -9,6 +9,7 @@ import BlogMenu from "./blog/ui/BlogMenu";
 // import AccountMenu from "./ui/global/AccountMenu";
 import { DonateRoutes, PublicRoutes } from "./_lib/routes";
 import AccountMenu from "./account/ui/AccountMenu";
+import { ORG_PROFILE } from "./_lib/org/profile";
 
 // Reusable styles
 const navLinkBase =
@@ -24,7 +25,7 @@ const NavBar = () => {
         <Link
           href="/"
           className="flex items-center gap-2 font-semibold tracking-tight hover:opacity-90"
-          aria-label="Hazara Cultural Association home"
+          aria-label={`${ORG_PROFILE.orgName} Home`}
         >
           <Image
             src="/logo-hca-mark.png"

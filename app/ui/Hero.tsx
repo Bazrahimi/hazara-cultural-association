@@ -4,6 +4,7 @@
 import { lusitana } from "@/app/_lib/font";
 import { clsx } from "clsx";
 import Image from "next/image";
+import { ORG_PROFILE } from "../_lib/org/profile";
 import { PublicRoutes } from "../_lib/routes";
 import { IMAGE_DEFAULT_BLUR } from "./global/ImageShimer";
 import { Button } from "./global/components";
@@ -34,8 +35,8 @@ export default function Hero() {
 
       {/* Logo inside niche */}
       <Image
-        src="/images/logo-transparent-hd.png"
-        alt="Logo of Hazara Cultural Association"
+        src={ORG_PROFILE.logoUrl}
+        alt={`Logo of ${ORG_PROFILE.orgName}`}
         className="
           absolute left-1/2
           top-[45%]

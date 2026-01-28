@@ -2,6 +2,7 @@
 
 // import { Breadcrumb } from "@/app/contact-us/_lib/definitions";
 import { sql } from "@/app/_lib/db";
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
@@ -43,8 +44,8 @@ export default async function ShopPage() {
           HCA Shop
         </Header>
         <P className="mt-2">
-          Support the Hazara Cultural Association by purchasing cultural items,
-          books, and memorabilia. All proceeds go toward advocacy and community
+          Support the {ORG_PROFILE.orgName} by purchasing cultural items, books,
+          and memorabilia. All proceeds go toward advocacy and community
           programs.
         </P>
 

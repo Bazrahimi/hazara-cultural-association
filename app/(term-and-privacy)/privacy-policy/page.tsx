@@ -1,10 +1,11 @@
 // app/privacy-policy/page.tsx
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import { PublicRoutes } from "@/app/_lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 
 export const metadata = {
-  title: "Privacy Policy | Hazara Cultural Association (HCA)",
+  title: "Privacy Policy | " + ORG_PROFILE.orgName,
   description:
     "What we collect, how we use it, where we store it (Neon Postgres), password hashing, and breach response.",
 };
@@ -25,7 +26,7 @@ export default function Page() {
             1) Who We Are
           </Header>
           <P>
-            The Hazara Cultural Association (HCA) is a community-driven,
+            The {ORG_PROFILE.orgName} is a community-driven,
             volunteer-led nonprofit based in Melbourne’s South-Eastern suburbs.
             We are committed to protecting your privacy.
           </P>
@@ -202,9 +203,9 @@ export default function Page() {
             Questions or requests? Email{" "}
             <a
               className="text-blue-600 hover:underline"
-              href="mailto:info@hazara.org.au"
+              href={`mailto:${ORG_PROFILE.email}`}
             >
-              info@hazara.org.au
+              {ORG_PROFILE.email}
             </a>
             .
           </P>

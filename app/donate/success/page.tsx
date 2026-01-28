@@ -1,4 +1,5 @@
 // app/donate/success/page.tsx
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import { DonateRoutes } from "@/app/_lib/routes";
 import { stripe } from "@/app/_lib/stripe";
 import { Button } from "@/app/ui/global/components";
@@ -117,7 +118,7 @@ export default async function SuccessPage({
         {/* Gratitude + mission */}
         <div className="mt-6 rounded-lg border border-blue-100 bg-blue-50/60 p-4 text-slate-800">
           <P className="font-semibold mb-1">
-            With gratitude from Hazara Cultural Association
+            With gratitude from {ORG_PROFILE.orgName}
           </P>
           <P>
             We’re a volunteer-run community. Your donation helps sustain

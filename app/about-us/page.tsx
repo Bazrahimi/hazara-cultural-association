@@ -1,3 +1,4 @@
+import { ORG_PROFILE } from "../_lib/org/profile";
 import { Button } from "../ui/global/components";
 import { Header } from "../ui/global/Header";
 import { P } from "../ui/global/paragraph";
@@ -13,12 +14,11 @@ export default function AboutUsPage() {
       </Header>
 
       <P>
-        The Hazara Cultural Association (HCA) is a community-driven,
-        volunteer-led nonprofit rooted in Melbourne’s{" "}
-        <strong>South-Eastern suburbs</strong> — home to thousands of Hazara
-        families who have found a new beginning after seeking asylum from more
-        than a century of persecution and dispossession. From this base, we work
-        to{" "}
+        The {ORG_PROFILE.orgName} is a community-driven, volunteer-led nonprofit
+        rooted in Melbourne’s <strong>South-Eastern suburbs</strong> — home to
+        thousands of Hazara families who have found a new beginning after
+        seeking asylum from more than a century of persecution and
+        dispossession. From this base, we work to{" "}
         <strong>
           preserve and celebrate the Hazara people’s rich culture and history
         </strong>
@@ -31,7 +31,6 @@ export default function AboutUsPage() {
       <section className="mt-10 space-y-12">
         {/* Acknowledgement */}
         <Acknowledgements />
-    
 
         {/* Purpose */}
         <section aria-labelledby="purpose">
@@ -74,7 +73,7 @@ export default function AboutUsPage() {
             Governance & Management
           </Header>
           <P>
-            The Hazara Cultural Association is{" "}
+            The {ORG_PROFILE.orgName} is{" "}
             <strong>entirely volunteer-led</strong>. Our executive and committee
             work together to uphold good governance, community service, and
             cultural stewardship.

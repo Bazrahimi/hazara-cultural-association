@@ -1,31 +1,15 @@
 import { Img, Section } from "@react-email/components";
+import { ORG_PROFILE } from "../../org/profile";
 // app/_lib/email/components/EmailFooter.tsx
 
 /**
  * Internal footer configuration
  * Only edit here – not passed from callers
  */
-const EMAIL_FOOTER = {
-  orgName: "Hazara Cultural Association (HCA)",
-  orgNameFarsi: "انجمن فرهنگی هزاره", // optional
-  email: "info@hazara.org.au",
-  website: "https://hazara.org.au",
-  location: "Melbourne, Victoria, Australia",
-  logoUrl:
-    "https://res.cloudinary.com/drvh5xeuw/image/upload/c_thumb,w_200,g_face/v1763895306/hca/website/hca-logo_i4xgc6.png",
-  contactNumber: undefined as string | undefined, // optional
-};
+
 
 export default function EmailFooter() {
-  const {
-    orgName,
-    orgNameFarsi,
-    email,
-    website,
-    location,
-    logoUrl,
-    contactNumber,
-  } = EMAIL_FOOTER;
+  
 
   return (
     <Section
@@ -41,10 +25,10 @@ export default function EmailFooter() {
       }}
     >
       {/* Logo (optional) */}
-      {logoUrl && (
+      {ORG_PROFILE.logoUrl && (
         <Img
-          src={logoUrl}
-          alt={`${orgName} logo`}
+          src={ORG_PROFILE.logoUrl}
+          alt={`${ORG_PROFILE.orgName} logo`}
           width={48}
           height={48}
           style={{
@@ -64,10 +48,10 @@ export default function EmailFooter() {
         }}
       >
         {/* Org name */}
-        <div style={{ fontWeight: 600 }}>{orgName}</div>
+        <div style={{ fontWeight: 600 }}>{ORG_PROFILE.orgName}</div>
 
         {/* Farsi name (optional, RTL) */}
-        {orgNameFarsi && (
+        {ORG_PROFILE.orgNameFarsi && (
           <div
             style={{
               fontSize: "11px",
@@ -78,31 +62,31 @@ export default function EmailFooter() {
               unicodeBidi: "bidi-override",
             }}
           >
-            {orgNameFarsi}
+            {ORG_PROFILE.orgNameFarsi}
           </div>
         )}
 
-        <div>{location}</div>
+        <div>{ORG_PROFILE.address}</div>
 
         <div>
           Email:{" "}
           <a
-            href={`mailto:${email}`}
+            href={`mailto:${ORG_PROFILE.email}`}
             style={{ color: "#1d4ed8", textDecoration: "none" }}
           >
-            {email}
+            {ORG_PROFILE.email}
           </a>
         </div>
 
-        {contactNumber && <div>Phone: {contactNumber}</div>}
+        {ORG_PROFILE.contactNumber && <div>Phone: {ORG_PROFILE.contactNumber}</div>}
 
         <div>
           Website:{" "}
           <a
-            href={website}
+            href={ORG_PROFILE.website}
             style={{ color: "#1d4ed8", textDecoration: "none" }}
           >
-            {website.replace(/^https?:\/\//, "")}
+            {ORG_PROFILE.website}
           </a>
         </div>
       </div>

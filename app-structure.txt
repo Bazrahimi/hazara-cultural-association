@@ -81,7 +81,6 @@ app
 │   │   ├── UserRoutes.ts
 │   │   ├── helper.ts
 │   │   └── index.ts
-│   ├── sanitize.ts
 │   ├── session
 │   │   ├── authRedirects.ts
 │   │   ├── protectedRoutes.ts
@@ -412,4 +411,4 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-134 directories, 281 files
+133 directories, 279 files

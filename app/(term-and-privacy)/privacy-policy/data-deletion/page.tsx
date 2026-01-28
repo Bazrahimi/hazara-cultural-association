@@ -1,11 +1,11 @@
 // app/privacy/data-deletion/page.tsx
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 
 export const metadata = {
-  title: "Data Deletion | Hazara Cultural Association (HCA)",
-  description:
-    "How to request deletion of your Hazara Cultural Association (HCA) account and personal data, including Facebook Login users.",
+  title: "Data Deletion | " + ORG_PROFILE.orgName,
+  description: `How to request deletion of your ${ORG_PROFILE.orgName} account and personal data, including Facebook Login users.`,
 };
 
 export default function Page() {
@@ -24,7 +24,7 @@ export default function Page() {
             1) Overview
           </Header>
           <P>
-            The Hazara Cultural Association (HCA) is committed to respecting
+            {ORG_PROFILE.orgName} is committed to respecting
             your privacy. This page explains how you can request deletion of
             your HCA account and associated personal data, including accounts
             created via Facebook Login or Google Sign-In.
@@ -60,10 +60,10 @@ export default function Page() {
           <P>
             To request deletion of your data, please email us at{" "}
             <a
-              href="mailto:info@hazara.org.au"
+              href={`mailto:${ORG_PROFILE.email}`}
               className="text-blue-600 hover:underline"
             >
-              info@hazara.org.au
+              {ORG_PROFILE.email}
             </a>{" "}
             with the subject line <strong>“HCA Data Deletion Request”</strong>{" "}
             and include:
@@ -121,10 +121,10 @@ export default function Page() {
             If you have any questions about data deletion or privacy at HCA,
             please contact us at{" "}
             <a
-              href="mailto:info@hazara.org.au"
+              href={`mailto:${ORG_PROFILE.email}`}
               className="text-blue-600 hover:underline"
             >
-              info@hazara.org.au
+              {ORG_PROFILE.email}
             </a>
             .
           </P>

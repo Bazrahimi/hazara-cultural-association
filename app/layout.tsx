@@ -8,6 +8,7 @@ import { decrypt } from "./_lib/session/session";
 import "./globals.css";
 
 import { CartProvider } from "./(disabled)/_shop/ui/cart/CartContext";
+import { ORG_PROFILE } from "./_lib/org/profile";
 import { NotificationCenter } from "./blog/ui/NotificationCenter";
 import NavBar from "./Navbar";
 import Footer from "./ui/Footer";
@@ -37,9 +38,10 @@ export const metadata: Metadata = {
     },
   },
 
-  title: "Hazara Cultural Association",
+  title: ORG_PROFILE.orgName,
   description:
-    "Hazara Cultural Association (HCA) is an Australian non-profit organisation advocating for the Hazara people and preserving culture.",
+    ORG_PROFILE.orgName +
+    "is an Australian non-profit organisation advocating for the Hazara people and preserving culture.",
   manifest: "/images/favicon_io/site.webmanifest",
   icons: {
     icon: [
