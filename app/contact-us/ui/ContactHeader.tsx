@@ -2,7 +2,9 @@ import { DonateRoutes } from "@/app/_lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import { Button } from "@/app/ui/global/components";
+import { MdPhone, MdLocationOn } from "react-icons/md";
 import type { IconType } from "react-icons";
 import {
   MdCampaign,
@@ -14,14 +16,6 @@ import {
   MdSchool,
   MdVolunteerActivism,
 } from "react-icons/md";
-
-type HeaderProps = {
-  title?: string;
-  blurb?: string;
-  phone?: string;
-  email?: string;
-  address?: string;
-};
 
 // Single source of truth for labels + blurbs
 const QUERY_INFO: {
@@ -67,42 +61,43 @@ const QUERY_INFO: {
   },
 ];
 
-export default function ContactHeader({
-  title,
-  blurb,
-
-  email,
-  // address,
-}: HeaderProps) {
+export default function ContactHeader() {
   return (
     <>
       {/* Header / blurb */}
       <div className="flex items-start gap-3">
         <div>
           <Header align="center" as="h2">
-            {title}
+            {`Contact ${ORG_PROFILE.orgName}`}
           </Header>
-          <P className="mt-1 text-gray-700">{blurb}</P>
+          <P className="mt-1 text-gray-700">
+            We usually reply within 2–3 business days. Reach out about cultural
+            programs, community events, volunteering, donations, or advocacy
+            support.
+          </P>
         </div>
       </div>
 
       {/* Quick org details */}
       <div className="mt-3 grid grid-cols-1 gap-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-800 sm:grid-cols-2">
-        {/* <P size="sm" className="flex items-center gap-2">
-          <MdPhone className="text-gray-600" aria-hidden />
-          <span>Phone: {phone}</span>
-        </P> */}
+        {ORG_PROFILE.contactNumber && (
+          <P size="sm" className="flex items-center gap-2">
+            <MdPhone className="text-gray-600" aria-hidden />
+            <span>{ORG_PROFILE.contactNumber}</span>
+          </P>
+        )}
+
         <P size="sm" className="flex items-center gap-2">
           <MdEmail className="text-gray-600" aria-hidden />
-          <span>Email: {email}</span>
+          <span>Email: {ORG_PROFILE.email}</span>
         </P>
-        {/* <P
+        <P
           size="sm"
           className="col-span-1 flex items-center gap-2 sm:col-span-2"
         >
           <MdLocationOn className="text-gray-600" aria-hidden />
-          <span>{address}</span>
-        </P> */}
+          <span>{ORG_PROFILE.address}</span>
+        </P>
       </div>
 
       {/* Non-profit support message */}

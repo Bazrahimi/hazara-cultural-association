@@ -1,11 +1,9 @@
 // app/blog/[slug]/layout.tsx
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import type { ReactNode } from "react";
-import { getPostById } from "../lib/data";
-import { extractTitleFromSlug } from "../../lib/helper";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://hazara.org.au";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ?? `https://${ORG_PROFILE.domain}`;
 
 // Fallback image if a post has no hero_img_path
 const DEFAULT_OG_IMAGE_PATH = "/images/og_image.png";

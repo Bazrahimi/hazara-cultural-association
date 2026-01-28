@@ -1,23 +1,9 @@
-import { ORG_PROFILE } from "../_lib/org/profile";
 import ContactForm from "./ui/ContactForm";
 import ContactHeader from "./ui/ContactHeader";
 
 const ContactUsPage = () => {
   return (
-    <main
-    // className={`
-    //   min-h-screen
-    //   bg-[linear-gradient(
-    //     to_bottom,
-    //     theme(colors.blue.600) 0%,
-    //     theme(colors.blue.600) 32%,
-    //     white 32%,
-    //     white 72%,
-    //     theme(colors.yellow.500) 72%,
-    //     theme(colors.yellow.500) 100%
-    //   )]
-    // `}
-    >
+    <main>
       {/* subtle overlay to keep content readable on bright bg */}
       <div className="min-h-screen bg-white/60 backdrop-blur-[1px]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
@@ -25,13 +11,7 @@ const ContactUsPage = () => {
             {/* Left column — intro & org info */}
             <section className="lg:col-span-7">
               <div className="rounded-2xl border border-white/70 bg-white/80 shadow-sm backdrop-blur p-6 sm:p-8">
-                <ContactHeader
-                  title={`Contact ${ORG_PROFILE.orgName}`}
-                  blurb="We usually reply within 1–2 business days. Reach out about cultural programs, community events, volunteering, donations, or advocacy support."
-                  phone={ORG_PROFILE.contactNumber}
-                  email={ORG_PROFILE.email}
-                  address={ORG_PROFILE.address}
-                />
+                <ContactHeader />
               </div>
             </section>
 
