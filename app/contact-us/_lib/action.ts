@@ -2,10 +2,8 @@
 import { z } from "zod";
 import { sql } from "../../_lib/db";
 import { QuickEnquiryState } from "./definitions";
-import {
-  sendAdminEmail,
-  sendUserConfirmationEmail,
-} from "./email/components/email";
+
+import { sendAdminEmail, sendUserConfirmationEmail } from "./email/components";
 
 import { EnquirySchema } from "./schema";
 
