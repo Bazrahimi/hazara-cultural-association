@@ -1,12 +1,12 @@
 "use server";
-
+//app/contact-us/_lib/email/components/sendUserConfirmation.tsx
 import {
   ENQUIRY_ADMIN_EMAIL,
   FROM_EMAIL,
   emailClient,
 } from "@/app/_lib/email/client";
 import type { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
-import EnquiryConfirmation from "../templates/NewEnquiry";
+import NewEnquiry from "../templates/newEnquiry";
 
 export async function sendUserConfirmationEmail(
   data: QuickEnquiry,
@@ -18,7 +18,7 @@ export async function sendUserConfirmationEmail(
     replyTo: ENQUIRY_ADMIN_EMAIL, // replies from user go to your inbox
     subject: `We’ve received your enquiry – ${data.fullName}`,
     react: (
-      <EnquiryConfirmation
+      <NewEnquiry
         fullName={data.fullName}
         email={data.email}
         contactNumber={data.contactNumber}

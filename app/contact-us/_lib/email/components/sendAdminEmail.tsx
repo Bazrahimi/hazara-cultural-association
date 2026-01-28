@@ -1,16 +1,21 @@
 "use server";
-import { ENQUIRY_ADMIN_EMAIL, emailClient } from "@/app/_lib/email/client";
+//app/contact-us/_lib/email/component/sendAdminEmail.tsx
+import {
+  ENQUIRY_ADMIN_EMAIL,
+  WEBSITE_ENQUIRY,
+  emailClient,
+} from "@/app/_lib/email/client";
 import type { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
-import NewEnquiryAdmin from "../templates/NewEnquiry";
+import NewEnquiry from "../templates/newEnquiry";
 
 export async function sendAdminEmail(data: QuickEnquiry, queryLabel: string) {
   try {
     const result = await emailClient.emails.send({
-      from: "Website Enquiry <website@hazara.org.au>", // must be verified in Resend
+      from: WEBSITE_ENQUIRY,
       to: [ENQUIRY_ADMIN_EMAIL],
       replyTo: data.email || undefined,
       subject: `New Quick Enquiry – ${data.fullName}`,
-      react: <NewEnquiryAdmin {...data} queryLabel={queryLabel} />,
+      react: <NewEnquiry {...data} queryLabel={queryLabel} />,
     });
 
     return result;

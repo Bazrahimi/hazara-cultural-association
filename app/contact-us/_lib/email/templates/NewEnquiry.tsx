@@ -1,4 +1,3 @@
-
 import { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
 import {
   Body,
@@ -15,7 +14,7 @@ type QuickEnquiryWithLabel = QuickEnquiry & {
   queryLabel: string;
 };
 
-export default function NewEnquiryAdmin(args: QuickEnquiryWithLabel) {
+export default function NewEnquiry(args: QuickEnquiryWithLabel) {
   return (
     <Html>
       <Head />

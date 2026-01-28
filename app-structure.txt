@@ -57,6 +57,50 @@ app
 │   └── ui
 │       └── TermsAndPrivacyNotice.tsx
 ├── Navbar.tsx
+├── _lib
+│   ├── Date.ts
+│   ├── cloudinary.ts
+│   ├── db.ts
+│   ├── email
+│   │   ├── client.ts
+│   │   └── components
+│   │       └── EmailFooter.tsx
+│   ├── font.ts
+│   ├── helper.ts
+│   ├── hooks
+│   ├── org
+│   │   └── profile.ts
+│   ├── resend.ts
+│   ├── routes
+│   │   ├── AccountRoutes.ts
+│   │   ├── AdminRoutes.ts
+│   │   ├── ApiRoutes.ts
+│   │   ├── AuthRoutes.ts
+│   │   ├── BlogRoutes.ts
+│   │   ├── DonateRoutes.ts
+│   │   ├── PublicRoutes.ts
+│   │   ├── ShopRoutes.ts
+│   │   ├── UserRoutes.ts
+│   │   ├── helper.ts
+│   │   └── index.ts
+│   ├── sanitize.ts
+│   ├── session
+│   │   ├── authRedirects.ts
+│   │   ├── protectedRoutes.ts
+│   │   ├── session.ts
+│   │   └── sessionConfig.ts
+│   ├── stripe.ts
+│   └── translation
+│       ├── BreadcrumbsTrans.ts
+│       ├── blog
+│       │   ├── index.ts
+│       │   └── post
+│       │       ├── CreateEditPostTrans.ts
+│       │       ├── ManagePostTrans.ts
+│       │       ├── PostListConfigTrans.ts
+│       │       ├── index.ts
+│       │       └── transHelper.ts
+│       └── index.ts
 ├── _shop
 │   └── lib
 │       └── action.ts
@@ -233,6 +277,17 @@ app
 │       │   └── PostsSectionSkeleton.tsx
 │       └── useDropdownMenu.ts
 ├── contact-us
+│   ├── _lib
+│   │   ├── action.ts
+│   │   ├── definitions.ts
+│   │   ├── email
+│   │   │   ├── components
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── sendAdminEmail.tsx
+│   │   │   │   └── sendUserConfirmationEmail.tsx
+│   │   │   └── templates
+│   │   │       └── newEnquiry.tsx
+│   │   └── schema.ts
 │   ├── layout.tsx
 │   ├── page.tsx
 │   └── ui
@@ -259,47 +314,6 @@ app
 ├── favicon.ico
 ├── globals.css
 ├── layout.tsx
-├── lib
-│   ├── Date.ts
-│   ├── action.ts
-│   ├── cloudinary.ts
-│   ├── db.ts
-│   ├── definitions.ts
-│   ├── font.ts
-│   ├── helper.ts
-│   ├── hooks
-│   ├── resend.ts
-│   ├── routes
-│   │   ├── AccountRoutes.ts
-│   │   ├── AdminRoutes.ts
-│   │   ├── ApiRoutes.ts
-│   │   ├── AuthRoutes.ts
-│   │   ├── BlogRoutes.ts
-│   │   ├── DonateRoutes.ts
-│   │   ├── PublicRoutes.ts
-│   │   ├── ShopRoutes.ts
-│   │   ├── UserRoutes.ts
-│   │   ├── helper.ts
-│   │   └── index.ts
-│   ├── sanitize.ts
-│   ├── schema.ts
-│   ├── session
-│   │   ├── authRedirects.ts
-│   │   ├── protectedRoutes.ts
-│   │   ├── session.ts
-│   │   └── sessionConfig.ts
-│   ├── stripe.ts
-│   └── translation
-│       ├── BreadcrumbsTrans.ts
-│       ├── blog
-│       │   ├── index.ts
-│       │   └── post
-│       │       ├── CreateEditPostTrans.ts
-│       │       ├── ManagePostTrans.ts
-│       │       ├── PostListConfigTrans.ts
-│       │       ├── index.ts
-│       │       └── transHelper.ts
-│       └── index.ts
 ├── loading.tsx
 ├── members
 │   ├── join
@@ -329,21 +343,23 @@ app
 │   │   └── ui
 │   │       └── ProfilePosts.tsx
 │   └── auth
-│       ├── email
-│       ├── forgot-password
-│       │   ├── loading.tsx
-│       │   └── page.tsx
-│       ├── lib
+│       ├── _lib
 │       │   ├── action.ts
 │       │   ├── constants.ts
 │       │   ├── cookies.ts
 │       │   ├── data.ts
 │       │   ├── definitions.ts
+│       │   ├── email
+│       │   │   └── templates
+│       │   │       └── VerifyEmailCode.tsx
 │       │   ├── flow.ts
 │       │   ├── helper.ts
 │       │   ├── schema.ts
 │       │   ├── setNotification.ts
 │       │   └── verification.tsx
+│       ├── forgot-password
+│       │   ├── loading.tsx
+│       │   └── page.tsx
 │       ├── login
 │       │   ├── layout.tsx
 │       │   ├── loading.tsx
@@ -366,11 +382,6 @@ app
 │       │   ├── page.tsx
 │       │   └── ui
 │       │       └── SignupForm.tsx
-│       ├── ui
-│       │   └── resend
-│       │       ├── EmailFooter.tsx
-│       │       ├── VerifyEmailCode.tsx
-│       │       └── email.ts
 │       └── verify
 │           ├── page.tsx
 │           └── ui
@@ -392,9 +403,6 @@ app
     │   ├── components.tsx
     │   ├── modal.tsx
     │   ├── paragraph.tsx
-    │   ├── resend
-    │   │   ├── NewEnquiry.tsx
-    │   │   └── email.tsx
     │   └── skeleton
     │       └── spinner.tsx
     ├── homepage
@@ -406,4 +414,4 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-129 directories, 278 files
+134 directories, 281 files

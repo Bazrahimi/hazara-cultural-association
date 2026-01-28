@@ -1,4 +1,5 @@
 import { Img, Section } from "@react-email/components";
+// app/_lib/email/components/EmailFooter.tsx
 
 /**
  * Internal footer configuration
