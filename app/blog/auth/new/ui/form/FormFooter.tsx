@@ -1,4 +1,4 @@
-import { CreateEditPostTrans } from "@/app/lib/translation";
+import { CreateEditPostTrans } from "@/app/_lib/translation";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import { ActionMode } from "../PostForm";
 

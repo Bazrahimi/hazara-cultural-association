@@ -1,9 +1,9 @@
 import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 
+import { CreateEditPostTrans } from "@/app/_lib/translation";
 import type { CategoryId } from "@/app/blog/post/lib/category";
 import { CATEGORY_MAP } from "@/app/blog/post/lib/category";
 import { POST_FIELDS } from "@/app/blog/post/lib/helper";
-import { CreateEditPostTrans } from "@/app/lib/translation";
 import type { PostInput, PostState } from "../../../../post/lib/schema";
 import { ActionMode } from "../PostForm";
 import AdvocacyEvent from "./AdvocacyEvent";
@@ -67,7 +67,7 @@ const CategoryStatusFeaturedFields = ({
                 <option key={id} value={id}>
                   {isRTL ? CATEGORY_MAP[id].rtl : CATEGORY_MAP[id].en}
                 </option>
-              )
+              ),
             )}
           </select>
           {state?.errors?.categoryId && (

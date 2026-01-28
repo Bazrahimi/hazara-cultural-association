@@ -1,13 +1,13 @@
 "use server";
-import { sql } from "@/app/lib/db";
-import { AccountRoutes } from "@/app/lib/routes";
-import { requireUser } from "@/app/lib/session/session";
+import { sql } from "@/app/_lib/db";
+import { AccountRoutes } from "@/app/_lib/routes";
+import { requireUser } from "@/app/_lib/session/session";
 import { redirect } from "next/navigation";
 import { FieldErrors, Profile, ProfileSchema, ProfileState } from "./schema";
 
 export async function updateProfileAction(
   _prev: ProfileState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<ProfileState | never> {
   const { userId } = await requireUser();
 

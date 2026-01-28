@@ -1,4 +1,4 @@
-import { getUserId } from "@/app/lib/session/session";
+import { getUserId } from "@/app/_lib/session/session";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 

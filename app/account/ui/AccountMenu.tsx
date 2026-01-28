@@ -1,5 +1,5 @@
 // app/ui/nav/AccountMenu.tsx
-import { getSession } from "@/app/lib/session/session";
+import { getSession } from "@/app/_lib/session/session";
 import AccountMenuClient from "./AccountMenuClient";
 
 export type AccountMenuProps = {

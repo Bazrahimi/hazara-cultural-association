@@ -1,4 +1,4 @@
-import { apiKey, apiSecret, cloudName } from "@/app/lib/cloudinary";
+import { apiKey, apiSecret, cloudName } from "@/app/_lib/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
     const signature = cloudinary.utils.api_sign_request(
       paramsToSign,
-      process.env.CLOUDINARY_API_SECRET!
+      process.env.CLOUDINARY_API_SECRET!,
     );
 
     return Response.json({ signature });

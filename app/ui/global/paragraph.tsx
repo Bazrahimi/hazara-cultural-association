@@ -1,6 +1,6 @@
+import { roboto } from "@/app/_lib/font";
+import { cn } from "@/app/_lib/helper";
 import * as React from "react";
-import { roboto } from "@/app/lib/font";
-import { cn } from "@/app/lib/helper";
 
 type ParaSize = "sm" | "md" | "lg" | "xl";
 
@@ -8,7 +8,7 @@ const SIZE: Record<ParaSize, string> = {
   sm: "text-sm sm:text-base",
   md: "text-base sm:text-lg",
   lg: "text-lg sm:text-xl",
-  xl: "text-xl sm:text-2xl md:text-3xl",  // 🚀 Extra-large responsive text
+  xl: "text-xl sm:text-2xl md:text-3xl", // 🚀 Extra-large responsive text
 };
 
 const LEADING: Record<ParaSize, string> = {
@@ -32,7 +32,7 @@ export function P({ size = "md", className, children, ...rest }: PProps) {
         "antialiased",
         "text-slate-800",
         "break-words",
-        className
+        className,
       )}
       {...rest}
     >

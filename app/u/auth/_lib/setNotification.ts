@@ -1,8 +1,8 @@
 "use client";
 
-import { NOTIFICATION_EVENT, NOTIFICATION_KEY} from "@/app/lib/helper";
+import { NOTIFICATION_EVENT, NOTIFICATION_KEY } from "@/app/_lib/helper";
 
-export const setNotification = (message:string) => {
+export const setNotification = (message: string) => {
   if (typeof window === "undefined") return;
   const payload = {
     ok: true,

@@ -1,7 +1,7 @@
 // app/u/verify/page.tsx
 
-import { AuthRoutes } from "@/app/lib/routes";
-import { safeAccountNext } from "@/app/lib/session/authRedirects";
+import { AuthRoutes } from "@/app/_lib/routes";
+import { safeAccountNext } from "@/app/_lib/session/authRedirects";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { redirect } from "next/navigation";

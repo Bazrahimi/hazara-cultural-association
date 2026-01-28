@@ -1,4 +1,4 @@
-import { toBoolean } from "@/app/lib/helper";
+import { toBoolean } from "@/app/_lib/helper";
 import { MemberInput, MemberState, ParseResult } from "./definitions";
 import { MemberSchema } from "./schema";
 

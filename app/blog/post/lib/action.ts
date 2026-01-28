@@ -3,8 +3,8 @@
 "use server";
 
 import { slugify } from "@/app/(disabled)/_shop/lib/helper";
-import { BlogRoutes } from "@/app/lib/routes";
-import { getSession, requireUser } from "@/app/lib/session/session";
+import { BlogRoutes } from "@/app/_lib/routes";
+import { getSession, requireUser } from "@/app/_lib/session/session";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

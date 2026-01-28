@@ -1,4 +1,4 @@
-import { AUS_STATES } from "@/app/lib/helper";
+import { AUS_STATES } from "@/app/_lib/helper";
 import { Input } from "@/app/ui/global/components";
 import { SelectInput } from "@/app/ui/global/SelectInput";
 import type { MemberInput, MemberState } from "../lib/definitions";

@@ -1,4 +1,4 @@
-import { DonateRoutes } from "../lib/routes";
+import { DonateRoutes } from "../_lib/routes";
 import { Header } from "../ui/global/Header";
 import { P } from "../ui/global/paragraph";
 import { LogoGrid, type CTA, type LogoItem } from "./ui/LogoGrid";
@@ -73,7 +73,7 @@ const SUPPORTERS_CTA: CTA = {
 
 export default function Page() {
   return (
-    <main >
+    <main>
       <Header as="h1" align="center">
         Partners & Supporters
       </Header>

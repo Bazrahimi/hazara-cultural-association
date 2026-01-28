@@ -1,7 +1,7 @@
 // app/u/oauth/google/callback/route.ts
-import { sql } from "@/app/lib/db";
-import { AccountRoutes, AuthRoutes } from "@/app/lib/routes";
-import { createSession } from "@/app/lib/session/session";
+import { sql } from "@/app/_lib/db";
+import { AccountRoutes, AuthRoutes } from "@/app/_lib/routes";
+import { createSession } from "@/app/_lib/session/session";
 import { buildFullName } from "@/app/u/auth/_lib/helper"; // you already have this
 import bcrypt from "bcrypt";
 import crypto from "crypto";

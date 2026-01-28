@@ -1,5 +1,5 @@
 // app/admin/website-queries/page.tsx
-import { sql } from "@/app/lib/db";
+import { sql } from "@/app/_lib/db";
 
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
@@ -15,8 +15,6 @@ export const QUERY_OPTIONS: Record<number, string> = {
   6: "Advocacy & Media Enquiries",
   7: "Other",
 };
-
-
 
 const QuickEnquiriesPage = async () => {
   const q = await sql<QuickEnquiryHead[]>`
@@ -77,8 +75,7 @@ const QuickEnquiriesPage = async () => {
 
                   <td className="px-4 py-3">
                     <span className="inline-flex items-center rounded-full border border-gray-300 px-2 py-0.5 text-xs text-gray-700">
-                        {QUERY_OPTIONS[enquiry.queryType]}
-     
+                      {QUERY_OPTIONS[enquiry.queryType]}
                     </span>
                   </td>
 

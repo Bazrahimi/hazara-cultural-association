@@ -3,7 +3,7 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import TermsAndPrivacyNotice from "../(term-and-privacy)/ui/TermsAndPrivacyNotice";
-import { AuthRoutes, PublicRoutes } from "../lib/routes";
+import { AuthRoutes, PublicRoutes } from "../_lib/routes";
 import { Button } from "../ui/global/components";
 
 const MembershipInfoPage = () => {

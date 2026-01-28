@@ -1,8 +1,8 @@
 // app/blog/ui/BlogPostCard.tsx
 
-import { cldCardHeroAuto } from "@/app/lib/cloudinary";
-import { cn } from "@/app/lib/helper";
-import { BlogRoutes } from "@/app/lib/routes";
+import { cldCardHeroAuto } from "@/app/_lib/cloudinary";
+import { cn } from "@/app/_lib/helper";
+import { BlogRoutes } from "@/app/_lib/routes";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
@@ -45,7 +45,7 @@ const PostCard = ({ post }: PostCardProps) => {
             "group-hover:after:scale-x-100",
 
             // RTL underline correction
-            isRTL ? "after:right-0 after:left-auto after:origin-right" : ""
+            isRTL ? "after:right-0 after:left-auto after:origin-right" : "",
           )}
         >
           {post.title}
@@ -75,7 +75,7 @@ const PostCard = ({ post }: PostCardProps) => {
                 dir={isRTL ? "rtl" : "ltr"}
                 className={cn(
                   "line-clamp-5 leading-relaxed text-gray-700",
-                  isRTL ? "text-right" : "text-left"
+                  isRTL ? "text-right" : "text-left",
                 )}
               >
                 {post.excerpt || "No preview available."}

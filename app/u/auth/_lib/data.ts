@@ -1,4 +1,4 @@
-import { sql } from "@/app/lib/db";
+import { sql } from "@/app/_lib/db";
 import type { EmailVerificationRow, UserForLogin } from "./definitions";
 
 export const findUserIdByEmail = async (

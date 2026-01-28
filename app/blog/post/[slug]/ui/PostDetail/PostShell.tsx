@@ -1,4 +1,4 @@
-import { cn } from "@/app/lib/helper";
+import { cn } from "@/app/_lib/helper";
 import { Header } from "@/app/ui/global/Header";
 import TricolorRule from "@/app/ui/global/TricolorRule";
 
@@ -13,9 +13,9 @@ const PostShell = ({ isRTL, categoryId, title, categoryLabel }: Props) => {
   const isEvent = categoryId === 2;
 
   return (
-     <article className="mx-auto max-w-4xl px-4 py-10"
+    <article
+      className="mx-auto max-w-4xl px-4 py-10"
       dir={isRTL ? "rtl" : "ltr"}
-   
     >
       {/* Title (real text is fine; it's already known from slug) */}
       <div className="space-py-10">
@@ -42,7 +42,7 @@ const PostShell = ({ isRTL, categoryId, title, categoryLabel }: Props) => {
               <div
                 className={cn(
                   "flex flex-col leading-tight",
-                  isRTL ? "items-end" : "items-start"
+                  isRTL ? "items-end" : "items-start",
                 )}
               >
                 <div className="h-4 w-40 rounded bg-gray-200" />

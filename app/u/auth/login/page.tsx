@@ -3,11 +3,10 @@
 import { Button } from "../../../ui/global/components";
 import { Header } from "../../../ui/global/Header";
 
-import { AuthRoutes } from "@/app/lib/routes";
+import { AuthRoutes } from "@/app/_lib/routes";
+import { safeAccountNext } from "@/app/_lib/session/authRedirects";
 import LoginForm from "./ui/LoginForm";
 import SocialLoginButtons from "./ui/SocialLoginButtons";
-import { safeAccountNext } from "@/app/lib/session/authRedirects";
-
 
 const LoginPage = async ({
   searchParams,
@@ -15,7 +14,7 @@ const LoginPage = async ({
   searchParams: Promise<{ next?: string }>;
 }) => {
   const { next } = await searchParams;
-  const safeNext = safeAccountNext(next)
+  const safeNext = safeAccountNext(next);
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex flex-col items-center justify-center">
       {/* Development Banner */}

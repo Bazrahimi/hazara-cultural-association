@@ -1,6 +1,6 @@
+import { DonateRoutes } from "@/app/_lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import { DonateRoutes } from "@/app/lib/routes";
 
 import { Button } from "@/app/ui/global/components";
 import type { IconType } from "react-icons";

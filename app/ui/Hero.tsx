@@ -1,10 +1,10 @@
 // app/components/Hero.tsx
 "use client";
 
-import { lusitana } from "@/app/lib/font";
+import { lusitana } from "@/app/_lib/font";
 import { clsx } from "clsx";
 import Image from "next/image";
-import { PublicRoutes } from "../lib/routes";
+import { PublicRoutes } from "../_lib/routes";
 import { IMAGE_DEFAULT_BLUR } from "./global/ImageShimer";
 import { Button } from "./global/components";
 
@@ -90,7 +90,7 @@ export default function Hero() {
             className={clsx(
               lusitana.className,
               "font-extrabold leading-snug text-gray-900 drop-shadow-sm",
-              "text-[clamp(1rem,4vw,1.5rem)] sm:text-[clamp(1.125rem,3vw,1.75rem)] md:text-[clamp(1.25rem,2.4vw,2rem)] lg:text-[clamp(1.375rem,2vw,2.25rem)] xl:text-[clamp(1.5rem,1.8vw,2.5rem)]"
+              "text-[clamp(1rem,4vw,1.5rem)] sm:text-[clamp(1.125rem,3vw,1.75rem)] md:text-[clamp(1.25rem,2.4vw,2rem)] lg:text-[clamp(1.375rem,2vw,2.25rem)] xl:text-[clamp(1.5rem,1.8vw,2.5rem)]",
             )}
           >
             <span className="text-hca-yellow-main">Social Cohesion</span>{" "}

@@ -1,8 +1,8 @@
 // app/ui/nav/AccountMenuClient.tsx
 "use client";
 
-import { AccountRoutes, AdminRoutes, AuthRoutes } from "@/app/lib/routes";
-import { destroySession } from "@/app/lib/session/session";
+import { AccountRoutes, AdminRoutes, AuthRoutes } from "@/app/_lib/routes";
+import { destroySession } from "@/app/_lib/session/session";
 import { setNotification } from "@/app/u/auth/_lib/setNotification";
 import Link from "next/link";
 import { HiChevronDown, HiUser } from "react-icons/hi";

@@ -1,7 +1,7 @@
 // app/shop/page.tsx
 
 // import { Breadcrumb } from "@/app/contact-us/_lib/definitions";
-import { sql } from "@/app/lib/db";
+import { sql } from "@/app/_lib/db";
 import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";

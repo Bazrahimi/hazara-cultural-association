@@ -1,14 +1,14 @@
 // app/members/join/lib/action.ts
 "use server";
 
-import { sql } from "@/app/lib/db";
-import { getSession } from "@/app/lib/session/session";
+import { sql } from "@/app/_lib/db";
+import { getSession } from "@/app/_lib/session/session";
 import type { MemberState } from "./definitions";
 import { parseMemberForm } from "./helper";
 
 export const createMember = async (
   _prevState: MemberState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<MemberState> => {
   const session = await getSession();
   if (!session || !session.userId) {

@@ -1,8 +1,8 @@
 // proxy.ts
 import { NextRequest, NextResponse } from "next/server";
-import { AuthRoutes } from "./app/lib/routes";
-import { isProtectedPath } from "./app/lib/session/protectedRoutes";
-import { SESSION_COOKIE } from "./app/lib/session/sessionConfig";
+import { AuthRoutes } from "./app/_lib/routes";
+import { isProtectedPath } from "./app/_lib/session/protectedRoutes";
+import { SESSION_COOKIE } from "./app/_lib/session/sessionConfig";
 
 export const proxy = async (req: NextRequest) => {
   const { pathname, search } = req.nextUrl;
@@ -22,7 +22,12 @@ export const proxy = async (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/admin/:path*", "/blog/auth:path*", "/account/:path", "/members/join/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/blog/auth:path*",
+    "/account/:path",
+    "/members/join/:path*",
+  ],
 };
 
 // test mode

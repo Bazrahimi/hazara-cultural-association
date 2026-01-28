@@ -1,5 +1,5 @@
 // app/shop/checkout/success/page.tsx
-import { stripe } from "@/app/lib/stripe";
+import { stripe } from "@/app/_lib/stripe";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
@@ -27,7 +27,7 @@ type SearchParamsShape = { session_id?: string | string[] };
 
 /** Type guard: exclude DeletedCustomer so TS knows email/name/address exist */
 function asActiveCustomer(
-  c: Stripe.Customer | Stripe.DeletedCustomer | null | undefined
+  c: Stripe.Customer | Stripe.DeletedCustomer | null | undefined,
 ): Stripe.Customer | null {
   if (!c) return null;
   return "deleted" in c && c.deleted ? null : (c as Stripe.Customer);

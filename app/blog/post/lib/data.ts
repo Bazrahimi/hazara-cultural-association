@@ -1,4 +1,4 @@
-import { sql, type SqlFragment } from "@/app/lib/db";
+import { sql, type SqlFragment } from "@/app/_lib/db";
 import { PostAuthCtx, StatusCode } from "./definitions";
 import type { PostInput } from "./schema";
 

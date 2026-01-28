@@ -1,5 +1,5 @@
 // app/blog/edit/[postId]/page.tsx
-import { requireUser } from "@/app/lib/session/session";
+import { requireUser } from "@/app/_lib/session/session";
 import { notFound } from "next/navigation";
 
 import PostForm from "../../new/ui/PostForm";
@@ -29,5 +29,5 @@ export default async function EditPostPage({ params }: PageProps) {
     isAdmin,
   });
 
-  return <PostForm mode="edit" action={updatePost} initialData={post}  />;
+  return <PostForm mode="edit" action={updatePost} initialData={post} />;
 }

@@ -8,7 +8,7 @@ import { FormErrorMessage } from "@/app/ui/global/clientComponent";
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 
-import { AuthRoutes } from "@/app/lib/routes";
+import { AuthRoutes } from "@/app/_lib/routes";
 import { resetPassword } from "../_lib/action";
 
 const ResetPasswordPage = () => {

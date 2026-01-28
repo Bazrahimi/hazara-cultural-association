@@ -3,7 +3,7 @@ import { Button } from "@/app/ui/global/components";
 import { use } from "react";
 import { addressToLines } from "../lib/helper";
 
-import { AccountRoutes } from "@/app/lib/routes";
+import { AccountRoutes } from "@/app/_lib/routes";
 import { AddressRecord } from "../lib/definitions";
 
 export default function AddressesCard({

@@ -1,8 +1,8 @@
 // app/blog/new/ui/form/EditorField.tsx
 "use client";
 
+import { CreateEditPostTrans } from "@/app/_lib/translation";
 import QuillEditor from "@/app/ui/global/QuillEditor";
-import { CreateEditPostTrans } from "@/app/lib/translation";
 
 type Props = {
   isRTL: boolean;
@@ -15,7 +15,7 @@ const EditorField = ({ isRTL, value, onChange, error }: Props) => {
   const hasError = !!error && error.length > 0;
 
   const t = CreateEditPostTrans.EditorField;
-  const lang = isRTL ? "rtl" : "en"
+  const lang = isRTL ? "rtl" : "en";
 
   return (
     <div className="space-y-1">
@@ -36,13 +36,11 @@ const EditorField = ({ isRTL, value, onChange, error }: Props) => {
         }`}
       >
         <QuillEditor
-        key={lang}
+          key={lang}
           id="content"
           value={value}
           onChange={onChange}
-          placeholder={ isRTL ? t.placeholder[lang] : t.placeholder[lang]
-         
-          }
+          placeholder={isRTL ? t.placeholder[lang] : t.placeholder[lang]}
           isRTL={isRTL}
         />
       </div>

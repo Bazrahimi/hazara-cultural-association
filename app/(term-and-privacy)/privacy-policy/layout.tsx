@@ -1,5 +1,5 @@
 // app/privacy-policy/layout.tsx
-import { PublicRoutes } from "@/app/lib/routes";
+import { PublicRoutes } from "@/app/_lib/routes";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

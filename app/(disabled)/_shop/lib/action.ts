@@ -1,7 +1,7 @@
 // app/shop/lib/actions/checkout.ts
 "use server";
 
-import { stripe } from "@/app/lib/stripe";
+import { stripe } from "@/app/_lib/stripe";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe";
 

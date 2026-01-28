@@ -1,5 +1,5 @@
-import { sql } from "@/app/lib/db";
-import { AdminRoutes } from "@/app/lib/routes";
+import { sql } from "@/app/_lib/db";
+import { AdminRoutes } from "@/app/_lib/routes";
 import { DeleteFormAction } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";

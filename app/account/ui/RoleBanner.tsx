@@ -3,8 +3,8 @@ import {
   BlogRoutes,
   DonateRoutes,
   PublicRoutes,
-} from "@/app/lib/routes";
-import type { SessionRole } from "@/app/lib/session/session";
+} from "@/app/_lib/routes";
+import type { SessionRole } from "@/app/_lib/session/session";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";

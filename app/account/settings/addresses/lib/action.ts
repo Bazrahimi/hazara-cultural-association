@@ -1,7 +1,7 @@
 "use server";
 
-import { sql } from "@/app/lib/db";
-import { requireUser } from "@/app/lib/session/session";
+import { sql } from "@/app/_lib/db";
+import { requireUser } from "@/app/_lib/session/session";
 import { redirect } from "next/navigation";
 import {
   BillingAddressInput,
@@ -19,7 +19,7 @@ type PgError = {
 
 export const billingAddressInput = async (
   _prev: BillingAddressInputState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<BillingAddressInputState> => {
   const { userId } = await requireUser();
 

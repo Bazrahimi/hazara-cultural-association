@@ -1,4 +1,4 @@
-import { apiKey, apiSecret, cloudName } from "@/app/lib/cloudinary";
+import { apiKey, apiSecret, cloudName } from "@/app/_lib/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 
@@ -40,22 +40,20 @@ function publicIdFromPath(pathIn: string): string {
 }
 
 export async function POST(req: Request) {
-
   try {
     if (!cloudName || !apiKey || !apiSecret) {
       return NextResponse.json(
         { ok: false, message: "Cloudinary env is not configured." },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     const { path, resourceType = "image" } = (await req.json()) as DestroyBody;
 
-
     if (!path || typeof path !== "string") {
       return NextResponse.json(
         { ok: false, message: "`path` is required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -63,7 +61,7 @@ export async function POST(req: Request) {
     if (!publicId) {
       return NextResponse.json(
         { ok: false, message: "Could not derive public_id from path." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -73,7 +71,7 @@ export async function POST(req: Request) {
     if (!publicId.startsWith(SAFE_PREFIX)) {
       return NextResponse.json(
         { ok: false, message: "Refused to delete outside allowed folder." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -87,7 +85,7 @@ export async function POST(req: Request) {
     console.error(err);
     return NextResponse.json(
       { ok: false, message: "Failed to destroy asset." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

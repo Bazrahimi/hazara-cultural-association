@@ -1,6 +1,6 @@
 "use client";
 
-import { cldDetailHeroAuto } from "@/app/lib/cloudinary";
+import { cldDetailHeroAuto } from "@/app/_lib/cloudinary";
 import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import { Button } from "@/app/ui/global/components";
 import Image from "next/image";

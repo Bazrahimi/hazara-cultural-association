@@ -1,9 +1,9 @@
-import { toBoolean } from "@/app/lib/helper";
+import { toBoolean } from "@/app/_lib/helper";
 
-import { POST_STATUS, StatusCode, PostAuthCtx } from "./definitions";
+import { deletePost, setStatusCode, toggleFeatured } from "./data";
+import { POST_STATUS, PostAuthCtx, StatusCode } from "./definitions";
 import type { ParseResult, PostInput, PostState } from "./schema";
 import { PostSchema } from "./schema";
-import { toggleFeatured, setStatusCode, deletePost } from "./data";
 
 export const parseBlogPostForm = (formData: FormData): ParseResult => {
   const raw = Object.fromEntries(formData.entries());
@@ -49,7 +49,7 @@ export const parseBlogPostForm = (formData: FormData): ParseResult => {
 
 export type PostActionIntent = "publish" | "archive" | "delete" | "feature";
 export const parsePostActionIntent = (
-  formData: FormData
+  formData: FormData,
 ): PostActionIntent | null => {
   const v = formData.get("intent");
   if (v === "publish" || v === "archive" || v === "delete" || v === "feature")
@@ -65,19 +65,22 @@ export type PostActionState = {
 
 export const postFailure = (
   message: string,
-  extra: Partial<Omit<PostActionState, "ok" | "message">> = {}
+  extra: Partial<Omit<PostActionState, "ok" | "message">> = {},
 ): PostActionState => {
   return { ok: false, message, ...extra };
 };
 
 export const postSuccess = (
   message: string,
-  extra: Partial<Omit<PostActionState, "ok" | "message">> = {}
+  extra: Partial<Omit<PostActionState, "ok" | "message">> = {},
 ): PostActionState => {
   return { ok: true, message, ...extra };
 };
 
-export async function applyPostIntent(ctx: PostAuthCtx, intent: PostActionIntent) {
+export async function applyPostIntent(
+  ctx: PostAuthCtx,
+  intent: PostActionIntent,
+) {
   switch (intent) {
     case "feature": {
       const isFeatured = await toggleFeatured(ctx);

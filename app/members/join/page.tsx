@@ -1,7 +1,7 @@
 // app/members/join/page.tsx
-import { sql } from "@/app/lib/db";
-import { redirectToLoginWithNext } from "@/app/lib/session/authRedirects";
-import { getSession } from "@/app/lib/session/session";
+import { sql } from "@/app/_lib/db";
+import { redirectToLoginWithNext } from "@/app/_lib/session/authRedirects";
+import { getSession } from "@/app/_lib/session/session";
 import type { MemberInput } from "./lib/definitions";
 import JoinForm from "./ui/JoinForm";
 

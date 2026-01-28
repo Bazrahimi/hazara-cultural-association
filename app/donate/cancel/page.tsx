@@ -1,5 +1,5 @@
 // app/donate/cancel/page.tsx
-import { DonateRoutes } from "@/app/lib/routes";
+import { DonateRoutes } from "@/app/_lib/routes";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import Link from "next/link";

@@ -1,5 +1,5 @@
-import { cn } from "@/app/lib/helper";
-import { CreateEditPostTrans } from "@/app/lib/translation";
+import { cn } from "@/app/_lib/helper";
+import { CreateEditPostTrans } from "@/app/_lib/translation";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { ActionMode } from "../PostForm";
@@ -29,7 +29,7 @@ const FormHeader = ({ mode, isRTL, setIsRTL }: Props) => {
           <fieldset
             className={cn(
               "flex gap-4 text-sm text-gray-700",
-              isRTL ? "flex-row-reverse" : ""
+              isRTL ? "flex-row-reverse" : "",
             )}
           >
             {/* Hazargi / RTL */}

@@ -1,6 +1,6 @@
 // app/about-us/layout.tsx
 import type { Metadata } from "next";
-import { PublicRoutes } from "../lib/routes";
+import { PublicRoutes } from "../_lib/routes";
 
 export const metadata: Metadata = {
   title: "About Us | Hazara Cultural Association (HCA)",

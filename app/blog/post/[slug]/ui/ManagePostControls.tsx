@@ -4,11 +4,11 @@
 import { Button } from "@/app/ui/global/components";
 import PostActionsMenu from "../../../auth/ui/postActionMenu/PostActionsMenu";
 
-import { BlogRoutes } from "@/app/lib/routes";
-import { ManagePostTrans } from "@/app/lib/translation";
+import { formatDateTimeAU } from "@/app/_lib/Date";
+import { BlogRoutes } from "@/app/_lib/routes";
+import { ManagePostTrans } from "@/app/_lib/translation";
 import { P } from "@/app/ui/global/paragraph";
 import { POST_STATUS, StatusCode } from "../../lib/definitions";
-import { formatDateTimeAU } from "@/app/lib/Date";
 
 const labels = ManagePostTrans.Label;
 const headings = ManagePostTrans.heading;
@@ -49,7 +49,6 @@ export function ManagePostControls({
   const actionLabel = isRTL
     ? ManagePostTrans.actionedOn[statusCode].rtl
     : ManagePostTrans.actionedOn[statusCode].en;
-
 
   return (
     <section
@@ -103,7 +102,7 @@ export function ManagePostControls({
         <div className="flex items-center gap-4">
           <P className=" text-gray-500">{actionLabel}</P>
           <P className=" text-gray-700" dir="ltr">
-            {formatDateTimeAU(updatedAt) }
+            {formatDateTimeAU(updatedAt)}
           </P>
         </div>
       </div>

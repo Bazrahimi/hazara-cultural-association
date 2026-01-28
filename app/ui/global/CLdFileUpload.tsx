@@ -1,7 +1,7 @@
 // components/CldFileUpload.tsx
 "use client";
 
-import { cldLogoSharp } from "@/app/lib/cloudinary";
+import { cldLogoSharp } from "@/app/_lib/cloudinary";
 import { useBodyScrollLock } from "@/app/ui/hooks/useBodyScrollLock";
 import {
   CldUploadWidget,

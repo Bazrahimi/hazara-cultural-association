@@ -1,10 +1,10 @@
 // app/blog/new/schema.ts
+import { toBoolean } from "@/app/_lib/helper";
 import { CATEGORY_MAP, CategoryId } from "@/app/blog/post/lib/category";
 import {
   POST_STATUS,
   PostInsertUpdateSuccessDBReturn,
 } from "@/app/blog/post/lib/definitions";
-import { toBoolean } from "@/app/lib/helper";
 import z from "zod";
 const allowedCategoryIds = Object.keys(CATEGORY_MAP).map(Number); // [1,2,3,4]
 
@@ -22,7 +22,7 @@ const StatusCodeSchema = z
       z.literal(POST_STATUS.DRAFTED),
       z.literal(POST_STATUS.PUBLISHED),
       z.literal(POST_STATUS.ARCHIVED),
-    ])
+    ]),
   )
   .default(POST_STATUS.PUBLISHED);
 

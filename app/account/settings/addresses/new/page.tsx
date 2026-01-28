@@ -1,4 +1,4 @@
-import { AccountRoutes } from "@/app/lib/routes";
+import { AccountRoutes } from "@/app/_lib/routes";
 import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import type { BillingAddressInput } from "../lib/schema";

@@ -1,7 +1,7 @@
-import { cn } from "@/app/lib/helper";
-import { BlogRoutes } from "@/app/lib/routes";
-import { getSession } from "@/app/lib/session/session";
-import { ManagePostTrans } from "@/app/lib/translation";
+import { cn } from "@/app/_lib/helper";
+import { BlogRoutes } from "@/app/_lib/routes";
+import { getSession } from "@/app/_lib/session/session";
+import { ManagePostTrans } from "@/app/_lib/translation";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
@@ -62,7 +62,7 @@ export default async function PostsWrapper({ tab }: { tab: StatusCode }) {
                   "flex items-center justify-between rounded-xl px-3 py-2 text-sm transition",
                   active
                     ? "bg-hca-blue-dark text-white"
-                    : "text-slate-700 hover:bg-slate-50"
+                    : "text-slate-700 hover:bg-slate-50",
                 )}
               >
                 <P>{t.label}</P>
@@ -72,7 +72,7 @@ export default async function PostsWrapper({ tab }: { tab: StatusCode }) {
                     "min-w-[2.25rem] rounded-full px-2 py-0.5 text-center text-xs font-semibold",
                     active
                       ? "bg-hca-yellow-dark text-white"
-                      : "bg-slate-100 text-slate-700"
+                      : "bg-slate-100 text-slate-700",
                   )}
                 >
                   {counts[t.key]}

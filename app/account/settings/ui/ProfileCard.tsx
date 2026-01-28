@@ -1,4 +1,4 @@
-import { AccountRoutes } from "@/app/lib/routes";
+import { AccountRoutes } from "@/app/_lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
 import { use } from "react";

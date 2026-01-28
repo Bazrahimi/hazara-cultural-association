@@ -7,7 +7,7 @@ import Modal from "@/app/ui/global/modal";
 import QuillEditor from "@/app/ui/global/QuillEditor";
 import { useActionState, useEffect, useRef, useState } from "react";
 
-import { AccountRoutes } from "@/app/lib/routes";
+import { AccountRoutes } from "@/app/_lib/routes";
 import { createListing } from "../lib/action";
 import { ListingActionState } from "../lib/schema";
 import ProductImgUpload from "./ProductImgUpload";
@@ -17,12 +17,12 @@ const initialState: ListingActionState = {};
 const NewListingForm = () => {
   const [state, formAction, isPending] = useActionState(
     createListing,
-    initialState
+    initialState,
   );
 
   // local controlled pieces
   const [descriptionHTML, setDescriptionHTML] = useState(
-    state.data?.description ?? ""
+    state.data?.description ?? "",
   );
   const [mainImg, setMainImg] = useState(state.data?.mainImg ?? "");
   const [otherImgs, setOtherImgs] = useState(state.data?.otherImgs ?? "");

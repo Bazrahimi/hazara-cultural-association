@@ -1,6 +1,6 @@
 "use server";
 import { z } from "zod";
-import { sql } from "../../lib/db";
+import { sql } from "../../_lib/db";
 import { QuickEnquiryState } from "./definitions";
 import {
   sendAdminEmail,

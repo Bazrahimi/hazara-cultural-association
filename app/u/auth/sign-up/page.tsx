@@ -1,8 +1,8 @@
 // app/u/signup/page.tsx
 
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
-import { AuthRoutes } from "@/app/lib/routes";
-import { safeAccountNext } from "@/app/lib/session/authRedirects";
+import { AuthRoutes } from "@/app/_lib/routes";
+import { safeAccountNext } from "@/app/_lib/session/authRedirects";
 import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
 import SocialLoginButtons from "../login/ui/SocialLoginButtons";

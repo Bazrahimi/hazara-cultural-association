@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getUserId } from "../../../lib/session/session";
+import { getUserId } from "../../../_lib/session/session";
 
 export const metadata: Metadata = {
   title: "Login | Hazara Cultural Association",

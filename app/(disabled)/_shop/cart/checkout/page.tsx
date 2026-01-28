@@ -1,7 +1,7 @@
 // app/shop/cart/checkout/page.tsx
 import type { FullAddress } from "@/app/(disabled)/_shop/lib/definitions";
-import { sql } from "@/app/lib/db";
-import { getUserId } from "@/app/lib/session/session";
+import { sql } from "@/app/_lib/db";
+import { getUserId } from "@/app/_lib/session/session";
 import CheckoutPage from "./ui/CheckoutPage";
 import LoggedInCheckout from "./ui/LoggedInCheckout";
 

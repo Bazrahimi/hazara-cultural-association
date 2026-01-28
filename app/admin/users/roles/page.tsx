@@ -1,5 +1,5 @@
 // app/admin/UserRoleAdminSection.tsx
-import { sql } from "@/app/lib/db";
+import { sql } from "@/app/_lib/db";
 import { toggleUserRole } from "./lib/actions";
 
 type UserRow = {

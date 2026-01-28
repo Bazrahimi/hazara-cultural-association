@@ -1,4 +1,4 @@
-import { AUS_STATES, toBoolean } from "@/app/lib/helper";
+import { AUS_STATES, toBoolean } from "@/app/_lib/helper";
 import { z } from "zod";
 
 // Reusable checkbox schema
@@ -17,7 +17,7 @@ const numericEnum = (min: number, max: number, message: string) =>
       })
       .int(message)
       .min(min, message)
-      .max(max, message)
+      .max(max, message),
   );
 
 export const MemberSchema = z.object({
@@ -35,13 +35,13 @@ export const MemberSchema = z.object({
   englishProficiency: numericEnum(
     0,
     4,
-    "Please select your proficiency level."
+    "Please select your proficiency level.",
   ),
 
   farsiHazaragiProficiency: numericEnum(
     0,
     4,
-    "Please select your proficiency level."
+    "Please select your proficiency level.",
   ),
 
   address1: z.string().trim().min(5, "Please enter your street address."),

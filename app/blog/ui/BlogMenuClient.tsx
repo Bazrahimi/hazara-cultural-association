@@ -1,6 +1,6 @@
 "use client";
 
-import { BlogRoutes } from "@/app/lib/routes";
+import { BlogRoutes } from "@/app/_lib/routes";
 import Link from "next/link";
 import { HiCalendar, HiChevronDown } from "react-icons/hi";
 import { buildPostCategoryQuickLinks } from "../post/lib/category";

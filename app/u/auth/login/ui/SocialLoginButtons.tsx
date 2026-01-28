@@ -1,5 +1,5 @@
 // app/u/ui/SocialLoginButtons.tsx
-import { AuthRoutes } from "@/app/lib/routes";
+import { AuthRoutes } from "@/app/_lib/routes";
 import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
 

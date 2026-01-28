@@ -1,6 +1,6 @@
 // app/u/oauth/google/start/route.ts
 
-import { AuthRoutes } from "@/app/lib/routes";
+import { AuthRoutes } from "@/app/_lib/routes";
 import crypto from "crypto";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";

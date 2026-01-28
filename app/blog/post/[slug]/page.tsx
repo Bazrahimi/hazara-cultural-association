@@ -1,5 +1,5 @@
-import { BlogRoutes } from "@/app/lib/routes";
-import { BreadcrumbsTrans } from "@/app/lib/translation/BreadcrumbsTrans";
+import { BlogRoutes } from "@/app/_lib/routes";
+import { BreadcrumbsTrans } from "@/app/_lib/translation/BreadcrumbsTrans";
 import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
 import { Suspense } from "react";
 import { extractTitleFromSlug } from "../../lib/helper";

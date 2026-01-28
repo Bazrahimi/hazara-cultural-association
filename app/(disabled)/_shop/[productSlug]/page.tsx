@@ -1,4 +1,4 @@
-import { sql } from "@/app/lib/db";
+import { sql } from "@/app/_lib/db";
 import { notFound } from "next/navigation";
 import type { ProductDetailsData } from "../lib/definitions";
 import ProductDetails from "./ui/ProdcutDetails";

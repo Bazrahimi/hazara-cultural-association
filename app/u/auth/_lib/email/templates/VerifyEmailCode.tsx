@@ -10,7 +10,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import EmailFooter from "../components/EmailFooter";
+import EmailFooter from "../../../../../ui/global/email/components/EmailFooter";
 
 export default function VerifyEmailCode({
   fullName,

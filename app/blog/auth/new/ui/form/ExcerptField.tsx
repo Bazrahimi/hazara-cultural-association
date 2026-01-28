@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "@/app/lib/helper";
-import { CreateEditPostTrans } from "@/app/lib/translation";
+import { cn } from "@/app/_lib/helper";
+import { CreateEditPostTrans } from "@/app/_lib/translation";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 const t = CreateEditPostTrans.Excerpt;
@@ -62,7 +62,7 @@ const ExcerptField = ({
         className={cn(
           "block w-full rounded-md border bg-white p-3 text-sm leading-relaxed",
           "focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-hca-blue-main",
-          hasError ? "border-red-300" : "border-gray-200"
+          hasError ? "border-red-300" : "border-gray-200",
         )}
       />
       {contentHtml && contentHtml.length > 20 && (

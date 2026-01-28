@@ -1,6 +1,6 @@
 "use client";
 
-import { AccountRoutes, BlogRoutes, DonateRoutes } from "@/app/lib/routes";
+import { AccountRoutes, BlogRoutes, DonateRoutes } from "@/app/_lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import {
   FaAddressCard,

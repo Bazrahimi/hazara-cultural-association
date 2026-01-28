@@ -1,4 +1,4 @@
-import { BlogRoutes } from "@/app/lib/routes";
+import { BlogRoutes } from "@/app/_lib/routes";
 
 export const CATEGORY_MAP = {
   1: {

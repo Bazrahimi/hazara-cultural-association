@@ -8,13 +8,8 @@ import {
 } from "react-icons/hi";
 import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineJoinInner } from "react-icons/md";
+import { AuthRoutes, DonateRoutes, PublicRoutes } from "../_lib/routes";
 import { buildPostCategoryQuickLinks } from "../blog/post/lib/category";
-import {
-  AuthRoutes,
-  DonateRoutes,
-  PublicRoutes,
-  // ShopRoutes,
-} from "../lib/routes";
 import { Header } from "./global/Header";
 import { P } from "./global/paragraph";
 

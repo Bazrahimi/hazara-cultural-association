@@ -12,8 +12,9 @@ import {
 import { generate6DigitCode } from "./helper";
 
 // import { FROM_EMAIL, resend } from "../ui/resend/email";
-import VerifyEmailCode from "../ui/resend/VerifyEmailCode";
+
 import { VERIFICATION_TTL_SECONDS } from "./constants";
+import VerifyEmailCode from "./email/templates/VerifyEmailCode";
 
 export async function issueVerificationCode({
   userId,

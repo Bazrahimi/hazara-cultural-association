@@ -1,7 +1,7 @@
 "use client";
 
-import { inter } from "@/app/lib/font";
-import { cn } from "@/app/lib/helper";
+import { inter } from "@/app/_lib/font";
+import { cn } from "@/app/_lib/helper";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { forwardRef, ReactNode, useState } from "react";
@@ -66,7 +66,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
       isRTL = false, // <— NEW
       readOnly = false,
     },
-    ref
+    ref,
   ) {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const isPassword = type === "password";
@@ -102,7 +102,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
           htmlFor={id}
           className={clsx(
             "block text-sm font-medium text-gray-700",
-            isRTL && "text-right" // <— label alignment
+            isRTL && "text-right", // <— label alignment
           )}
         >
           {label}
@@ -145,7 +145,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
                 isRTL && "text-right",
                 isRTL && "direction-rtl",
                 readOnly && "bg-gray-100 text-gray-500 cursor-not-allowed",
-                inputClassName
+                inputClassName,
               )}
             />
           ) : (
@@ -178,7 +178,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
                 isRTL && "text-right",
                 isRTL && "direction-rtl",
                 readOnly && "bg-gray-100 text-gray-500 cursor-not-allowed",
-                inputClassName
+                inputClassName,
               )}
             />
           )}
@@ -188,7 +188,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
             <Icon
               className={clsx(
                 "pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 sm:h-6 sm:w-6 peer-focus:text-gray-900",
-                isRTL ? "right-3" : "left-3" // <— flip icon position
+                isRTL ? "right-3" : "left-3", // <— flip icon position
               )}
               aria-hidden
             />
@@ -222,7 +222,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
             aria-atomic="true"
             className={clsx(
               "mt-2 text-xs text-red-600 sm:text-sm",
-              isRTL ? "text-left" : "text-right"
+              isRTL ? "text-left" : "text-right",
             )}
           >
             {error!.map((msg, i) => (
@@ -232,7 +232,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 export type InputOption = string | { value: string; label?: string };
@@ -304,7 +304,7 @@ export const Button = forwardRef<
     "cursor-pointer",
     variants[variant],
     sizes[size],
-    className
+    className,
   );
 
   if (as === "link") {

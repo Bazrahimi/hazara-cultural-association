@@ -1,14 +1,14 @@
 //app/acount/setting/page.tsx
-import { sql } from "@/app/lib/db";
+import { sql } from "@/app/_lib/db";
 import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
 import { Suspense } from "react";
 import AddressesCard from "./ui/AddressesCard";
 
 import ProfileCard from "./ui/ProfileCard";
 
-import { requireUser } from "@/app/lib/session/session";
+import { requireUser } from "@/app/_lib/session/session";
 
-import { AccountRoutes } from "@/app/lib/routes";
+import { AccountRoutes } from "@/app/_lib/routes";
 import { Header } from "@/app/ui/global/Header";
 import { AddressRecord, ProfileRecord, userRecord } from "./lib/definitions";
 import { AddressesCardSkeleton, ProfileCardSkeleton } from "./ui/Skeleton";

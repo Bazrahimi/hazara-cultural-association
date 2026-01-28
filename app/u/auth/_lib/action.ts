@@ -1,7 +1,7 @@
 "use server";
 // app/u/auth/lib/action.ts
 
-import { createSession, getSession } from "@/app/lib/session/session";
+import { createSession, getSession } from "@/app/_lib/session/session";
 import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { redirect } from "next/navigation";
 
@@ -31,8 +31,8 @@ import {
   VerifyCodeSchema,
 } from "./schema";
 
-import { AccountRoutes, AuthRoutes } from "@/app/lib/routes";
-import { safeAccountNext } from "@/app/lib/session/authRedirects";
+import { AccountRoutes, AuthRoutes } from "@/app/_lib/routes";
+import { safeAccountNext } from "@/app/_lib/session/authRedirects";
 import { VERIFICATION_TTL_SECONDS } from "./constants";
 import type {
   AuthState,

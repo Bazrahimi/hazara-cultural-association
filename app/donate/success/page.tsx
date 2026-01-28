@@ -1,6 +1,6 @@
 // app/donate/success/page.tsx
-import { DonateRoutes } from "@/app/lib/routes";
-import { stripe } from "@/app/lib/stripe";
+import { DonateRoutes } from "@/app/_lib/routes";
+import { stripe } from "@/app/_lib/stripe";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
@@ -13,7 +13,7 @@ export const metadata = {
 
 function formatAmount(
   amount: number | null | undefined,
-  currency: string | null | undefined
+  currency: string | null | undefined,
 ) {
   if (!amount || !currency) return "";
   return new Intl.NumberFormat("en-AU", {

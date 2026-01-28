@@ -1,12 +1,12 @@
 "use client";
 
+import { cldCardHeroAuto } from "@/app/_lib/cloudinary";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import type { CartItem } from "../lib/definitions";
 import { useCart } from "../ui/cart/CartContext";
-import { cldCardHeroAuto } from "@/app/lib/cloudinary";
 
 export default function CartPage() {
   const { items, subtotal, updateQty, remove, postageTotal } = useCart();
@@ -38,7 +38,9 @@ export default function CartPage() {
         </div>
         <div className="flex w-full max-w-xs items-center justify-between">
           <P className="font-bold">Total:</P>
-          <P className="tabular-nums">${(subtotal + postageTotal).toFixed(2)}</P>
+          <P className="tabular-nums">
+            ${(subtotal + postageTotal).toFixed(2)}
+          </P>
         </div>
       </div>
 
@@ -108,7 +110,7 @@ function CartRow({
   updateQty: (id: number, qty: number) => void;
   remove: (id: number) => void;
 }) {
-  const lineTotal = item.qty * (item.priceCents + item.postageCents) / 100;
+  const lineTotal = (item.qty * (item.priceCents + item.postageCents)) / 100;
 
   return (
     <tr className="border-t">
@@ -118,7 +120,7 @@ function CartRow({
           {/* Square thumbnail with stable layout */}
           <div className="relative h-12 w-12 overflow-hidden rounded">
             <Image
-              src={cldCardHeroAuto(item.mainImgPath) }
+              src={cldCardHeroAuto(item.mainImgPath)}
               alt={item.title}
               fill
               className="object-cover"
@@ -129,7 +131,9 @@ function CartRow({
 
           <div className="min-w-0">
             <p className="font-semibold truncate">{item.title}</p>
-            <p className="text-gray-500">${(item.priceCents + item.postageCents).toFixed(2)} each</p>
+            <p className="text-gray-500">
+              ${(item.priceCents + item.postageCents).toFixed(2)} each
+            </p>
           </div>
         </div>
       </td>

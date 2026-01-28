@@ -1,6 +1,6 @@
 "use client";
 
-import { NOTIFICATION_EVENT, NOTIFICATION_KEY } from "@/app/lib/helper";
+import { NOTIFICATION_EVENT, NOTIFICATION_KEY } from "@/app/_lib/helper";
 import { useEffect, useState } from "react";
 
 export function NotificationCenter() {

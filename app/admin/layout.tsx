@@ -1,8 +1,8 @@
 // app/admin/layout.tsx
 
 import type { Metadata } from "next";
-import { redirectToLoginWithNext } from "../lib/session/authRedirects";
-import { getSession } from "../lib/session/session";
+import { redirectToLoginWithNext } from "../_lib/session/authRedirects";
+import { getSession } from "../_lib/session/session";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | HCA",

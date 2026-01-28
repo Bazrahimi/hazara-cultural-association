@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { redirectToLoginWithNext } from "../lib/session/authRedirects";
-import { getSession } from "../lib/session/session";
+import { redirectToLoginWithNext } from "../_lib/session/authRedirects";
+import { getSession } from "../_lib/session/session";
 
 export const metadata: Metadata = {
   title: "Account Dashboard | HCA",
@@ -13,8 +13,6 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
     await redirectToLoginWithNext("/account");
     // TODO please review why this not working on layout which is "/account"
   }
-
-
 
   return <>{children}</>;
 };

@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "@/app/lib/helper";
-import { ChangeCategoryMenuTrans } from "@/app/lib/translation";
+import { cn } from "@/app/_lib/helper";
+import { ChangeCategoryMenuTrans } from "@/app/_lib/translation";
 import { setNotification } from "@/app/u/auth/_lib/setNotification";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import { P } from "@/app/ui/global/paragraph";

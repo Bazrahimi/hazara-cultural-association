@@ -1,8 +1,8 @@
 "use client";
 
+import { cn } from "@/app/_lib/helper";
+import { sendingRequest } from "@/app/_lib/translation/blog/post/transHelper";
 import type { PostActionIntent } from "@/app/blog/post/lib/actionHelper";
-import { cn } from "@/app/lib/helper";
-import { sendingRequest } from "@/app/lib/translation/blog/post/transHelper";
 import Link from "next/link";
 import { ImSpinner10 } from "react-icons/im";
 
@@ -34,7 +34,7 @@ export default function MenuItem(props: MenuItemProps) {
     "hover:bg-hca-blue-light disabled:opacity-60",
     // alignment
     props.isRTL ? "text-right" : "text-left",
-    props.className
+    props.className,
   );
 
   const loadingLabel = props.isRTL ? sendingRequest.rtl : sendingRequest.en;
@@ -48,13 +48,13 @@ export default function MenuItem(props: MenuItemProps) {
         "inline-flex w-full items-center gap-2",
         // keep spinner at the edge
         "justify-between",
-        props.isRTL && "flex-row-reverse"
+        props.isRTL && "flex-row-reverse",
       )}
     >
       <span
         className={cn(
           "flex-1 truncate",
-          props.isRTL ? "text-right" : "text-left"
+          props.isRTL ? "text-right" : "text-left",
         )}
       >
         {labelText}

@@ -1,6 +1,6 @@
 "use server";
 
-import { stripe } from "@/app/lib/stripe";
+import { stripe } from "@/app/_lib/stripe";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe"; // ✅ add this
 import {
@@ -12,7 +12,7 @@ import {
 
 export async function submitDonation(
   _prev: DonationState | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<DonationState | never> {
   const raw = {
     amount: formData.get("amount"),
@@ -92,7 +92,7 @@ export async function submitDonation(
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
     customer: customer.id, // ✅ ties to customer (name/address on receipt)
-    // billing_address_collection: "required", 
+    // billing_address_collection: "required",
     customer_update: { name: "auto", address: "auto" },
 
     payment_method_types: ["card"],

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/app/lib/helper";
+import { cn } from "@/app/_lib/helper";
 import Link from "next/link";
 import { CiShoppingCart } from "react-icons/ci";
 import { useCart } from "./CartContext";
@@ -20,7 +20,7 @@ export default function CartIcon({ className }: { className?: string }) {
         <span
           className={cn(
             "absolute -top-2 -right-2 bg-red-500 text-white text-sm px-1.5 py-0.5 rounded-full",
-            className
+            className,
           )}
         >
           {totalItems}

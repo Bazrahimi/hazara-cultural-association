@@ -1,13 +1,13 @@
 "use client";
-import { cldCardHeroAuto } from "@/app/lib/cloudinary";
+import { cldCardHeroAuto } from "@/app/_lib/cloudinary";
 import { Header } from "@/app/ui/global/Header";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { CartItem, ProductDetailsData } from "../../lib/definitions";
 import { useCart } from "../../ui/cart/CartContext";
-import Link from "next/link";
 
 const QTY_MIN = 1;
 const QTY_MAX = 10;
@@ -34,7 +34,7 @@ const ProductDetails = ({ product }: { product: ProductDetailsData }) => {
   // Optional: live preview of total based on selected qty
   const selectedTotalCents = useMemo(
     () => qty * unitTotalCents,
-    [qty, unitTotalCents]
+    [qty, unitTotalCents],
   );
 
   // keep qty safe
@@ -42,7 +42,7 @@ const ProductDetails = ({ product }: { product: ProductDetailsData }) => {
     const next = Number(e.target.value);
     const clamped = Math.max(
       QTY_MIN,
-      Math.min(QTY_MAX, isNaN(next) ? 1 : next)
+      Math.min(QTY_MAX, isNaN(next) ? 1 : next),
     );
     setQty(clamped);
   };

@@ -1,4 +1,4 @@
-import { lusitana } from "@/app/lib/font";
+import { lusitana } from "@/app/_lib/font";
 import clsx from "clsx";
 import Link from "next/link";
 

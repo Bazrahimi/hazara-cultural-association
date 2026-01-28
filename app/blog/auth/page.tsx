@@ -1,4 +1,4 @@
-import { BlogRoutes } from "@/app/lib/routes";
+import { BlogRoutes } from "@/app/_lib/routes";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { Suspense } from "react";
@@ -27,10 +27,7 @@ export default async function MyPostsPage({
 
       {/* Suspense boundary */}
       <Suspense fallback={<PostsLoadingFallback />}>
-        <PostsWrapper
-
-          tab={tab ?? POST_STATUS.PUBLISHED}
-        />
+        <PostsWrapper tab={tab ?? POST_STATUS.PUBLISHED} />
       </Suspense>
     </div>
   );
