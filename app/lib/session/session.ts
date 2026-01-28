@@ -6,7 +6,7 @@
  * - roles: ['seller'|'volunteer'|'blogger'|'admin'][]   (empty [] = authenticated buyer)
  */
 
-import { COOKIE_SAMESITE, COOKIE_SECURE } from "@/app/u/auth/lib/constants";
+import { COOKIE_SAMESITE, COOKIE_SECURE } from "@/app/u/auth/_lib/constants";
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

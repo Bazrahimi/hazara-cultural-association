@@ -16,7 +16,7 @@ import { PostActionIntent } from "@/app/blog/post/lib/actionHelper";
 import { CategoryId } from "@/app/blog/post/lib/category";
 import { cn } from "@/app/lib/helper";
 import { BlogRoutes } from "@/app/lib/routes";
-import { setNotification } from "@/app/u/auth/lib/setNotification";
+import { setNotification } from "@/app/u/auth/_lib/setNotification";
 
 type Props = {
   isRTL: boolean;
@@ -39,7 +39,7 @@ export default function PostActionsMenu({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [state, formAction, isPending] = useActionState(PostAction, undefined);
   const [pendingIntent, setPendingIntent] = useState<PostActionIntent | null>(
-    null
+    null,
   );
 
   // Close menu when clicking outside
@@ -99,7 +99,7 @@ export default function PostActionsMenu({
         <div
           className={cn(
             "absolute z-30 w-50 rounded-lg border bg-hca-blue-main shadow-lg",
-            isRTL ? "left-0" : "right-0"
+            isRTL ? "left-0" : "right-0",
           )}
         >
           <ul className="py-1 text-sm text-gray-100 space-y-1">

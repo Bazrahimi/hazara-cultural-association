@@ -9,12 +9,12 @@ import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 
 import { AuthRoutes } from "@/app/lib/routes";
-import { resetPassword } from "../lib/action";
+import { resetPassword } from "../_lib/action";
 
 const ResetPasswordPage = () => {
   const [state, formAction, isPending] = useActionState(
     resetPassword,
-    undefined
+    undefined,
   );
 
   const isSuccess = Boolean(state?.ok);

@@ -2,7 +2,7 @@
 import { sql } from "@/app/lib/db";
 import { AccountRoutes, AuthRoutes } from "@/app/lib/routes";
 import { createSession } from "@/app/lib/session/session";
-import { buildFullName } from "@/app/u/auth/lib/helper"; // you already have this
+import { buildFullName } from "@/app/u/auth/_lib/helper"; // you already have this
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { cookies } from "next/headers";
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
     console.error("Google OAuth error:", error);
 
     return NextResponse.redirect(
-      `${AuthRoutes.login()}?error=google_oauth_cancelled`
+      `${AuthRoutes.login()}?error=google_oauth_cancelled`,
     );
   }
 
@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
   if (!code || !returnedState || !savedState || savedState !== returnedState) {
     console.error("Google OAuth state mismatch or missing code");
     return NextResponse.redirect(
-      `${AuthRoutes.login()}?error=google_oauth_invalid_state`
+      `${AuthRoutes.login()}?error=google_oauth_invalid_state`,
     );
   }
 
@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
   if (!tokenRes.ok) {
     console.error("Failed to exchange code for token", await tokenRes.text());
     return NextResponse.redirect(
-      `${AuthRoutes.login()}?error=google_oauth_token`
+      `${AuthRoutes.login()}?error=google_oauth_token`,
     );
   }
 
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
   if (!accessToken) {
     console.error("No access token from Google");
     return NextResponse.redirect(
-      `${AuthRoutes.login()}?error=google_oauth_no_token`
+      `${AuthRoutes.login()}?error=google_oauth_no_token`,
     );
   }
 
@@ -91,7 +91,7 @@ export async function GET(req: NextRequest) {
   if (!userInfoRes.ok) {
     console.error("Failed to fetch Google user info", await userInfoRes.text());
     return NextResponse.redirect(
-      `${AuthRoutes.login()}?error=google_oauth_userinfo`
+      `${AuthRoutes.login()}?error=google_oauth_userinfo`,
     );
   }
 
@@ -113,7 +113,7 @@ export async function GET(req: NextRequest) {
   if (!providerUserId || !email) {
     console.error("Google user info missing sub or email", userInfo);
     return NextResponse.redirect(
-      `${AuthRoutes.login()}?error=google_oauth_incomplete_profile`
+      `${AuthRoutes.login()}?error=google_oauth_incomplete_profile`,
     );
   }
 
@@ -186,7 +186,7 @@ export async function GET(req: NextRequest) {
   if (!userId) {
     console.error("Could not resolve or create user for Google OAuth");
     return NextResponse.redirect(
-      `${AuthRoutes.login()}?error=google_oauth_user_creation`
+      `${AuthRoutes.login()}?error=google_oauth_user_creation`,
     );
   }
 

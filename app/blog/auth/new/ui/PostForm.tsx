@@ -6,7 +6,7 @@ import type { CategoryId } from "@/app/blog/post/lib/category";
 import { POST_FIELDS } from "@/app/blog/post/lib/helper";
 import { toBoolean } from "@/app/lib/helper";
 import { CreateEditPostTrans } from "@/app/lib/translation";
-import { setNotification } from "@/app/u/auth/lib/setNotification";
+import { setNotification } from "@/app/u/auth/_lib/setNotification";
 import CldFileUpload from "@/app/ui/global/CLdFileUpload";
 import { Input } from "@/app/ui/global/components";
 import { useActionState, useEffect, useState } from "react";
@@ -96,7 +96,7 @@ export default function PostForm({ mode, action, initialData }: Props) {
     return html.replace(/<span class="ql-ui"[^>]*><\/span>/g, "");
   }
 
-  console.log(initialData)
+  console.log(initialData);
 
   const t = CreateEditPostTrans.PostForm;
   const lang = isRTL ? "rtl" : "en";

@@ -329,12 +329,15 @@ app
 │   │   └── ui
 │   │       └── ProfilePosts.tsx
 │   └── auth
+│       ├── email
 │       ├── forgot-password
 │       │   ├── loading.tsx
 │       │   └── page.tsx
 │       ├── lib
 │       │   ├── action.ts
+│       │   ├── constants.ts
 │       │   ├── cookies.ts
+│       │   ├── data.ts
 │       │   ├── definitions.ts
 │       │   ├── flow.ts
 │       │   ├── helper.ts
@@ -369,8 +372,6 @@ app
 │       │       ├── VerifyEmailCode.tsx
 │       │       └── email.ts
 │       └── verify
-│           ├── lib
-│           │   └── verify-action.ts
 │           ├── page.tsx
 │           └── ui
 │               └── VerifyEmailForm.tsx
@@ -405,4 +406,4 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-129 directories, 277 files
+129 directories, 278 files

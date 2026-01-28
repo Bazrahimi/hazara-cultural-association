@@ -11,15 +11,15 @@ import {
 import { Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 
-import { setNotification } from "@/app/u/auth/lib/setNotification";
+import { changePassword } from "@/app/u/auth/_lib/action";
+import { setNotification } from "@/app/u/auth/_lib/setNotification";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { changePassword } from "@/app/u/auth/lib/action";
 
 const ChangePasswordPage = () => {
   const [state, formAction, isPending] = useActionState(
     changePassword,
-    undefined
+    undefined,
   );
   const router = useRouter();
 

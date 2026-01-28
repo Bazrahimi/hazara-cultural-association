@@ -5,7 +5,7 @@ import { safeAccountNext } from "@/app/lib/session/authRedirects";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { redirect } from "next/navigation";
-import { readVerifyCookies } from "../lib/cookies";
+import { readVerifyCookies } from "../_lib/cookies";
 import VerifyEmailForm from "./ui/VerifyEmailForm";
 
 const VerifyEmailPage = async ({

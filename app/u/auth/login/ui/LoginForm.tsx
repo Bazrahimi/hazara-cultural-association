@@ -6,7 +6,7 @@ import {
 import { Input } from "@/app/ui/global/components";
 import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
-import { auth } from "../../lib/action";
+import { auth } from "../../_lib/action";
 
 const LoginForm = ({ next }: { next: string }) => {
   const [state, formAction, isPending] = useActionState(auth, undefined);

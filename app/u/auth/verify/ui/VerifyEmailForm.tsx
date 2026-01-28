@@ -6,8 +6,8 @@ import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Button, Input } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 
-import { resendCode, verifyCode } from "../../lib/action";
-import { VerifyCodeState } from "../../lib/definitions";
+import { resendCode, verifyCode } from "../../_lib/action";
+import { VerifyCodeState } from "../../_lib/definitions";
 
 const VerifyEmailForm = ({
   next,

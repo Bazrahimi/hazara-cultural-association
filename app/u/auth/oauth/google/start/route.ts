@@ -8,7 +8,7 @@ import {
   COOKIE_SAMESITE,
   VERIFICATION_TTL_SECONDS,
   VERIFY_EMAIL_COOKIE_PATH,
-} from "../../../lib/constants";
+} from "../../../_lib/constants";
 
 const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 

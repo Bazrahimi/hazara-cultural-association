@@ -1,4 +1,4 @@
-import { COOKIE_SAMESITE, COOKIE_SECURE } from "@/app/u/auth/lib/constants";
+import { COOKIE_SAMESITE, COOKIE_SECURE } from "@/app/u/auth/_lib/constants";
 
 // app/lib/session/sessionConfig.ts
 export const SESSION_COOKIE = "session" as const;

@@ -6,7 +6,7 @@ import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
 
-import { signup } from "../../lib/action";
+import { signup } from "../../_lib/action";
 
 const SignupForm = ({ next }: { next?: string }) => {
   const [state, formAction, isPending] = useActionState(signup, undefined);

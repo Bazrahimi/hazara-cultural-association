@@ -1,3 +1,4 @@
+//app/u/auth/ui/resend/EmailFooter.txt
 import { Img, Section } from "@react-email/components";
 
 type EmailFooterProps = {
@@ -10,7 +11,7 @@ type EmailFooterProps = {
 };
 
 export default function EmailFooter({
-  logoUrl = "https://res.cloudinary.com/drvh5xeuw/image/upload/c_thumb,w_200,g_face/v1763895306/hca/website/hca-logo_i4xgc6.png", // TODO: replace with real logo
+  logoUrl = "https://res.cloudinary.com/drvh5xeuw/image/upload/c_thumb,w_200,g_face/v1763895306/hca/website/hca-logo_i4xgc6.png",
   orgName = "Hazara Cultural Association (HCA)",
   orgNameFarsi = "انجمن فرهنگی هزاره",
   email = "info@hazara.org.au",

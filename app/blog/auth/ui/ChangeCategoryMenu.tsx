@@ -2,7 +2,7 @@
 
 import { cn } from "@/app/lib/helper";
 import { ChangeCategoryMenuTrans } from "@/app/lib/translation";
-import { setNotification } from "@/app/u/auth/lib/setNotification";
+import { setNotification } from "@/app/u/auth/_lib/setNotification";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
@@ -27,7 +27,7 @@ const ChangeCategoryMenu = ({
 
   const [state, formAction, isPending] = useActionState(
     updatePostCategory,
-    undefined
+    undefined,
   );
 
   // useEffect(() => {
@@ -66,7 +66,7 @@ const ChangeCategoryMenu = ({
 
   const isDirty = useMemo(
     () => categoryId !== initialCategoryId,
-    [categoryId, initialCategoryId]
+    [categoryId, initialCategoryId],
   );
 
   const currentLabel = isRTL
@@ -80,7 +80,7 @@ const ChangeCategoryMenu = ({
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "rounded-full bg-hca-yellow-dark/15 text-hca-blue-dark ring-1 px-3 ring-hca-blue-dark/40 cursor-pointer select-none hover:bg-hca-yellow-dark/25 active:scale-[0.97] transition "
+          "rounded-full bg-hca-yellow-dark/15 text-hca-blue-dark ring-1 px-3 ring-hca-blue-dark/40 cursor-pointer select-none hover:bg-hca-yellow-dark/25 active:scale-[0.97] transition ",
         )}
         dir={isRTL ? "rtl" : "ltr"}
         aria-haspopup="dialog"
@@ -94,7 +94,7 @@ const ChangeCategoryMenu = ({
           aria-label="Change category"
           className={cn(
             "absolute z-40 mt-2 w-84 rounded-xl border border-white/10 bg-hca-blue-main shadow-lg",
-            isRTL ? "left-0" : "right-0"
+            isRTL ? "left-0" : "right-0",
           )}
         >
           <div className="p-3">
@@ -116,7 +116,7 @@ const ChangeCategoryMenu = ({
                 aria-label={isRTL ? t.category.rtl : t.category.en}
                 className={cn(
                   "max-h-56 overflow-auto rounded-md border border-white/10",
-                  "bg-white/5 py-1 text-sm"
+                  "bg-white/5 py-1 text-sm",
                 )}
                 dir={isRTL ? "rtl" : "ltr"}
               >
@@ -138,14 +138,14 @@ const ChangeCategoryMenu = ({
                             isRTL && "text-right",
                             isActive
                               ? "bg-hca-yellow-dark text-hca-yellow-main"
-                              : "text-gray-100 hover:bg-white/10"
+                              : "text-gray-100 hover:bg-white/10",
                           )}
                         >
                           {isRTL ? CATEGORY_MAP[id].rtl : CATEGORY_MAP[id].en}
                         </button>
                       </li>
                     );
-                  }
+                  },
                 )}
               </ul>
             </div>
@@ -157,7 +157,7 @@ const ChangeCategoryMenu = ({
             <div
               className={cn(
                 "mt-3 items-center gap-2",
-                isRTL && "flex-row-reverse"
+                isRTL && "flex-row-reverse",
               )}
             >
               <form action={formAction}>

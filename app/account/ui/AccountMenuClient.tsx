@@ -3,7 +3,7 @@
 
 import { AccountRoutes, AdminRoutes, AuthRoutes } from "@/app/lib/routes";
 import { destroySession } from "@/app/lib/session/session";
-import { setNotification } from "@/app/u/auth/lib/setNotification";
+import { setNotification } from "@/app/u/auth/_lib/setNotification";
 import Link from "next/link";
 import { HiChevronDown, HiUser } from "react-icons/hi";
 import { useDropdownMenu } from "../../blog/ui/useDropdownMenu";

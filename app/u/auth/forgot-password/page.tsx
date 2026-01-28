@@ -6,7 +6,7 @@ import { Input } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
-import { forgotPassword } from "../lib/action";
+import { forgotPassword } from "../_lib/action";
 // we will create this action in the next step
 // import { requestPasswordReset } from "../lib/password-actions";
 
