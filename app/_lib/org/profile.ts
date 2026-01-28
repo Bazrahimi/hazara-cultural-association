@@ -10,6 +10,7 @@ export const ORG_PROFILE = {
   website: ORG_DOMAIN,
 
   address: "Melbourne, Victoria, Australia",
+  abn: "60 858 912 479",
 
   logoUrl: "/images/logo-transparent-hd.png",
 

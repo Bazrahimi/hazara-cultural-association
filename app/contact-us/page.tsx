@@ -30,7 +30,7 @@ const ContactUsPage = () => {
                   blurb="We usually reply within 1–2 business days. Reach out about cultural programs, community events, volunteering, donations, or advocacy support."
                   phone={ORG_PROFILE.contactNumber}
                   email={ORG_PROFILE.email}
-                  // address="Melbourne, Victoria, Australia"
+                  address={ORG_PROFILE.address}
                 />
               </div>
             </section>

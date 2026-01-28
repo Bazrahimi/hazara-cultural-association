@@ -2,6 +2,7 @@ import Link from "next/link";
 // import { BsFillCartFill } from "react-icons/bs";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaWpforms } from "react-icons/fa6";
+import { HiLocationMarker } from "react-icons/hi";
 import {
   // HiLocationMarker,
   HiMail,
@@ -35,10 +36,6 @@ const CN = {
 // -------------------------------
 // Data
 // -------------------------------
-const ORG = {
-  name: ORG_PROFILE.orgName,
-  abn: "60 858 912 479",
-};
 
 const QUICK_LINKS = [
   { href: PublicRoutes.home(), label: "Home" },
@@ -76,11 +73,12 @@ const SOCIAL_LINKS = [
 ];
 
 const CONTACT = {
-  // location: "Melbourne, Victoria, Australia",
+  
   email: ORG_PROFILE.email,
   ...(ORG_PROFILE.contactNumber && {
     phone: ORG_PROFILE.contactNumber,
   }),
+  address: ORG_PROFILE.address
 };
 
 const Footer = () => {
@@ -90,7 +88,7 @@ const Footer = () => {
         {/* Organisation Info */}
         <div className="sm:col-span-2">
           <Header as="h4" size="sm">
-            {ORG.name}
+            {ORG_PROFILE.orgName}
           </Header>
           <P size="md" className="text-gray-900">
             A non-profit organisation in Australia dedicated to preserving
@@ -98,7 +96,7 @@ const Footer = () => {
             justice and human rights.
           </P>
           <p className="mt-2 text-sm">
-            <span className="font-medium">ABN:</span> {ORG.abn}
+            <span className="font-medium">ABN:</span> {ORG_PROFILE.abn}
           </p>
         </div>
 
@@ -130,10 +128,10 @@ const Footer = () => {
                 Quick Enquiry
               </Link>
             </li>
-            {/* <li className={CN.Item}>
+            <li className={CN.Item}>
               <HiLocationMarker className={CN.Icon} aria-hidden="true" />
-              <span>{CONTACT.location}</span>
-            </li> */}
+              <span>{CONTACT.address}</span>
+            </li>
             <li className={CN.Item}>
               <HiMail className={CN.Icon} aria-hidden="true" />
               <a href={`mailto:${CONTACT.email}`} className={CN.link}>
@@ -248,8 +246,8 @@ const Footer = () => {
 
       {/* Copyright */}
       <div className={CN.copy}>
-        © {new Date().getFullYear()} {ORG.name}. All rights reserved. | Powered
-        by{" "}
+        © {new Date().getFullYear()} {ORG_PROFILE.orgName}. All rights
+        reserved. | Powered by{" "}
         <a
           href="https://github.com/Bazrahimi"
           target="_blank"
