@@ -1,11 +1,11 @@
 "use server";
 import { z } from "zod";
 import { sql } from "../../lib/db";
+import { QuickEnquiryState } from "./definitions";
 import {
   sendAdminEmail,
   sendUserConfirmationEmail,
-} from "../../ui/global/resend/email";
-import { QuickEnquiryState } from "./definitions";
+} from "./email/components/email";
 
 import { EnquirySchema } from "./schema";
 

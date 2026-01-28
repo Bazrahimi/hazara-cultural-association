@@ -2,13 +2,13 @@
 "use server";
 
 import bcrypt from "bcrypt"; // or: import bcrypt from "bcrypt";
+import { emailClient, FROM_EMAIL } from "../../../ui/global/email/client";
 import {
   getEmailVerificationRow,
   incrementEmailVerificationAttempts,
   upsertEmailVerification,
   verifyUserEmailAndDeleteCode,
 } from "./data";
-import { emailClient, FROM_EMAIL } from "./email/client";
 import { generate6DigitCode } from "./helper";
 
 // import { FROM_EMAIL, resend } from "../ui/resend/email";

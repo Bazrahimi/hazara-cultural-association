@@ -1,11 +1,11 @@
 "use server";
 import type { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
-import { FROM_EMAIL, emailClient } from "@/app/u/auth/_lib/email/client";
-import EnquiryConfirmation from "./NewEnquiry";
+import { FROM_EMAIL, emailClient } from "@/app/ui/global/email/client";
+import EnquiryConfirmation from "../../../../ui/global/resend/NewEnquiry";
 
 const toEmail = "info@hazara.org.au";
 
-import NewEnquiryAdmin from "./NewEnquiry";
+import NewEnquiryAdmin from "../../../../ui/global/resend/NewEnquiry";
 
 export async function sendAdminEmail(data: QuickEnquiry, queryLabel: string) {
   try {
