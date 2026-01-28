@@ -1,6 +1,5 @@
 "use server";
 import { sql } from "@/app/_lib/db";
-import { sanitizeHtml } from "@/app/_lib/sanitize";
 import { requireUser } from "@/app/_lib/session/session";
 import { ListingActionState, ListingInput, ListingSchema } from "./schema";
 
@@ -18,7 +17,7 @@ export async function createListing(
     postage: formData.get("postage") as any,
     category: String(formData.get("category") ?? ""),
     origin: String(formData.get("origin") ?? ""),
-    description: sanitizeHtml(String(formData.get("description") ?? "")),
+    description: String(formData.get("description") ?? ""),
     mainImg: String(formData.get("mainImg") ?? ""),
     otherImgs: String(formData.get("otherImgs") ?? ""),
   };

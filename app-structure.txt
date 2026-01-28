@@ -67,10 +67,8 @@ app
 │   │       └── EmailFooter.tsx
 │   ├── font.ts
 │   ├── helper.ts
-│   ├── hooks
 │   ├── org
 │   │   └── profile.ts
-│   ├── resend.ts
 │   ├── routes
 │   │   ├── AccountRoutes.ts
 │   │   ├── AdminRoutes.ts
