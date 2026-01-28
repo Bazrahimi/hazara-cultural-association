@@ -10,7 +10,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import EmailFooter from "../../../../../ui/global/email/components/EmailFooter";
+import EmailFooter from "../../../../../_lib/email/components/EmailFooter";
 
 export default function VerifyEmailCode({
   fullName,
@@ -117,7 +117,6 @@ export default function VerifyEmailCode({
             >
               Use the 6-digit code below to confirm your email address. It
               expires in 10 minutes.
-     
             </Text>
 
             {/* Persian/Dari (RTL) */}

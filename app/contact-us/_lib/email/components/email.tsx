@@ -1,10 +1,10 @@
 "use server";
-import type { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
 import {
   ENQUIRY_ADMIN_EMAIL,
   FROM_EMAIL,
   emailClient,
-} from "@/app/ui/global/email/client";
+} from "@/app/_lib/email/client";
+import type { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
 import EnquiryConfirmation from "../templates/NewEnquiry";
 
 import NewEnquiryAdmin from "../templates/NewEnquiry";

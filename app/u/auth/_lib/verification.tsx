@@ -2,7 +2,7 @@
 "use server";
 
 import bcrypt from "bcrypt"; // or: import bcrypt from "bcrypt";
-import { emailClient, FROM_EMAIL } from "../../../ui/global/email/client";
+import { emailClient, FROM_EMAIL } from "../../../_lib/email/client";
 import {
   getEmailVerificationRow,
   incrementEmailVerificationAttempts,
