@@ -1,7 +1,6 @@
 //app/acount/setting/page.tsx
 import { sql } from "@/app/lib/db";
-import type { Breadcrumb } from "@/app/lib/definitions";
-import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
+import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
 import { Suspense } from "react";
 import AddressesCard from "./ui/AddressesCard";
 

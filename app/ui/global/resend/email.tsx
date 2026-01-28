@@ -1,6 +1,6 @@
 "use server";
-import type { QuickEnquiry } from "@/app/lib/definitions";
-import { resend, FROM_EMAIL } from "@/app/u/auth/ui/resend/email";
+import type { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
+import { FROM_EMAIL, emailClient } from "@/app/u/auth/_lib/email/client";
 import EnquiryConfirmation from "./NewEnquiry";
 
 const toEmail = "info@hazara.org.au";
@@ -9,7 +9,7 @@ import NewEnquiryAdmin from "./NewEnquiry";
 
 export async function sendAdminEmail(data: QuickEnquiry, queryLabel: string) {
   try {
-    const result = await resend.emails.send({
+    const result = await emailClient.emails.send({
       from: "Website Enquiry <website@hazara.org.au>", // must be verified in Resend
       to: [toEmail],
       replyTo: data.email || undefined,
@@ -26,9 +26,9 @@ export async function sendAdminEmail(data: QuickEnquiry, queryLabel: string) {
 
 export async function sendUserConfirmationEmail(
   data: QuickEnquiry,
-  queryLabel: string
+  queryLabel: string,
 ) {
-  return resend.emails.send({
+  return emailClient.emails.send({
     from: FROM_EMAIL,
     to: [data.email], // user receives copy/confirmation
     replyTo: toEmail, // replies from user go to your inbox

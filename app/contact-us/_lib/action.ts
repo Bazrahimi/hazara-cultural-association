@@ -1,16 +1,17 @@
 "use server";
 import { z } from "zod";
+import { sql } from "../../lib/db";
 import {
   sendAdminEmail,
   sendUserConfirmationEmail,
-} from "../ui/global/resend/email";
-import { sql } from "./db";
+} from "../../ui/global/resend/email";
 import { QuickEnquiryState } from "./definitions";
-import { QuickEnquirySchema } from "./schema";
+
+import { EnquirySchema } from "./schema";
 
 export const submitEnquiry = async (
   prevState: QuickEnquiryState | undefined,
-  formData: FormData
+  formData: FormData,
 ) => {
   const rawData = {
     fullName: formData.get("fullName") as string,
@@ -21,7 +22,7 @@ export const submitEnquiry = async (
     queryLabel: formData.get("queryTypeLabel") as string,
   };
 
-  const validated = QuickEnquirySchema.safeParse({
+  const validated = EnquirySchema.safeParse({
     fullName: rawData.fullName,
     email: rawData.email,
     contactNumber: rawData.contactNumber,
@@ -68,7 +69,7 @@ export const submitEnquiry = async (
   const adminEmailPromise = sendAdminEmail({ ...data }, rawData.queryLabel);
   const userEmailPromise = sendUserConfirmationEmail(
     { ...data },
-    rawData.queryLabel
+    rawData.queryLabel,
   );
 
   const [adminRes, userRes] = await Promise.allSettled([

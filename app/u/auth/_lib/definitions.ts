@@ -1,4 +1,4 @@
-import { FieldErrors } from "@/app/lib/definitions";
+import { FieldErrors } from "@/app/contact-us/_lib/definitions";
 import z from "zod";
 import {
   AuthSchema,

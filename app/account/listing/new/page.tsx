@@ -1,7 +1,7 @@
 //app/account/listing/new/page.tsx
-import type { Breadcrumb } from "@/app/lib/definitions";
+
 import { AccountRoutes } from "@/app/lib/routes";
-import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
+import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import NewListingForm from "./ui/new-listing-form";

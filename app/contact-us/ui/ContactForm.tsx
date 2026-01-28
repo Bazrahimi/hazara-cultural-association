@@ -1,5 +1,5 @@
 "use client";
-import { submitEnquiry } from "@/app/lib/action";
+import { submitEnquiry } from "@/app/contact-us/_lib/action";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Input } from "@/app/ui/global/components";
 import StatusBanner from "@/app/ui/global/FormMessage";
@@ -28,7 +28,7 @@ const labelBase = "block text-sm font-medium text-gray-700";
 export default function ContactForm() {
   const [state, formAction, isPending] = useActionState(
     submitEnquiry,
-    undefined
+    undefined,
   );
   const [selectedLabel, setSelectedLabel] = useState("");
 
@@ -93,7 +93,7 @@ export default function ContactForm() {
         className={clsx(
           "w-full rounded-md border border-gray-200 py-2 pr-10 text-sm sm:text-base outline-1 placeholder:text-gray-500 focus:border-blue-600 focus:ring-2 focus:ring-blue-400",
           hasQueryTypeError &&
-            "border-red-300 focus:border-red-400 focus:ring-red-100"
+            "border-red-300 focus:border-red-400 focus:ring-red-100",
         )}
         onChange={(e) => {
           const value = Number(e.target.value) as keyof typeof QUERY_OPTIONS;

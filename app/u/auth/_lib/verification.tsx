@@ -8,20 +8,12 @@ import {
   upsertEmailVerification,
   verifyUserEmailAndDeleteCode,
 } from "./data";
+import { emailClient, FROM_EMAIL } from "./email/client";
 import { generate6DigitCode } from "./helper";
 
-import { FROM_EMAIL, resend } from "../ui/resend/email";
+// import { FROM_EMAIL, resend } from "../ui/resend/email";
 import VerifyEmailCode from "../ui/resend/VerifyEmailCode";
 import { VERIFICATION_TTL_SECONDS } from "./constants";
-
-type VerifyRow = { code_hash: string; expires_at: string; attempts: number };
-
-// export const CODE_TTL_MINUTES = 10;
-// export const RESEND_COOLDOWN_SECONDS = 60;
-
-// export function generate6DigitCode(): string {
-//   return String(randomInt(0, 1_000_000)).padStart(6, "0");
-// }
 
 export async function issueVerificationCode({
   userId,
@@ -44,7 +36,7 @@ export async function issueVerificationCode({
     expiresAt,
   });
 
-  await resend.emails.send({
+  await emailClient.emails.send({
     from: FROM_EMAIL,
     to: [email],
     subject: "Your verification code",

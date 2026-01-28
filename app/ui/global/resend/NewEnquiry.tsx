@@ -1,5 +1,5 @@
 // emails/NewEnquiryAdmin.tsx
-import { QuickEnquiry } from "@/app/lib/definitions";
+import { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
 import {
   Body,
   Container,

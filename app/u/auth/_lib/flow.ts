@@ -1,5 +1,5 @@
-import type { VerifyMode } from "./definitions";
 import { setVerifyCookies } from "./cookies";
+import type { VerifyMode } from "./definitions";
 import { issueVerificationCode } from "./verification";
 export const startVerificationFlow = async ({
   userId,

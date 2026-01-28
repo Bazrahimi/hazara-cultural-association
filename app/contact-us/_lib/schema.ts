@@ -1,6 +1,6 @@
-import { z } from "zod";
+import z from "zod";
 
-export const QuickEnquirySchema = z.object({
+export const EnquirySchema = z.object({
   fullName: z.string().min(3, { message: "Please enter your full name" }),
   email: z.email({ message: "Please enter a valid email address" }).trim(),
   contactNumber: z

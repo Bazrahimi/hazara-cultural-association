@@ -1,9 +1,8 @@
-import type { Breadcrumb } from "@/app/lib/definitions";
-import Breadcrumbs from "@/app/ui/global/Breadcrumbs";
+import { AccountRoutes } from "@/app/lib/routes";
+import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
 import { Header } from "@/app/ui/global/Header";
 import type { BillingAddressInput } from "../lib/schema";
 import AddressForm from "../ui/AddressForm";
-import { AccountRoutes } from "@/app/lib/routes";
 
 const initial: BillingAddressInput = {
   address: "",

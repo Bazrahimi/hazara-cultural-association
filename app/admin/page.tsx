@@ -1,7 +1,6 @@
 // app/admin/page.tsx
 import Link from "next/link";
-import { Breadcrumb } from "../lib/definitions";
-import Breadcrumbs from "../ui/global/Breadcrumbs";
+import Breadcrumbs, { type Breadcrumb } from "../ui/global/Breadcrumbs";
 import { Header } from "../ui/global/Header";
 
 const breadcrumbs: Breadcrumb[] = [
