@@ -2,9 +2,8 @@
 import { toActionErrors } from "@/app/_lib/actionHelper";
 import { EnquiryState } from "./definitions";
 
-import { sendAdminEmail, sendUserConfirmationEmail } from "./email/components";
-
 import { insertEnquiry } from "./data";
+import { handleEnquiryEmails } from "./email/components/sendEnquiryEmails";
 import { EnquirySchema } from "./schema";
 
 export const enquiry = async (
@@ -20,7 +19,6 @@ export const enquiry = async (
   };
 
   const parsed = EnquirySchema.safeParse(rawData);
-
 
   if (!parsed.success) {
     return {
@@ -47,28 +45,8 @@ export const enquiry = async (
       message: "Failed to submit the enquiry. Please try again later.",
     };
   }
-
-  // 2) Send admin + user emails in parallel (non-critical)
   const queryLabel = formData.get("queryTypeLabel") as string;
-  const adminEmailPromise = sendAdminEmail({ ...data }, queryLabel);
-  const userEmailPromise = sendUserConfirmationEmail({ ...data }, queryLabel);
-
-  const [adminRes, userRes] = await Promise.allSettled([
-    adminEmailPromise,
-    userEmailPromise,
-  ]);
-
-  if (adminRes.status === "rejected") {
-    console.error("Admin email send failed:", adminRes.reason);
-  }
-  if (userRes.status === "rejected") {
-    console.error("User confirmation email failed:", userRes.reason);
-  }
-
-  let message = "Thanks! We have received your enquiry.";
-  if (userRes.status === "rejected") {
-    message += " (Heads-up: we couldn’t send the confirmation email.)";
-  }
+  const { message } = await handleEnquiryEmails(data, queryLabel);
   return {
     ok: true,
     message: message,
