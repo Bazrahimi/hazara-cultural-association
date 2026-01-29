@@ -1,10 +1,9 @@
 "use server";
-import { readFormFields, toActionErrors } from "@/app/_lib/actionHelper";
+import { toActionErrors } from "@/app/_lib/actionHelper";
 import { EnquiryState } from "./definitions";
 
 import { sendAdminEmail, sendUserConfirmationEmail } from "./email/components";
 
-import { ENQUIRY_FIELDS } from "../ui/ContactForm";
 import { insertEnquiry } from "./data";
 import { EnquirySchema } from "./schema";
 
@@ -12,12 +11,36 @@ export const enquiry = async (
   prevState: EnquiryState | undefined,
   formData: FormData,
 ): Promise<EnquiryState | undefined> => {
-  const rawData = readFormFields(formData, ENQUIRY_FIELDS);
+  const rawData = {
+    fullName: formData.get("fullName") as string,
+    email: formData.get("email") as string,
+    contactNumber: formData.get("contactNumber") as string,
+    queryType: formData.get("queryType"),
+    qMessage: formData.get("qMessage") as string,
+    queryLabel: formData.get("queryTypeLabel") as string,
+  };
 
-  const parsed = EnquirySchema.safeParse(rawData);
+  const parsed = EnquirySchema.safeParse({
+    fullName: rawData.fullName,
+    email: rawData.email,
+    contactNumber: rawData.contactNumber,
+    queryType: rawData.queryType,
+    qMessage: rawData.qMessage,
+  });
+
+  console.log(parsed);
 
   if (!parsed.success) {
-    return toActionErrors<EnquiryState["errors"]>(parsed.error);
+    return {
+      ...toActionErrors<EnquiryState["errors"]>(parsed.error),
+      data: {
+        fullName: rawData.fullName,
+        email: rawData.email,
+        contactNumber: rawData.contactNumber,
+        queryType: Number(rawData.queryType),
+        qMessage: rawData.qMessage,
+      },
+    };
   }
 
   const data = parsed.data;
