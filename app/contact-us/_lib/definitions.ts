@@ -3,7 +3,7 @@ import { EnquirySchema } from "./schema";
 
 
 /**2) data shape directly from schema  */
-export type QuickEnquiry = z.infer<typeof EnquirySchema>;
+export type Enquiry = z.infer<typeof EnquirySchema>;
 
 /**3) Generic Helpers for action state typed by any schema-derived data */
 export type FieldErrors<T> = Partial<Record<keyof T, string[]>>;
@@ -18,4 +18,6 @@ export type ActionState<T> = {
   ok?: boolean;
 };
 
-export type QuickEnquiryState = ActionState<QuickEnquiry>;
+export type EnquiryState = ActionState<Enquiry>;
+
+

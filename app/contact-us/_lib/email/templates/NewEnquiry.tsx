@@ -1,4 +1,4 @@
-import { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
+import { Enquiry } from "@/app/contact-us/_lib/definitions";
 import {
   Body,
   Container,
@@ -10,7 +10,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-type QuickEnquiryWithLabel = QuickEnquiry & {
+type QuickEnquiryWithLabel = Enquiry & {
   queryLabel: string;
 };
 

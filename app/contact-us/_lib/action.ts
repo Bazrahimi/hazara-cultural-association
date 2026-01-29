@@ -1,74 +1,42 @@
 "use server";
-import { z } from "zod";
-import { sql } from "../../_lib/db";
-import { QuickEnquiryState } from "./definitions";
+import { readFormFields, toActionErrors } from "@/app/_lib/actionHelper";
+import { EnquiryState } from "./definitions";
 
 import { sendAdminEmail, sendUserConfirmationEmail } from "./email/components";
 
+import { ENQUIRY_FIELDS } from "../ui/ContactForm";
+import { insertEnquiry } from "./data";
 import { EnquirySchema } from "./schema";
 
-export const submitEnquiry = async (
-  prevState: QuickEnquiryState | undefined,
+export const enquiry = async (
+  prevState: EnquiryState | undefined,
   formData: FormData,
-) => {
-  const rawData = {
-    fullName: formData.get("fullName") as string,
-    email: formData.get("email") as string,
-    contactNumber: formData.get("contactNumber") as string,
-    queryType: formData.get("queryType"),
-    qMessage: formData.get("qMessage") as string,
-    queryLabel: formData.get("queryTypeLabel") as string,
-  };
+): Promise<EnquiryState | undefined> => {
+  const rawData = readFormFields(formData, ENQUIRY_FIELDS);
 
-  const validated = EnquirySchema.safeParse({
-    fullName: rawData.fullName,
-    email: rawData.email,
-    contactNumber: rawData.contactNumber,
-    queryType: rawData.queryType,
-    qMessage: rawData.qMessage,
-  });
+  const parsed = EnquirySchema.safeParse(rawData);
 
-  if (!validated.success) {
-    const tree = z.treeifyError(validated.error);
-
-    return {
-      ...rawData,
-      ok: false,
-      message: "Complete the above field!",
-      errors: {
-        fullName: tree.properties?.fullName?.errors,
-        email: tree.properties?.email?.errors,
-        contactNumber: tree.properties?.contactNumber?.errors,
-        queryType: tree.properties?.queryType?.errors,
-        qMessage: tree.properties?.qMessage?.errors,
-      },
-    };
+  if (!parsed.success) {
+    return toActionErrors<EnquiryState["errors"]>(parsed.error);
   }
 
-  const data = validated.data;
+  const data = parsed.data;
 
   try {
-    await sql<[{ id: number }]>`
-      INSERT INTO quick_enquiries (full_name, email, contact_number, query_type, message)
-      VALUES (${data.fullName}, ${data.email}, ${data.contactNumber || null}, ${data.queryType}, ${data.qMessage})
-      RETURNING id
-    `;
+    await insertEnquiry(data);
   } catch (err) {
     console.error("Failed to submit the enquiry:", err);
     return {
       ...rawData,
       ok: false,
       message: "Failed to submit the enquiry. Please try again later.",
-      errors: undefined,
     };
   }
 
   // 2) Send admin + user emails in parallel (non-critical)
-  const adminEmailPromise = sendAdminEmail({ ...data }, rawData.queryLabel);
-  const userEmailPromise = sendUserConfirmationEmail(
-    { ...data },
-    rawData.queryLabel,
-  );
+  const queryLabel = formData.get("queryTypeLabel") as string;
+  const adminEmailPromise = sendAdminEmail({ ...data }, queryLabel);
+  const userEmailPromise = sendUserConfirmationEmail({ ...data }, queryLabel);
 
   const [adminRes, userRes] = await Promise.allSettled([
     adminEmailPromise,
@@ -86,16 +54,8 @@ export const submitEnquiry = async (
   if (userRes.status === "rejected") {
     message += " (Heads-up: we couldn’t send the confirmation email.)";
   }
-
   return {
-    fullName: "",
-    email: "",
-    contactNumber: "",
-    queryType: "",
-    qMessage: "",
     ok: true,
-    message,
-    errors: undefined,
-    // id: insertedId, // expose if you want
+    message: message,
   };
 };

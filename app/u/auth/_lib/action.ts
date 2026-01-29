@@ -5,6 +5,7 @@ import { createSession, getSession } from "@/app/_lib/session/session";
 import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { redirect } from "next/navigation";
 
+import { toActionErrors } from "@/app/_lib/actionHelper";
 import {
   clearResetUid,
   clearVerifyCookies,
@@ -21,7 +22,7 @@ import {
   updateUserPassword,
 } from "./data";
 import { startVerificationFlow } from "./flow";
-import { buildFullName, toActionErrors } from "./helper";
+import { buildFullName } from "./helper";
 import {
   AuthSchema,
   ChangePasswordSchema,

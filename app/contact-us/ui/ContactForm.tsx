@@ -1,5 +1,5 @@
 "use client";
-import { submitEnquiry } from "@/app/contact-us/_lib/action";
+import { enquiry } from "@/app/contact-us/_lib/action";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import { Input } from "@/app/ui/global/components";
 import StatusBanner from "@/app/ui/global/FormMessage";
@@ -21,15 +21,22 @@ export const QUERY_OPTIONS: Record<1 | 2 | 3 | 4 | 5 | 6 | 7, string> = {
   7: "Other",
 };
 
+export const ENQUIRY_FIELDS = {
+  fullName: "fullName",
+  email: "email",
+  contactNumber: "contactNumber",
+  queryType: "queryType",
+  qMessage: "qMessage",
+} as const;
+
+const F = ENQUIRY_FIELDS;
+
 const fieldBase =
   "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
 const labelBase = "block text-sm font-medium text-gray-700";
 
 export default function ContactForm() {
-  const [state, formAction, isPending] = useActionState(
-    submitEnquiry,
-    undefined,
-  );
+  const [state, formAction, isPending] = useActionState(enquiry, undefined);
   const [selectedLabel, setSelectedLabel] = useState("");
 
   const hasQueryTypeError = !!state?.errors?.queryType?.length;
@@ -41,11 +48,11 @@ export default function ContactForm() {
 
       {/* Name */}
       <Input
-        id="fullName"
+        id={ENQUIRY_FIELDS.fullName}
         label="Full Name"
         placeholder="Enter your full name"
         error={state?.errors?.fullName}
-        defaultValue={state?.fullName}
+        defaultValue={state?.data?.fullName}
         type="text"
         Icon={CiUser}
         required
@@ -54,11 +61,11 @@ export default function ContactForm() {
       {/* Email */}
 
       <Input
-        id="email"
+        id={ENQUIRY_FIELDS.email}
         label="Email"
         placeholder="Enter your Email"
         error={state?.errors?.email}
-        defaultValue={state?.email}
+        defaultValue={state?.data?.email}
         type="email"
         Icon={MdEmail}
         required
@@ -66,11 +73,11 @@ export default function ContactForm() {
 
       {/* Phone (optional) */}
       <Input
-        id="contactNumber"
+        id={ENQUIRY_FIELDS.contactNumber}
         label="Contact Number"
         placeholder="Enter your contact Number"
         error={state?.errors?.contactNumber}
-        defaultValue={state?.contactNumber}
+        defaultValue={state?.data?.contactNumber}
         type="text"
         Icon={IoIosPhonePortrait}
       />
@@ -83,11 +90,13 @@ export default function ContactForm() {
       </label>
 
       <select
-        name="queryType"
-        id="queryType"
+        name={ENQUIRY_FIELDS.queryType}
+        id={ENQUIRY_FIELDS.queryType}
         // required
         // preserve selection after server validation:
-        defaultValue={state?.queryType != null ? String(state.queryType) : ""}
+        defaultValue={
+          state?.data?.queryType != null ? String(state.data?.queryType) : ""
+        }
         aria-invalid={hasQueryTypeError || undefined}
         aria-describedby={hasQueryTypeError ? "queryType-error" : undefined}
         className={clsx(
@@ -137,11 +146,11 @@ export default function ContactForm() {
           Message
         </label>
         <textarea
-          id="qMessage"
-          name="qMessage"
+          id={ENQUIRY_FIELDS.qMessage}
+          name={ENQUIRY_FIELDS.qMessage}
           rows={5}
           placeholder="Tell us a little about your enquiry…"
-          defaultValue={state?.qMessage}
+          defaultValue={state?.data?.qMessage}
           className={`${fieldBase} min-h-[120px]`}
         />
         {state?.errors?.qMessage?.length && (

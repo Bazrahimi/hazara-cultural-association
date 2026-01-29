@@ -5,10 +5,10 @@ import {
   WEBSITE_ENQUIRY,
   emailClient,
 } from "@/app/_lib/email/client";
-import type { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
+import type { Enquiry } from "@/app/contact-us/_lib/definitions";
 import NewEnquiry from "../templates/newEnquiry";
 
-export async function sendAdminEmail(data: QuickEnquiry, queryLabel: string) {
+export async function sendAdminEmail(data: Enquiry, queryLabel: string) {
   try {
     const result = await emailClient.emails.send({
       from: WEBSITE_ENQUIRY,

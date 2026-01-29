@@ -5,11 +5,11 @@ import {
   FROM_EMAIL,
   emailClient,
 } from "@/app/_lib/email/client";
-import type { QuickEnquiry } from "@/app/contact-us/_lib/definitions";
+import type { Enquiry } from "@/app/contact-us/_lib/definitions";
 import NewEnquiry from "../templates/newEnquiry";
 
 export async function sendUserConfirmationEmail(
-  data: QuickEnquiry,
+  data: Enquiry,
   queryLabel: string,
 ) {
   return emailClient.emails.send({
