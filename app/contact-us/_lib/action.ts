@@ -17,18 +17,10 @@ export const enquiry = async (
     contactNumber: formData.get("contactNumber") as string,
     queryType: formData.get("queryType"),
     qMessage: formData.get("qMessage") as string,
-    queryLabel: formData.get("queryTypeLabel") as string,
   };
 
-  const parsed = EnquirySchema.safeParse({
-    fullName: rawData.fullName,
-    email: rawData.email,
-    contactNumber: rawData.contactNumber,
-    queryType: rawData.queryType,
-    qMessage: rawData.qMessage,
-  });
+  const parsed = EnquirySchema.safeParse(rawData);
 
-  console.log(parsed);
 
   if (!parsed.success) {
     return {

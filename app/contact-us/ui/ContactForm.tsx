@@ -94,9 +94,7 @@ export default function ContactForm() {
         id={ENQUIRY_FIELDS.queryType}
         // required
         // preserve selection after server validation:
-        defaultValue={
-          state?.data?.queryType != null ? String(state.data?.queryType) : ""
-        }
+        defaultValue={String(state?.data?.queryType) ?? ""}
         aria-invalid={hasQueryTypeError || undefined}
         aria-describedby={hasQueryTypeError ? "queryType-error" : undefined}
         className={clsx(
