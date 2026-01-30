@@ -1,14 +1,15 @@
 import { toBoolean } from "@/app/_lib/helper";
-import { MemberSchema } from "../../_lib/schema";
+import { JoinSchema } from "../../_lib/schema";
 import { MemberInput, MemberState, ParseResult } from "./definitions";
+import { Join } from "../../_lib/definitions";
 
 export const parseMemberForm = (formData: FormData): ParseResult => {
   // Type raw as “shape of form”, so TS is happy with raw.firstName, etc.
   const raw = Object.fromEntries(formData.entries()) as Partial<
-    Record<keyof MemberInput, FormDataEntryValue>
+    Record<keyof Join, FormDataEntryValue>
   >;
 
-  const parsed = MemberSchema.safeParse(raw);
+  const parsed = JoinSchema.safeParse(raw);
 
   if (parsed.success) {
     return { ok: true, data: parsed.data };
@@ -18,14 +19,7 @@ export const parseMemberForm = (formData: FormData): ParseResult => {
   const { fieldErrors } = parsed.error.flatten();
   const errors = fieldErrors as MemberState["errors"];
 
-  // Helper to normalise numeric select values
-  const toNum = (val: FormDataEntryValue | undefined) => {
-    if (val == null) return undefined;
-    const s = String(val);
-    if (!s) return undefined;
-    const n = Number(s);
-    return Number.isNaN(n) ? undefined : n;
-  };
+
 
   // Normalise what we send back to the client so the form can re-fill fields
   const normalizedData: Partial<MemberInput> = {

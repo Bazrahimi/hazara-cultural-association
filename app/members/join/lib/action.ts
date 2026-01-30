@@ -1,15 +1,16 @@
 // app/members/join/lib/action.ts
 "use server";
 
+import { toActionErrors } from "@/app/_lib/actionHelper";
 import { sql } from "@/app/_lib/db";
 import { getSession } from "@/app/_lib/session/session";
-import type { MemberState } from "./definitions";
-import { parseMemberForm } from "./helper";
+import type { Join, JoinState } from "../../_lib/definitions";
+import { JoinSchema } from "../../_lib/schema";
 
 export const createMember = async (
-  _prevState: MemberState | undefined,
+  _prevState: JoinState | undefined,
   formData: FormData,
-): Promise<MemberState> => {
+): Promise<JoinState> => {
   const session = await getSession();
   if (!session || !session.userId) {
     return {
@@ -18,17 +19,32 @@ export const createMember = async (
     };
   }
 
-  const result = parseMemberForm(formData);
-  if (!result.ok) {
+  const rawData = Object.fromEntries(
+    [...formData.entries()].map(([key, value]) => [
+      key,
+      typeof value === "string" ? value : undefined,
+    ]),
+  ) as Partial<Join>;
+
+  const parsed = JoinSchema.safeParse(rawData);
+  if (!parsed.success) {
     return {
-      ok: false,
-      message: "Please fix the errors above.",
-      errors: result.errors,
-      data: result.normalizedData,
+      ...toActionErrors<JoinState["errors"]>(parsed.error),
+      data: rawData,
     };
   }
 
-  const member = result.data;
+  // const result = parseMemberForm(formData);
+  // if (!result.ok) {
+  //   return {
+  //     ok: false,
+  //     message: "Please fix the errors above.",
+  //     errors: result.errors,
+  //     data: result.normalizedData,
+  //   };
+  // }
+
+  const member = parsed.data;
   const userId = session.userId;
 
   try {

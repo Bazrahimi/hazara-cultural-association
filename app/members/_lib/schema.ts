@@ -21,7 +21,7 @@ const numericEnum = (min: number, max: number, message: string) =>
       .max(max, message),
   );
 
-export const MemberSchema = z.object({
+export const JoinSchema = z.object({
   [PF.firstName]: z.string().trim().min(2, "Please enter your first name."),
   [PF.lastName]: z.string().trim().min(2, "Please enter your last name."),
 

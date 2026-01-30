@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { MemberSchema } from "../../_lib/schema";
+import { JoinSchema } from "../../_lib/schema";
 
-export type MemberInput = z.infer<typeof MemberSchema>;
+export type MemberInput = z.infer<typeof JoinSchema>;
 
 export type MemberState = {
   ok?: boolean;

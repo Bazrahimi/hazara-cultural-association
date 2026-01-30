@@ -1,6 +1,9 @@
 // app/members/join/lib/dbTypes.ts
 
 import { CamelizeKeys } from "@/app/_lib/helper";
+import { JoinSchema } from "./schema";
+import z from "zod";
+import { ActionState } from "@/app/_lib/definitions";
 
 // app/members/join/lib/dbTypes.ts
 
@@ -66,3 +69,6 @@ export type AddressRow = Pick<
   AddressBase,
   "address1" | "address2" | "suburb" | "postcode" | "stateCode" | "country"
 >;
+
+export type Join = z.infer<typeof JoinSchema>
+export type JoinState = ActionState<Join>

@@ -1,6 +1,7 @@
 "use server";
 import { toActionErrors } from "@/app/_lib/actionHelper";
 import { EnquiryState } from "./definitions";
+import { EnquiryForm } from "./definitions";
 
 import { insertEnquiry } from "./data";
 import { handleEnquiryEmails } from "./email/components/sendEnquiryEmails";
@@ -10,13 +11,22 @@ export const enquiry = async (
   prevState: EnquiryState | undefined,
   formData: FormData,
 ): Promise<EnquiryState | undefined> => {
-  const rawData = {
-    fullName: formData.get("fullName") as string,
-    email: formData.get("email") as string,
-    contactNumber: formData.get("contactNumber") as string,
-    queryType: formData.get("queryType") as string,
-    qMessage: formData.get("qMessage") as string,
-  };
+  // const rawData = {
+  //   fullName: formData.get("fullName") as string,
+  //   email: formData.get("email") as string,
+  //   contactNumber: formData.get("contactNumber") as string,
+  //   queryType: formData.get("queryType") as string,
+  //   qMessage: formData.get("qMessage") as string,
+  // };
+
+  const rawData = Object.fromEntries(
+  [...formData.entries()].map(([key, value]) => [
+    key,
+    typeof value === "string" ? value : undefined,
+  ])
+) as Partial<EnquiryForm>;
+
+ 
 
   const parsed = EnquirySchema.safeParse(rawData);
 
