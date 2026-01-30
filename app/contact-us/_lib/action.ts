@@ -14,7 +14,7 @@ export const enquiry = async (
     fullName: formData.get("fullName") as string,
     email: formData.get("email") as string,
     contactNumber: formData.get("contactNumber") as string,
-    queryType: formData.get("queryType"),
+    queryType: formData.get("queryType") as string,
     qMessage: formData.get("qMessage") as string,
   };
 
@@ -23,13 +23,7 @@ export const enquiry = async (
   if (!parsed.success) {
     return {
       ...toActionErrors<EnquiryState["errors"]>(parsed.error),
-      data: {
-        fullName: rawData.fullName,
-        email: rawData.email,
-        contactNumber: rawData.contactNumber,
-        queryType: Number(rawData.queryType),
-        qMessage: rawData.qMessage,
-      },
+      data: rawData,
     };
   }
 

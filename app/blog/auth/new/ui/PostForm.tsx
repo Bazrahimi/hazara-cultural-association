@@ -96,7 +96,7 @@ export default function PostForm({ mode, action, initialData }: Props) {
     return html.replace(/<span class="ql-ui"[^>]*><\/span>/g, "");
   }
 
-  console.log(initialData);
+
 
   const t = CreateEditPostTrans.PostForm;
   const lang = isRTL ? "rtl" : "en";
