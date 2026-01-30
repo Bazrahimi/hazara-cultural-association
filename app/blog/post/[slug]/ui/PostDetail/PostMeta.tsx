@@ -7,7 +7,7 @@ import { cn } from "@/app/_lib/helper";
 import { BlogRoutes } from "@/app/_lib/routes";
 import { UserRoutes } from "@/app/_lib/routes/UserRoutes";
 import { PublishedOn } from "@/app/_lib/translation/blog/post/transHelper";
-import { getCategoryLabel } from "@/app/blog/post/lib/category";
+import { getCategoryLabel } from "@/app/blog/post/_lib/category";
 import { Button } from "@/app/ui/global/components";
 import { P } from "@/app/ui/global/paragraph";
 

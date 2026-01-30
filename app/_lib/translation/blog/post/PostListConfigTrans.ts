@@ -1,5 +1,5 @@
 // app/lib/translation/blog/post/PostListConfigTrans.ts
-import { POST_STATUS } from "@/app/blog/post/lib/definitions";
+import { POST_STATUS } from "@/app/blog/post/_lib/definitions";
 import {
   Archived,
   Drafted,

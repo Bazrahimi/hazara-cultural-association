@@ -1,4 +1,5 @@
 import { CategoryId } from "./category";
+import { CamelizeKeys } from "@/app/_lib/helper";
 
 export const POST_STATUS = {
   DRAFTED: 1,
@@ -27,15 +28,7 @@ type PostDbRow = {
   category_id: CategoryId;
 };
 
-// 1) Convert "event_date" -> "eventDate"
-type CamelCase<S extends string> = S extends `${infer Head}_${infer Tail}`
-  ? `${Head}${Capitalize<CamelCase<Tail>>}`
-  : S;
 
-// 2) Map object keys using CamelCase
-type CamelizeKeys<T> = {
-  [K in keyof T as CamelCase<K & string>]: T[K];
-};
 
 // 3) Base camelCase blog-post type, directly derived from DB
 export type PostBase = CamelizeKeys<PostDbRow>;

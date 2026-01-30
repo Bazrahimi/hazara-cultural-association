@@ -2,7 +2,7 @@ import { BlogRoutes } from "@/app/_lib/routes";
 import {
   POST_STATUS,
   type PostInsertUpdateSuccessDBReturn,
-} from "@/app/blog/post/lib/definitions";
+} from "@/app/blog/post/_lib/definitions";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 

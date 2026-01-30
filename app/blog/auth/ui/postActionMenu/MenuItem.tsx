@@ -2,7 +2,7 @@
 
 import { cn } from "@/app/_lib/helper";
 import { sendingRequest } from "@/app/_lib/translation/blog/post/transHelper";
-import type { PostActionIntent } from "@/app/blog/post/lib/actionHelper";
+import type { PostActionIntent } from "@/app/blog/post/_lib/actionHelper";
 import Link from "next/link";
 import { ImSpinner10 } from "react-icons/im";
 

@@ -1,5 +1,5 @@
 import { slugify } from "@/app/(disabled)/_shop/lib/helper";
-import { getCategoryLabel } from "@/app/blog/post/lib/category";
+import { getCategoryLabel } from "@/app/blog/post/_lib/category";
 import { join, q } from "./helper";
 export const BlogRoutes = {
   root: () => "/blog",

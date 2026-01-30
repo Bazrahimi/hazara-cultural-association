@@ -4,8 +4,8 @@ import {
   getPublishedPostsByAuthor,
   getPublishedPostsByCategory,
   getRelatedPostsByTitle,
-} from "../../post/lib/data";
-import { POSTS_SECTION_GRID_CLASS } from "../../post/lib/helper";
+} from "../../post/_lib/data";
+import { POSTS_SECTION_GRID_CLASS } from "../../post/_lib/helper";
 import PostCard from "./PostCard";
 
 type Base = { limit: number };

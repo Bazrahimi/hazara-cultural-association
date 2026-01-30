@@ -1,7 +1,7 @@
 //app/blog/new/page.tsx
 import { requireUser } from "@/app/_lib/session/session";
 import { notFound } from "next/navigation";
-import { createPost } from "../../post/lib/action";
+import { createPost } from "../../post/_lib/action";
 import PostForm from "./ui/PostForm";
 
 const NewBlog = async () => {

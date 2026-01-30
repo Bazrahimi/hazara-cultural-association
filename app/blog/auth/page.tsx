@@ -2,7 +2,7 @@ import { BlogRoutes } from "@/app/_lib/routes";
 import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { Suspense } from "react";
-import { POST_STATUS, StatusCode } from "../post/lib/definitions";
+import { POST_STATUS, StatusCode } from "../post/_lib/definitions";
 import PostsLoadingFallback from "./ui/PostsLoadingFallback";
 import PostsWrapper from "./ui/PostsWrapper";
 

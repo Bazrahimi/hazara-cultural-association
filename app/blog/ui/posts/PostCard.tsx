@@ -9,8 +9,8 @@ import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
 import { P } from "@/app/ui/global/paragraph";
 import Image from "next/image";
 import Link from "next/link";
-import type { PostCardRow } from "../../post/lib/definitions";
-import { POST_CARD } from "../../post/lib/helper";
+import type { PostCardRow } from "../../post/_lib/definitions";
+import { POST_CARD } from "../../post/_lib/helper";
 
 type PostCardProps = {
   post: PostCardRow;

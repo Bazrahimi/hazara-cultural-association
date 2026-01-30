@@ -3,7 +3,7 @@ import PostsSectionSkeleton from "@/app/blog/ui/posts/PostsSectionSkeleton";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { Suspense } from "react";
-import { getCategoryMeta } from "../../lib/category";
+import { getCategoryMeta } from "../../_lib/category";
 import TricolorRule from "@/app/ui/global/TricolorRule";
 
 const BlogCategoryPage = async ({

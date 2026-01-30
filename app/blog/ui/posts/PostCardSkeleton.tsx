@@ -1,6 +1,6 @@
 // app/blog/post/category/ui/PostCardSkeleton.tsx (or your path)
 
-import { POST_CARD } from "../../post/lib/helper";
+import { POST_CARD } from "../../post/_lib/helper";
 
 const PostCardSkeleton = () => {
   return (

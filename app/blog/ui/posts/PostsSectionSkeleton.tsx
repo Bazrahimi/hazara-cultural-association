@@ -1,4 +1,4 @@
-import { POSTS_SECTION_GRID_CLASS } from "../../post/lib/helper";
+import { POSTS_SECTION_GRID_CLASS } from "../../post/_lib/helper";
 import PostCardSkeleton from "./PostCardSkeleton";
 
 const PostsSectionSkeleton = ({ cardCount }: { cardCount: number }) => {

@@ -1,4 +1,4 @@
-import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/post/lib/category";
+import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/post/_lib/category";
 import PostsSection from "@/app/blog/ui/posts/PostsSection";
 import PostsSectionSkeleton from "@/app/blog/ui/posts/PostsSectionSkeleton";
 import { Header } from "@/app/ui/global/Header";

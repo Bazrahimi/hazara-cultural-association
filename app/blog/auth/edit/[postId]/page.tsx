@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 
 import PostForm from "../../new/ui/PostForm";
 
-import { updatePost } from "@/app/blog/post/lib/action";
-import { getEditPostById } from "@/app/blog/post/lib/data";
+import { updatePost } from "@/app/blog/post/_lib/action";
+import { getEditPostById } from "@/app/blog/post/_lib/data";
 
 type PageProps = {
   params: Promise<{ postId: string }>;

@@ -1,10 +1,10 @@
-import { POST_STATUS } from "@/app/blog/post/lib/definitions";
 
+import { POST_STATUS } from "@/app/blog/post/_lib/definitions";
 import { CreateEditPostTrans } from "@/app/_lib/translation";
-import type { CategoryId } from "@/app/blog/post/lib/category";
-import { CATEGORY_MAP } from "@/app/blog/post/lib/category";
-import { POST_FIELDS } from "@/app/blog/post/lib/helper";
-import type { PostInput, PostState } from "../../../../post/lib/schema";
+import type { CategoryId } from "@/app/blog/post/_lib/category";
+import { CATEGORY_MAP } from "@/app/blog/post/_lib/category";
+import { POST_FIELDS } from "@/app/blog/post/_lib/helper";
+import type { PostInput, PostState } from "../../../../post/_lib/schema";
 import { ActionMode } from "../PostForm";
 import AdvocacyEvent from "./AdvocacyEvent";
 

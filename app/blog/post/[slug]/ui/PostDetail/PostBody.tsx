@@ -8,7 +8,7 @@ import EventSection from "./EventSection";
 import ManageControlGate from "./ManageControlGate";
 
 import TricolorRule from "@/app/ui/global/TricolorRule";
-import { getPostById } from "../../../lib/data";
+import { getPostById } from "../../../_lib/data";
 import RelatedPostsSection from "../RelatedPostsSection";
 import ClickableHeroImage from "./ClickableHeroImage";
 import PostMetaEn from "./PostMeta";

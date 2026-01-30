@@ -11,7 +11,7 @@ import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineJoinInner } from "react-icons/md";
 import { ORG_PROFILE } from "../_lib/org/profile";
 import { AuthRoutes, DonateRoutes, PublicRoutes } from "../_lib/routes";
-import { buildPostCategoryQuickLinks } from "../blog/post/lib/category";
+import { buildPostCategoryQuickLinks } from "../blog/post/_lib/category";
 import { Header } from "./global/Header";
 import { P } from "./global/paragraph";
 

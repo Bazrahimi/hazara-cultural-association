@@ -6,7 +6,7 @@ type Props = {
 };
 
 import { CreateEditPostTrans } from "@/app/_lib/translation";
-import { POST_FIELDS } from "@/app/blog/post/lib/helper";
+import { POST_FIELDS } from "@/app/blog/post/_lib/helper";
 
 const AdvocacyEvent = ({ isRTL, eventDate, eventLocation }: Props) => {
   const t = CreateEditPostTrans.AdvocacyEvent;

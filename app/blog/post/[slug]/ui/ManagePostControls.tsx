@@ -8,7 +8,7 @@ import { formatDateTimeAU } from "@/app/_lib/Date";
 import { BlogRoutes } from "@/app/_lib/routes";
 import { ManagePostTrans } from "@/app/_lib/translation";
 import { P } from "@/app/ui/global/paragraph";
-import { POST_STATUS, StatusCode } from "../../lib/definitions";
+import { POST_STATUS, StatusCode } from "../../_lib/definitions";
 
 const labels = ManagePostTrans.Label;
 const headings = ManagePostTrans.heading;

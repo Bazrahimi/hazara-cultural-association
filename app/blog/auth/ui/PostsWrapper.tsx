@@ -6,8 +6,8 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPostCount, getPostsByStatusCode } from "../../post/lib/data";
-import { POST_STATUS, type StatusCode } from "../../post/lib/definitions";
+import { getPostCount, getPostsByStatusCode } from "../../post/_lib/data";
+import { POST_STATUS, type StatusCode } from "../../post/_lib/definitions";
 import PostPanel from "./PostPanel";
 
 type Tab = { key: StatusCode; label: string };

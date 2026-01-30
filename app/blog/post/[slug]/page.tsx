@@ -3,7 +3,7 @@ import { BreadcrumbsTrans } from "@/app/_lib/translation/BreadcrumbsTrans";
 import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
 import { Suspense } from "react";
 import { extractTitleFromSlug } from "../../lib/helper";
-import { getCategoryLabel } from "../lib/category";
+import { getCategoryLabel } from "../_lib/category";
 import PostBody from "./ui/PostDetail/PostBody";
 import PostShell from "./ui/PostDetail/PostShell";
 
