@@ -3,26 +3,16 @@
 import { Input } from "@/app/ui/global/components";
 import { SelectInput } from "@/app/ui/global/SelectInput";
 import type {
-  AgeRange,
+
   MemberInput,
   MemberState,
-  ProficiencyLevel,
+
 } from "../lib/definitions";
-import { AGE_RANGES, PROFICIENCY_LEVELS } from "../lib/helper";
 
-const PROFICIENCY_OPTIONS = (
-  Object.entries(PROFICIENCY_LEVELS) as [string, string][]
-).map(([value, label]) => ({
-  value: Number(value) as ProficiencyLevel,
-  label,
-}));
 
-const AGE_RANGES_OPTION = (
-  Object.entries(AGE_RANGES) as [string, string][]
-).map(([value, label]) => ({
-  value: Number(value) as AgeRange,
-  label,
-}));
+
+
+
 
 type Props = {
   data?: Partial<MemberInput>;
@@ -62,33 +52,7 @@ const PersonalDetailsSection = ({ data, errors }: Props) => {
         />
       </div>
 
-      {/* Age + proficiency */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <SelectInput
-          id="ageRange"
-          label="Age Range"
-          options={AGE_RANGES_OPTION}
-          placeholder="Select age range"
-          defaultValue={data?.ageRange}
-          error={errors?.ageRange}
-        />
-        <SelectInput
-          id="englishProficiency"
-          label="English proficiency"
-          options={PROFICIENCY_OPTIONS}
-          placeholder="Select level"
-          defaultValue={data?.englishProficiency}
-          error={errors?.englishProficiency}
-        />
-        <SelectInput
-          id="farsiHazaragiProficiency"
-          label="Farsi / Hazaragi proficiency"
-          options={PROFICIENCY_OPTIONS}
-          placeholder="Select level"
-          defaultValue={data?.farsiHazaragiProficiency}
-          error={errors?.farsiHazaragiProficiency}
-        />
-      </div>
+ 
     </div>
   );
 };

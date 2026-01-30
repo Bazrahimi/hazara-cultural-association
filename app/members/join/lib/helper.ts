@@ -2,23 +2,6 @@ import { toBoolean } from "@/app/_lib/helper";
 import { MemberSchema } from "../../_lib/schema";
 import { MemberInput, MemberState, ParseResult } from "./definitions";
 
-export const AGE_RANGES = {
-  0: "Under 18",
-  1: "18–24",
-  2: "25–34",
-  3: "35–44",
-  4: "45–54",
-  5: "55+",
-} as const satisfies Record<number, string>;
-
-export const PROFICIENCY_LEVELS = {
-  0: "None",
-  1: "Basic",
-  2: "Conversational",
-  3: "Fluent",
-  4: "Native / Near-native",
-} as const satisfies Record<number, string>;
-
 export const parseMemberForm = (formData: FormData): ParseResult => {
   // Type raw as “shape of form”, so TS is happy with raw.firstName, etc.
   const raw = Object.fromEntries(formData.entries()) as Partial<
@@ -49,21 +32,12 @@ export const parseMemberForm = (formData: FormData): ParseResult => {
     firstName: (raw.firstName as string) ?? "",
     lastName: (raw.lastName as string) ?? "",
     phone: (raw.phone as string) ?? "",
-    ageRange: toNum(raw.ageRange) as MemberInput["ageRange"] | undefined,
-
-    englishProficiency: toNum(raw.englishProficiency) as
-      | MemberInput["englishProficiency"]
-      | undefined,
-
-    farsiHazaragiProficiency: toNum(raw.farsiHazaragiProficiency) as
-      | MemberInput["farsiHazaragiProficiency"]
-      | undefined,
 
     address1: (raw.address1 as string) ?? "",
     address2: (raw.address2 as string) ?? "",
     suburb: (raw.suburb as string) ?? "",
     stateCode: raw.stateCode as MemberInput["stateCode"] | undefined,
-    postCode: (raw.postCode as string) ?? "",
+    postcode: (raw.postcode as string) ?? "",
     country: ((raw.country as string) ?? "AU") as MemberInput["country"],
 
     // Checkboxes – use same logic as schema (toBoolean)

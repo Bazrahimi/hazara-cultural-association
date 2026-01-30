@@ -33,9 +33,6 @@ type ProfileDbRow = {
   created_at: Date;
   updated_at: Date;
 
-  english_proficiency: number | null; // smallint
-  hazaragi_proficiency: number | null; // smallint
-
   interest_blog: boolean;
   interest_store: boolean;
   newsletter_opt_in: boolean;
@@ -57,8 +54,6 @@ export type ProfileRow = Pick<
   | "firstName"
   | "lastName"
   | "phone"
-  | "englishProficiency"
-  | "hazaragiProficiency"
   | "interestBlog"
   | "interestStore"
   | "newsletterOptIn"

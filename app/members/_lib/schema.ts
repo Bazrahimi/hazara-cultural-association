@@ -1,5 +1,6 @@
 import { AUS_STATES, toBoolean } from "@/app/_lib/helper";
 import { z } from "zod";
+import { ADDRESS_FIELDS as AF, PROFILE_FIELDS as PF } from "./constant";
 
 // Reusable checkbox schema
 const checkboxBoolean = z
@@ -21,43 +22,29 @@ const numericEnum = (min: number, max: number, message: string) =>
   );
 
 export const MemberSchema = z.object({
-  firstName: z.string().trim().min(2, "Please enter your first name."),
-  lastName: z.string().trim().min(2, "Please enter your last name."),
+  [PF.firstName]: z.string().trim().min(2, "Please enter your first name."),
+  [PF.lastName]: z.string().trim().min(2, "Please enter your last name."),
 
-  phone: z
+  [PF.phone]: z
     .string()
     .trim()
     .min(6, "Please enter a valid phone number.")
     .max(30, "Phone number is too long."),
 
-  ageRange: numericEnum(0, 5, "Please select your age range"),
-
-  englishProficiency: numericEnum(
-    0,
-    4,
-    "Please select your proficiency level.",
-  ),
-
-  farsiHazaragiProficiency: numericEnum(
-    0,
-    4,
-    "Please select your proficiency level.",
-  ),
-
-  address1: z.string().trim().min(5, "Please enter your street address."),
-  address2: z.string().trim().optional().default(""),
-  suburb: z.string().trim().min(2, "Please enter your suburb."),
+  [AF.address1]: z.string().trim().min(5, "Please enter your street address."),
+  [AF.address2]: z.string().trim().optional().default(""),
+  [AF.suburb]: z.string().trim().min(2, "Please enter your suburb."),
 
   // Country is fixed to AU for now
-  country: z.literal("AU", {
+  [AF.country]: z.literal("AU", {
     error: "Membership is currently only available for residents of Australia.",
   }),
 
-  stateCode: z.enum(AUS_STATES, {
+  [AF.stateCode]: z.enum(AUS_STATES, {
     error: "Please select your state of residence",
   }),
 
-  postCode: z
+  [AF.postcode]: z
     .string()
     .trim()
     .min(4, "Postcode should be 4 digits.")
@@ -65,8 +52,8 @@ export const MemberSchema = z.object({
     .regex(/^\d{4}$/, "Postcode should contain only digits."),
 
   // Checkboxes – default false when not checked
-  interestBlog: checkboxBoolean,
-  interestStore: checkboxBoolean,
-  newsletterOptIn: checkboxBoolean,
-  virtualMeetingOptIn: checkboxBoolean,
+  [PF.interestBlog]: checkboxBoolean,
+  [PF.interestStore]: checkboxBoolean,
+  [PF.newsletterOptIn]: checkboxBoolean,
+  [PF.virtualMeetingOptIn]: checkboxBoolean,
 });

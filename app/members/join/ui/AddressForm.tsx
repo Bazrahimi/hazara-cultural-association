@@ -56,8 +56,8 @@ const AddressForm = ({ data, errors }: Props) => {
           label="Postcode"
           type="text"
           placeholder="e.g. 3175"
-          defaultValue={data?.postCode}
-          error={errors?.postCode}
+          defaultValue={data?.postcode}
+          error={errors?.postcode}
         />
 
         <Input

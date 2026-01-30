@@ -69,8 +69,8 @@ const page = async () => {
     firstName: profile?.first_name ?? "",
     lastName: profile?.last_name ?? "",
     phone: profile?.phone ?? "",
-    englishProficiency: profile?.english_proficiency ?? undefined,
-    farsiHazaragiProficiency: profile?.hazaragi_proficiency ?? undefined,
+ 
+ 
     interestBlog: profile?.interest_blog ?? false,
     interestStore: profile?.interest_store ?? false,
     newsletterOptIn: profile?.newsletter_opt_in ?? false,
@@ -80,7 +80,7 @@ const page = async () => {
     address2: address?.address2 ?? "",
     suburb: address?.suburb ?? "",
     stateCode: (address?.state_code as MemberInput["stateCode"]) ?? undefined,
-    postCode: address?.postcode ?? "",
+    postcode: address?.postcode ?? "",
     country: (address?.country as MemberInput["country"]) ?? "AU",
   };
 

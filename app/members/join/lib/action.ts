@@ -39,8 +39,7 @@ export const createMember = async (
         first_name,
         last_name,
         phone,
-        english_proficiency,
-        hazaragi_proficiency,
+
         interest_blog,
         interest_store,
         newsletter_opt_in,
@@ -53,8 +52,7 @@ export const createMember = async (
         ${member.firstName},
         ${member.lastName},
         ${member.phone},
-        ${member.englishProficiency},
-        ${member.farsiHazaragiProficiency},
+
         ${member.interestBlog},
         ${member.interestStore},
         ${member.newsletterOptIn},
@@ -67,8 +65,7 @@ export const createMember = async (
         first_name = EXCLUDED.first_name,
         last_name = EXCLUDED.last_name,
         phone = EXCLUDED.phone,
-        english_proficiency = EXCLUDED.english_proficiency,
-        hazaragi_proficiency = EXCLUDED.hazaragi_proficiency,
+
         interest_blog = EXCLUDED.interest_blog,
         interest_store = EXCLUDED.interest_store,
         newsletter_opt_in = EXCLUDED.newsletter_opt_in,
@@ -100,7 +97,7 @@ export const createMember = async (
         ${member.address2 || null},
         ${member.suburb},
         ${member.stateCode},
-        ${member.postCode},
+        ${member.postcode},
         ${member.country}
       )
       ON CONFLICT (user_id) WHERE (is_default)

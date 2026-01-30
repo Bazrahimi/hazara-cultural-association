@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { MemberSchema } from "../../_lib/schema";
-import { AGE_RANGES, PROFICIENCY_LEVELS } from "./helper";
 
 export type MemberInput = z.infer<typeof MemberSchema>;
 
@@ -23,5 +22,3 @@ export type ParseResult =
       normalizedData: Partial<MemberInput>;
     };
 
-export type ProficiencyLevel = keyof typeof PROFICIENCY_LEVELS & number;
-export type AgeRange = keyof typeof AGE_RANGES & number;
