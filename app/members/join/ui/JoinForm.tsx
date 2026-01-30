@@ -9,7 +9,7 @@ import {
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
-import { createMember } from "../../_lib/action";
+import { join } from "../../_lib/action";
 import { JoinAddressRow, ProfileRow } from "../../_lib/definitions";
 import AddressForm from "./AddressForm";
 import Involvement from "./Involvement";
@@ -22,7 +22,7 @@ type Props = {
 
 const JoinForm = ({ profile, address }: Props) => {
   const [state, formAction, isPending] = useActionState(
-    createMember,
+    join,
     undefined,
   );
 
