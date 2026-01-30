@@ -4,9 +4,10 @@ import { Checkbox } from "@/app/ui/global/Checkbox";
 import { Header } from "@/app/ui/global/Header";
 import { PROFILE_FIELDS as f } from "../../_lib/constant";
 import { ProfileRow } from "../../_lib/definitions";
-import { MemberInput } from "../lib/definitions";
+
+import type { Join } from "../../_lib/definitions";
 type Props = {
-  errors?: Partial<Record<keyof MemberInput, string[]>>;
+  errors?: Partial<Record<keyof Join, string[]>>;
   p?: ProfileRow;
 };
 

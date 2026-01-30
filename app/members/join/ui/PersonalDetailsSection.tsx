@@ -3,11 +3,11 @@
 import { Input } from "@/app/ui/global/components";
 import { PROFILE_FIELDS as f } from "../../_lib/constant";
 import { ProfileRow } from "../../_lib/definitions";
-import type { MemberState } from "../lib/definitions";
+import type { JoinState } from "../../_lib/definitions";
 
 type Props = {
   p: ProfileRow;
-  errors?: MemberState["errors"];
+  errors?: JoinState["errors"];
 };
 
 const PersonalDetailsSection = ({ p, errors }: Props) => {

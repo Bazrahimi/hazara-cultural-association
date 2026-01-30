@@ -9,8 +9,8 @@ import {
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
+import { createMember } from "../../_lib/action";
 import { AddressRow, ProfileRow } from "../../_lib/definitions";
-import { createMember } from "../lib/action";
 import AddressForm from "./AddressForm";
 import Involvement from "./Involvement";
 import PersonalDetailsSection from "./PersonalDetailsSection";

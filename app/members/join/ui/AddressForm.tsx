@@ -3,11 +3,12 @@ import { Input } from "@/app/ui/global/components";
 import { SelectInput } from "@/app/ui/global/SelectInput";
 import { ADDRESS_FIELDS as f } from "../../_lib/constant";
 import { AddressRow } from "../../_lib/definitions";
-import type { MemberState } from "../lib/definitions";
+
+import type { JoinState } from "../../_lib/definitions";
 
 type Props = {
   a?: AddressRow;
-  errors?: MemberState["errors"];
+  errors?: JoinState["errors"];
 };
 
 const AddressForm = ({ a, errors }: Props) => {

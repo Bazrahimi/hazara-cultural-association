@@ -4,8 +4,8 @@
 import { toActionErrors } from "@/app/_lib/actionHelper";
 import { sql } from "@/app/_lib/db";
 import { getSession } from "@/app/_lib/session/session";
-import type { Join, JoinState } from "../../_lib/definitions";
-import { JoinSchema } from "../../_lib/schema";
+import type { Join, JoinState } from "./definitions";
+import { JoinSchema } from "./schema";
 
 export const createMember = async (
   _prevState: JoinState | undefined,
@@ -138,7 +138,7 @@ export const createMember = async (
       ok: false,
       message:
         "Something went wrong while saving your membership. Please try again.",
-      data: result.data,
+      data: parsed.data,
     };
   }
 };
