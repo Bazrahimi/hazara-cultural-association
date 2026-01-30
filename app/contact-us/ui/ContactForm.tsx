@@ -9,30 +9,9 @@ import { useActionState } from "react";
 import { CiUser } from "react-icons/ci";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
+import { ENQUIRY_FIELDS as F } from "../_lib/constants";
 import MessageField from "./MessageField";
 import QueryTypeSelect from "./QueryTypeSelect";
-
-export const QUERY_OPTIONS: Record<1 | 2 | 3 | 4 | 5 | 6 | 7, string> = {
-  1: "Donations & Support",
-  2: "Volunteering",
-  3: "Cultural Programs & Classes",
-  4: "Events & Community Gatherings",
-  5: "Family Assistance / Community Support",
-  6: "Advocacy & Media Enquiries",
-  7: "Other",
-};
-
-export const ENQUIRY_FIELDS = {
-  fullName: "fullName",
-  email: "email",
-  contactNumber: "contactNumber",
-  queryType: "queryType",
-  qMessage: "qMessage",
-} as const;
-
-const fieldBase =
-  "mt-1 block w-full rounded-md border border-gray-300 bg-white p-2 text-gray-900 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600";
-const labelBase = "block text-sm font-medium text-gray-700";
 
 export default function ContactForm() {
   const [state, formAction, isPending] = useActionState(enquiry, undefined);
@@ -45,7 +24,7 @@ export default function ContactForm() {
 
       {/* Name */}
       <Input
-        id={ENQUIRY_FIELDS.fullName}
+        id={F.fullName}
         label="Full Name"
         placeholder="Enter your full name"
         error={state?.errors?.fullName}
@@ -58,7 +37,7 @@ export default function ContactForm() {
       {/* Email */}
 
       <Input
-        id={ENQUIRY_FIELDS.email}
+        id={F.email}
         label="Email"
         placeholder="Enter your Email"
         error={state?.errors?.email}
@@ -70,7 +49,7 @@ export default function ContactForm() {
 
       {/* Phone (optional) */}
       <Input
-        id={ENQUIRY_FIELDS.contactNumber}
+        id={F.contactNumber}
         label="Contact Number"
         placeholder="Enter your contact Number"
         error={state?.errors?.contactNumber}

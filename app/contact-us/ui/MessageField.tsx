@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/app/_lib/helper";
+import { ENQUIRY_FIELDS as F } from "../_lib/constants";
 import { EnquiryState } from "../_lib/definitions";
-import { ENQUIRY_FIELDS as F } from "./ContactForm";
 
 const MessageField = ({ state }: { state?: EnquiryState }) => {
   const hasError = !!state?.errors?.qMessage?.length;
