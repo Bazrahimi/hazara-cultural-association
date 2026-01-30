@@ -97,8 +97,7 @@ export const createMember = async (
         label,
         type,
         is_default,
-        address1,
-        address2,
+
         suburb,
         state_code,
         postcode,
@@ -109,8 +108,7 @@ export const createMember = async (
         'Primary',
         'shipping',
         true,
-        ${member.address1},
-        ${member.address2 || null},
+
         ${member.suburb},
         ${member.stateCode},
         ${member.postcode},
@@ -118,8 +116,6 @@ export const createMember = async (
       )
       ON CONFLICT (user_id) WHERE (is_default)
       DO UPDATE SET
-        address1   = EXCLUDED.address1,
-        address2   = EXCLUDED.address2,
         suburb     = EXCLUDED.suburb,
         state_code = EXCLUDED.state_code,
         postcode   = EXCLUDED.postcode,

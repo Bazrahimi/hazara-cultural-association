@@ -1,9 +1,13 @@
 "use client";
 
 import { Input } from "@/app/ui/global/components";
-import { PROFILE_FIELDS as f } from "../../_lib/constant";
-import { ProfileRow } from "../../_lib/definitions";
+import { SelectInput } from "@/app/ui/global/SelectInput";
+import {
+  EDUCATION_LEVEL_OPTIONS,
+  PROFILE_FIELDS as f,
+} from "../../_lib/constant";
 import type { JoinState } from "../../_lib/definitions";
+import { ProfileRow } from "../../_lib/definitions";
 
 type Props = {
   p: ProfileRow;
@@ -40,6 +44,24 @@ const PersonalDetailsSection = ({ p, errors }: Props) => {
           placeholder="Enter your phone number"
           defaultValue={p?.phone ?? ""}
           error={errors?.phone}
+        />
+
+        <SelectInput
+          id={f.educationLevel}
+          label="Highest education level (optional)"
+          options={EDUCATION_LEVEL_OPTIONS}
+          placeholder="Select education level"
+          defaultValue={p?.educationLevel ?? ""}
+          error={errors?.educationLevel}
+        />
+
+        <Input
+          id={f.occupation}
+          label="Occupation (optional)"
+          type="text"
+          placeholder="e.g., student, driver, engineer"
+          defaultValue={p?.occupation ?? ""}
+          error={errors?.occupation}
         />
       </div>
     </div>

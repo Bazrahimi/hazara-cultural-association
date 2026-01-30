@@ -1,6 +1,10 @@
 import { AUS_STATES, toBoolean } from "@/app/_lib/helper";
 import { z } from "zod";
-import { ADDRESS_FIELDS as AF, PROFILE_FIELDS as PF } from "./constant";
+import {
+  ADDRESS_FIELDS as AF,
+  EDUCATION_LEVEL_OPTIONS,
+  PROFILE_FIELDS as PF,
+} from "./constant";
 
 // Reusable checkbox schema
 const checkboxBoolean = z
@@ -8,18 +12,9 @@ const checkboxBoolean = z
   .optional()
   .default(false);
 
-// Generic helper for numeric enum
-const numericEnum = (min: number, max: number, message: string) =>
-  z.preprocess(
-    (val) => (val === "" || val == null ? undefined : Number(val)),
-    z
-      .number({
-        error: message,
-      })
-      .int(message)
-      .min(min, message)
-      .max(max, message),
-  );
+const EDUCATION_LEVEL_VALUES = EDUCATION_LEVEL_OPTIONS.map(
+  (o) => o.value,
+) as readonly string[];
 
 export const JoinSchema = z.object({
   [PF.firstName]: z.string().trim().min(2, "Please enter your first name."),
@@ -29,10 +24,16 @@ export const JoinSchema = z.object({
     .string()
     .trim()
     .min(6, "Please enter a valid phone number.")
-    .max(30, "Phone number is too long."),
+    .max(20, "Phone number is too long."),
 
-  [AF.address1]: z.string().trim().min(5, "Please enter your street address."),
-  [AF.address2]: z.string().trim().optional().default(""),
+  [PF.educationLevel]: z.enum(EDUCATION_LEVEL_VALUES).optional(),
+  [PF.occupation]: z
+    .string()
+    .trim()
+    .min(2, { message: "Please enter a valid occupation" })
+    .max(100, { message: "Occupation is too long" })
+    .optional(),
+
   [AF.suburb]: z.string().trim().min(2, "Please enter your suburb."),
 
   // Country is fixed to AU for now

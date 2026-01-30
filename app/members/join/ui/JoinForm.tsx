@@ -10,14 +10,14 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
 import { createMember } from "../../_lib/action";
-import { AddressRow, ProfileRow } from "../../_lib/definitions";
+import { JoinAddressRow, ProfileRow } from "../../_lib/definitions";
 import AddressForm from "./AddressForm";
 import Involvement from "./Involvement";
 import PersonalDetailsSection from "./PersonalDetailsSection";
 
 type Props = {
   profile: ProfileRow;
-  address: AddressRow;
+  address: JoinAddressRow;
 };
 
 const JoinForm = ({ profile, address }: Props) => {

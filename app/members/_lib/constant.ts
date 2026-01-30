@@ -1,21 +1,12 @@
-import { AddressBase, ProfileBase } from "./definitions";
+import { JoinAddressRow, ProfileBase } from "./definitions";
 type ProfileFieldable = Omit<ProfileBase, "createdAt" | "updatedAt">;
 
-type AddressFielable = Omit<
-  AddressBase,
-  "createdAt" | "updatedAt" | "label" | "type" | "isDefault"
->;
-
 export const ADDRESS_FIELDS = {
-  id: "id",
-  userId: "userId",
-  address1: "address1",
-  address2: "address2",
   suburb: "suburb",
   stateCode: "stateCode",
   postcode: "postcode",
   country: "country",
-} as const satisfies Record<keyof AddressFielable, keyof AddressFielable>;
+} as const satisfies Record<keyof JoinAddressRow, keyof JoinAddressRow>;
 
 export const PROFILE_FIELDS = {
   userId: "userId",
@@ -23,6 +14,9 @@ export const PROFILE_FIELDS = {
   firstName: "firstName",
   lastName: "lastName",
   phone: "phone",
+
+  educationLevel: "educationLevel",
+  occupation: "occupation",
 
   interestBlog: "interestBlog",
   interestStore: "interestStore",
@@ -37,3 +31,17 @@ export const PROFILE_FIELDS = {
   applicationSubmittedAt: "applicationSubmittedAt",
   applicationReviewedAt: "applicationReviewedAt",
 } as const satisfies Record<keyof ProfileFieldable, keyof ProfileFieldable>;
+
+export const EDUCATION_LEVEL_OPTIONS = [
+  { label: "Not applicable", value: "na" },
+
+  { label: "Primary school", value: "primary" },
+  { label: "Year 10 or below", value: "year_10_or_below" },
+  { label: "Year 12 / VCE", value: "year_12" },
+
+  { label: "TAFE / Certificate / Diploma", value: "tafe" },
+  { label: "Bachelor degree", value: "bachelor" },
+  { label: "Postgraduate (Master / PhD)", value: "postgraduate" },
+
+  { label: "Other", value: "other" },
+] as const;

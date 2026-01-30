@@ -1,5 +1,5 @@
 import { sql } from "@/app/_lib/db";
-import { AddressRow, ProfileRow } from "./definitions";
+import { JoinAddressRow, ProfileRow } from "./definitions";
 
 export const getUserProfileRow = async (userId: number) => {
   const rows = await sql<ProfileRow[]>`
@@ -21,10 +21,8 @@ export const getUserProfileRow = async (userId: number) => {
 };
 
 export const getDefaultAddressRow = async (userId: number) => {
-  const rows = await sql<AddressRow[]>`
+  const rows = await sql<JoinAddressRow[]>`
     SELECT
-      address1,
-      address2,
       suburb,
       state_code AS "stateCode",
       postcode,
