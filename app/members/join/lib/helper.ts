@@ -1,6 +1,6 @@
 import { toBoolean } from "@/app/_lib/helper";
+import { MemberSchema } from "../../_lib/schema";
 import { MemberInput, MemberState, ParseResult } from "./definitions";
-import { MemberSchema } from "./schema";
 
 export const AGE_RANGES = {
   0: "Under 18",

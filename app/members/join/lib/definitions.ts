@@ -1,6 +1,6 @@
 import { z } from "zod";
+import { MemberSchema } from "../../_lib/schema";
 import { AGE_RANGES, PROFICIENCY_LEVELS } from "./helper";
-import { MemberSchema } from "./schema";
 
 export type MemberInput = z.infer<typeof MemberSchema>;
 
