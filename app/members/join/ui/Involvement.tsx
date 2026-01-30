@@ -2,13 +2,15 @@
 
 import { Checkbox } from "@/app/ui/global/Checkbox";
 import { Header } from "@/app/ui/global/Header";
+import { PROFILE_FIELDS as f } from "../../_lib/constant";
+import { ProfileRow } from "../../_lib/definitions";
 import { MemberInput } from "../lib/definitions";
 type Props = {
   errors?: Partial<Record<keyof MemberInput, string[]>>;
-  data?: Partial<MemberInput>;
+  p?: ProfileRow;
 };
 
-const Involvement = ({ errors, data }: Props) => {
+const Involvement = ({ errors, p }: Props) => {
   return (
     <div className="space-y-3">
       <div className="mb-10">
@@ -25,32 +27,32 @@ const Involvement = ({ errors, data }: Props) => {
 
       <div className="space-y-2">
         <Checkbox
-          id="interestBlog"
+          id={f.interestBlog}
           label="I would like to contribute articles or blog posts."
-          defaultChecked={!!data?.interestBlog}
+          defaultChecked={!!p?.interestBlog}
           error={errors?.interestBlog}
         />
 
         <Checkbox
-          id="interestStore"
+          id={f.interestStore}
           label="I am interested in having my own page/store."
-          defaultChecked={!!data?.interestStore}
+          defaultChecked={!!p?.interestStore}
           error={errors?.interestStore}
         />
 
         <Checkbox
-          id="virtualMeetingOptIn"
+          id={f.virtualMeetingOptIn}
           label="Join virtual meetings / online gatherings"
           description="Workshops, community discussions, and Zoom events."
-          defaultChecked={!!data?.virtualMeetingOptIn}
+          defaultChecked={!!p?.virtualMeetingOptIn}
           error={errors?.virtualMeetingOptIn}
         />
 
         <Checkbox
-          id="newsletterOptIn"
+          id={f.newsletterOptIn}
           label="Subscribe to monthly newsletter"
           description="Community updates, events, and important notices."
-          defaultChecked={!!data?.newsletterOptIn}
+          defaultChecked={!!p?.newsletterOptIn}
           error={errors?.newsletterOptIn}
         />
       </div>

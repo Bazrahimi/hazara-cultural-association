@@ -9,26 +9,22 @@ import {
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
+import { AddressRow, ProfileRow } from "../../_lib/definitions";
 import { createMember } from "../lib/action";
-import type { MemberInput } from "../lib/definitions";
 import AddressForm from "./AddressForm";
 import Involvement from "./Involvement";
 import PersonalDetailsSection from "./PersonalDetailsSection";
 
 type Props = {
-  initialData?: Partial<MemberInput>;
+  profile: ProfileRow;
+  address: AddressRow;
 };
 
-const JoinForm = ({ initialData }: Props) => {
+const JoinForm = ({ profile, address }: Props) => {
   const [state, formAction, isPending] = useActionState(
-    createMember, undefined
+    createMember,
+    undefined,
   );
-
-  // Prefer state.data (post-submit), otherwise fall back to initialData
-  const mergedData: Partial<MemberInput> = {
-    ...initialData,
-    ...(state?.data ?? {}),
-  };
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-10">
@@ -46,18 +42,19 @@ const JoinForm = ({ initialData }: Props) => {
           noValidate
           className="space-y-8"
         >
-          <PersonalDetailsSection data={mergedData} errors={state?.errors} />
+          <PersonalDetailsSection p={profile} errors={state?.errors} />
 
-          <AddressForm data={mergedData} errors={state?.errors} />
+          <AddressForm a={address} errors={state?.errors} />
 
-          <Involvement errors={state?.errors} data={mergedData} />
+          <Involvement errors={state?.errors} p={profile} />
 
           <FormErrorMessage message={state?.message} />
 
           {/* TOS + Privacy */}
           <TermsAndPrivacyNotice
             className="mt-2"
-            prefix="By submitting this membership form, you agree to our" size="xs"
+            prefix="By submitting this membership form, you agree to our"
+            size="xs"
           />
 
           {/* Submit */}

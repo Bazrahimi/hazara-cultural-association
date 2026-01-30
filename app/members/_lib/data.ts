@@ -7,8 +7,7 @@ export const getUserProfileRow = async (userId: number) => {
       first_name            AS "firstName",
       last_name             AS "lastName",
       phone                 AS "phone",
-      english_proficiency   AS "englishProficiency",
-      hazaragi_proficiency  AS "hazaragiProficiency",
+
       interest_blog         AS "interestBlog",
       interest_store        AS "interestStore",
       newsletter_opt_in     AS "newsletterOptIn",

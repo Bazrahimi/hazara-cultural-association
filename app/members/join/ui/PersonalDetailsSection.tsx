@@ -1,58 +1,47 @@
 "use client";
 
 import { Input } from "@/app/ui/global/components";
-import { SelectInput } from "@/app/ui/global/SelectInput";
-import type {
-
-  MemberInput,
-  MemberState,
-
-} from "../lib/definitions";
-
-
-
-
-
+import { PROFILE_FIELDS as f } from "../../_lib/constant";
+import { ProfileRow } from "../../_lib/definitions";
+import type { MemberState } from "../lib/definitions";
 
 type Props = {
-  data?: Partial<MemberInput>;
+  p: ProfileRow;
   errors?: MemberState["errors"];
 };
 
-const PersonalDetailsSection = ({ data, errors }: Props) => {
+const PersonalDetailsSection = ({ p, errors }: Props) => {
   return (
     <div className="space-y-3">
       {/* Name + phone */}
       <div className="grid gap-4 md:grid-cols-3">
         <Input
-          id="firstName"
+          id={f.firstName}
           label="First name"
           placeholder="Enter your first name"
           type="text"
           required
-          defaultValue={data?.firstName}
+          defaultValue={p?.firstName ?? ""}
           error={errors?.firstName}
         />
         <Input
-          id="lastName"
+          id={f.lastName}
           label="Last name"
           placeholder="Enter your last name"
           type="text"
-          defaultValue={data?.lastName}
+          defaultValue={p?.lastName ?? ""}
           error={errors?.lastName}
         />
 
         <Input
-          id="phone"
+          id={f.phone}
           label="Phone"
           type="tel"
           placeholder="Enter your phone number"
-          defaultValue={data?.phone}
+          defaultValue={p?.phone ?? ""}
           error={errors?.phone}
         />
       </div>
-
- 
     </div>
   );
 };
