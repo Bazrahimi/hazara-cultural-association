@@ -3,7 +3,9 @@
 
 import { toActionErrors } from "@/app/_lib/actionHelper";
 import { toBoolean } from "@/app/_lib/helper";
+import { MemberRoutes } from "@/app/_lib/routes";
 import { getSession } from "@/app/_lib/session/session";
+import { redirect } from "next/navigation";
 import { PROFILE_BOOLEAN_FIELDS } from "./constant";
 import { upsertDefaultShippingAddress, upsertUserProfile } from "./data";
 import type { Join, JoinState } from "./definitions";
@@ -46,12 +48,6 @@ export const join = async (
   try {
     await upsertUserProfile(userId, joinData);
     await upsertDefaultShippingAddress(userId, joinData);
-
-    return {
-      ok: true,
-      message: "Thank you – your membership details have been submitted.",
-      data: {}, // clear form if you want
-    };
   } catch (err) {
     console.error("createMember error", err);
     return {
@@ -61,4 +57,6 @@ export const join = async (
       data: parsed.data,
     };
   }
+
+  redirect(MemberRoutes.payment());
 };

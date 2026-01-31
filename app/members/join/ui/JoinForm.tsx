@@ -66,7 +66,7 @@ const JoinForm = ({ profile, address }: Props) => {
               overlay
               loadingText="Submitting..."
             >
-              Submit membership
+              Continue
             </ActionButton>
           </div>
         </form>

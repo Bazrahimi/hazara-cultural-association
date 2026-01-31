@@ -4,5 +4,6 @@ export * from "./ApiRoutes";
 export * from "./AuthRoutes";
 export * from "./BlogRoutes";
 export * from "./DonateRoutes";
+export * from "./MemberRoutes";
 export * from "./PublicRoutes";
 export * from "./ShopRoutes";
