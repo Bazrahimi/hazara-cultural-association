@@ -8,8 +8,8 @@ import { getSession } from "@/app/_lib/session/session";
 import { redirect } from "next/navigation";
 import { PROFILE_BOOLEAN_FIELDS } from "./constant";
 import { upsertDefaultShippingAddress, upsertUserProfile } from "./data";
-import type { Join, JoinState } from "./definitions";
-import { JoinSchema } from "./schema";
+import type { Join, JoinState, PaymentState} from "./definitions";
+import { JoinSchema, PaymentSchema } from "./schema";
 
 export const join = async (
   _prevState: JoinState | undefined,
@@ -59,4 +59,15 @@ export const join = async (
   }
 
   redirect(MemberRoutes.payment());
+};
+
+export const payment = async (
+  _prev: PaymentState | undefined,
+  formData: FormData,
+) => {
+  const session = await getSession();
+  if (!session?.userId) {
+    return { ok: false, message: "You must be logged in." };
+  }
+  console.log("FormData______", formData);
 };

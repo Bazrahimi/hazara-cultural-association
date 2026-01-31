@@ -3,7 +3,7 @@
 import { ActionState, BooleanKeys } from "@/app/_lib/definitions";
 import { CamelizeKeys } from "@/app/_lib/helper";
 import z from "zod";
-import { JoinSchema } from "./schema";
+import { JoinSchema, PaymentSchema } from "./schema";
 
 // app/members/join/lib/dbTypes.ts
 
@@ -68,7 +68,7 @@ export type ProfileRow = Pick<
   | "virtualMeetingOptIn"
 >;
 
-export type ProfileRowBooleanKey = BooleanKeys<ProfileRow>
+export type ProfileRowBooleanKey = BooleanKeys<ProfileRow>;
 
 export type AddressBase = CamelizeKeys<AddressesDbRow>;
 
@@ -79,3 +79,6 @@ export type JoinAddressRow = Pick<
 
 export type Join = z.infer<typeof JoinSchema>;
 export type JoinState = ActionState<Join>;
+
+export type Payment = z.infer<typeof PaymentSchema>;
+export type PaymentState = ActionState<Payment>;
