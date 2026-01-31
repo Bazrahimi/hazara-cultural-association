@@ -26,7 +26,7 @@ export const config = {
     "/admin/:path*",
     "/blog/auth:path*",
     "/account/:path",
-    "/members/join/:path*",
+    "/members/auth/join/:path*",
   ],
 };
 

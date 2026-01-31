@@ -5,7 +5,7 @@ export const PROTECTED_ROUTE_PREFIXES = [
   "/admin",
   "/blog/auth",
   "/account",
-  "/members/join",
+  "/members/auth/join",
 ] as const;
 
 /**
