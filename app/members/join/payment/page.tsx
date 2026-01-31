@@ -2,7 +2,7 @@
 
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import MemberhsipPaymentForm from "./ui/MemberhsipPaymentForm";
+import MembershipPaymentForm from "./ui/MembershipPaymentForm";
 
 // You will create this server action next:
 // import { startMembershipPayment } from "./lib/action";
@@ -22,7 +22,7 @@ export default function MembershipPaymentPage() {
         </div>
 
         {/* Payment form */}
-        <MemberhsipPaymentForm />
+        <MembershipPaymentForm />
       </section>
     </main>
   );

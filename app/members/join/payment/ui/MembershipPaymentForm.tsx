@@ -12,7 +12,7 @@ import { useActionState } from "react";
 import { payment } from "../_lib/action";
 import { PAYMENT_FIELDS as f } from "../_lib/constant";
 
-const MemberhsipPaymentForm = () => {
+const MembershipPaymentForm = () => {
   const [state, formAction, isPending] = useActionState(payment, undefined);
   return (
     <form action={formAction} className="space-y-8">
@@ -122,4 +122,4 @@ const MemberhsipPaymentForm = () => {
   );
 };
 
-export default MemberhsipPaymentForm;
+export default MembershipPaymentForm;

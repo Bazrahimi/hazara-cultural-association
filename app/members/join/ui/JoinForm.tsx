@@ -64,7 +64,7 @@ const JoinForm = ({ profile, address }: Props) => {
               fullWidth
               isLoading={isPending}
               overlay
-              loadingText="Submitting..."
+              loadingText="continuing..."
             >
               Continue
             </ActionButton>
