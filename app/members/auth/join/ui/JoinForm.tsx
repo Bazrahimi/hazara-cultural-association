@@ -22,10 +22,7 @@ type Props = {
 };
 
 const JoinForm = ({ profile, address }: Props) => {
-  const [state, formAction, isPending] = useActionState(
-    join,
-    undefined,
-  );
+  const [state, formAction, isPending] = useActionState(join, undefined);
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-10">

@@ -1,6 +1,5 @@
 // app/members/join/ui/Involvement.tsx (or similar)
 
-import { toBoolean } from "@/app/_lib/helper";
 import { Checkbox } from "@/app/ui/global/Checkbox";
 import { Header } from "@/app/ui/global/Header";
 import { PROFILE_FIELDS as f } from "../../_lib/constant";
@@ -41,8 +40,7 @@ const Involvement = ({ state, initial }: Props) => {
           label="Join virtual meetings / online gatherings"
           description="Workshops, community discussions, and Zoom events."
           defaultChecked={
-            state?.data?.virtualMeetingOptIn ??
-            initial?.virtualMeetingOptIn
+            state?.data?.virtualMeetingOptIn ?? initial?.virtualMeetingOptIn
           }
           error={errors?.virtualMeetingOptIn}
         />

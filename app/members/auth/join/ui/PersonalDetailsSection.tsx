@@ -11,11 +11,11 @@ import { ProfileRow } from "../../_lib/definitions";
 
 type Props = {
   initial?: ProfileRow;
-  state?: JoinState
+  state?: JoinState;
 };
 
-const PersonalDetailsSection = ({initial, state  }: Props) => {
-  const errors = state?.errors
+const PersonalDetailsSection = ({ initial, state }: Props) => {
+  const errors = state?.errors;
   return (
     <div className="space-y-3">
       {/* Name + phone */}
@@ -46,7 +46,6 @@ const PersonalDetailsSection = ({initial, state  }: Props) => {
           placeholder="Enter your phone number"
           defaultValue={state?.data?.phone ?? initial?.phone ?? ""}
           error={errors?.phone}
-        
         />
 
         <SelectInput
@@ -54,7 +53,9 @@ const PersonalDetailsSection = ({initial, state  }: Props) => {
           label="Highest education level (optional)"
           options={EDUCATION_LEVEL_OPTIONS}
           placeholder="Select education level"
-          defaultValue={state?.data?.educationLevel ?? initial?.educationLevel ?? ""}
+          defaultValue={
+            state?.data?.educationLevel ?? initial?.educationLevel ?? ""
+          }
           error={errors?.educationLevel}
         />
 

@@ -1,4 +1,5 @@
 // app/members/join/page.tsx
+import { MemberRoutes } from "@/app/_lib/routes";
 import { redirectToLoginWithNext } from "@/app/_lib/session/authRedirects";
 import { getSession } from "@/app/_lib/session/session";
 import { getDefaultAddressRow, getUserProfileRow } from "../_lib/data";
@@ -8,7 +9,7 @@ const page = async () => {
   const session = await getSession();
 
   if (!session?.userId) {
-    await redirectToLoginWithNext("/members/join");
+    await redirectToLoginWithNext(MemberRoutes.join());
   }
 
   const userId = session!.userId;
