@@ -1,5 +1,8 @@
-import { JoinAddressRow, ProfileBase } from "./definitions";
-type ProfileFieldable = Omit<ProfileBase, "createdAt" | "updatedAt">;
+import {
+  JoinAddressRow,
+  ProfileRow,
+  ProfileRowBooleanKey,
+} from "./definitions";
 
 export const ADDRESS_FIELDS = {
   suburb: "suburb",
@@ -9,28 +12,21 @@ export const ADDRESS_FIELDS = {
 } as const satisfies Record<keyof JoinAddressRow, keyof JoinAddressRow>;
 
 export const PROFILE_FIELDS = {
-  userId: "userId",
-
   firstName: "firstName",
   lastName: "lastName",
   phone: "phone",
-
   educationLevel: "educationLevel",
   occupation: "occupation",
-
   interestBlog: "interestBlog",
-  interestStore: "interestStore",
   newsletterOptIn: "newsletterOptIn",
   virtualMeetingOptIn: "virtualMeetingOptIn",
+} as const satisfies Record<keyof ProfileRow, keyof ProfileRow>;
 
-  membershipTier: "membershipTier",
-  membershipFee: "membershipFee",
-  feeWaived: "feeWaived",
-
-  membershipStatus: "membershipStatus",
-  applicationSubmittedAt: "applicationSubmittedAt",
-  applicationReviewedAt: "applicationReviewedAt",
-} as const satisfies Record<keyof ProfileFieldable, keyof ProfileFieldable>;
+export const PROFILE_BOOLEAN_FIELDS = [
+  "interestBlog",
+  "newsletterOptIn",
+  "virtualMeetingOptIn",
+] as const satisfies readonly ProfileRowBooleanKey[];
 
 export const EDUCATION_LEVEL_OPTIONS = [
   { label: "Not applicable", value: "na" },

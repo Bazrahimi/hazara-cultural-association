@@ -20,11 +20,7 @@ export const JoinSchema = z.object({
   [PF.firstName]: z.string().trim().min(2, "Please enter your first name."),
   [PF.lastName]: z.string().trim().min(2, "Please enter your last name."),
 
-  [PF.phone]: z
-    .string()
-    .trim()
-    .min(6, "Please enter a valid phone number.")
-    .max(20, "Phone number is too long."),
+  [PF.phone]: z.string().trim().optional(),
 
   [PF.educationLevel]: z.enum(EDUCATION_LEVEL_VALUES).optional(),
   [PF.occupation]: z
@@ -54,7 +50,6 @@ export const JoinSchema = z.object({
 
   // Checkboxes – default false when not checked
   [PF.interestBlog]: checkboxBoolean,
-  [PF.interestStore]: checkboxBoolean,
   [PF.newsletterOptIn]: checkboxBoolean,
   [PF.virtualMeetingOptIn]: checkboxBoolean,
 });

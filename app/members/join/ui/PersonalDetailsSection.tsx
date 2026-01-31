@@ -10,11 +10,12 @@ import type { JoinState } from "../../_lib/definitions";
 import { ProfileRow } from "../../_lib/definitions";
 
 type Props = {
-  p: ProfileRow;
-  errors?: JoinState["errors"];
+  initial?: ProfileRow;
+  state?: JoinState
 };
 
-const PersonalDetailsSection = ({ p, errors }: Props) => {
+const PersonalDetailsSection = ({initial, state  }: Props) => {
+  const errors = state?.errors
   return (
     <div className="space-y-3">
       {/* Name + phone */}
@@ -25,7 +26,7 @@ const PersonalDetailsSection = ({ p, errors }: Props) => {
           placeholder="Enter your first name"
           type="text"
           required
-          defaultValue={p?.firstName ?? ""}
+          defaultValue={state?.data?.firstName ?? initial?.firstName ?? ""}
           error={errors?.firstName}
         />
         <Input
@@ -33,8 +34,9 @@ const PersonalDetailsSection = ({ p, errors }: Props) => {
           label="Last name"
           placeholder="Enter your last name"
           type="text"
-          defaultValue={p?.lastName ?? ""}
+          defaultValue={state?.data?.lastName ?? initial?.lastName ?? ""}
           error={errors?.lastName}
+          required
         />
 
         <Input
@@ -42,8 +44,9 @@ const PersonalDetailsSection = ({ p, errors }: Props) => {
           label="Phone"
           type="tel"
           placeholder="Enter your phone number"
-          defaultValue={p?.phone ?? ""}
+          defaultValue={state?.data?.phone ?? initial?.phone ?? ""}
           error={errors?.phone}
+        
         />
 
         <SelectInput
@@ -51,7 +54,7 @@ const PersonalDetailsSection = ({ p, errors }: Props) => {
           label="Highest education level (optional)"
           options={EDUCATION_LEVEL_OPTIONS}
           placeholder="Select education level"
-          defaultValue={p?.educationLevel ?? ""}
+          defaultValue={state?.data?.educationLevel ?? initial?.educationLevel ?? ""}
           error={errors?.educationLevel}
         />
 
@@ -60,7 +63,7 @@ const PersonalDetailsSection = ({ p, errors }: Props) => {
           label="Occupation (optional)"
           type="text"
           placeholder="e.g., student, driver, engineer"
-          defaultValue={p?.occupation ?? ""}
+          defaultValue={state?.data?.occupation ?? initial?.occupation ?? ""}
           error={errors?.occupation}
         />
       </div>

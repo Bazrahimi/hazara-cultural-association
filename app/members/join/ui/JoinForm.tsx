@@ -42,11 +42,11 @@ const JoinForm = ({ profile, address }: Props) => {
           noValidate
           className="space-y-8"
         >
-          <PersonalDetailsSection p={profile} errors={state?.errors} />
+          <PersonalDetailsSection initial={profile} state={state} />
 
-          <AddressForm a={address} errors={state?.errors} />
+          <AddressForm initial={address} state={state} />
 
-          <Involvement errors={state?.errors} p={profile} />
+          <Involvement state={state} initial={profile} />
 
           <FormErrorMessage message={state?.message} />
 

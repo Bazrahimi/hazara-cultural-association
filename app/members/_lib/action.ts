@@ -2,7 +2,9 @@
 "use server";
 
 import { toActionErrors } from "@/app/_lib/actionHelper";
+import { toBoolean } from "@/app/_lib/helper";
 import { getSession } from "@/app/_lib/session/session";
+import { PROFILE_BOOLEAN_FIELDS } from "./constant";
 import { upsertDefaultShippingAddress, upsertUserProfile } from "./data";
 import type { Join, JoinState } from "./definitions";
 import { JoinSchema } from "./schema";
@@ -19,18 +21,22 @@ export const join = async (
     };
   }
 
-  const rawData = Object.fromEntries(
+  const rawData: Record<string, unknown> = Object.fromEntries(
     [...formData.entries()].map(([key, value]) => [
       key,
       typeof value === "string" ? value : undefined,
     ]),
-  ) as Partial<Join>;
+  );
+
+  for (const key of PROFILE_BOOLEAN_FIELDS) {
+    rawData[key] = toBoolean(formData.get(key));
+  }
 
   const parsed = JoinSchema.safeParse(rawData);
   if (!parsed.success) {
     return {
       ...toActionErrors<JoinState["errors"]>(parsed.error),
-      data: rawData,
+      data: rawData as Partial<Join>,
     };
   }
 

@@ -1,6 +1,6 @@
 // app/members/join/lib/dbTypes.ts
 
-import { ActionState } from "@/app/_lib/definitions";
+import { ActionState, BooleanKeys } from "@/app/_lib/definitions";
 import { CamelizeKeys } from "@/app/_lib/helper";
 import z from "zod";
 import { JoinSchema } from "./schema";
@@ -64,10 +64,11 @@ export type ProfileRow = Pick<
   | "educationLevel"
   | "occupation"
   | "interestBlog"
-  | "interestStore"
   | "newsletterOptIn"
   | "virtualMeetingOptIn"
 >;
+
+export type ProfileRowBooleanKey = BooleanKeys<ProfileRow>
 
 export type AddressBase = CamelizeKeys<AddressesDbRow>;
 

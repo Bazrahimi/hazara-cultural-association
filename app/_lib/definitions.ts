@@ -8,3 +8,9 @@ export type ActionState<T> = {
   message?: string;
   ok?: boolean;
 };
+
+export type BooleanKeys<T> = {
+  [K in keyof T]-?: T[K] extends boolean ? K : never
+}[keyof T];
+
+

@@ -2,6 +2,7 @@ import { sql } from "@/app/_lib/db";
 import { JoinAddressRow, ProfileRow } from "./definitions";
 import type { Join } from "./definitions";
 
+
 export const getUserProfileRow = async (userId: number) => {
   const rows = await sql<ProfileRow[]>`
     SELECT
@@ -48,7 +49,6 @@ export async function upsertUserProfile(userId: number, join: Join) {
       occupation,
       education_level,
       interest_blog,
-      interest_store,
       newsletter_opt_in,
       virtual_meeting_opt_in,
       application_submitted_at
@@ -61,7 +61,6 @@ export async function upsertUserProfile(userId: number, join: Join) {
       ${join.occupation ?? null},
       ${join.educationLevel ?? null},
       ${join.interestBlog},
-      ${join.interestStore},
       ${join.newsletterOptIn},
       ${join.virtualMeetingOptIn},
       now()
@@ -74,7 +73,6 @@ export async function upsertUserProfile(userId: number, join: Join) {
       occupation = EXCLUDED.occupation,
       education_level = EXCLUDED.education_level,
       interest_blog = EXCLUDED.interest_blog,
-      interest_store = EXCLUDED.interest_store,
       newsletter_opt_in = EXCLUDED.newsletter_opt_in,
       virtual_meeting_opt_in = EXCLUDED.virtual_meeting_opt_in,
       application_submitted_at = EXCLUDED.application_submitted_at,
