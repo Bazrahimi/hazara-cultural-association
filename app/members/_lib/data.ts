@@ -126,13 +126,30 @@ export async function createMembershipPaymentRow(params: {
   plan: JoiningPlan;
   amountCents: number;
 }) {
-  const rows = await sql<{ id: number }[]>`
-    INSERT INTO membership_payments 
-      (user_id, plan, amount_cents, status)
-    VALUES 
-      (${params.userId}, ${params.plan}, ${params.amountCents}, 'created')
-    RETURNING id
+  const rows = await sql<
+    {
+      id: number;
+      email: string;
+    }[]
+  >`
+    INSERT INTO membership_payments (
+      user_id,
+      plan,
+      amount_cents,
+      status
+    )
+    SELECT
+      u.id,
+      ${params.plan},
+      ${params.amountCents},
+      'created'
+    FROM users u
+    WHERE u.id = ${params.userId}
+    RETURNING
+      id,
+      (SELECT email FROM users WHERE id = ${params.userId}) AS email
   `;
+
   return rows[0];
 }
 

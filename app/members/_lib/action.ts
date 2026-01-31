@@ -113,6 +113,7 @@ export const payment = async (
   const checkout = await createMembershipCheckoutSession({
     plan: paymentData.plan,
     priceId: MEMBER_PRICE_ID[paymentData.plan],
+    customerEmail: row.email,
     metadata: {
       userId: String(userId),
       paymentRowId: String(row.id),
