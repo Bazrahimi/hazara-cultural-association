@@ -68,7 +68,8 @@ export type ProfileRow = Pick<
   | "virtualMeetingOptIn"
 >;
 
-export type ProfileRowBooleanKey = BooleanKeys<ProfileRow>;
+export type ProfileRowBooleanKey = BooleanKeys<Join>;
+export type PaymentBooleanKey = BooleanKeys<Payment>;
 
 export type AddressBase = CamelizeKeys<AddressesDbRow>;
 
@@ -80,5 +81,7 @@ export type JoinAddressRow = Pick<
 export type Join = z.infer<typeof JoinSchema>;
 export type JoinState = ActionState<Join>;
 
-export type Payment = z.infer<typeof PaymentSchema>;
+export type Payment = z.infer<typeof PaymentSchema>
+
+
 export type PaymentState = ActionState<Payment>;

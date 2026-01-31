@@ -1,5 +1,6 @@
 import {
   JoinAddressRow,
+  PaymentBooleanKey,
   ProfileRow,
   ProfileRowBooleanKey,
 } from "./definitions";
@@ -22,11 +23,22 @@ export const PROFILE_FIELDS = {
   virtualMeetingOptIn: "virtualMeetingOptIn",
 } as const satisfies Record<keyof ProfileRow, keyof ProfileRow>;
 
+export const PAYMENT_FIELDS = {
+  plan: "plan",
+  feeWaived: "feeWaived",
+  waiverReason: "waiverReason",
+} as const;
+
 export const PROFILE_BOOLEAN_FIELDS = [
   "interestBlog",
   "newsletterOptIn",
   "virtualMeetingOptIn",
 ] as const satisfies readonly ProfileRowBooleanKey[];
+
+export const PAYMENT_BOOLEAN_FIELDS = [
+  
+
+] as const satisfies readonly PaymentBooleanKey[];
 
 export const EDUCATION_LEVEL_OPTIONS = [
   { label: "Not applicable", value: "na" },
@@ -43,11 +55,7 @@ export const EDUCATION_LEVEL_OPTIONS = [
 ] as const;
 
 
-export const PAYMENT_FIELDS = {
-  plan: "plan",
-  feeWaived: "feeWaived",
-  waiverReason: "waiverReason",
-};
+
 
 
 export const PRICES = {

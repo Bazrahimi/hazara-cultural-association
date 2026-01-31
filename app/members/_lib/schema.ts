@@ -4,7 +4,7 @@ import {
   ADDRESS_FIELDS as AF,
   EDUCATION_LEVEL_OPTIONS,
   PROFILE_FIELDS as PF,
-  PAYMENT_FIELDS as payment
+  PAYMENT_FIELDS as payment,
 } from "./constant";
 
 // Reusable checkbox schema

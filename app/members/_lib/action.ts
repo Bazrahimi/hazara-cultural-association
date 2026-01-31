@@ -8,7 +8,7 @@ import { getSession } from "@/app/_lib/session/session";
 import { redirect } from "next/navigation";
 import { PROFILE_BOOLEAN_FIELDS } from "./constant";
 import { upsertDefaultShippingAddress, upsertUserProfile } from "./data";
-import type { Join, JoinState, PaymentState} from "./definitions";
+import type { Join, JoinState, PaymentState, Payment} from "./definitions";
 import { JoinSchema, PaymentSchema } from "./schema";
 
 export const join = async (
@@ -69,5 +69,16 @@ export const payment = async (
   if (!session?.userId) {
     return { ok: false, message: "You must be logged in." };
   }
-  console.log("FormData______", formData);
+
+    const rawData: Record<string, unknown> = Object.fromEntries(
+    [...formData.entries()].map(([key, value]) => [
+      key,
+      typeof value === "string" ? value : undefined,
+    ]),
+  );
+
+  for (const key of PROFILE_BOOLEAN_FIELDS) {
+    rawData[key] = toBoolean(formData.get(key));
+  }
+  
 };
