@@ -4,7 +4,7 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { MEMBERSHIP_OPTIONS } from "@/app/members/_lib/constant";
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
-import { PublicRoutes } from "@/app/_lib/routes";
+import { MemberRoutes, PublicRoutes } from "@/app/_lib/routes";
 import { ActionButton } from "@/app/ui/global/clientComponent";
 import Link from "next/link";
 import { useActionState } from "react";
@@ -97,7 +97,7 @@ const MembershipPaymentForm = () => {
       {/* Actions */}
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
         <Link
-          href={PublicRoutes.joinMember()}
+          href={MemberRoutes.join()}
           className="text-sm font-medium text-hca-blue-main underline-offset-4 hover:underline"
         >
           ← Back to membership form

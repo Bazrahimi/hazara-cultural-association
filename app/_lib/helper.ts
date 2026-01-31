@@ -47,3 +47,5 @@ type CamelCase<S extends string> = S extends `${infer Head}_${infer Tail}`
 export type CamelizeKeys<T> = {
   [K in keyof T as CamelCase<K & string>]: T[K];
 };
+
+export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

@@ -5,6 +5,7 @@ import {
   EDUCATION_LEVEL_OPTIONS,
   PROFILE_FIELDS as PF,
   PAYMENT_FIELDS as payment,
+  MEMBERSHIP_PLANS
 } from "./constant";
 
 // Reusable checkbox schema
@@ -56,7 +57,7 @@ export const JoinSchema = z.object({
 });
 
 export const PaymentSchema = z.object({
-  [payment.plan]: z.enum(["monthly", "annual"], {
+  [payment.plan]: z.enum(MEMBERSHIP_PLANS, {
     message: "Please choose a membership option.",
   }),
   [payment.feeWaived]: z.boolean().optional(),

@@ -3,7 +3,7 @@ import {
   AdminRoutes,
   BlogRoutes,
   DonateRoutes,
-  PublicRoutes,
+  MemberRoutes,
 } from "@/app/_lib/routes";
 import type { SessionRole } from "@/app/_lib/session/session";
 import { Button } from "@/app/ui/global/components";
@@ -34,12 +34,9 @@ const RoleBanner = ({ roles, fullName }: Props) => {
           <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
             <P>
               {" "}
-              <span className="font-semibold">
-                {ORG_PROFILE.orgName}:
-              </span>{" "}
-              a non-profit marketplace dedicated to preserving Hazaragi
-              heritage. Listings must be culturally related and
-              community-respectful.{" "}
+              <span className="font-semibold">{ORG_PROFILE.orgName}:</span> a
+              non-profit marketplace dedicated to preserving Hazaragi heritage.
+              Listings must be culturally related and community-respectful.{" "}
             </P>
             <Link
               href="/shop/guidelines"
@@ -113,7 +110,7 @@ const RoleBanner = ({ roles, fullName }: Props) => {
         <div className="mt-3 flex flex-wrap gap-3">
           <Button
             as="link"
-            href={PublicRoutes.joinMember()}
+            href={MemberRoutes.join()}
             variant="outline"
             size="sm"
           >

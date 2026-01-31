@@ -9,7 +9,5 @@ export const PublicRoutes = {
   privacyDataDeletion: () => "/privacy-policy/data-deletion",
   termsOfService: () => "/terms-of-service",
 
-  // Members (public entry)
-  members: () => "/members",
-  joinMember: () => "/members/join",
+
 } as const;

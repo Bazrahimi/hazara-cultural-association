@@ -78,6 +78,7 @@ app
 │   │   ├── AuthRoutes.ts
 │   │   ├── BlogRoutes.ts
 │   │   ├── DonateRoutes.ts
+│   │   ├── MemberRoutes.ts
 │   │   ├── PublicRoutes.ts
 │   │   ├── ShopRoutes.ts
 │   │   ├── UserRoutes.ts
@@ -329,17 +330,14 @@ app
 │   │   ├── page.tsx
 │   │   ├── payment
 │   │   │   ├── _lib
-│   │   │   │   ├── action.ts
-│   │   │   │   ├── constant.ts
-│   │   │   │   ├── definitions.ts
-│   │   │   │   └── schema.ts
+│   │   │   │   └── action.ts
 │   │   │   ├── page.tsx
 │   │   │   ├── success
 │   │   │   │   ├── cancel
 │   │   │   │   │   └── page.tsx
 │   │   │   │   └── page.tsx
 │   │   │   └── ui
-│   │   │       └── MemberhsipPaymentForm.tsx
+│   │   │       └── MembershipPaymentForm.tsx
 │   │   └── ui
 │   │       ├── AddressForm.tsx
 │   │       ├── Involvement.tsx
@@ -431,4 +429,4 @@ app
     └── stripe
         └── CheckoutButton.tsx
 
-138 directories, 294 files
+138 directories, 292 files

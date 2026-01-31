@@ -10,7 +10,5 @@ export type ActionState<T> = {
 };
 
 export type BooleanKeys<T> = {
-  [K in keyof T]-?: T[K] extends boolean ? K : never
+  [K in keyof T]-?: Exclude<T[K], undefined | null> extends boolean ? K : never;
 }[keyof T];
-
-

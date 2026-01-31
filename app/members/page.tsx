@@ -3,7 +3,7 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import Link from "next/link";
 import TermsAndPrivacyNotice from "../(term-and-privacy)/ui/TermsAndPrivacyNotice";
-import { AuthRoutes, PublicRoutes } from "../_lib/routes";
+import { AuthRoutes, MemberRoutes, PublicRoutes } from "../_lib/routes";
 import { Button } from "../ui/global/components";
 
 const MembershipInfoPage = () => {
@@ -158,7 +158,7 @@ const MembershipInfoPage = () => {
               <P>
                 Complete the{" "}
                 <Link
-                  href={PublicRoutes.joinMember()}
+                  href={MemberRoutes.join()}
                   className="font-medium text-hca-blue-main underline-offset-4 hover:underline"
                 >
                   membership form
@@ -185,7 +185,7 @@ const MembershipInfoPage = () => {
           <div className="mt-10 flex justify-center">
             <Button
               as="link"
-              href={PublicRoutes.joinMember()}
+              href={MemberRoutes.join()}
               variant="secondary"
               size="lg"
             >
