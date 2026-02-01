@@ -1,6 +1,5 @@
 // app/members/join/lib/dbTypes.ts
 
-import { BooleanKeys } from "@/app/_lib/definitions";
 import { CamelizeKeys } from "@/app/_lib/helper";
 
 // app/members/join/lib/dbTypes.ts
@@ -65,8 +64,6 @@ export type ProfileRow = Pick<
   | "newsletterOptIn"
   | "virtualMeetingOptIn"
 >;
-
-
 
 export type AddressBase = CamelizeKeys<AddressesDbRow>;
 

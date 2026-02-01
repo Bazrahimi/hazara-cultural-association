@@ -1,4 +1,5 @@
-import { ActionState, BooleanKeys } from "@/app/_lib/definitions";
+
+import { ActionState, BooleanKeys } from "@/app/_lib/actionHelper";
 import z from "zod";
 import { PAYMENT_FIELDS as payment, PAYMENT_PLANS } from "./constant";
 export const PaymentSchema = z.object({
@@ -12,4 +13,7 @@ export const PaymentSchema = z.object({
 export type Payment = z.infer<typeof PaymentSchema>;
 export type PaymentState = ActionState<Payment>;
 export type PaymentBooleanKey = BooleanKeys<Payment>;
-export type JoiningPlan = (typeof PAYMENT_PLANS)[number];
+
+export const PAYMENT_BOOLEAN_FIELDS = [
+  "feeWaived",
+] as const satisfies readonly PaymentBooleanKey[];

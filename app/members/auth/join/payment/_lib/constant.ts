@@ -1,5 +1,5 @@
 import { MembershipOption } from "./definitions";
-import { PaymentBooleanKey } from "./schema";
+
 
 export const PAYMENT_PLANS = ["monthly", "annual"] as const;
 
@@ -24,6 +24,3 @@ export const PAYMENT_FIELDS = {
   waiverReason: "waiverReason",
 } as const;
 
-export const PAYMENT_BOOLEAN_FIELDS = [
-  "feeWaived",
-] as const satisfies readonly PaymentBooleanKey[];
