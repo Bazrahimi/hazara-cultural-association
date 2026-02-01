@@ -1,11 +1,10 @@
+import { ActionState, BooleanKeys } from "@/app/_lib/definitions";
 import { AUS_STATES, toBoolean } from "@/app/_lib/helper";
 import { z } from "zod";
 import {
   ADDRESS_FIELDS as AF,
   EDUCATION_LEVEL_OPTIONS,
   PROFILE_FIELDS as PF,
-  PAYMENT_FIELDS as payment,
-  MEMBERSHIP_PLANS
 } from "./constant";
 
 // Reusable checkbox schema
@@ -56,10 +55,12 @@ export const JoinSchema = z.object({
   [PF.virtualMeetingOptIn]: checkboxBoolean,
 });
 
-export const PaymentSchema = z.object({
-  [payment.plan]: z.enum(MEMBERSHIP_PLANS, {
-    message: "Please choose a membership option.",
-  }),
-  [payment.feeWaived]: z.boolean().optional(),
-  [payment.waiverReason]: z.string().trim().max(500).optional(),
-});
+export type Join = z.infer<typeof JoinSchema>;
+export type JoinState = ActionState<Join>;
+export type ProfileRowBooleanKey = BooleanKeys<Join>;
+
+export const PROFILE_BOOLEAN_FIELDS = [
+  "interestBlog",
+  "newsletterOptIn",
+  "virtualMeetingOptIn",
+] as const satisfies readonly ProfileRowBooleanKey[];

@@ -1,11 +1,11 @@
 "use client";
-import { Button, Header, P, Input, SelectInput } from "@/app/_ui";
+import { Input, SelectInput } from "@/app/_ui";
 import {
   EDUCATION_LEVEL_OPTIONS,
   PROFILE_FIELDS as f,
 } from "../../_lib/constant";
-import type { JoinState } from "../../_lib/definitions";
 import { ProfileRow } from "../../_lib/definitions";
+import type { JoinState } from "../../_lib/schema";
 
 type Props = {
   initial?: ProfileRow;

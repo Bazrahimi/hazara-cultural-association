@@ -1,5 +1,5 @@
 import { Header, P } from "@/app/_ui";
-import { MembershipOption } from "../../../_lib/definitions";
+import { MembershipOption } from "../_lib/definitions";
 type MembershipOptionCardProps = {
   opt: MembershipOption;
   name: string;

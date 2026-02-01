@@ -3,12 +3,12 @@ import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNo
 import { MemberRoutes } from "@/app/_lib/routes";
 import { ActionButton, Button, FormErrorMessage, Header, P } from "@/app/_ui";
 
-import { payment } from "@/app/members/auth/_lib/action";
+import { payment } from "../_lib/action";
 import {
   PAYMENT_FIELDS as f,
   MEMBERSHIP_OPTIONS,
-  MEMBERSHIP_PLANS,
-} from "@/app/members/auth/_lib/constant";
+  PAYMENT_PLANS,
+} from "../_lib/constant";
 
 import { useActionState } from "react";
 import { TiArrowBack, TiArrowForward } from "react-icons/ti";
@@ -26,7 +26,7 @@ const MembershipPaymentForm = () => {
             key={opt.id}
             opt={opt}
             name={f.plan}
-            defaultChecked={opt.id === MEMBERSHIP_PLANS[1]}
+            defaultChecked={opt.id === PAYMENT_PLANS[1]}
           />
         ))}
       </div>

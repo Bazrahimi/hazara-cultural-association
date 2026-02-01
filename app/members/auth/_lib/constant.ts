@@ -1,9 +1,7 @@
 import {
   JoinAddressRow,
-  MembershipOption,
-  PaymentBooleanKey,
   ProfileRow,
-  ProfileRowBooleanKey,
+
 } from "./definitions";
 
 export const ADDRESS_FIELDS = {
@@ -24,21 +22,7 @@ export const PROFILE_FIELDS = {
   virtualMeetingOptIn: "virtualMeetingOptIn",
 } as const satisfies Record<keyof ProfileRow, keyof ProfileRow>;
 
-export const PAYMENT_FIELDS = {
-  plan: "plan",
-  feeWaived: "feeWaived",
-  waiverReason: "waiverReason",
-} as const;
 
-export const PROFILE_BOOLEAN_FIELDS = [
-  "interestBlog",
-  "newsletterOptIn",
-  "virtualMeetingOptIn",
-] as const satisfies readonly ProfileRowBooleanKey[];
-
-export const PAYMENT_BOOLEAN_FIELDS = [
-  "feeWaived",
-] as const satisfies readonly PaymentBooleanKey[];
 
 export const EDUCATION_LEVEL_OPTIONS = [
   { label: "Not applicable", value: "na" },
@@ -58,20 +42,3 @@ export const PRICES = {
   monthly: { amountCents: 1000, label: "HCA Membership (Monthly)" },
   annual: { amountCents: 11500, label: "HCA Membership (Annual)" },
 } as const;
-
-export const MEMBERSHIP_PLANS = ["monthly", "annual"] as const;
-
-export const MEMBERSHIP_OPTIONS: MembershipOption[] = [
-  {
-    id: MEMBERSHIP_PLANS[0],
-    label: "Monthly membership",
-    priceLabel: "$10 / Month",
-    helper: "Ongoing membership billed monthly. Cancel any time.",
-  },
-  {
-    id: MEMBERSHIP_PLANS[1],
-    label: "Annual membership",
-    priceLabel: "$115 / Year",
-    helper: "One payment for 12 months. Best value for regular members.",
-  },
-] as const;

@@ -4,7 +4,7 @@ import { Checkbox, Header, P } from "@/app/_ui";
 import { PROFILE_FIELDS as f } from "../../_lib/constant";
 import { ProfileRow } from "../../_lib/definitions";
 
-import type { JoinState } from "../../_lib/definitions";
+import type { JoinState } from "../../_lib/schema";
 type Props = {
   state?: JoinState;
   initial?: ProfileRow;

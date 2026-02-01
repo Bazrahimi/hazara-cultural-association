@@ -3,7 +3,7 @@ import { Input, SelectInput } from "@/app/_ui";
 import { ADDRESS_FIELDS as f } from "../../_lib/constant";
 import { JoinAddressRow } from "../../_lib/definitions";
 
-import type { JoinState } from "../../_lib/definitions";
+import type { JoinState } from "../../_lib/schema";
 
 type Props = {
   initial?: JoinAddressRow;
