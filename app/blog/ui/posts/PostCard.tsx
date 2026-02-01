@@ -21,7 +21,7 @@ const PostCard = ({ post }: PostCardProps) => {
 
   return (
     <Link
-      href={`${BlogRoutes.post(post.slug)}?catId=${post.categoryId}&rtl=${isRTL ? 1 : 0}&id=${post.postId}`}
+      href={`${BlogRoutes.seePostDetails(post.slug)}?catId=${post.categoryId}&rtl=${isRTL ? 1 : 0}&id=${post.postId}`}
       className={POST_CARD.link}
     >
       <article className={POST_CARD.article}>

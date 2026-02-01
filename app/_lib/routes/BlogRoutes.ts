@@ -7,7 +7,7 @@ const blogPostCategory = `${blogPost}/category`;
 
 export const BlogRoutes = {
   root: () => blog,
-  post: (slug: string) => `${blogPost}/${slug}`,
+  seePostDetails: (slug: string) => `${blogPost}/${slug}`,
 
   guideLines: () => `${blog}/guidelines`,
 

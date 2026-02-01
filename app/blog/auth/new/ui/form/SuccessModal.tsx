@@ -79,7 +79,7 @@ export function SuccessModal({
             {success.slug ? (
               <Button
                 as="link"
-                href={`${BlogRoutes.post(success.slug)}?catId=${success.categoryId}&rtl=${success.isRtl ? 1 : 0}&id=${success.postId}`}
+                href={`${BlogRoutes.seePostDetails(success.slug)}?catId=${success.categoryId}&rtl=${success.isRtl ? 1 : 0}&id=${success.postId}`}
                 size="sm"
                 variant="outline"
                 fullWidth
