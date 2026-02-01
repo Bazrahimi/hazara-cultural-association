@@ -1,7 +1,7 @@
 "use client";
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
 import { MemberRoutes } from "@/app/_lib/routes";
-import { ActionButton, Button, FormErrorMessage, Header, Input, P } from "@/app/_ui";
+import { ActionButton, Button, FormErrorMessage, Header, P } from "@/app/_ui";
 
 import { payment } from "@/app/members/auth/_lib/action";
 import {
@@ -68,7 +68,6 @@ const MembershipPaymentForm = () => {
             className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm outline-1 focus:border-hca-blue-main focus:ring-2 focus:ring-blue-100"
             placeholder="You can share a short note if you want (optional)."
           />
-         
         </div>
 
         <TermsAndPrivacyNotice
