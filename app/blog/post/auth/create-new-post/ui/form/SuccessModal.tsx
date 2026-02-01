@@ -107,7 +107,7 @@ export function SuccessModal({
           <div className="grid grid-cols-2 gap-3">
             <Button
               as="link"
-              href={`${BlogRoutes.editPost(success.postId)}`}
+              href={`${BlogRoutes.editPostById(success.postId)}`}
               size="sm"
               variant="outline"
               fullWidth

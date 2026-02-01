@@ -2,7 +2,7 @@
 import { requireUser } from "@/app/_lib/session/session";
 import { notFound } from "next/navigation";
 
-import PostForm from "../../create-new-post/ui/PostForm";
+import PostForm from "../../../create-new-post/ui/PostForm";
 
 import { updatePost } from "@/app/blog/post/_lib/action";
 import { getEditPostById } from "@/app/blog/post/_lib/data";
