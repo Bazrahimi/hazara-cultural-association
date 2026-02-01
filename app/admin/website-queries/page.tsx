@@ -1,6 +1,7 @@
 // app/admin/website-queries/page.tsx
 import { sql } from "@/app/_lib/db";
 
+import { AdminRoutes } from "@/app/_lib/routes";
 import { Header, P } from "@/app/_ui";
 import Link from "next/link";
 import { QuickEnquiryHead } from "./utils/definitions";
@@ -58,7 +59,7 @@ const QuickEnquiriesPage = async () => {
                 >
                   <td className="px-4 py-3">
                     <Link
-                      href={`/admin/website-queries/${enquiry.id}`}
+                      href={`${AdminRoutes.websiteQueryById}/${enquiry.id}`}
                       className="inline-flex items-center gap-2 text-blue-800 hover:underline"
                     >
                       {!enquiry.seen && (
@@ -84,7 +85,7 @@ const QuickEnquiriesPage = async () => {
 
                   <td className="px-4 py-3 text-right">
                     <Link
-                      href={`/admin/website-queries/${enquiry.id}`}
+                      href={`${AdminRoutes.websiteQueryById}/${enquiry.id}`}
                       className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-sm transition hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-100"
                     >
                       View & mark seen

@@ -1,19 +1,21 @@
 import { slugify } from "@/app/(disabled)/_shop/lib/helper";
 import { getCategoryLabel } from "@/app/blog/post/_lib/category";
 import { join, q } from "./helper";
-const blog = "/blog"
+const blog = "/blog";
+const blogPost = "/blog/post";
+const blogPostCategory = `${blogPost}/category`;
 
 export const BlogRoutes = {
   root: () => blog,
-  post: (slug: string) => `/blog/post/${slug}`,
+  post: (slug: string) => `${blogPost}/${slug}`,
 
-  guideLines: () => "/blog/guidelines",
+  guideLines: () => `${blog}/guidelines`,
 
   // Author + category pages (your structure is /blog/p/u/[namePlusId] and /blog/p/[categoryId])
   categoryById: (categoryId: number) => {
     const label = getCategoryLabel(categoryId);
     const slug = slugify(label);
-    return `/blog/post/category/${slug}-${categoryId}`;
+    return `${blogPostCategory}/${slug}-${categoryId}`;
   },
   // authorByNamePlusId: (namePlusId: string) => `/blog/u/${namePlusId}`,
 
