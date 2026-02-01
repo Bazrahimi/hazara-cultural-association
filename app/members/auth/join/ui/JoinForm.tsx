@@ -11,6 +11,7 @@ import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
 import { join } from "../../_lib/action";
 
+import { TiArrowForward } from "react-icons/ti";
 import { JoinAddressRow, ProfileRow } from "../../_lib/definitions";
 import AddressForm from "./AddressForm";
 import Involvement from "./Involvement";
@@ -46,14 +47,13 @@ const JoinForm = ({ profile, address }: Props) => {
 
           <Involvement state={state} initial={profile} />
 
-          <FormErrorMessage message={state?.message} />
-
           {/* TOS + Privacy */}
           <TermsAndPrivacyNotice
             className="mt-2"
             prefix="By submitting this membership form, you agree to our"
             size="xs"
           />
+          <FormErrorMessage message={state?.message} />
 
           {/* Submit */}
           <div className="flex justify-end">
@@ -64,7 +64,7 @@ const JoinForm = ({ profile, address }: Props) => {
               overlay
               loadingText="continuing..."
             >
-              Continue
+              Next <TiArrowForward className="ml-2 h-5 w-5" />
             </ActionButton>
           </div>
         </form>

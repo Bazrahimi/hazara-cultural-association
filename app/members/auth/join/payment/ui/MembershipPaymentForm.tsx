@@ -5,6 +5,7 @@ import { payment } from "@/app/members/auth/_lib/action";
 import {
   PAYMENT_FIELDS as f,
   MEMBERSHIP_OPTIONS,
+  MEMBERSHIP_PLANS,
 } from "@/app/members/auth/_lib/constant";
 import {
   ActionButton,
@@ -15,6 +16,7 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
 import { TiArrowBack, TiArrowForward } from "react-icons/ti";
+import MembershipOptionCard from "./MembershipOption";
 
 const MembershipPaymentForm = () => {
   const [state, formAction, isPending] = useActionState(payment, undefined);
@@ -22,35 +24,16 @@ const MembershipPaymentForm = () => {
     <form action={formAction} className="space-y-8">
       {/* Plan selection */}
       <div className="grid gap-6 md:grid-cols-2">
-        {MEMBERSHIP_OPTIONS.map((opt) => (
-          <label
-            key={opt.id}
-            className="group cursor-pointer rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
-          >
-            <div className="flex items-start gap-4">
-              <input
-                type="radio"
-                name={f.plan}
-                value={opt.id}
-                defaultChecked={opt.id === "annual"}
-                className="mt-1 h-4 w-4"
-              />
-
-              <div className="flex-1 space-y-2">
-                <div className="flex items-center justify-between gap-4">
-                  <Header as="h2" size="sm" className="text-gray-900">
-                    {opt.label}
-                  </Header>
-                  <span className="rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold text-gray-900">
-                    {opt.priceLabel}
-                  </span>
-                </div>
-
-                <P className="text-sm text-gray-700">{opt.helper}</P>
-              </div>
-            </div>
-          </label>
-        ))}
+        <div className="grid gap-6 md:grid-cols-2">
+          {MEMBERSHIP_OPTIONS.map((opt) => (
+            <MembershipOptionCard
+              key={opt.id}
+              opt={opt}
+              name={f.plan}
+              defaultChecked={opt.id === MEMBERSHIP_PLANS[1]}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Fee waiver */}
