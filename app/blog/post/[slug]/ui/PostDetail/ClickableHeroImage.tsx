@@ -1,8 +1,8 @@
 "use client";
 
 import { cldDetailHeroAuto } from "@/app/_lib/cloudinary";
-import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
-import { Button } from "@/app/ui/global/components";
+import { Button } from "@/app/_ui";
+import { IMAGE_DEFAULT_BLUR } from "@/app/_ui/ImageShimer";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import HeroImage from "./HeroImage";

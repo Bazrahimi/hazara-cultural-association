@@ -1,20 +1,18 @@
+import { Header, P } from "@/app/_ui";
+import TricolorRule from "@/app/_ui/TricolorRule";
 import PostsSection from "@/app/blog/ui/posts/PostsSection";
 import PostsSectionSkeleton from "@/app/blog/ui/posts/PostsSectionSkeleton";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
 import { Suspense } from "react";
 import { getCategoryMeta } from "../../_lib/category";
-import TricolorRule from "@/app/ui/global/TricolorRule";
 
 const BlogCategoryPage = async ({
   params,
 }: {
   params: Promise<{ category: string }>;
-
 }) => {
   const { category } = await params;
   const parts = category.split("-");
-  const categoryId = Number(parts.at(-1))
+  const categoryId = Number(parts.at(-1));
 
   const meta = getCategoryMeta(categoryId);
 

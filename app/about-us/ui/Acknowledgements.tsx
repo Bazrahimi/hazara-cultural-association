@@ -1,7 +1,5 @@
 // app/about-us/ui/Acknowledgements.tsx
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
-
+import { Header, P } from "@/app/_ui";
 export default function Acknowledgements() {
   return (
     <section className="space-y-12 mt-10">

@@ -2,8 +2,7 @@
 
 import { AuthRoutes } from "@/app/_lib/routes";
 import { safeAccountNext } from "@/app/_lib/session/authRedirects";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
 import { redirect } from "next/navigation";
 import { readVerifyCookies } from "../_lib/cookies";
 import VerifyEmailForm from "./ui/VerifyEmailForm";

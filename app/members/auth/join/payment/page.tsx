@@ -1,9 +1,7 @@
 // app/members/join/payment/page.tsx
 
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
 import MembershipPaymentForm from "./ui/MembershipPaymentForm";
-
 
 export default function MembershipPaymentPage() {
   return (

@@ -1,19 +1,15 @@
 "use client";
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
 import { MemberRoutes } from "@/app/_lib/routes";
+import { ActionButton, Button, FormErrorMessage, Header, P } from "@/app/_ui";
+
 import { payment } from "@/app/members/auth/_lib/action";
 import {
   PAYMENT_FIELDS as f,
   MEMBERSHIP_OPTIONS,
   MEMBERSHIP_PLANS,
 } from "@/app/members/auth/_lib/constant";
-import {
-  ActionButton,
-  FormErrorMessage,
-} from "@/app/ui/global/clientComponent";
-import { Button } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+
 import { useActionState } from "react";
 import { TiArrowBack, TiArrowForward } from "react-icons/ti";
 import MembershipOptionCard from "./MembershipOption";

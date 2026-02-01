@@ -1,10 +1,10 @@
 // app/account/listing/new/NewListingForm.tsx
 "use client";
+import { Button, Input } from "@/app/_ui";
+import QuillEditor from "@/app/_ui/QuillEditor";
 
-import { Button, Input } from "@/app/ui/global/components";
+import Modal from "@/app/_ui/Modal";
 
-import Modal from "@/app/ui/global/modal";
-import QuillEditor from "@/app/ui/global/QuillEditor";
 import { useActionState, useEffect, useRef, useState } from "react";
 
 import { AccountRoutes } from "@/app/_lib/routes";

@@ -3,8 +3,7 @@
 import { formatDateTimeAU } from "@/app/_lib/Date";
 import { cn } from "@/app/_lib/helper";
 import { PostListConfigTrans } from "@/app/_lib/translation";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
 import type { PostsListRow } from "../../post/_lib/definitions";
 import { POST_STATUS, type StatusCode } from "../../post/_lib/definitions";
 import ChangeCategoryMenu from "./ChangeCategoryMenu";

@@ -1,9 +1,7 @@
 // app/shop/ui/CheckoutPage.tsx
 "use client";
 
-import { Button } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Button, Header, P } from "@/app/_ui";
 import { useEffect, useState } from "react";
 import type { Contact, FullAddress } from "../../../lib/definitions";
 import {

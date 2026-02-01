@@ -1,8 +1,7 @@
 "use client";
 
 import { cldCardHeroAuto } from "@/app/_lib/cloudinary";
-import { Button } from "@/app/ui/global/components";
-import { P } from "@/app/ui/global/paragraph";
+import { Button, P } from "@/app/_ui";
 import Image from "next/image";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import type { CartItem } from "../lib/definitions";

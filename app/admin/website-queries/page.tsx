@@ -1,8 +1,7 @@
 // app/admin/website-queries/page.tsx
 import { sql } from "@/app/_lib/db";
 
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
 import Link from "next/link";
 import { QuickEnquiryHead } from "./utils/definitions";
 // app/lib/constants.ts

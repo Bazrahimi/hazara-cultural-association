@@ -2,8 +2,8 @@ import Link from "next/link";
 // import { BsFillCartFill } from "react-icons/bs";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaWpforms } from "react-icons/fa6";
-import { HiLocationMarker } from "react-icons/hi";
 import {
+  HiLocationMarker,
   // HiLocationMarker,
   HiMail,
 } from "react-icons/hi";
@@ -12,8 +12,8 @@ import { MdOutlineJoinInner } from "react-icons/md";
 import { ORG_PROFILE } from "../_lib/org/profile";
 import { AuthRoutes, DonateRoutes, PublicRoutes } from "../_lib/routes";
 import { buildPostCategoryQuickLinks } from "../blog/post/_lib/category";
-import { Header } from "./global/Header";
-import { P } from "./global/paragraph";
+import { Header } from "./Header";
+import { P } from "./paragraph";
 
 // -------------------------------
 // Reusable className tokens
@@ -73,12 +73,11 @@ const SOCIAL_LINKS = [
 ];
 
 const CONTACT = {
-  
   email: ORG_PROFILE.email,
   ...(ORG_PROFILE.contactNumber && {
     phone: ORG_PROFILE.contactNumber,
   }),
-  address: ORG_PROFILE.address
+  address: ORG_PROFILE.address,
 };
 
 const Footer = () => {

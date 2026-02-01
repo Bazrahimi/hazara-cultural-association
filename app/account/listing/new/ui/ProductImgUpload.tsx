@@ -1,5 +1,5 @@
 // ProductImgUpload.tsx
-import CldFileUpload from "@/app/ui/global/CLdFileUpload";
+import CldFileUpload from "@/app/_ui/CLdFileUpload";
 
 type FieldErrors = Partial<Record<"mainImg" | "otherImgs", string[]>>;
 

@@ -1,6 +1,5 @@
 import { AccountRoutes } from "@/app/_lib/routes";
-import { Header } from "@/app/ui/global/Header";
-import { Button } from "@/app/ui/global/components";
+import { Button, Header } from "@/app/_ui";
 import { use } from "react";
 import { ProfileRecord, userRecord } from "../lib/definitions";
 

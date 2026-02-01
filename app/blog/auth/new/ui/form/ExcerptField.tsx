@@ -2,8 +2,7 @@
 
 import { cn } from "@/app/_lib/helper";
 import { CreateEditPostTrans } from "@/app/_lib/translation";
-import { Button } from "@/app/ui/global/components";
-import { P } from "@/app/ui/global/paragraph";
+import { Button, P } from "@/app/_ui";
 const t = CreateEditPostTrans.Excerpt;
 
 function extractTextExcerpt(html?: string, maxLength = 160): string {

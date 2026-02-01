@@ -4,11 +4,11 @@
 
 import { toBoolean } from "@/app/_lib/helper";
 import { CreateEditPostTrans } from "@/app/_lib/translation";
+import { Input } from "@/app/_ui";
+import CldFileUpload from "@/app/_ui/CLdFileUpload";
 import type { CategoryId } from "@/app/blog/post/_lib/category";
 import { POST_FIELDS } from "@/app/blog/post/_lib/helper";
 import { setNotification } from "@/app/u/auth/_lib/setNotification";
-import CldFileUpload from "@/app/ui/global/CLdFileUpload";
-import { Input } from "@/app/ui/global/components";
 import { useActionState, useEffect, useState } from "react";
 import type { PostInput, PostState } from "../../../post/_lib/schema";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
@@ -95,8 +95,6 @@ export default function PostForm({ mode, action, initialData }: Props) {
     if (!html) return "";
     return html.replace(/<span class="ql-ui"[^>]*><\/span>/g, "");
   }
-
-
 
   const t = CreateEditPostTrans.PostForm;
   const lang = isRTL ? "rtl" : "en";

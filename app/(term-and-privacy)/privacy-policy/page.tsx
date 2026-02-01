@@ -1,9 +1,7 @@
 // app/privacy-policy/page.tsx
 import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import { PublicRoutes } from "@/app/_lib/routes";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
-
+import { Header, P } from "@/app/_ui";
 export const metadata = {
   title: "Privacy Policy | " + ORG_PROFILE.orgName,
   description:
@@ -26,9 +24,9 @@ export default function Page() {
             1) Who We Are
           </Header>
           <P>
-            The {ORG_PROFILE.orgName} is a community-driven,
-            volunteer-led nonprofit based in Melbourne’s South-Eastern suburbs.
-            We are committed to protecting your privacy.
+            The {ORG_PROFILE.orgName} is a community-driven, volunteer-led
+            nonprofit based in Melbourne’s South-Eastern suburbs. We are
+            committed to protecting your privacy.
           </P>
         </div>
 

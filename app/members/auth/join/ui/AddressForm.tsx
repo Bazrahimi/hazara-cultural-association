@@ -1,6 +1,5 @@
 import { AUS_STATES } from "@/app/_lib/helper";
-import { Input } from "@/app/ui/global/components";
-import { SelectInput } from "@/app/ui/global/SelectInput";
+import { Input, SelectInput } from "@/app/_ui";
 import { ADDRESS_FIELDS as f } from "../../_lib/constant";
 import { JoinAddressRow } from "../../_lib/definitions";
 

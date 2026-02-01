@@ -1,7 +1,7 @@
 // app/checkout/ui/AuAddressAutocomplete.tsx
 "use client";
 
-import { P } from "@/app/ui/global/paragraph";
+import { P } from "@/app/_ui";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 /** Nominatim response (subset) */
@@ -57,7 +57,7 @@ const AU_STATE_NAME_TO_CODE: Record<string, string> = {
 
 function getStateCode(
   a?: NominatimSuggestion["address"],
-  extra?: NominatimSuggestion["extratags"]
+  extra?: NominatimSuggestion["extratags"],
 ) {
   if (a?.state_code) return a.state_code.toUpperCase();
   const iso = extra?.["ISO3166-2-lvl4"];
@@ -158,7 +158,7 @@ const AuAddressAutocomplete = ({
 
         // keep only postal-like results (must have street/road and postcode)
         const postalOnly = data.filter(
-          (d) => d.address?.road && d.address?.postcode
+          (d) => d.address?.road && d.address?.postcode,
         );
 
         setItems(postalOnly);
@@ -191,7 +191,7 @@ const AuAddressAutocomplete = ({
 
   const parsedItems = useMemo(
     () => items.map((s) => parseSuggestion(s)),
-    [items]
+    [items],
   );
   const labels = useMemo(() => parsedItems.map(postalLabel), [parsedItems]);
 

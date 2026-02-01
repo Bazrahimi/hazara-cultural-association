@@ -1,8 +1,6 @@
 "use client";
 import { cldCardHeroAuto } from "@/app/_lib/cloudinary";
-import { Header } from "@/app/ui/global/Header";
-import { Button } from "@/app/ui/global/components";
-import { P } from "@/app/ui/global/paragraph";
+import { Button, Header, P } from "@/app/_ui";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";

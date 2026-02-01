@@ -1,6 +1,4 @@
-import { Header } from "@/app/ui/global/Header";
-import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, IMAGE_DEFAULT_BLUR, P } from "@/app/_ui";
 import Image from "next/image";
 
 export type Person = {
@@ -108,9 +106,7 @@ export function TeamGrid() {
               {person.name}
             </h3>
             {person.role && (
-              <P className="text-center text-sm text-gray-600">
-                {person.role}
-              </P>
+              <P className="text-center text-sm text-gray-600">{person.role}</P>
             )}
 
             {/* Divider */}
@@ -174,4 +170,3 @@ export function TeamGrid() {
     </section>
   );
 }
-

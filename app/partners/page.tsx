@@ -1,6 +1,5 @@
+import { Header, P } from "@/app/_ui";
 import { DonateRoutes } from "../_lib/routes";
-import { Header } from "../ui/global/Header";
-import { P } from "../ui/global/paragraph";
 import { LogoGrid, type CTA, type LogoItem } from "./ui/LogoGrid";
 
 const PARTNERS: LogoItem[] = [

@@ -1,8 +1,6 @@
 // app/terms-of-service/page.tsx
 import { ORG_PROFILE } from "@/app/_lib/org/profile";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
-
+import { Header, P } from "@/app/_ui";
 export const metadata = {
   title: "Terms of Service | " + ORG_PROFILE.orgName,
   description:

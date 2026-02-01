@@ -1,6 +1,6 @@
 import { cn } from "@/app/_lib/helper";
-import { Header } from "@/app/ui/global/Header";
-import TricolorRule from "@/app/ui/global/TricolorRule";
+import { Header } from "@/app/_ui";
+import TricolorRule from "@/app/_ui/TricolorRule";
 
 type Props = {
   isRTL: boolean;

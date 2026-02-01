@@ -2,12 +2,8 @@
 "use client";
 
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
-import {
-  ActionButton,
-  FormErrorMessage,
-} from "@/app/ui/global/clientComponent";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { ActionButton, FormErrorMessage, Header, P } from "@/app/_ui";
+
 import { useActionState } from "react";
 import { join } from "../../_lib/action";
 

@@ -1,6 +1,5 @@
 import { BlogRoutes } from "@/app/_lib/routes";
-import { Button } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
+import { Button, Header } from "@/app/_ui";
 import { Suspense } from "react";
 import { POST_STATUS, StatusCode } from "../post/_lib/definitions";
 import PostsLoadingFallback from "./ui/PostsLoadingFallback";

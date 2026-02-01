@@ -11,7 +11,7 @@ import { CartProvider } from "./(disabled)/_shop/ui/cart/CartContext";
 import { ORG_PROFILE } from "./_lib/org/profile";
 import { NotificationCenter } from "./blog/ui/NotificationCenter";
 import NavBar from "./Navbar";
-import Footer from "./ui/Footer";
+import Footer from "./_ui/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

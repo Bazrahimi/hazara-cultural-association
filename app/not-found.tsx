@@ -1,9 +1,8 @@
 // app/not-found.tsx
+import { Button, P } from "@/app/_ui";
 import Image from "next/image";
 import { HiArrowLeft } from "react-icons/hi";
 import { ORG_PROFILE } from "./_lib/org/profile";
-import { Button } from "./ui/global/components";
-import { P } from "./ui/global/paragraph";
 
 export default function NotFound() {
   return (

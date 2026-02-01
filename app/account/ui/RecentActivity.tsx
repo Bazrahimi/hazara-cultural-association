@@ -1,7 +1,4 @@
-import { Button } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
-
+import { Button, Header, P } from "@/app/_ui";
 const RecentActivity = () => {
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-6">

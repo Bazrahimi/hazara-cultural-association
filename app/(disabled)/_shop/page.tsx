@@ -3,9 +3,8 @@
 // import { Breadcrumb } from "@/app/contact-us/_lib/definitions";
 import { sql } from "@/app/_lib/db";
 import { ORG_PROFILE } from "@/app/_lib/org/profile";
-import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
+import Breadcrumbs, { type Breadcrumb } from "@/app/_ui/Breadcrumbs";
 import type { ProductHead } from "./lib/definitions";
 import ProductCard from "./ui/ProductCard";
 

@@ -1,6 +1,6 @@
 "use client";
+import { ActionButton } from "@/app/_ui";
 import { useState } from "react";
-import { ActionButton } from "../global/clientComponent";
 
 export const CheckoutButton = () => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,11 @@ export const CheckoutButton = () => {
   };
 
   return (
-    <ActionButton isLoading={loading} loadingText="Checkout" onClick={handleCheckout}>
+    <ActionButton
+      isLoading={loading}
+      loadingText="Checkout"
+      onClick={handleCheckout}
+    >
       Checkout
     </ActionButton>
   );

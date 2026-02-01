@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/app/ui/global/components";
+import { Button } from "@/app/_ui";
 import { useActionState, useState } from "react";
 import { billingAddressInput } from "../lib/action";
 import AddressAutoComplete from "../lib/AddressAutoComplete";
@@ -11,7 +11,7 @@ const AddressForm = ({ initial }: { initial: BillingAddressInput }) => {
   // Server action state must match the action's return type
   const [actionState, formAction, isPending] = useActionState(
     billingAddressInput,
-    undefined
+    undefined,
   );
 
   // Local controlled state that drives the inputs

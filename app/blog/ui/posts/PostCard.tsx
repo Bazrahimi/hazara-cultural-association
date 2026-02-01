@@ -3,10 +3,7 @@
 import { cldCardHeroAuto } from "@/app/_lib/cloudinary";
 import { cn } from "@/app/_lib/helper";
 import { BlogRoutes } from "@/app/_lib/routes";
-import { Button } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
-import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
-import { P } from "@/app/ui/global/paragraph";
+import { Button, Header, IMAGE_DEFAULT_BLUR, P } from "@/app/_ui";
 import Image from "next/image";
 import Link from "next/link";
 import type { PostCardRow } from "../../post/_lib/definitions";

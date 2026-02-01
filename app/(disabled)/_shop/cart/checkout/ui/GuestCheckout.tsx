@@ -1,4 +1,4 @@
-import { Button, Input } from "@/app/ui/global/components";
+import { Button, Input } from "@/app/_ui";
 import { useMemo, useState } from "react";
 
 type Props = {

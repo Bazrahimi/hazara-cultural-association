@@ -1,8 +1,6 @@
 import { sql } from "@/app/_lib/db";
 import { AdminRoutes } from "@/app/_lib/routes";
-import { DeleteFormAction } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { DeleteFormAction, Header, P } from "@/app/_ui";
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 import { QUERY_OPTIONS } from "../page";

@@ -1,5 +1,5 @@
 // app/blog/[slug]/ui/BlogPostDetail.tsx
-import { Header } from "@/app/ui/global/Header";
+import { Header } from "@/app/_ui";
 
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -7,7 +7,7 @@ import ContentSection from "./ContentSection";
 import EventSection from "./EventSection";
 import ManageControlGate from "./ManageControlGate";
 
-import TricolorRule from "@/app/ui/global/TricolorRule";
+import TricolorRule from "@/app/_ui/TricolorRule";
 import { getPostById } from "../../../_lib/data";
 import RelatedPostsSection from "../RelatedPostsSection";
 import ClickableHeroImage from "./ClickableHeroImage";

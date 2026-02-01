@@ -1,5 +1,5 @@
 import { formatDateTimeAU } from "@/app/_lib/Date";
-import { P } from "@/app/ui/global/paragraph";
+import { P } from "@/app/_ui";
 
 type Props = {
   eventDate: string;

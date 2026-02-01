@@ -1,7 +1,5 @@
 "use client";
-
-import { Input } from "@/app/ui/global/components";
-import { SelectInput } from "@/app/ui/global/SelectInput";
+import { Button, Header, P, Input, SelectInput } from "@/app/_ui";
 import {
   EDUCATION_LEVEL_OPTIONS,
   PROFILE_FIELDS as f,

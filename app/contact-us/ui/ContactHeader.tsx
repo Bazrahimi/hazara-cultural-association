@@ -1,18 +1,18 @@
 import { DonateRoutes } from "@/app/_lib/routes";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Button, Header, P } from "@/app/_ui";
 
 import { ORG_PROFILE } from "@/app/_lib/org/profile";
-import { Button } from "@/app/ui/global/components";
-import { MdPhone, MdLocationOn } from "react-icons/md";
+
 import type { IconType } from "react-icons";
 import {
   MdCampaign,
   MdEmail,
   MdEvent,
   MdFavorite,
+  MdLocationOn,
   // MdLocationOn,
   MdPeople,
+  MdPhone,
   MdSchool,
   MdVolunteerActivism,
 } from "react-icons/md";

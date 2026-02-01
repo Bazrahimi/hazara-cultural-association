@@ -1,10 +1,10 @@
 import { Suspense } from "react";
+import Hero from "./_ui/Hero";
+import FeaturedBlogPosts from "./_ui/homepage/blog/FeaturedBlogPosts";
+import Memorial133Spotlight from "./_ui/homepage/blog/Memorial133Spotlight";
+import TricolorRule from "./_ui/TricolorRule";
 import Acknowledgements from "./about-us/ui/Acknowledgements";
 import PartnersAndSupporters from "./partners/page";
-import TricolorRule from "./ui/global/TricolorRule";
-import Hero from "./ui/Hero";
-import FeaturedBlogPosts from "./ui/homepage/blog/FeaturedBlogPosts";
-import Memorial133Spotlight from "./ui/homepage/blog/Memorial133Spotlight";
 
 export default function HomePage() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@/app/ui/global/components";
+import { Input } from "@/app/_ui";
 import type { BillingAddressInput, FieldErrors } from "../lib/schema";
 
 type Props = {

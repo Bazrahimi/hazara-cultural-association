@@ -1,9 +1,9 @@
-import { Header } from "@/app/ui/global/Header";
-import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
+import { IMAGE_DEFAULT_BLUR } from "@/app/_ui";
+import { Header } from "@/app/_ui/Header";
 import Image from "next/image";
-import { P } from "../../global/paragraph";
+import { P } from "../../paragraph";
 
-import { Button } from "../../global/components";
+import { Button } from "../../components";
 
 export default function Memorial133Spotlight() {
   return (

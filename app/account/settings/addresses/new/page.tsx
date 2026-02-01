@@ -1,6 +1,7 @@
 import { AccountRoutes } from "@/app/_lib/routes";
-import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
-import { Header } from "@/app/ui/global/Header";
+import { Header } from "@/app/_ui";
+import Breadcrumbs, { type Breadcrumb } from "@/app/_ui/Breadcrumbs";
+
 import type { BillingAddressInput } from "../lib/schema";
 import AddressForm from "../ui/AddressForm";
 

@@ -1,8 +1,6 @@
 "use client";
 
-import { ActionButton } from "@/app/ui/global/clientComponent";
-import { Input } from "@/app/ui/global/components";
-import { P } from "@/app/ui/global/paragraph";
+import { ActionButton, Input, P } from "@/app/_ui";
 import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
 

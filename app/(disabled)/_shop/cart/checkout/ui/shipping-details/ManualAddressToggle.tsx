@@ -1,6 +1,6 @@
 // app/shop/ui/shipping-details/ManualAddressToggle.tsx
 "use client";
-import { P } from "@/app/ui/global/paragraph";
+import { P } from "@/app/_ui";
 
 export default function ManualAddressToggle({
   manually,

@@ -3,8 +3,7 @@
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
 import { AuthRoutes } from "@/app/_lib/routes";
 import { safeAccountNext } from "@/app/_lib/session/authRedirects";
-import { Header } from "@/app/ui/global/Header";
-import { Button } from "@/app/ui/global/components";
+import { Button, Header } from "@/app/_ui";
 import SocialLoginButtons from "../login/ui/SocialLoginButtons";
 import SignupForm from "./ui/SignupForm";
 

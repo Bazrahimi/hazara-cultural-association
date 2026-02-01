@@ -2,7 +2,7 @@
 "use client";
 
 import { cldLogoSharp } from "@/app/_lib/cloudinary";
-import { useBodyScrollLock } from "@/app/ui/hooks/useBodyScrollLock";
+import { useBodyScrollLock } from "@/app/_ui/hooks/useBodyScrollLock";
 import {
   CldUploadWidget,
   type CloudinaryUploadWidgetInfo,

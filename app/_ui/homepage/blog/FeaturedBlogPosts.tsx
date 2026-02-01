@@ -1,9 +1,8 @@
+import { Header, P } from "@/app/_ui";
+import TricolorRule from "@/app/_ui/TricolorRule";
 import { CATEGORY_MAP, getCategoryMeta } from "@/app/blog/post/_lib/category";
 import PostsSection from "@/app/blog/ui/posts/PostsSection";
 import PostsSectionSkeleton from "@/app/blog/ui/posts/PostsSectionSkeleton";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
-import TricolorRule from "@/app/ui/global/TricolorRule";
 import { Suspense } from "react";
 
 const CATEGORY_IDS = Object.keys(CATEGORY_MAP)
@@ -26,10 +25,17 @@ const FeaturedBlogPosts = ({ limit }: { limit: number }) => {
           return (
             <section key={categoryId} className="pt-5">
               <div className="mb-6 px-3">
-                <Header as="h3" align="center" size="sm" className="text-hca-blue-dark mb-1">
+                <Header
+                  as="h3"
+                  align="center"
+                  size="sm"
+                  className="text-hca-blue-dark mb-1"
+                >
                   {meta.heading}
                 </Header>
-                <P className="text-sm text-gray-600 text-center">{meta.shortDesc}</P>
+                <P className="text-sm text-gray-600 text-center">
+                  {meta.shortDesc}
+                </P>
               </div>
 
               <Suspense fallback={<PostsSectionSkeleton cardCount={limit} />}>

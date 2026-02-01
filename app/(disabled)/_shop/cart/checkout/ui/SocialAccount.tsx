@@ -1,8 +1,7 @@
 // app/shop/cart/checkout/ui/SocialAccount.tsx
 "use client";
 
-import { Button } from "@/app/ui/global/components";
-import { P } from "@/app/ui/global/paragraph";
+import { Button, P } from "@/app/_ui";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { ImAppleinc } from "react-icons/im";

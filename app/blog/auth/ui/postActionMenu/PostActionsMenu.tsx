@@ -1,10 +1,9 @@
 "use client";
 
 import { ManagePostTrans } from "@/app/_lib/translation";
+import { Button, P } from "@/app/_ui";
 import type { StatusCode } from "@/app/blog/post/_lib/definitions";
 import { POST_STATUS } from "@/app/blog/post/_lib/definitions";
-import { Button } from "@/app/ui/global/components";
-import { P } from "@/app/ui/global/paragraph";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import MenuItem from "./MenuItem";

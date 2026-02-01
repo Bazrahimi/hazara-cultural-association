@@ -3,10 +3,7 @@
 
 import { useEffect } from "react";
 
-import { Button } from "./ui/global/components";
-import { Header } from "./ui/global/Header";
-import { P } from "./ui/global/paragraph";
-
+import { Button, Header, P } from "@/app/_ui";
 export default function Error({
   error,
   reset,

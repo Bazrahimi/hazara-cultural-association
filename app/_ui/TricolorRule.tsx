@@ -11,7 +11,7 @@ type Props = {
   feather?: number; // soften seams in % of width (e.g. 0.8)
 };
 
-export default function TricolorRule({
+const  TricolorRule = ({
   height = 6,
   rounded = true,
   className,
@@ -19,7 +19,7 @@ export default function TricolorRule({
   colors = ["#facc15", "#e5e7eb", "#3b82f6"], // yellow-400, gray-200, blue-500
   sheen = true,
   feather = 0, // 0 = hard seams; try 0.6–1.2 for gentle blends
-}: Props) {
+}: Props)  => {
   const total = segments[0] + segments[1] + segments[2];
   const s1 = (segments[0] / total) * 100; // first breakpoint
   const s2 = ((segments[0] + segments[1]) / total) * 100; // second breakpoint
@@ -82,3 +82,5 @@ export default function TricolorRule({
     />
   );
 }
+
+export default TricolorRule

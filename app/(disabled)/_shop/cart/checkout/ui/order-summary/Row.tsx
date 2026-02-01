@@ -1,5 +1,5 @@
 "use client";
-import { P } from "@/app/ui/global/paragraph";
+import { P } from "@/app/_ui";
 const Row = ({
   label,
   value,

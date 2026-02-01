@@ -1,8 +1,7 @@
 // app/shop/ui/StepCard.tsx
 "use client";
 
-import { Button } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
+import { Button, Header } from "@/app/_ui";
 import { ReactNode } from "react";
 
 type Props = {
@@ -10,8 +9,8 @@ type Props = {
   expanded: boolean;
   summary?: ReactNode;
   children: ReactNode;
-  onEdit?: () => void;      // called when user clicks "Edit"
-  canEdit?: boolean;        // optionally hide Edit (defaults to true)
+  onEdit?: () => void; // called when user clicks "Edit"
+  canEdit?: boolean; // optionally hide Edit (defaults to true)
   className?: string;
 };
 
@@ -25,9 +24,13 @@ export default function StepCard({
   className = "",
 }: Props) {
   return (
-    <section className={`rounded-md border border-gray-200 ${expanded ? "p-4" : "p-4"} ${className}`}>
+    <section
+      className={`rounded-md border border-gray-200 ${expanded ? "p-4" : "p-4"} ${className}`}
+    >
       <div className="mb-3 flex items-center justify-between">
-        <Header as="h2" size="sm">{title}</Header>
+        <Header as="h2" size="sm">
+          {title}
+        </Header>
 
         {/* Show Edit when the card is collapsed and editing is allowed */}
         {!expanded && canEdit && onEdit ? (

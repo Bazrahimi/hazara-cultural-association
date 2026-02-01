@@ -1,7 +1,7 @@
 // app/shop/ui/shipping-details/AddressFields.tsx
 "use client";
 import type { FullAddress } from "@/app/(disabled)/_shop/lib/definitions";
-import { Input } from "@/app/ui/global/components";
+import { Input } from "@/app/_ui";
 
 type Props = {
   value: FullAddress;

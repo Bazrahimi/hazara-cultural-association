@@ -1,7 +1,7 @@
 // app/ui/shop/ProductCard.tsx
 "use client";
 import { cldCardHeroAuto } from "@/app/_lib/cloudinary";
-import { Header } from "@/app/ui/global/Header";
+import { Header } from "@/app/_ui";
 import Image from "next/image";
 import Link from "next/link";
 import type { ProductHead } from "../lib/definitions";

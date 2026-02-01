@@ -1,5 +1,4 @@
-import { Header } from "@/app/ui/global/Header";
-import { Button } from "@/app/ui/global/components";
+import { Button, Header } from "@/app/_ui";
 import { use } from "react";
 import { addressToLines } from "../lib/helper";
 

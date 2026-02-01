@@ -1,6 +1,6 @@
 import { BlogRoutes } from "@/app/_lib/routes";
 import { BreadcrumbsTrans } from "@/app/_lib/translation/BreadcrumbsTrans";
-import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
+import Breadcrumbs, { type Breadcrumb } from "@/app/_ui/Breadcrumbs";
 import { Suspense } from "react";
 import { extractTitleFromSlug } from "../../lib/helper";
 import { getCategoryLabel } from "../_lib/category";

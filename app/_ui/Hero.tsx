@@ -6,8 +6,8 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { ORG_PROFILE } from "../_lib/org/profile";
 import { MemberRoutes } from "../_lib/routes";
-import { IMAGE_DEFAULT_BLUR } from "./global/ImageShimer";
-import { Button } from "./global/components";
+import { IMAGE_DEFAULT_BLUR } from "./ImageShimer";
+import { Button } from "./components";
 
 const heroImg = "/images/hero/hero2.png";
 

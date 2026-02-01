@@ -1,8 +1,8 @@
 import { sql } from "@/app/_lib/db";
 import { AccountRoutes } from "@/app/_lib/routes";
 import { requireUser } from "@/app/_lib/session/session";
-import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
-import { Header } from "@/app/ui/global/Header";
+import { Header } from "@/app/_ui";
+import Breadcrumbs, { type Breadcrumb } from "@/app/_ui/Breadcrumbs";
 import { Profile } from "./lib/schema";
 import ProfileForm from "./ui/ProfileForm";
 

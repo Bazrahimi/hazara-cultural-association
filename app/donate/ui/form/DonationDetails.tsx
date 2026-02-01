@@ -1,6 +1,5 @@
 "use client";
-import { Button, Input } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
+import { Button, Header, Input } from "@/app/_ui";
 import { CiUser } from "react-icons/ci";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdEmail } from "react-icons/md";

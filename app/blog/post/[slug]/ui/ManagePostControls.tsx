@@ -1,13 +1,13 @@
 // ManagePostControls.tsx
 "use client";
 
-import { Button } from "@/app/ui/global/components";
+import { Button, P } from "@/app/_ui";
 import PostActionsMenu from "../../../auth/ui/postActionMenu/PostActionsMenu";
 
 import { formatDateTimeAU } from "@/app/_lib/Date";
 import { BlogRoutes } from "@/app/_lib/routes";
 import { ManagePostTrans } from "@/app/_lib/translation";
-import { P } from "@/app/ui/global/paragraph";
+
 import { POST_STATUS, StatusCode } from "../../_lib/definitions";
 
 const labels = ManagePostTrans.Label;

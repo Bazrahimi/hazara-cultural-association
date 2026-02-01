@@ -1,10 +1,7 @@
 // app/u/forgot-password/page.tsx
 "use client";
+import { ActionButton, Header, Input, P } from "@/app/_ui";
 
-import { ActionButton } from "@/app/ui/global/clientComponent";
-import { Input } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
 import { forgotPassword } from "../_lib/action";
 // we will create this action in the next step

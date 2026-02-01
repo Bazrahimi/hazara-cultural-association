@@ -1,10 +1,9 @@
 import { BlogRoutes } from "@/app/_lib/routes";
 import { requireUser } from "@/app/_lib/session/session";
+import { Button, Header } from "@/app/_ui";
 import PostsLoadingFallback from "@/app/blog/auth/ui/PostsLoadingFallback";
 import PostsWrapper from "@/app/blog/auth/ui/PostsWrapper";
 import { POST_STATUS } from "@/app/blog/post/_lib/definitions";
-import { Header } from "@/app/ui/global/Header";
-import { Button } from "@/app/ui/global/components";
 import { Suspense } from "react";
 
 const AdminAllBlockPostsPage = async () => {

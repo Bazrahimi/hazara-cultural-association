@@ -2,7 +2,7 @@
 "use client";
 
 import { CreateEditPostTrans } from "@/app/_lib/translation";
-import QuillEditor from "@/app/ui/global/QuillEditor";
+import QuillEditor from "@/app/_ui/QuillEditor";
 
 type Props = {
   isRTL: boolean;

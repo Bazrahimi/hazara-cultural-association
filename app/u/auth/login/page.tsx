@@ -1,7 +1,6 @@
 // app/u/login/page.tsx
 
-import { Button } from "../../../ui/global/components";
-import { Header } from "../../../ui/global/Header";
+import { Button, Header } from "@/app/_ui";
 
 import { AuthRoutes } from "@/app/_lib/routes";
 import { safeAccountNext } from "@/app/_lib/session/authRedirects";

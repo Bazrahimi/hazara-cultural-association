@@ -1,12 +1,10 @@
 // app/events/133rd-hazara-genocide-memorial/memoMemorial133.tsx
-import { Header } from "@/app/ui/global/Header";
-import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
-import { P } from "@/app/ui/global/paragraph";
+import { ORG_PROFILE } from "@/app/_lib/org/profile";
+import { Header, IMAGE_DEFAULT_BLUR, P } from "@/app/_ui";
 import Image from "next/image";
 import ImageGallery from "./ui/ImageGallery";
-import { IMAGE_GALLERY, KEYNOTE_SPEAKERS, VIDEO_GALLERY } from "./util/helper";
 import VideoGalleries from "./ui/VideoGallery";
-import { ORG_PROFILE } from "@/app/_lib/org/profile";
+import { IMAGE_GALLERY, KEYNOTE_SPEAKERS, VIDEO_GALLERY } from "./util/helper";
 
 // ---------------------------
 // Memorial133
@@ -138,14 +136,13 @@ export default function Memorial133() {
         />
       </section>
 
-            {/* Photo Highlights */}
+      {/* Photo Highlights */}
       <section className="mt-10">
         <Header as="h2" size="sm">
           Video Highlights
         </Header>
-    
-           <VideoGalleries videos={VIDEO_GALLERY} overlaySource />
-      
+
+        <VideoGalleries videos={VIDEO_GALLERY} overlaySource />
       </section>
     </main>
   );

@@ -1,6 +1,5 @@
+import { Header, P } from "@/app/_ui";
 import PostsSection from "@/app/blog/ui/posts/PostsSection";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
 export type RelatedPostsSection = {
   postId: number;
   categoryId: number;
@@ -17,7 +16,7 @@ const RelatedPostsSection = ({
   return (
     <section className="pb-14">
       <div className="rounded-2xl border border-gray-100 bg-white/80 p-1 md:p-5 shadow-sm backdrop-blur-lg">
-        <Header as="h2" size="sm" align= 'center'>
+        <Header as="h2" size="sm" align="center">
           {isRTL ? "مطالب مرتبط" : "Further reading"}
         </Header>
         <P className="mt-2 text-gray-600 text-center">

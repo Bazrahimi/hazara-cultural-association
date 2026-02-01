@@ -1,4 +1,4 @@
-import { P } from "@/app/ui/global/paragraph";
+import { P } from "@/app/_ui";
 import {
   getFeaturedPostsByCategory,
   getPublishedPostsByAuthor,
@@ -42,7 +42,7 @@ const PostsSection = async (props: Props) => {
         postId: props.postId,
         categoryId: props.categoryId,
         title: props.title,
-        isRTL:props.isRTL,
+        isRTL: props.isRTL,
         limit: props.limit,
       });
       break;

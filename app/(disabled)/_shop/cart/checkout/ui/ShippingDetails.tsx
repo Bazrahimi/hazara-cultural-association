@@ -10,7 +10,7 @@ import {
   isPostcode,
   postalLabelFromFull,
 } from "@/app/(disabled)/_shop/lib/helper";
-import { Button } from "@/app/ui/global/components";
+import { Button } from "@/app/_ui";
 import { useMemo, useState } from "react";
 
 import usePersistedState from "../hooks/usePersistedState";

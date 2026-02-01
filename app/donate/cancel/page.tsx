@@ -1,7 +1,6 @@
 // app/donate/cancel/page.tsx
 import { DonateRoutes } from "@/app/_lib/routes";
-import { Button } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
+import { Button, Header } from "@/app/_ui";
 import Link from "next/link";
 
 export const metadata = {

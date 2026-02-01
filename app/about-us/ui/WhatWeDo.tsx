@@ -1,5 +1,4 @@
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
 import { FaCheck } from "react-icons/fa";
 
 const ITEMS = [

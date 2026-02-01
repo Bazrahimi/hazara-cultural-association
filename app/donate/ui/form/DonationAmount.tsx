@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/app/ui/global/components";
+import { Button, Input } from "@/app/_ui";
 import React from "react";
 import { CiDollar } from "react-icons/ci";
 

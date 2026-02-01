@@ -1,6 +1,6 @@
 "use client";
 
-import { IMAGE_DEFAULT_BLUR } from "@/app/ui/global/ImageShimer";
+import { IMAGE_DEFAULT_BLUR } from "@/app/_ui/ImageShimer";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 

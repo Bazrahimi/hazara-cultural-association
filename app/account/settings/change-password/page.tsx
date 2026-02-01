@@ -3,13 +3,7 @@
 
 import { useActionState } from "react";
 
-import { Header } from "@/app/ui/global/Header";
-import {
-  ActionButton,
-  FormErrorMessage,
-} from "@/app/ui/global/clientComponent";
-import { Input } from "@/app/ui/global/components";
-import { P } from "@/app/ui/global/paragraph";
+import { ActionButton, FormErrorMessage, Header, Input, P } from "@/app/_ui";
 
 import { changePassword } from "@/app/u/auth/_lib/action";
 import { setNotification } from "@/app/u/auth/_lib/setNotification";

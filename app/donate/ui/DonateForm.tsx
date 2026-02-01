@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/app/ui/global/components";
+import { Button } from "@/app/_ui";
 import { useActionState, useState } from "react";
 import { submitDonation } from "../lib/action";
 import DonationAmount, { type DonateTab } from "./form/DonationAmount";
@@ -17,7 +17,7 @@ export default function DonateForm() {
 
   const [state, formAction, isPending] = useActionState(
     submitDonation,
-    undefined
+    undefined,
   );
 
   const handleTabChange = (t: DonateTab) => {
@@ -26,8 +26,8 @@ export default function DonateForm() {
     setAmount("");
   };
 
-  const goToDetails = (e:React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+  const goToDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (typeof amount !== "number" || amount <= 1) {
       setAmountError(true);
       return;

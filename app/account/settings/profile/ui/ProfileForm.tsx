@@ -1,9 +1,8 @@
 // app/account/settings/profile/ProfileForm.tsx
 "use client";
 
+import { Button, Input } from "@/app/_ui";
 import { useActionState } from "react";
-
-import { Button, Input } from "@/app/ui/global/components";
 import { updateProfileAction } from "../lib/action";
 import { Profile, ProfileState } from "../lib/schema";
 

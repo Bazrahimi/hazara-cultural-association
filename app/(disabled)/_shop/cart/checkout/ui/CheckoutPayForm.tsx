@@ -7,7 +7,7 @@ import type {
   FullAddress,
 } from "@/app/(disabled)/_shop/lib/definitions";
 import { useCart } from "@/app/(disabled)/_shop/ui/cart/CartContext";
-import { Button } from "@/app/ui/global/components";
+import { Button } from "@/app/_ui";
 import { useActionState } from "react";
 
 type Props = {

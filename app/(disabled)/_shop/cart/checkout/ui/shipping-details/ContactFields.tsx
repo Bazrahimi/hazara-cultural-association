@@ -2,7 +2,7 @@
 "use client";
 
 import type { Contact } from "@/app/(disabled)/_shop/lib/definitions";
-import { Input } from "@/app/ui/global/components";
+import { Input } from "@/app/_ui";
 import { CiUser } from "react-icons/ci";
 import { IoIosPhonePortrait } from "react-icons/io";
 

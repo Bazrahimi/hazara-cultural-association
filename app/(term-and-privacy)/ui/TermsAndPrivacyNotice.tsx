@@ -1,6 +1,6 @@
 "use client";
 
-import { P } from "@/app/ui/global/paragraph";
+import { P } from "@/app/_ui";
 import Link from "next/link";
 
 type TextSize = "xs" | "sm" | "base";

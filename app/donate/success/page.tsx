@@ -2,9 +2,7 @@
 import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import { DonateRoutes } from "@/app/_lib/routes";
 import { stripe } from "@/app/_lib/stripe";
-import { Button } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Button, Header, P } from "@/app/_ui";
 import Link from "next/link";
 import type Stripe from "stripe";
 

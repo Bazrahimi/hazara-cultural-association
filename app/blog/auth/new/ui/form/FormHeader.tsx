@@ -1,7 +1,6 @@
 import { cn } from "@/app/_lib/helper";
 import { CreateEditPostTrans } from "@/app/_lib/translation";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
 import { ActionMode } from "../PostForm";
 
 type Props = {

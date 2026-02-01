@@ -1,7 +1,6 @@
 // app/members/join/ui/Involvement.tsx (or similar)
 
-import { Checkbox } from "@/app/ui/global/Checkbox";
-import { Header } from "@/app/ui/global/Header";
+import { Checkbox, Header } from "@/app/_ui";
 import { PROFILE_FIELDS as f } from "../../_lib/constant";
 import { ProfileRow } from "../../_lib/definitions";
 

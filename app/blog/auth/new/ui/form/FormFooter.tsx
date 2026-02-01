@@ -1,5 +1,5 @@
 import { CreateEditPostTrans } from "@/app/_lib/translation";
-import { ActionButton } from "@/app/ui/global/clientComponent";
+import { Button, Header, P, Input, SelectInput, ActionButton } from "@/app/_ui";
 import { ActionMode } from "../PostForm";
 
 type Props = {

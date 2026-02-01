@@ -1,5 +1,4 @@
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
 type MembershipOptionCardProps = {
   opt: {
     id: string;
@@ -44,4 +43,4 @@ const MembershipOptionCard = ({
   );
 };
 
-export default MembershipOptionCard
+export default MembershipOptionCard;

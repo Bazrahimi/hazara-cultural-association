@@ -1,9 +1,5 @@
 "use client";
-import {
-  ActionButton,
-  FormErrorMessage,
-} from "@/app/ui/global/clientComponent";
-import { Input } from "@/app/ui/global/components";
+import { Button, Header, P, Input, SelectInput, ActionButton, FormErrorMessage } from "@/app/_ui";
 import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
 import { auth } from "../../_lib/action";

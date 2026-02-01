@@ -1,7 +1,5 @@
+import { Button, Header, P } from "@/app/_ui";
 import { ORG_PROFILE } from "../_lib/org/profile";
-import { Button } from "../ui/global/components";
-import { Header } from "../ui/global/Header";
-import { P } from "../ui/global/paragraph";
 import Acknowledgements from "./ui/Acknowledgements";
 import { TeamGrid } from "./ui/TeamGrid";
 import WhatWeDo from "./ui/WhatWeDo";
@@ -73,10 +71,9 @@ export default function AboutUsPage() {
             Governance & Management
           </Header>
           <P>
-            The {ORG_PROFILE.orgName} is{" "}
-            <strong>entirely volunteer-led</strong>. Our executive and committee
-            work together to uphold good governance, community service, and
-            cultural stewardship.
+            The {ORG_PROFILE.orgName} is <strong>entirely volunteer-led</strong>
+            . Our executive and committee work together to uphold good
+            governance, community service, and cultural stewardship.
           </P>
 
           <div className="mt-6 space-y-12">

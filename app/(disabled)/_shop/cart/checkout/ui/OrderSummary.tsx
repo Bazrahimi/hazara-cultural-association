@@ -1,7 +1,6 @@
 "use client";
 import { useCart } from "@/app/(disabled)/_shop/ui/cart/CartContext";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
 import Link from "next/link";
 import Row from "./order-summary/Row";
 import SummaryRow from "./order-summary/SummaryRow";

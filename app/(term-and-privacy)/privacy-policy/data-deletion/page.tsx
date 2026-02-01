@@ -1,7 +1,6 @@
 // app/privacy/data-deletion/page.tsx
 import { ORG_PROFILE } from "@/app/_lib/org/profile";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
 
 export const metadata = {
   title: "Data Deletion | " + ORG_PROFILE.orgName,
@@ -24,10 +23,10 @@ export default function Page() {
             1) Overview
           </Header>
           <P>
-            {ORG_PROFILE.orgName} is committed to respecting
-            your privacy. This page explains how you can request deletion of
-            your HCA account and associated personal data, including accounts
-            created via Facebook Login or Google Sign-In.
+            {ORG_PROFILE.orgName} is committed to respecting your privacy. This
+            page explains how you can request deletion of your HCA account and
+            associated personal data, including accounts created via Facebook
+            Login or Google Sign-In.
           </P>
         </div>
 

@@ -1,9 +1,8 @@
 //app/account/listing/new/page.tsx
 
 import { AccountRoutes } from "@/app/_lib/routes";
-import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Header, P } from "@/app/_ui";
+import Breadcrumbs, { type Breadcrumb } from "@/app/_ui/Breadcrumbs";
 import NewListingForm from "./ui/new-listing-form";
 
 const breadcrumbs: Breadcrumb[] = [

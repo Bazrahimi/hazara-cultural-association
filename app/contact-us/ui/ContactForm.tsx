@@ -1,13 +1,6 @@
 "use client";
+import { ActionButton, FormErrorMessage, Header, Input, P } from "@/app/_ui";
 import { enquiry } from "@/app/contact-us/_lib/action";
-import {
-  ActionButton,
-  FormErrorMessage,
-} from "@/app/ui/global/clientComponent";
-import { Input } from "@/app/ui/global/components";
-
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
 import { CiUser } from "react-icons/ci";
 import { IoIosPhonePortrait } from "react-icons/io";

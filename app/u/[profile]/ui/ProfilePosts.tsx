@@ -1,9 +1,9 @@
 // app/blog/ui/ProfilePosts.tsx
+import { Header, P } from "@/app/_ui";
+import TricolorRule from "@/app/_ui/TricolorRule";
 import PostsSection from "@/app/blog/ui/posts/PostsSection";
 import PostsSectionSkeleton from "@/app/blog/ui/posts/PostsSectionSkeleton";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
-import TricolorRule from "@/app/ui/global/TricolorRule";
+
 import { Suspense } from "react";
 
 const heading = "Profile Page";

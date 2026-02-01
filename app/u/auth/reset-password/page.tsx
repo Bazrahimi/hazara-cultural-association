@@ -1,12 +1,8 @@
 // app/u/reset-password/page.tsx
 "use client";
 
+import { Button, FormErrorMessage, Header, Input, P } from "@/app/_ui";
 import { useActionState } from "react";
-
-import { Header } from "@/app/ui/global/Header";
-import { FormErrorMessage } from "@/app/ui/global/clientComponent";
-import { Button, Input } from "@/app/ui/global/components";
-import { P } from "@/app/ui/global/paragraph";
 
 import { AuthRoutes } from "@/app/_lib/routes";
 import { resetPassword } from "../_lib/action";

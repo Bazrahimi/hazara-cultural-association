@@ -6,9 +6,7 @@ import {
   MemberRoutes,
 } from "@/app/_lib/routes";
 import type { SessionRole } from "@/app/_lib/session/session";
-import { Button } from "@/app/ui/global/components";
-import { Header } from "@/app/ui/global/Header";
-import { P } from "@/app/ui/global/paragraph";
+import { Button, Header, P } from "@/app/_ui";
 import Link from "next/link";
 
 type Props = {

@@ -1,4 +1,4 @@
-import Breadcrumbs, { type Breadcrumb } from "@/app/ui/global/Breadcrumbs";
+import Breadcrumbs, { type Breadcrumb } from "@/app/_ui/Breadcrumbs";
 import { requireUser } from "../_lib/session/session";
 
 import QuickActions from "./ui/QuickActions";
