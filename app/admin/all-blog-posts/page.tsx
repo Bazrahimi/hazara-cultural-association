@@ -1,8 +1,8 @@
 import { BlogRoutes } from "@/app/_lib/routes";
 import { requireUser } from "@/app/_lib/session/session";
 import { Button, Header } from "@/app/_ui";
-import PostsLoadingFallback from "@/app/blog/auth/ui/PostsLoadingFallback";
-import PostsWrapper from "@/app/blog/auth/ui/PostsWrapper";
+import PostsLoadingFallback from "@/app/blog/auth/manage-posts/ui/PostsLoadingFallback";
+import PostsWrapper from "@/app/blog/auth/manage-posts/ui/PostsWrapper";
 import { POST_STATUS } from "@/app/blog/post/_lib/definitions";
 import { Suspense } from "react";
 
@@ -19,7 +19,12 @@ const AdminAllBlockPostsPage = async () => {
           {isAdmin ? "All Blog Posts" : "My Blog Posts"}
         </Header>
 
-        <Button size="sm" as="link" href={BlogRoutes.new()} variant="outline">
+        <Button
+          size="sm"
+          as="link"
+          href={BlogRoutes.createNewPost()}
+          variant="outline"
+        >
           Create New Post
         </Button>
       </div>

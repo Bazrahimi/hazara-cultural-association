@@ -5,11 +5,12 @@ const blog = "/blog";
 const blogPost = "/blog/post";
 const blogPostCategory = `${blogPost}/category`;
 
+
 export const BlogRoutes = {
   root: () => blog,
   seePostDetails: (slug: string) => `${blogPost}/${slug}`,
 
-  guideLines: () => `${blog}/guidelines`,
+  blogPostGuideLines: () => `${blog}/guidelines`,
 
   // Author + category pages (your structure is /blog/p/u/[namePlusId] and /blog/p/[categoryId])
   categoryById: (categoryId: number) => {
@@ -20,12 +21,12 @@ export const BlogRoutes = {
   // authorByNamePlusId: (namePlusId: string) => `/blog/u/${namePlusId}`,
 
   // Blog create/edit (you have /blog/new and /blog/myposts/edit/[postId])
-  new: () => "/blog/auth/new",
+  createNewPost: () => "/blog/auth/create-new-post",
   manageMyPosts: (params?: { tab?: string | number }) => {
-    if (!params?.tab) return "/blog/auth";
-    return `/blog/auth?tab=${params.tab}`;
+    if (!params?.tab) return "/blog/auth/manage-posts";
+    return `/blog/auth/manage-posts?tab=${params.tab}`;
   },
-  edit: (postId: number | string) => `/blog/auth/edit/${postId}`,
+  editPost: (postId: number | string) => `/blog/auth/edit-post/${postId}`,
 
   // If you want preview links to respect query toggles:
   postWithQuery: (

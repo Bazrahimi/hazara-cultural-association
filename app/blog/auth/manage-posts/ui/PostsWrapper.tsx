@@ -5,8 +5,8 @@ import { ManagePostTrans } from "@/app/_lib/translation";
 import { Header, P } from "@/app/_ui";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPostCount, getPostsByStatusCode } from "../../post/_lib/data";
-import { POST_STATUS, type StatusCode } from "../../post/_lib/definitions";
+import { getPostCount, getPostsByStatusCode } from "../../../post/_lib/data";
+import { POST_STATUS, type StatusCode } from "../../../post/_lib/definitions";
 import PostPanel from "./PostPanel";
 
 type Tab = { key: StatusCode; label: string };

@@ -2,7 +2,7 @@
 "use client";
 
 import { Button, P } from "@/app/_ui";
-import PostActionsMenu from "../../../auth/ui/postActionMenu/PostActionsMenu";
+import PostActionsMenu from "../../../auth/manage-posts/ui/postActionMenu/PostActionsMenu";
 
 import { formatDateTimeAU } from "@/app/_lib/Date";
 import { BlogRoutes } from "@/app/_lib/routes";
@@ -108,7 +108,12 @@ export function ManagePostControls({
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-between mt-10">
-        <Button as="link" href={BlogRoutes.new()} size="xs" variant="outline">
+        <Button
+          as="link"
+          href={BlogRoutes.createNewPost()}
+          size="xs"
+          variant="outline"
+        >
           Add new Post
         </Button>
         <Button

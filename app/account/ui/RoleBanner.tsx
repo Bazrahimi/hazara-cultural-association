@@ -54,7 +54,7 @@ const RoleBanner = ({ roles, fullName }: Props) => {
               HCA’s mission.{" "}
             </P>
             <Link
-              href={BlogRoutes.guideLines()}
+              href={BlogRoutes.blogPostGuideLines()}
               className="underline hover:no-underline"
             >
               Blog guidelines

@@ -18,7 +18,7 @@ const baseItems = [
 ];
 
 const manageItems = [
-  { label: "Add New Post", href: BlogRoutes.new() },
+  { label: "Add New Post", href: BlogRoutes.createNewPost() },
   { label: "Manage my Posts", href: BlogRoutes.manageMyPosts() },
 ];
 

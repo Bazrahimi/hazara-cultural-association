@@ -1,7 +1,7 @@
 import { BlogRoutes } from "@/app/_lib/routes";
 import { Button, Header } from "@/app/_ui";
 import { Suspense } from "react";
-import { POST_STATUS, StatusCode } from "../post/_lib/definitions";
+import { POST_STATUS, StatusCode } from "../../post/_lib/definitions";
 import PostsLoadingFallback from "./ui/PostsLoadingFallback";
 import PostsWrapper from "./ui/PostsWrapper";
 
@@ -19,7 +19,12 @@ export default async function MyPostsPage({
           My Blog Posts
         </Header>
 
-        <Button size="sm" as="link" href={BlogRoutes.new()} variant="outline">
+        <Button
+          size="sm"
+          as="link"
+          href={BlogRoutes.createNewPost()}
+          variant="outline"
+        >
           Create New Post
         </Button>
       </div>

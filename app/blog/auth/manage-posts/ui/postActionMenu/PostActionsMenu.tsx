@@ -107,7 +107,7 @@ export default function PostActionsMenu({
             <MenuItem
               type="link"
               isRTL={isRTL}
-              href={BlogRoutes.edit(postId)}
+              href={BlogRoutes.editPost(postId)}
               label={isRTL ? t.Edit.rtl : t.Edit.en}
               onSelect={() => setOpen(false)}
             />

@@ -61,7 +61,7 @@ export default function QuickActions() {
           subtitle="Write and manage your posts"
         >
           <DashboardActionLink
-            href={BlogRoutes.new()}
+            href={BlogRoutes.createNewPost()}
             Icon={FaPenFancy}
             label="Create new post"
             desc="Write a news, event, or announcement"

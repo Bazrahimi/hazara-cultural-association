@@ -107,7 +107,7 @@ export function SuccessModal({
           <div className="grid grid-cols-2 gap-3">
             <Button
               as="link"
-              href={`${BlogRoutes.edit(success.postId)}`}
+              href={`${BlogRoutes.editPost(success.postId)}`}
               size="sm"
               variant="outline"
               fullWidth
@@ -116,12 +116,12 @@ export function SuccessModal({
             </Button>
             <Button
               as="link"
-              href={BlogRoutes.new()}
+              href={BlogRoutes.createNewPost()}
               size="sm"
               variant="outline"
               fullWidth
             >
-              New Post
+              Create New Post
             </Button>
           </div>
 
