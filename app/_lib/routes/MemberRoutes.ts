@@ -1,14 +1,17 @@
 // app/members/_lib/MemberRoutes.ts
+const members = "/members";
+const authJoin = `${members}/auth/join`;
+const payment = `${authJoin}/payment`;
 
 export const MemberRoutes = {
   // Public member-facing pages
-  root: () => "/members",
-  join: () => "/members/auth/join",
+  root: () => members,
+  join: () => authJoin,
 
   // Payment flow
-  payment: () => "/members/auth/join/payment",
-  paymentSuccess: () => "/members/auth/join/payment/success",
-  paymentCancel: () => "/members/auth/join/payment/success/cancel",
+  payment: () => payment,
+  paymentSuccess: () => `${payment}/success`,
+  paymentCancel: () => `${payment}/cancel`,
 
   // Optional future-proofing
   // dashboard: () => "/members/dashboard",

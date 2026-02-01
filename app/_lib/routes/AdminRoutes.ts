@@ -1,12 +1,13 @@
-import { join } from "./helper";
+const admin = "/admin";
+const adminWebsiteQueries = `${admin}/website-queries`;
 export const AdminRoutes = {
-  root: () => "/admin",
+  root: () => admin,
   // dashboard: () => "/admin",
 
-  allPosts: () => "/admin/all-blog-posts",
+  allPosts: () => `${admin}/all-blog-posts`,
 
-  usersRoles: () => "/admin/users/roles",
+  usersRoles: () => `${admin}/users/roles`,
 
-  websiteQueries: () => "/admin/website-queries",
-  websiteQuery: (id: string | number) => join("admin", "website-queries", id),
+  websiteQueries: () => adminWebsiteQueries,
+  websiteQueryById: (id: string | number) => `${adminWebsiteQueries}/${id}`,
 } as const;

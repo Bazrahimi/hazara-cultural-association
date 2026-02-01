@@ -1,8 +1,10 @@
 import { slugify } from "@/app/(disabled)/_shop/lib/helper";
 import { getCategoryLabel } from "@/app/blog/post/_lib/category";
 import { join, q } from "./helper";
+const blog = "/blog"
+
 export const BlogRoutes = {
-  root: () => "/blog",
+  root: () => blog,
   post: (slug: string) => `/blog/post/${slug}`,
 
   guideLines: () => "/blog/guidelines",

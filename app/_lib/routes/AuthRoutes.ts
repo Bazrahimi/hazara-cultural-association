@@ -1,17 +1,18 @@
 // app/lib/routes/auth.ts
-
+const uAuth = "/u/auth";
+const googleOAuth = "/u/auth/oauth/google";
 export const AuthRoutes = {
   // Root
-  root: () => "/u/auth",
+  root: () => uAuth,
 
   // Core auth
-  login: () => "/u/auth/login",
-  signUp: () => "/u/auth/sign-up",
-  forgotPassword: () => "/u/auth/forgot-password",
-  resetPassword: () => "/u/auth/reset-password",
-  verifyEmail: () => "/u/auth/verify",
+  login: () => `$${uAuth}/login`,
+  signUp: () => `${uAuth}/sign-up`,
+  forgotPassword: () => `${uAuth}/forgot-password`,
+  resetPassword: () => `${uAuth}/reset-password`,
+  verifyEmail: () => `${uAuth}/verify`,
 
   // OAuth – Google
-  googleOAuthStart: () => "/u/auth/oauth/google/start",
-  googleOAuthCallback: () => "/u/auth/oauth/google/callback",
+  googleOAuthStart: () => `${googleOAuth}/start`,
+  googleOAuthCallback: () => `${googleOAuth}/callback`,
 } as const;

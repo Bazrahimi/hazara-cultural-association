@@ -9,7 +9,7 @@ import Stripe from "stripe";
 
 import { headers } from "next/headers";
 
-export const Post = async (req: Request) => {
+export const POST = async (req: Request) => {
   const body = await req.text();
   const signature = (await headers()).get(STRIPE_SIGNATURE);
 
@@ -39,8 +39,8 @@ export const Post = async (req: Request) => {
           UPDATE membership_payments
           SET
             status = 'paid',
-            stripe_subscription_id = ${session.subscription},
-            stripe_customer_id = ${session.customer},
+            stripe_subscription_id = ${session.subscription as string},
+            stripe_customer_id = ${session.customer as string},
             updated_at = now()
           WHERE id = ${paymentRowId}
         `;
