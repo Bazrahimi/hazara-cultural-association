@@ -4,6 +4,7 @@ import { join, q } from "./helper";
 const blog = "/blog";
 const blogPost = "/blog/post";
 const blogPostCategory = `${blogPost}/category`;
+const blogPostAuth = `${blogPost}/auth`
 
 
 export const BlogRoutes = {
@@ -21,12 +22,12 @@ export const BlogRoutes = {
   // authorByNamePlusId: (namePlusId: string) => `/blog/u/${namePlusId}`,
 
   // Blog create/edit (you have /blog/new and /blog/myposts/edit/[postId])
-  createNewPost: () => "/blog/auth/create-new-post",
+  createNewPost: () => `${blogPostAuth}/create-new-post`,
   manageMyPosts: (params?: { tab?: string | number }) => {
-    if (!params?.tab) return "/blog/auth/manage-posts";
-    return `/blog/auth/manage-posts?tab=${params.tab}`;
+    if (!params?.tab) return `${blogPostAuth}/manage-posts`;
+    return `${blogPostAuth}/manage-posts?tab=${params.tab}`;
   },
-  editPost: (postId: number | string) => `/blog/auth/edit-post/${postId}`,
+  editPost: (postId: number | string) => `${blogPostAuth}/edit-post/${postId}`,
 
   // If you want preview links to respect query toggles:
   postWithQuery: (

@@ -2,7 +2,7 @@
 "use client";
 
 import { Button, P } from "@/app/_ui";
-import PostActionsMenu from "../../../auth/manage-posts/ui/postActionMenu/PostActionsMenu";
+import PostActionsMenu from "../../auth/manage-posts/ui/postActionMenu/PostActionsMenu";
 
 import { formatDateTimeAU } from "@/app/_lib/Date";
 import { BlogRoutes } from "@/app/_lib/routes";

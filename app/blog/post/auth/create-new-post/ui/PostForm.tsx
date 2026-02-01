@@ -10,7 +10,7 @@ import type { CategoryId } from "@/app/blog/post/_lib/category";
 import { POST_FIELDS } from "@/app/blog/post/_lib/helper";
 import { setNotification } from "@/app/u/auth/_lib/setNotification";
 import { useActionState, useEffect, useState } from "react";
-import type { PostInput, PostState } from "../../../post/_lib/schema";
+import type { PostInput, PostState } from "../../../../post/_lib/schema";
 import CategoryStatusFeaturedFields from "./form/CategoryStatusFeaturedFields";
 import EditorField from "./form/EditorField";
 import ExcerptField from "./form/ExcerptField";
