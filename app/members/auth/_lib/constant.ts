@@ -1,5 +1,6 @@
 import {
   JoinAddressRow,
+  MembershipOption,
   PaymentBooleanKey,
   ProfileRow,
   ProfileRowBooleanKey,
@@ -60,17 +61,17 @@ export const PRICES = {
 
 export const MEMBERSHIP_PLANS = ["monthly", "annual"] as const;
 
-export const MEMBERSHIP_OPTIONS = [
+export const MEMBERSHIP_OPTIONS: MembershipOption[] = [
   {
     id: MEMBERSHIP_PLANS[0],
     label: "Monthly membership",
-    priceLabel: "$10 / month",
+    priceLabel: "$10 / Month",
     helper: "Ongoing membership billed monthly. Cancel any time.",
   },
   {
     id: MEMBERSHIP_PLANS[1],
     label: "Annual membership",
-    priceLabel: "$115 / year",
+    priceLabel: "$115 / Year",
     helper: "One payment for 12 months. Best value for regular members.",
   },
 ] as const;

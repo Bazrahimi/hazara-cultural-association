@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import { forwardRef } from "react";
+import { P } from "./paragraph";
 
 type CheckboxProps = {
   id: string;
@@ -67,9 +68,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         </label>
 
         {description && (
-          <p className={clsx("text-xs text-gray-600", isRTL && "text-right")}>
+          <P className={clsx("text-gray-600", isRTL && "text-right")} size="sm">
             {description}
-          </p>
+          </P>
         )}
 
         {hasError && (

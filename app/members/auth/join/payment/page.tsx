@@ -11,7 +11,7 @@ export default function MembershipPaymentPage() {
           <Header as="h1" size="lg" align="center">
             Membership payment
           </Header>
-          <P className="mx-auto max-w-3xl text-gray-700">
+          <P className="mx-auto max-w-3xl text-gray-700 mt-5 md:mt-10">
             Choose your membership option. You can also request a fee waiver if
             cost is a barrier — we want everyone to be able to participate.
           </P>

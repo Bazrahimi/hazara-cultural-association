@@ -1,6 +1,6 @@
 // app/members/join/ui/Involvement.tsx (or similar)
 
-import { Checkbox, Header } from "@/app/_ui";
+import { Checkbox, Header, P } from "@/app/_ui";
 import { PROFILE_FIELDS as f } from "../../_lib/constant";
 import { ProfileRow } from "../../_lib/definitions";
 
@@ -19,11 +19,11 @@ const Involvement = ({ state, initial }: Props) => {
           How would you like to be involved?
         </Header>
 
-        <p className="text-sm text-gray-700">
+        <P className=" text-gray-700" size="sm">
           HCA has a blog and a modern online marketplace to share news, amplify
           the voices of those who are often silenced, and help the community
           find culturally relevant services, products, and stories.
-        </p>
+        </P>
       </div>
 
       <div className="space-y-2">
@@ -37,7 +37,7 @@ const Involvement = ({ state, initial }: Props) => {
         <Checkbox
           id={f.virtualMeetingOptIn}
           label="Join virtual meetings / online gatherings"
-          description="Workshops, community discussions, and Zoom events."
+          description="Workshops, community discussions, and Online Virtual Meetings."
           defaultChecked={
             state?.data?.virtualMeetingOptIn ?? initial?.virtualMeetingOptIn
           }

@@ -1,11 +1,7 @@
 import { Header, P } from "@/app/_ui";
+import { MembershipOption } from "../../../_lib/definitions";
 type MembershipOptionCardProps = {
-  opt: {
-    id: string;
-    label: string;
-    priceLabel: string;
-    helper: string;
-  };
+  opt: MembershipOption;
   name: string;
   defaultChecked?: boolean;
 };
@@ -31,9 +27,11 @@ const MembershipOptionCard = ({
             <Header as="h2" size="sm" className="text-gray-900">
               {opt.label}
             </Header>
-            <span className="rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold text-gray-900 group-has-[:checked]:bg-blue-100 group-has-[:checked]:text-blue-700">
-              {opt.priceLabel}
-            </span>
+            <div className="rounded-full bg-gray-200 px-3 py-1 font-semibold text-gray-900 group-has-[:checked]:bg-blue-400 group-has-[:checked]:text-blue-700">
+              <P className="text-center rounded-full bg-gray-100 px-3 py-1 font-semibold text-gray-900 group-has-[:checked]:bg-blue-300 ">
+                {opt.priceLabel}
+              </P>
+            </div>
           </div>
 
           <P className="text-sm text-gray-700">{opt.helper}</P>

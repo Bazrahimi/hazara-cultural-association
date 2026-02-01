@@ -3,8 +3,8 @@
 import { ActionState, BooleanKeys } from "@/app/_lib/definitions";
 import { CamelizeKeys } from "@/app/_lib/helper";
 import z from "zod";
-import { JoinSchema, PaymentSchema } from "./schema";
 import { MEMBERSHIP_PLANS } from "./constant";
+import { JoinSchema, PaymentSchema } from "./schema";
 
 // app/members/join/lib/dbTypes.ts
 
@@ -78,10 +78,17 @@ export type JoinAddressRow = Pick<
   AddressBase,
   "suburb" | "postcode" | "stateCode" | "country"
 >;
-export type JoiningPlan = (typeof MEMBERSHIP_PLANS)[number]
+export type JoiningPlan = (typeof MEMBERSHIP_PLANS)[number];
 export type Join = z.infer<typeof JoinSchema>;
 export type JoinState = ActionState<Join>;
 
 export type Payment = z.infer<typeof PaymentSchema>;
 
 export type PaymentState = ActionState<Payment>;
+
+export type MembershipOption = {
+  id: string;
+  label: string;
+  priceLabel: string;
+  helper: string;
+};

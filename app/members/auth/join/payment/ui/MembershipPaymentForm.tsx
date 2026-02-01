@@ -19,17 +19,16 @@ const MembershipPaymentForm = () => {
   return (
     <form action={formAction} className="space-y-8">
       {/* Plan selection */}
+
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="grid gap-6 md:grid-cols-2">
-          {MEMBERSHIP_OPTIONS.map((opt) => (
-            <MembershipOptionCard
-              key={opt.id}
-              opt={opt}
-              name={f.plan}
-              defaultChecked={opt.id === MEMBERSHIP_PLANS[1]}
-            />
-          ))}
-        </div>
+        {MEMBERSHIP_OPTIONS.map((opt) => (
+          <MembershipOptionCard
+            key={opt.id}
+            opt={opt}
+            name={f.plan}
+            defaultChecked={opt.id === MEMBERSHIP_PLANS[1]}
+          />
+        ))}
       </div>
 
       {/* Fee waiver */}
