@@ -1,4 +1,4 @@
-// app/members/join/page.tsx
+// app/members/auth/join/page.tsx
 import { MemberRoutes } from "@/app/_lib/routes";
 import { redirectToLoginWithNext } from "@/app/_lib/session/authRedirects";
 import { getSession } from "@/app/_lib/session/session";

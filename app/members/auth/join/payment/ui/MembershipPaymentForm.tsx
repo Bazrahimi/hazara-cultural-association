@@ -6,12 +6,15 @@ import {
   PAYMENT_FIELDS as f,
   MEMBERSHIP_OPTIONS,
 } from "@/app/members/auth/_lib/constant";
-import { ActionButton } from "@/app/ui/global/clientComponent";
-import StatusBanner from "@/app/ui/global/FormMessage";
+import {
+  ActionButton,
+  FormErrorMessage,
+} from "@/app/ui/global/clientComponent";
+import { Button } from "@/app/ui/global/components";
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
-import Link from "next/link";
 import { useActionState } from "react";
+import { TiArrowBack, TiArrowForward } from "react-icons/ti";
 
 const MembershipPaymentForm = () => {
   const [state, formAction, isPending] = useActionState(payment, undefined);
@@ -96,29 +99,35 @@ const MembershipPaymentForm = () => {
         />
       </div>
 
+      <FormErrorMessage message={state?.message} />
+
       {/* Actions */}
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-        <Link
+        <Button
+          as="link"
           href={MemberRoutes.join()}
-          className="text-sm font-medium text-hca-blue-main underline-offset-4 hover:underline"
+          size="lg"
+          variant="secondary"
         >
-          ← Back to membership form
-        </Link>
+          <TiArrowBack className="mr-2 h-5 w-5" /> Back
+        </Button>
 
-        <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
-          <ActionButton type="submit" variant="secondary" size="lg">
-            {!isPending && state && (
-              <StatusBanner ok={state.ok} message={state.message} />
-            )}
-            Continue
-          </ActionButton>
-        </div>
+        <ActionButton
+          type="submit"
+          size="lg"
+          fullWidth
+          isLoading={isPending}
+          overlay
+          loadingText="Sending..."
+        >
+          Next <TiArrowForward className="ml-2 h-5 w-5" />
+        </ActionButton>
       </div>
 
-      <div className="text-center text-xs text-gray-500">
+      <P size="sm" className="text-gray-500 text-center">
         If you select a paid option, you’ll be redirected to Stripe to complete
-        payment securely.
-      </div>
+        <span className="font-semibold"> payment securely</span> .
+      </P>
     </form>
   );
 };

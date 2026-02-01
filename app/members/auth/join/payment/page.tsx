@@ -4,8 +4,6 @@ import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import MembershipPaymentForm from "./ui/MembershipPaymentForm";
 
-// You will create this server action next:
-// import { startMembershipPayment } from "./lib/action";
 
 export default function MembershipPaymentPage() {
   return (

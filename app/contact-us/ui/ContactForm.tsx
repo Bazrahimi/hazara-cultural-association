@@ -1,8 +1,11 @@
 "use client";
 import { enquiry } from "@/app/contact-us/_lib/action";
-import { ActionButton } from "@/app/ui/global/clientComponent";
+import {
+  ActionButton,
+  FormErrorMessage,
+} from "@/app/ui/global/clientComponent";
 import { Input } from "@/app/ui/global/components";
-import StatusBanner from "@/app/ui/global/FormMessage";
+
 import { Header } from "@/app/ui/global/Header";
 import { P } from "@/app/ui/global/paragraph";
 import { useActionState } from "react";
@@ -61,6 +64,7 @@ export default function ContactForm() {
       <QueryTypeSelect state={state} />
 
       <MessageField state={state} />
+      <FormErrorMessage message={state?.message} />
 
       {/* Submit */}
       <ActionButton
@@ -72,9 +76,6 @@ export default function ContactForm() {
       >
         Send Message
       </ActionButton>
-      {!isPending && state && (
-        <StatusBanner ok={state.ok} message={state.message} />
-      )}
 
       <P className="text-center text-xs text-gray-500">
         By contacting us, you agree to our community guidelines and privacy
