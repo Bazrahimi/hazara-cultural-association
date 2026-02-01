@@ -16,6 +16,9 @@ export async function createMembershipCheckoutSession(params: {
     success_url: `${baseUrl}${MemberRoutes.paymentSuccess()}?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${baseUrl}${MemberRoutes.paymentCancel()}`,
     metadata: params.metadata,
+    subscription_data: {
+      metadata: params.metadata,
+    },
   });
 
   return checkout;

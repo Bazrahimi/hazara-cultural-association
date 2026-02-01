@@ -6,7 +6,7 @@ export const AuthRoutes = {
   root: () => uAuth,
 
   // Core auth
-  login: () => `$${uAuth}/login`,
+  login: () => `${uAuth}/login`,
   signUp: () => `${uAuth}/sign-up`,
   forgotPassword: () => `${uAuth}/forgot-password`,
   resetPassword: () => `${uAuth}/reset-password`,

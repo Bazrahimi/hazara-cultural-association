@@ -59,7 +59,7 @@ export default function Hero() {
       {/* CTA using Button component */}
       <Button
         as="link"
-        href={MemberRoutes.join()}
+        href={MemberRoutes.root()}
         size="sm"
         className={`
                       absolute z-20 font-semibold shadow-md
