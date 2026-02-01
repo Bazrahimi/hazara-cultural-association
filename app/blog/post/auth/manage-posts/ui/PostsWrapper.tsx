@@ -14,7 +14,7 @@ import PostPanel from "./PostPanel";
 
 type Tab = { key: StatusCode; label: string };
 
-const hrefFor = (tab: StatusCode) => BlogRoutes.manageMyPosts({ tab });
+const hrefFor = (tab: StatusCode) => BlogRoutes.managePosts({ tab });
 
 function getTabs(lang: "en" | "rtl" = "en"): readonly Tab[] {
   const labels = ManagePostTrans.Label;

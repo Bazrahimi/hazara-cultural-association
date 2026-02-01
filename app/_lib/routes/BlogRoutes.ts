@@ -23,7 +23,7 @@ export const BlogRoutes = {
 
   // Blog create/edit (you have /blog/new and /blog/myposts/edit/[postId])
   createNewPost: () => `${blogPostAuth}/create-new-post`,
-  manageMyPosts: (params?: { tab?: string | number }) => {
+  managePosts: (params?: { tab?: string | number }) => {
     if (!params?.tab) return `${blogPostAuth}/manage-posts`;
     return `${blogPostAuth}/manage-posts?tab=${params.tab}`;
   },

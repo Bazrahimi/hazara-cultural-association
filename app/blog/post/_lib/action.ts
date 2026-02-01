@@ -122,7 +122,7 @@ export const updatePostCategory = async (
   });
   if (!updateCategoryId) return postFailure("Not Authorised or post not found");
 
-  revalidatePath(BlogRoutes.manageMyPosts());
+  revalidatePath(BlogRoutes.managePosts());
   return {
     ok: true,
     message: "Post Category Updated",
@@ -258,7 +258,7 @@ export const PostAction = async (
       );
     }
     // Revalidate list page for non-delete actions
-    revalidatePath(BlogRoutes.manageMyPosts());
+    revalidatePath(BlogRoutes.managePosts());
 
     // Messages
     if (result.kind === "feature") {
@@ -270,7 +270,7 @@ export const PostAction = async (
     if (result.kind === "archive") return postSuccess("Post archived.");
 
     // delete
-    redirect(BlogRoutes.manageMyPosts());
+    redirect(BlogRoutes.managePosts());
   } catch (err) {
     console.error("PostAction failed", err);
     return postFailure("Database error.");

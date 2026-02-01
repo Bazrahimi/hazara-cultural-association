@@ -92,7 +92,7 @@ export function SuccessModal({
 
             <Button
               as="link"
-              href={BlogRoutes.manageMyPosts()}
+              href={BlogRoutes.managePosts()}
               size="sm"
               variant="outline"
               fullWidth

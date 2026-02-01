@@ -118,7 +118,7 @@ export function ManagePostControls({
         </Button>
         <Button
           as="link"
-          href={BlogRoutes.manageMyPosts()}
+          href={BlogRoutes.managePosts()}
           variant="outline"
           size="xs"
         >
