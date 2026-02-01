@@ -7,8 +7,8 @@ export const MemberRoutes = {
 
   // Payment flow
   payment: () => "/members/auth/join/payment",
-  paymentSuccess: () => "/members/join/auth/payment/success",
-  paymentCancel: () => "/members/join/auth/payment/success/cancel",
+  paymentSuccess: () => "/members/auth/join/payment/success",
+  paymentCancel: () => "/members/auth/join/payment/success/cancel",
 
   // Optional future-proofing
   // dashboard: () => "/members/dashboard",
