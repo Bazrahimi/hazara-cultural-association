@@ -1,9 +1,10 @@
 "use server";
+import { toActionErrors } from "@/app/_lib/actionHelper";
 import { sql } from "@/app/_lib/db";
 import { AccountRoutes } from "@/app/_lib/routes";
 import { requireUser } from "@/app/_lib/session/session";
 import { redirect } from "next/navigation";
-import { FieldErrors, Profile, ProfileSchema, ProfileState } from "./schema";
+import { ProfileSchema, ProfileState } from "./schema";
 
 export async function updateProfileAction(
   _prev: ProfileState | undefined,
@@ -19,11 +20,8 @@ export async function updateProfileAction(
 
   const parsed = ProfileSchema.safeParse(raw);
   if (!parsed.success) {
-    const fe = parsed.error.flatten().fieldErrors as FieldErrors<Profile>;
     return {
-      ok: false,
-      message: "Please fix the errors above.",
-      errors: fe,
+      ...toActionErrors<ProfileState["errors"]>(parsed.error),
       data: raw,
     };
   }

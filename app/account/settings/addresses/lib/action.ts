@@ -1,14 +1,11 @@
 "use server";
 
+import { toActionErrors } from "@/app/_lib/actionHelper";
 import { sql } from "@/app/_lib/db";
 import { requireUser } from "@/app/_lib/session/session";
 import { redirect } from "next/navigation";
-import {
-  BillingAddressInput,
-  BillingAddressInputState,
-  BillingAddressSchema,
-  FieldErrors,
-} from "./schema";
+import type { BillingAddressState } from "./schema";
+import { BillingAddressInput, BillingAddressSchema } from "./schema";
 
 type PgError = {
   code?: string;
@@ -18,9 +15,9 @@ type PgError = {
 };
 
 export const billingAddressInput = async (
-  _prev: BillingAddressInputState | undefined,
+  _prev: BillingAddressState | undefined,
   formData: FormData,
-): Promise<BillingAddressInputState> => {
+): Promise<BillingAddressState> => {
   const { userId } = await requireUser();
 
   // Raw values from the form
@@ -36,12 +33,8 @@ export const billingAddressInput = async (
   // Validate + normalize
   const parsed = BillingAddressSchema.safeParse(raw);
   if (!parsed.success) {
-    const fe = parsed.error.flatten()
-      .fieldErrors as FieldErrors<BillingAddressInput>;
     return {
-      ok: false,
-      message: "Please fix the above errors.",
-      errors: fe,
+      ...toActionErrors<BillingAddressState["errors"]>(parsed.error),
       data: raw,
     };
   }

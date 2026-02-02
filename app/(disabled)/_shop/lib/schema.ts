@@ -1,16 +1,6 @@
+import { ActionState } from "@/app/_lib/actionHelper";
+import { AUS_STATES } from "@/app/_lib/helper";
 import { z } from "zod";
-
-/** AU specifics */
-export const AU_STATE_CODES = [
-  "ACT",
-  "NSW",
-  "NT",
-  "QLD",
-  "SA",
-  "TAS",
-  "VIC",
-  "WA",
-] as const;
 
 /** Buyer/contact details used for PURCHASE checkout (no amount here) */
 export const BuyerSchema = z.object({
@@ -20,7 +10,7 @@ export const BuyerSchema = z.object({
   address1: z.string().min(5, { message: "Please enter your street address" }),
   address2: z.string().optional(),
   suburb: z.string().min(2, { message: "Please enter your suburb/city" }),
-  stateCode: z.enum(AU_STATE_CODES, { message: "Select your State" }),
+  stateCode: z.enum(AUS_STATES, { message: "Select your State" }),
   // keep as string so leading zeros are preserved
   postCode: z.string().regex(/^\d{4}$/, "Postcode must be 4 digits"),
 });
@@ -41,15 +31,6 @@ export const CartSchema = z
   .array(CartItemSchema)
   .min(1, { message: "Cart is empty" });
 export type Cart = z.infer<typeof CartSchema>;
-
-/* ── Action-state helpers ──────────────────────────────────────────────── */
-export type FieldErrors<T> = Partial<Record<keyof T, string[]>>;
-export type ActionState<T> = {
-  data?: Partial<T>;
-  errors?: FieldErrors<T>;
-  message?: string;
-  ok?: boolean;
-};
 
 /** Purchase-oriented states */
 export type BuyerState = ActionState<Buyer>;

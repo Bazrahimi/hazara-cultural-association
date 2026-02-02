@@ -1,4 +1,4 @@
-import { FieldErrors } from "@/app/contact-us/_lib/definitions";
+
 import z from "zod";
 import {
   AuthSchema,
@@ -8,15 +8,9 @@ import {
   SignupSchema,
   VerifyCodeSchema,
 } from "./schema";
+import { ActionState } from "@/app/_lib/actionHelper";
 
-export type ActionState<T> = {
-  data?: Partial<T>;
-  errors?: FieldErrors<T>;
-  message?: string;
-  ok?: boolean;
-  // redirectTo?: string;
-  // requiresVerification?: boolean;
-};
+
 
 type ResetPassword = z.infer<typeof ResetPasswordSchema>;
 export type ResetPasswordState = ActionState<ResetPassword>;

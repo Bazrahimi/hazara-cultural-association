@@ -3,7 +3,8 @@ import { Button, Header, Input } from "@/app/_ui";
 import { CiUser } from "react-icons/ci";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
-import { DonationState } from "../../lib/definitions";
+
+import type { DonationState } from "../../lib/schema";
 
 type Props = {
   state?: DonationState;

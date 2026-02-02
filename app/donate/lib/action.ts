@@ -1,63 +1,35 @@
 "use server";
 
+import { toActionErrors } from "@/app/_lib/actionHelper";
+import { baseUrl } from "@/app/_lib/helper";
 import { stripe } from "@/app/_lib/stripe";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe"; // ✅ add this
-import {
-  DonationSchema,
-  type Donation,
-  type DonationState,
-  type FieldErrors,
-} from "./schema";
+import { DonationSchema, type DonationState } from "./schema";
 
 export async function submitDonation(
   _prev: DonationState | undefined,
   formData: FormData,
 ): Promise<DonationState | never> {
-  const raw = {
-    amount: formData.get("amount"),
-    fullName: formData.get("fullName"),
-    email: formData.get("email"),
-    contactNumber: formData.get("contactNumber"),
-    address1: formData.get("address1"),
-    address2: formData.get("address2"),
-    suburb: formData.get("suburb"),
-    stateCode: formData.get("stateCode"),
-    postCode: formData.get("postCode"),
-  };
+  const rawData: Record<string, unknown> = Object.fromEntries(
+    [...formData.entries()].map(([key, value]) => [
+      key,
+      typeof value === "string" ? value : undefined,
+    ]),
+  );
 
-  const parsed = DonationSchema.safeParse(raw);
+  const parsed = DonationSchema.safeParse(rawData);
   if (!parsed.success) {
-    const fe = parsed.error.flatten().fieldErrors as FieldErrors<Donation>;
     return {
-      ok: false,
-      message: "Please fix the errors above.",
-      errors: fe,
-      data: {
-        fullName: String(raw.fullName ?? ""),
-        email: String(raw.email ?? ""),
-        contactNumber: String(raw.contactNumber ?? ""),
-        address1: String(raw.address1 ?? ""),
-        address2: String(raw.address2 ?? ""),
-        suburb: String(raw.suburb ?? ""),
-        stateCode: String(raw.stateCode ?? ""),
-        postCode: raw.postCode ? Number(raw.postCode) : undefined,
-      },
+      ...toActionErrors<DonationState["errors"]>(parsed.error),
+      data: rawData,
     };
   }
 
   const data = parsed.data;
   const unitAmount = Math.round(Number(data.amount) * 100);
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  if (!baseUrl) {
-    return {
-      ok: false,
-      message: "Configuration error: NEXT_PUBLIC_BASE_URL is not set.",
-    };
-  }
-
-  const successUrl = `${baseUrl}/donate/success?session_id={CHECKOUT_SESSION_ID}`;
+  const successUrl = `${baseUrl}?session_id={CHECKOUT_SESSION_ID}`;
   const cancelUrl = `${baseUrl}/donate/cancel`;
 
   // ✅ Type now resolves because of `import type Stripe from "stripe"`

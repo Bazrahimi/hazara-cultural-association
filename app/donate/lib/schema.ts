@@ -1,3 +1,4 @@
+import { ActionState } from "@/app/_lib/actionHelper";
 import { z } from "zod";
 
 /* ── Schema ──────────────────────────────────────────────────────────────── */
@@ -18,12 +19,4 @@ export const DonationSchema = z.object({
 
 export type Donation = z.infer<typeof DonationSchema>;
 
-/* ── Action-state helpers (same shape as your auth flow) ─────────────────── */
-export type FieldErrors<T> = Partial<Record<keyof T, string[]>>;
-export type ActionState<T> = {
-  data?: Partial<T>;
-  errors?: FieldErrors<T>;
-  message?: string;
-  ok?: boolean;
-};
 export type DonationState = ActionState<Donation>;

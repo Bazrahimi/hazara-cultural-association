@@ -4,6 +4,7 @@
 import { stripe } from "@/app/_lib/stripe";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe";
+import { FieldErrors } from "@/app/_lib/actionHelper";
 
 import {
   BuyerSchema,
@@ -11,7 +12,7 @@ import {
   type Buyer,
   type Cart,
   type CartItem,
-  type FieldErrors,
+
 } from "@/app/(disabled)/_shop/lib/schema";
 
 /* utils */

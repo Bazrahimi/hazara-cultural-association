@@ -1,3 +1,4 @@
+import { ActionState } from "@/app/_lib/actionHelper";
 import z from "zod";
 const STATE_MAP: Record<string, string> = {
   victoria: "VIC",
@@ -65,10 +66,4 @@ export const BillingAddressSchema = z.object({
 });
 
 export type BillingAddressInput = z.infer<typeof BillingAddressSchema>;
-export type FieldErrors<T> = Partial<Record<keyof T, string[]>>;
-export type BillingAddressInputState = {
-  ok?: boolean;
-  message?: string;
-  errors?: FieldErrors<BillingAddressInput>;
-  data?: Partial<BillingAddressInput>;
-};
+export type BillingAddressState = ActionState<BillingAddressInput>

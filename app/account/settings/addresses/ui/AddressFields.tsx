@@ -1,7 +1,8 @@
 "use client";
 
 import { Input } from "@/app/_ui";
-import type { BillingAddressInput, FieldErrors } from "../lib/schema";
+import type { BillingAddressInput } from "../lib/schema";
+import { FieldErrors } from "@/app/_lib/actionHelper";
 
 type Props = {
   value: BillingAddressInput;

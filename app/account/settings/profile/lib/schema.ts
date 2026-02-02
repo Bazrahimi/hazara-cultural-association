@@ -1,3 +1,4 @@
+import { ActionState } from "@/app/_lib/actionHelper";
 import z from "zod";
 
 export const ProfileSchema = z.object({
@@ -23,10 +24,5 @@ export const ProfileSchema = z.object({
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;
-export type FieldErrors<T> = Partial<Record<keyof T, string[]>>;
-export type ProfileState = {
-  ok?: boolean;
-  message?: string;
-  errors?: FieldErrors<Profile>;
-  data?: Partial<Profile>;
-};
+export type ProfileState = ActionState<Profile>
+
