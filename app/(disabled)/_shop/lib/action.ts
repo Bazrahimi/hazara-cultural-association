@@ -1,10 +1,10 @@
 // app/shop/lib/actions/checkout.ts
 "use server";
 
-import { stripe } from "@/app/_lib/stripe";
+import { FieldErrors } from "@/app/_lib/actionHelper";
+import { stripe } from "@/app/_lib/stripe/stripe";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe";
-import { FieldErrors } from "@/app/_lib/actionHelper";
 
 import {
   BuyerSchema,
@@ -12,7 +12,6 @@ import {
   type Buyer,
   type Cart,
   type CartItem,
-
 } from "@/app/(disabled)/_shop/lib/schema";
 
 /* utils */

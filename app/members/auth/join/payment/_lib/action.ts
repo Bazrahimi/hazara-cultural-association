@@ -59,23 +59,23 @@ export const payment = async (
     redirect(`${MemberRoutes.paymentSuccess()}?waiver=1`);
   }
   const amountCents =
-    paymentData.paymentPlansKey === sp.membership.monthly.key
+    paymentData.paymentKey === sp.membership.monthly.paymentKey
       ? sp.membership.monthly.amountCents
       : sp.membership.annual.amountCents;
   const row = await createMembershipPaymentRow({
     userId,
-    paymentPlansKey: paymentData.paymentPlansKey,
+    paymentKey: paymentData.paymentKey,
     amountCents,
   });
   const checkout = await createMembershipCheckoutSession({
-    paymentPlansKey: paymentData.paymentPlansKey,
-    priceId: spi[paymentData.paymentPlansKey],
+    paymentPlansKey: paymentData.paymentKey,
+    priceId: spi[paymentData.paymentKey],
     customerEmail: row.email,
     metadata: {
       paymentType: "membership",
       userId: userId,
       paymentRowId: row.id,
-      paymentPlansKey: paymentData.paymentPlansKey,
+      paymentKey: paymentData.paymentKey,
     },
   });
 

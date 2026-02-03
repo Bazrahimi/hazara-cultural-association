@@ -1,5 +1,5 @@
 // app/api/stripe/webhooks/route.ts
-import { stripe, stripeWebhookSecret } from "@/app/_lib/stripe";
+import { stripe, stripeWebhookSecret } from "@/app/_lib/stripe/stripe";
 import Stripe from "stripe";
 
 import {
@@ -12,9 +12,6 @@ import { headers } from "next/headers";
 
 export const POST = async (req: Request) => {
   const body = await req.text();
-  console.log("body______________", body);
- 
-
 
   const signature = (await headers()).get("stripe-signature");
 
@@ -25,7 +22,6 @@ export const POST = async (req: Request) => {
   let event: Stripe.Event;
 
   try {
-    // TODO: in here can we get the productId or name subscription.plan.product. the reason i need that because i need run the switch based on event and payment product
     event = stripe.webhooks.constructEvent(
       body,
       signature,
@@ -35,6 +31,8 @@ export const POST = async (req: Request) => {
     console.error("❌ Invalid signature", error);
     return new Response("Invalid signature", { status: 400 });
   }
+
+  console.log("_________Event________________________", event);
 
   try {
     switch (event.type) {

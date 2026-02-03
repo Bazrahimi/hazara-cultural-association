@@ -7,7 +7,7 @@ import { payment } from "../_lib/action";
 import {
   PAYMENT_FIELDS as f,
   MEMBERSHIP_OPTIONS,
-  PAYMENT_PLANS_KEY,
+  PAYMENT_KEY,
 } from "../_lib/constant";
 
 import { useActionState } from "react";
@@ -25,8 +25,8 @@ const MembershipPaymentForm = () => {
           <MembershipOptionCard
             key={opt.id}
             opt={opt}
-            name={f.paymentPlansKey}
-            defaultChecked={opt.id === PAYMENT_PLANS_KEY[1]}
+            name={f.paymentKey}
+            defaultChecked={opt.id === PAYMENT_KEY[1]}
           />
         ))}
       </div>

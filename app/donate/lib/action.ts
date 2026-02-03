@@ -2,7 +2,7 @@
 
 import { toActionErrors } from "@/app/_lib/actionHelper";
 import { baseUrl } from "@/app/_lib/helper";
-import { stripe } from "@/app/_lib/stripe";
+import { stripe } from "@/app/_lib/stripe/stripe";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe"; // ✅ add this
 import { DonationSchema, type DonationState } from "./schema";

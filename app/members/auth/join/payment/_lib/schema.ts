@@ -1,8 +1,8 @@
 import { ActionState, BooleanKeys } from "@/app/_lib/actionHelper";
 import z from "zod";
-import { PAYMENT_FIELDS as payment, PAYMENT_PLANS_KEY } from "./constant";
+import { PAYMENT_FIELDS as payment, PAYMENT_KEY } from "./constant";
 export const PaymentSchema = z.object({
-  [payment.paymentPlansKey]: z.enum(PAYMENT_PLANS_KEY, {
+  [payment.paymentKey]: z.enum(PAYMENT_KEY, {
     message: "Please choose a membership option.",
   }),
   [payment.feeWaived]: z.boolean().optional(),

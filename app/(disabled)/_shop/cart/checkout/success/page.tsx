@@ -1,5 +1,5 @@
 // app/shop/checkout/success/page.tsx
-import { stripe } from "@/app/_lib/stripe";
+import { stripe } from "@/app/_lib/stripe/stripe";
 import { Button, Header, P } from "@/app/_ui";
 import Link from "next/link";
 import type Stripe from "stripe";

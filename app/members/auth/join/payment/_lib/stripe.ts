@@ -1,20 +1,19 @@
 import { baseUrl } from "@/app/_lib/helper";
 import { MemberRoutes } from "@/app/_lib/routes";
-import { stripe } from "@/app/_lib/stripe";
+import { stripe } from "@/app/_lib/stripe/stripe";
+import type { WebhookMeta } from "@/app/_lib/stripe/webhookMeta";
 import Stripe from "stripe";
 import {
   getMembershipPaymentStatus,
   markMembershipPaymentPaid,
   setUserMembershipActive,
 } from "./data";
-import { MetaData, PaymentPlansKey } from "./definitions";
-
-
+import type { PaymentKey } from "./definitions";
 
 export async function createMembershipCheckoutSession(params: {
-  paymentPlansKey: PaymentPlansKey;
+  paymentPlansKey: PaymentKey;
   priceId: string;
-  metadata: MetaData;
+  metadata: WebhookMeta;
   customerEmail: string;
 }) {
   const checkout = await stripe.checkout.sessions.create({
@@ -71,7 +70,7 @@ export const handleInvoicePaymentPaid = async (ip: Stripe.InvoicePayment) => {
     // eslint-disable-next-line
   })) as any;
 
-  console.log("Invoice_______________________", invoice)
+  console.log("Invoice_______________________", invoice);
 
   // ✅ subscription id from your current invoice shape
   const subscriptionId =
@@ -82,8 +81,7 @@ export const handleInvoicePaymentPaid = async (ip: Stripe.InvoicePayment) => {
       : (invoice as any).subscription?.id);
   /* eslint-enable @typescript-eslint/no-explicit-any */
 
-  const metadata: MetaData =
-    invoice?.parent?.subscription_details?.metadata;
+  const metadata: WebhookMeta = invoice?.parent?.subscription_details?.metadata;
 
   if (!metadata) {
     console.warn("Missing Payment metaData", metadata);

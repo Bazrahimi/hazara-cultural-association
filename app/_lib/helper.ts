@@ -56,5 +56,4 @@ export const requiredEnv = (name: string): string => {
   return v;
 };
 
-export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-
+export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

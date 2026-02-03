@@ -1,7 +1,7 @@
 // app/donate/success/page.tsx
 import { ORG_PROFILE } from "@/app/_lib/org/profile";
 import { DonateRoutes } from "@/app/_lib/routes";
-import { stripe } from "@/app/_lib/stripe";
+import { stripe } from "@/app/_lib/stripe/stripe";
 import { Button, Header, P } from "@/app/_ui";
 import Link from "next/link";
 import type Stripe from "stripe";
