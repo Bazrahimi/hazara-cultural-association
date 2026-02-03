@@ -1,26 +1,30 @@
 //app/_lib/stripe.ts
 import Stripe from "stripe";
 
-
-
-export const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY as string,
-  {
-    apiVersion: "2025-08-27.basil", // ✅ stable
-  }
-);
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2025-08-27.basil", // ✅ stable
+});
 
 export const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
-
-
-
-
-export const EVENT_TYPE = {
-  checkoutCompleted: "checkout.session.completed",
-  invoicePaid: "invoice.paid",
-  invoicePaymentFailed: "invoice.payment_failed",
+export const STRIPE_PAYMENT = {
+  membershipFee: {
+    monthlyId: "membership-monthly-fee",
+    annualId: "membership-annual-fee",
+  },
 } as const;
 
+export type MembershipFeeId =
+  (typeof STRIPE_PAYMENT.membershipFee)[keyof typeof STRIPE_PAYMENT.membershipFee];
+
+export const MEMBERSHIP_FEE_IDS = [
+  STRIPE_PAYMENT.membershipFee.monthlyId,
+  STRIPE_PAYMENT.membershipFee.annualId,
+] as const satisfies readonly [MembershipFeeId, ...MembershipFeeId[]];
+// export const EVENT_TYPE = {
+//   checkoutCompleted: "checkout.session.completed",
+//   invoicePaid: "invoice.paid",
+//   invoicePaymentFailed: "invoice.payment_failed",
+// } as const;
 
 /**
  * 

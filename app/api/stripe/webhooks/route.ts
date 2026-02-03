@@ -7,12 +7,12 @@ import {
   handleInvoice,
   handleInvoiceFailed,
   handleInvoicePaymentPaid,
-} from "@/app/members/auth/join/payment/_lib/data";
+} from "@/app/members/auth/join/payment/_lib/stripe";
 import { headers } from "next/headers";
 
 export const POST = async (req: Request) => {
   const body = await req.text();
-  console.log("body_____", body);
+  console.log("body______________", body);
 
   const signature = (await headers()).get("stripe-signature");
 
@@ -23,6 +23,7 @@ export const POST = async (req: Request) => {
   let event: Stripe.Event;
 
   try {
+    // TODO: in here can we get the productId or name subscription.plan.product. the reason i need that because i need run the switch based on event and payment product
     event = stripe.webhooks.constructEvent(
       body,
       signature,
@@ -32,8 +33,6 @@ export const POST = async (req: Request) => {
     console.error("❌ Invalid signature", error);
     return new Response("Invalid signature", { status: 400 });
   }
-
-  console.log("event.type_________________", event.type);
 
   try {
     switch (event.type) {
@@ -50,8 +49,10 @@ export const POST = async (req: Request) => {
 
       // Payment-based invoice events (what you are receiving)
       case "invoice_payment.paid":
-        await handleInvoicePaymentPaid(event.data.object as Stripe.InvoicePayment);
-
+        await handleInvoicePaymentPaid(
+          event.data.object as Stripe.InvoicePayment,
+        );
+        break;
       default:
         console.log("ℹ️ Ignored event:", event.type);
     }
@@ -62,6 +63,5 @@ export const POST = async (req: Request) => {
 
   return new Response("OK", { status: 200 });
 };
-
 
 // NOTE: Stripe CLI must be running in the background if we want Stripe webhook event to reach

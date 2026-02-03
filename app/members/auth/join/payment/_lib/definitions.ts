@@ -6,3 +6,9 @@ export type MembershipOption = {
   priceLabel: string;
   helper: string;
 };
+
+export type PaymentMetaData = {
+  paymentRowId: string;
+  plan: string;
+  userId: string;
+};
