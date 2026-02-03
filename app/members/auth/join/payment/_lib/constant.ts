@@ -1,7 +1,7 @@
 import { STRIPE_PAYMENT as sp } from "@/app/_lib/stripe/stripePayment";
 import { MembershipOption } from "./definitions";
 
-export const PAYMENT_PLANS = [
+export const PAYMENT_PLANS_KEY = [
   sp.membership.monthly.key,
   sp.membership.annual.key,
 ] as const;
@@ -22,7 +22,7 @@ export const MEMBERSHIP_OPTIONS: MembershipOption[] = [
 ] as const;
 
 export const PAYMENT_FIELDS = {
-  paymentPlan: "paymentPlan",
+  paymentPlansKey: "paymentPlansKey",
   feeWaived: "feeWaived",
   waiverReason: "waiverReason",
 } as const;

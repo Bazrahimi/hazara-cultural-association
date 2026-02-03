@@ -1,5 +1,5 @@
 import { sql } from "@/app/_lib/db";
-import { PaymentPlans } from "./definitions";
+import { PaymentPlansKey } from "./definitions";
 
 export const upsertFeeWaived = async (userId: number) => {
   await sql`
@@ -13,7 +13,7 @@ export const upsertFeeWaived = async (userId: number) => {
 
 export async function createMembershipPaymentRow(params: {
   userId: number;
-  plan: PaymentPlans;
+  paymentPlansKey: PaymentPlansKey;
   amountCents: number;
 }) {
   const rows = await sql<
@@ -24,13 +24,13 @@ export async function createMembershipPaymentRow(params: {
   >`
     INSERT INTO membership_payments (
       user_id,
-      plan,
+      payment_plan_key,
       amount_cents,
       status
     )
     SELECT
       u.id,
-      ${params.plan},
+      ${params.paymentPlansKey},
       ${params.amountCents},
       'created'
     FROM users u

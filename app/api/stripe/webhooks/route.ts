@@ -13,6 +13,8 @@ import { headers } from "next/headers";
 export const POST = async (req: Request) => {
   const body = await req.text();
   console.log("body______________", body);
+ 
+
 
   const signature = (await headers()).get("stripe-signature");
 

@@ -3,7 +3,10 @@ import { toActionErrors } from "@/app/_lib/actionHelper";
 import { toBoolean } from "@/app/_lib/helper";
 import { MemberRoutes } from "@/app/_lib/routes";
 import { getSession } from "@/app/_lib/session/session";
-import { STRIPE_PAYMENT_ID as spi } from "@/app/_lib/stripe/stripePayment";
+import {
+  STRIPE_PAYMENT as sp,
+  STRIPE_PAYMENT_ID as spi,
+} from "@/app/_lib/stripe/stripePayment";
 import { redirect } from "next/navigation";
 
 import {
@@ -55,21 +58,24 @@ export const payment = async (
     await upsertFeeWaived(userId);
     redirect(`${MemberRoutes.paymentSuccess()}?waiver=1`);
   }
-  const amountCents = paymentData.paymentPlan === "monthly" ? 1000 : 11500;
+  const amountCents =
+    paymentData.paymentPlansKey === sp.membership.monthly.key
+      ? sp.membership.monthly.amountCents
+      : sp.membership.annual.amountCents;
   const row = await createMembershipPaymentRow({
     userId,
-    plan: paymentData.paymentPlan,
+    paymentPlansKey: paymentData.paymentPlansKey,
     amountCents,
   });
   const checkout = await createMembershipCheckoutSession({
-    plan: paymentData.paymentPlan,
-    priceId: spi[paymentData.paymentPlan],
+    paymentPlansKey: paymentData.paymentPlansKey,
+    priceId: spi[paymentData.paymentPlansKey],
     customerEmail: row.email,
     metadata: {
       paymentType: "membership",
       userId: userId,
       paymentRowId: row.id,
-      paymentPlan: paymentData.paymentPlan,
+      paymentPlansKey: paymentData.paymentPlansKey,
     },
   });
 

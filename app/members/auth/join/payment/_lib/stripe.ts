@@ -7,14 +7,14 @@ import {
   markMembershipPaymentPaid,
   setUserMembershipActive,
 } from "./data";
-import { PaymentMetaData, PaymentPlans } from "./definitions";
+import { MetaData, PaymentPlansKey } from "./definitions";
 
 
 
 export async function createMembershipCheckoutSession(params: {
-  plan: PaymentPlans;
+  paymentPlansKey: PaymentPlansKey;
   priceId: string;
-  metadata: PaymentMetaData;
+  metadata: MetaData;
   customerEmail: string;
 }) {
   const checkout = await stripe.checkout.sessions.create({
@@ -82,7 +82,7 @@ export const handleInvoicePaymentPaid = async (ip: Stripe.InvoicePayment) => {
       : (invoice as any).subscription?.id);
   /* eslint-enable @typescript-eslint/no-explicit-any */
 
-  const metadata: PaymentMetaData =
+  const metadata: MetaData =
     invoice?.parent?.subscription_details?.metadata;
 
   if (!metadata) {
