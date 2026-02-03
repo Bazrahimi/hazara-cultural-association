@@ -1,8 +1,16 @@
 //app/_lib/stripe.ts
 import Stripe from "stripe";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-export const stripeWebhook = process.env.STRIPE_WEBHOOK_SECRET!;
+
+
+export const stripe = new Stripe(
+  process.env.STRIPE_SECRET_KEY as string,
+  {
+    apiVersion: "2025-08-27.basil", // ✅ stable
+  }
+);
+
+export const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 
 
@@ -12,6 +20,7 @@ export const EVENT_TYPE = {
   invoicePaid: "invoice.paid",
   invoicePaymentFailed: "invoice.payment_failed",
 } as const;
+
 
 /**
  * 
