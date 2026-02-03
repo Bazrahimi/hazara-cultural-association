@@ -25,7 +25,7 @@ const MembershipPaymentForm = () => {
           <MembershipOptionCard
             key={opt.id}
             opt={opt}
-            name={f.plan}
+            name={f.paymentPlan}
             defaultChecked={opt.id === PAYMENT_PLANS[1]}
           />
         ))}

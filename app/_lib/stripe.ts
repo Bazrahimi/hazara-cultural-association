@@ -6,20 +6,20 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 });
 
 export const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
-export const STRIPE_PAYMENT = {
-  membershipFee: {
-    monthlyId: "membership-monthly-fee",
-    annualId: "membership-annual-fee",
-  },
-} as const;
+// export const STRIPE_PAYMENT = {
+//   membershipFee: {
+//     monthlyId: "membership-monthly-fee",
+//     annualId: "membership-annual-fee",
+//   },
+// } as const;
 
-export type MembershipFeeId =
-  (typeof STRIPE_PAYMENT.membershipFee)[keyof typeof STRIPE_PAYMENT.membershipFee];
+// export type MembershipFeeId =
+//   (typeof STRIPE_PAYMENT.membershipFee)[keyof typeof STRIPE_PAYMENT.membershipFee];
 
-export const MEMBERSHIP_FEE_IDS = [
-  STRIPE_PAYMENT.membershipFee.monthlyId,
-  STRIPE_PAYMENT.membershipFee.annualId,
-] as const satisfies readonly [MembershipFeeId, ...MembershipFeeId[]];
+// export const MEMBERSHIP_FEE_IDS = [
+//   STRIPE_PAYMENT.membershipFee.monthlyId,
+//   STRIPE_PAYMENT.membershipFee.annualId,
+// ] as const satisfies readonly [MembershipFeeId, ...MembershipFeeId[]];
 // export const EVENT_TYPE = {
 //   checkoutCompleted: "checkout.session.completed",
 //   invoicePaid: "invoice.paid",

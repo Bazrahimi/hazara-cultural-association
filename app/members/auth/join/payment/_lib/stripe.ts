@@ -9,15 +9,12 @@ import {
 } from "./data";
 import { PaymentMetaData, PaymentPlans } from "./definitions";
 
-export const MEMBERSHIP_PAYMENT_ID = {
-  monthly: process.env.STRIPE_PRICE_MEMBERSHIP_MONTHLY!,
-  annual: process.env.STRIPE_PRICE_MEMBERSHIP_YEARLY!,
-} as const;
+
 
 export async function createMembershipCheckoutSession(params: {
   plan: PaymentPlans;
   priceId: string;
-  metadata: Record<string, string>;
+  metadata: PaymentMetaData;
   customerEmail: string;
 }) {
   const checkout = await stripe.checkout.sessions.create({

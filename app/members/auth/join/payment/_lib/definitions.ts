@@ -1,3 +1,4 @@
+import { PaymentType } from "@/app/_lib/stripe/stripePayment";
 import { PAYMENT_PLANS } from "./constant";
 export type PaymentPlans = (typeof PAYMENT_PLANS)[number];
 export type MembershipOption = {
@@ -8,7 +9,8 @@ export type MembershipOption = {
 };
 
 export type PaymentMetaData = {
-  paymentRowId: string;
-  plan: string;
-  userId: string;
+  paymentType: PaymentType;
+  userId: number;
+  paymentRowId: number;
+  paymentPlan: string;
 };

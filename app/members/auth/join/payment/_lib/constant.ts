@@ -1,17 +1,20 @@
+import { STRIPE_PAYMENT as sp } from "@/app/_lib/stripe/stripePayment";
 import { MembershipOption } from "./definitions";
 
-
-export const PAYMENT_PLANS = ["monthly", "annual"] as const;
+export const PAYMENT_PLANS = [
+  sp.membership.monthly.key,
+  sp.membership.annual.key,
+] as const;
 
 export const MEMBERSHIP_OPTIONS: MembershipOption[] = [
   {
-    id: PAYMENT_PLANS[0],
+    id: sp.membership.monthly.key,
     label: "Monthly membership",
     priceLabel: "$10 / Month",
     helper: "Ongoing membership billed monthly. Cancel any time.",
   },
   {
-    id: PAYMENT_PLANS[1],
+    id: sp.membership.annual.key,
     label: "Annual membership",
     priceLabel: "$115 / Year",
     helper: "One payment for 12 months. Best value for regular members.",
@@ -19,8 +22,7 @@ export const MEMBERSHIP_OPTIONS: MembershipOption[] = [
 ] as const;
 
 export const PAYMENT_FIELDS = {
-  plan: "plan",
+  paymentPlan: "paymentPlan",
   feeWaived: "feeWaived",
   waiverReason: "waiverReason",
 } as const;
-
