@@ -1,10 +1,11 @@
 const required = (value: string | undefined, name: string): string => {
+  console.log(name, value)
   if (!value)
     throw new Error(
       `❌ Environment variable ${name} is missing! Check your .env file.`,
     );
-  console.log(name);
-  console.log("Env Value", value);
+
+  
   return value;
 };
 
@@ -16,7 +17,10 @@ export const processEnv = {
   oAuth: {
     google: {
       clientId: required(process.env.GOOGLE_CLIENT_ID, "GOOGLE_CLIENT_ID"),
-      clientSecret: required(process.env.GOOGLE_CLIENT_SECRET, "GOOGLE_CLIENT_SECRET"),
+      clientSecret: required(
+        process.env.GOOGLE_CLIENT_SECRET,
+        "GOOGLE_CLIENT_SECRET",
+      ),
     },
   },
   stripe: {

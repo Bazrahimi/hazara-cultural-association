@@ -3,12 +3,7 @@ import { stripe } from "@/app/_lib/stripe/stripe";
 import Stripe from "stripe";
 
 import { processEnv } from "@/app/_lib/processEnv";
-import {
-  handleCheckoutCompleted,
-  handleInvoice,
-  handleInvoiceFailed,
-  handleInvoicePaymentPaid,
-} from "@/app/members/auth/join/payment/_lib/stripe";
+import { extractWebhookMeta } from "@/app/_lib/stripe/webhookMeta";
 import { headers } from "next/headers";
 
 export const POST = async (req: Request) => {
@@ -33,32 +28,17 @@ export const POST = async (req: Request) => {
     return new Response("Invalid signature", { status: 400 });
   }
 
-  console.log("_________Event________________________", event);
-
   try {
-    switch (event.type) {
-      case "checkout.session.completed":
-        await handleCheckoutCompleted(event.data.object);
-
-        break;
-      case "invoice.paid":
-        await handleInvoice(event.data.object);
-        break;
-      case "invoice.payment_failed":
-        await handleInvoiceFailed(event.data.object);
+    const meta = extractWebhookMeta(event);
+    switch (meta?.paymentType) {
+      case "membership":
         break;
 
-      // Payment-based invoice events (what you are receiving)
-      case "invoice_payment.paid":
-        await handleInvoicePaymentPaid(
-          event.data.object as Stripe.InvoicePayment,
-        );
-        break;
       default:
-        console.log("ℹ️ Ignored event:", event.type);
+        break;
     }
   } catch (err) {
-    console.error("❌ Webhook handler failed", err);
+       console.error("❌ Webhook handler failed", err);
     return new Response("Webhook failed", { status: 500 });
   }
 
