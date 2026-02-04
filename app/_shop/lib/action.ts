@@ -2,7 +2,7 @@
 "use server";
 
 import { FieldErrors } from "@/app/_lib/actionHelper";
-import { stripe } from "@/app/_lib/stripe/stripe";
+import { STRIPE_SESSION_QUERY as ssq, stripe } from "@/app/_lib/stripe/stripe";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe";
 
@@ -86,7 +86,7 @@ export async function createCheckoutSession(
     const buyer = buyerParsed.data;
     const validCart = cartParsed.data;
 
-    const successUrl = `${processEnv.baseUrl}/shop/cart/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+    const successUrl = `${processEnv.baseUrl}/shop/cart/checkout/success?${ssq}`;
     const cancelUrl = `${processEnv.baseUrl}/shop/cart/checkout?canceled=1`;
 
     /* stripe objects */

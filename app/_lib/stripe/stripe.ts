@@ -6,6 +6,8 @@ export const stripe = new Stripe(processEnv.stripe.stripeSecretKey as string, {
   apiVersion: "2025-08-27.basil", // ✅ stable
 });
 
+export const STRIPE_SESSION_QUERY = "session_id={CHECKOUT_SESSION_ID}"
+
 /**
  * 
  * Card Number: 4242 4242 4242 4242
