@@ -28,7 +28,7 @@ export async function createMembershipPaymentRow(params: {
   >`
     INSERT INTO membership_payments (
       user_id,
-      payment_key,
+      payment_plan_key,
       amount_cents,
       status
     )
