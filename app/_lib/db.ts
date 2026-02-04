@@ -1,5 +1,6 @@
 // app/lib/db.ts  (no "use server" here)
 import postgres from "postgres";
+import { processEnv } from "./processEnv";
 
 declare global {
   var __sql: ReturnType<typeof postgres> | undefined;
@@ -7,7 +8,7 @@ declare global {
 
 const _sql =
   global.__sql ??
-  postgres(process.env.POSTGRES_URL!, {
+  postgres(processEnv.postgresUrl, {
     ssl: "require",
     max: 5, // keep this low on Neon free tier
     idle_timeout: 20, // seconds

@@ -1,9 +1,9 @@
 // app/blog/[slug]/layout.tsx
 import { ORG_PROFILE } from "@/app/_lib/org/profile";
+import { processEnv } from "@/app/_lib/processEnv";
 import type { ReactNode } from "react";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ?? `https://${ORG_PROFILE.domain}`;
+const BASE_URL = processEnv.baseUrl ?? `https://${ORG_PROFILE.domain}`;
 
 // Fallback image if a post has no hero_img_path
 const DEFAULT_OG_IMAGE_PATH = "/images/og_image.png";

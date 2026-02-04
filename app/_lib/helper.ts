@@ -48,12 +48,6 @@ export type CamelizeKeys<T> = {
   [K in keyof T as CamelCase<K & string>]: T[K];
 };
 
-export const requiredEnv = (name: string): string => {
-  const v = process.env[name]; // Removed the dot before the bracket
-  if (!v) {
-    throw new Error(`Missing environment variable: ${name}`);
-  }
-  return v;
-};
 
-export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+

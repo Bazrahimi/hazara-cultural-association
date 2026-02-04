@@ -1,11 +1,10 @@
 //app/_lib/stripe.ts
 import Stripe from "stripe";
+import { processEnv } from "../processEnv";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+export const stripe = new Stripe(processEnv.stripe.stripeSecretKey as string, {
   apiVersion: "2025-08-27.basil", // ✅ stable
 });
-
-export const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 /**
  * 

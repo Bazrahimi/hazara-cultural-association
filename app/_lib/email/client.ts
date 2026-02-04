@@ -2,8 +2,9 @@
 
 import { Resend } from "resend";
 import { ORG_PROFILE } from "../org/profile";
+import { processEnv } from "../processEnv";
 
-export const emailClient = new Resend(process.env.RESEND_API_KEY!);
+export const emailClient = new Resend(processEnv.ResendApiKey);
 
 export const FROM_EMAIL = `${ORG_PROFILE.orgName} <${ORG_PROFILE.email}>`;
 export const WEBSITE_ENQUIRY = `Website Enquiry <website${ORG_PROFILE.domain}>`;

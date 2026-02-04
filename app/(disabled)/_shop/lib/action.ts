@@ -13,6 +13,7 @@ import {
   type Cart,
   type CartItem,
 } from "@/app/(disabled)/_shop/lib/schema";
+import { processEnv } from "@/app/_lib/processEnv";
 
 /* utils */
 const toAUDCents = (n: number) => Math.max(0, Math.round(n * 100));
@@ -85,13 +86,8 @@ export async function createCheckoutSession(
     const buyer = buyerParsed.data;
     const validCart = cartParsed.data;
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    if (!baseUrl) {
-      return { ok: false, message: "NEXT_PUBLIC_BASE_URL is not set." };
-    }
-
-    const successUrl = `${baseUrl}/shop/cart/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${baseUrl}/shop/cart/checkout?canceled=1`;
+    const successUrl = `${processEnv.baseUrl}/shop/cart/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${processEnv.baseUrl}/shop/cart/checkout?canceled=1`;
 
     /* stripe objects */
     const address: Stripe.AddressParam = {

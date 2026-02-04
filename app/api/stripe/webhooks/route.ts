@@ -1,7 +1,8 @@
 // app/api/stripe/webhooks/route.ts
-import { stripe, stripeWebhookSecret } from "@/app/_lib/stripe/stripe";
+import { stripe } from "@/app/_lib/stripe/stripe";
 import Stripe from "stripe";
 
+import { processEnv } from "@/app/_lib/processEnv";
 import {
   handleCheckoutCompleted,
   handleInvoice,
@@ -25,7 +26,7 @@ export const POST = async (req: Request) => {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      stripeWebhookSecret,
+      processEnv.stripe.webhookSecret,
     );
   } catch (error) {
     console.error("❌ Invalid signature", error);

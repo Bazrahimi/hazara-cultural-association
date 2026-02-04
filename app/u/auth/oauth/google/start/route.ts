@@ -9,6 +9,7 @@ import {
   VERIFICATION_TTL_SECONDS,
   VERIFY_EMAIL_COOKIE_PATH,
 } from "../../../_lib/constants";
+import { processEnv } from "@/app/_lib/processEnv";
 
 const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 
@@ -18,7 +19,7 @@ export const GET = async () => {
   // Random state for CSRF protection
   const state = crypto.randomBytes(16).toString("hex");
 
-  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}${AuthRoutes.googleOAuthCallback()}`;
+  const redirectUri = `${processEnv.baseUrl}${AuthRoutes.googleOAuthCallback()}`;
 
   // Save state in a secure cookie so we can verify it on callback
   cookieStore.set("oauth_state_google", state, {
@@ -30,7 +31,7 @@ export const GET = async () => {
   });
 
   const params = new URLSearchParams({
-    client_id: process.env.GOOGLE_CLIENT_ID ?? "",
+    client_id: processEnv.oAuth.google.clientId,
     redirect_uri: redirectUri,
     // 🔴 THIS WAS MISSING
     response_type: "code",

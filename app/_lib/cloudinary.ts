@@ -1,16 +1,9 @@
-export const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!;
-export const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!;
-export const apiSecret =
-  process.env.CLOUDINARY_API_SECRET ||
-  process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET!;
-
-// config
-
-const CLD_BASE = `https://res.cloudinary.com/${cloudName}/image/upload`;
+import { processEnv } from "./processEnv";
+const CLD_BASE = `https://res.cloudinary.com/${processEnv.cloudinary.cloudName}/image/upload`;
 
 export function cld(
   path: string | null | undefined,
-  transform: string
+  transform: string,
 ): string {
   if (!path) return "";
 

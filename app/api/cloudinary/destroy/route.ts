@@ -1,11 +1,11 @@
-import { apiKey, apiSecret, cloudName } from "@/app/_lib/cloudinary";
+import { processEnv } from "@/app/_lib/processEnv";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 
 cloudinary.config({
-  cloud_name: cloudName,
-  api_key: apiKey,
-  api_secret: apiSecret,
+  cloud_name: processEnv.cloudinary.cloudName,
+  api_key: processEnv.cloudinary.apiKey,
+  api_secret: processEnv.cloudinary.apiSecret,
 });
 
 type DestroyBody = {
@@ -41,13 +41,6 @@ function publicIdFromPath(pathIn: string): string {
 
 export async function POST(req: Request) {
   try {
-    if (!cloudName || !apiKey || !apiSecret) {
-      return NextResponse.json(
-        { ok: false, message: "Cloudinary env is not configured." },
-        { status: 500 },
-      );
-    }
-
     const { path, resourceType = "image" } = (await req.json()) as DestroyBody;
 
     if (!path || typeof path !== "string") {

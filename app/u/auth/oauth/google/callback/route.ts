@@ -1,5 +1,6 @@
 // app/u/oauth/google/callback/route.ts
 import { sql } from "@/app/_lib/db";
+import { processEnv } from "@/app/_lib/processEnv";
 import { AccountRoutes, AuthRoutes } from "@/app/_lib/routes";
 import { createSession } from "@/app/_lib/session/session";
 import { buildFullName } from "@/app/u/auth/_lib/helper"; // you already have this
@@ -43,7 +44,7 @@ export async function GET(req: NextRequest) {
     maxAge: 0,
   });
 
-  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}${AuthRoutes.googleOAuthCallback()}`;
+  const redirectUri = `${processEnv.baseUrl}${AuthRoutes.googleOAuthCallback()}`;
 
   // 3) Exchange code -> tokens
   const tokenRes = await fetch(GOOGLE_TOKEN_URL, {
@@ -51,8 +52,8 @@ export async function GET(req: NextRequest) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       code,
-      client_id: process.env.GOOGLE_CLIENT_ID ?? "",
-      client_secret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      client_id: processEnv.oAuth.google.clientId,
+      client_secret: processEnv.oAuth.google.clientSecret,
       redirect_uri: redirectUri,
       grant_type: "authorization_code",
     }),
@@ -230,8 +231,8 @@ export async function GET(req: NextRequest) {
   await createSession(userId, effectiveRoles, { fullName });
 
   // 8) Redirect to account dashboard (must be an absolute URL)
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? req.nextUrl.origin;
-  const redirectUrl = new URL(AccountRoutes.root(), baseUrl);
+
+  const redirectUrl = new URL(AccountRoutes.root(), processEnv.baseUrl);
 
   return NextResponse.redirect(redirectUrl);
 }
