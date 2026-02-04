@@ -1,5 +1,7 @@
 // app/u/oauth/google/start/route.ts
 
+import { publicEnv } from "@/app/_lib/env/public";
+import { serverEnv } from "@/app/_lib/env/server";
 import { AuthRoutes } from "@/app/_lib/routes";
 import crypto from "crypto";
 import { cookies } from "next/headers";
@@ -9,7 +11,6 @@ import {
   VERIFICATION_TTL_SECONDS,
   VERIFY_EMAIL_COOKIE_PATH,
 } from "../../../_lib/constants";
-import { processEnv } from "@/app/_lib/processEnv";
 
 const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 
@@ -19,7 +20,7 @@ export const GET = async () => {
   // Random state for CSRF protection
   const state = crypto.randomBytes(16).toString("hex");
 
-  const redirectUri = `${processEnv.baseUrl}${AuthRoutes.googleOAuthCallback()}`;
+  const redirectUri = `${publicEnv}${AuthRoutes.googleOAuthCallback()}`;
 
   // Save state in a secure cookie so we can verify it on callback
   cookieStore.set("oauth_state_google", state, {
@@ -31,7 +32,7 @@ export const GET = async () => {
   });
 
   const params = new URLSearchParams({
-    client_id: processEnv.oAuth.google.clientId,
+    client_id: serverEnv.oAuth.google.clientId,
     redirect_uri: redirectUri,
     // 🔴 THIS WAS MISSING
     response_type: "code",

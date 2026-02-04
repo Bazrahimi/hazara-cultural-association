@@ -1,4 +1,4 @@
-import { STRIPE_PAYMENT as sp } from "@/app/_lib/stripe/stripePayment";
+import { STRIPE_PAYMENT as sp } from "@/app/_lib/stripe/stripePayment.public";
 import { MembershipOption } from "./definitions";
 
 export const PAYMENT_KEY = [

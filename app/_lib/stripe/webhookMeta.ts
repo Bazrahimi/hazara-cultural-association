@@ -1,5 +1,5 @@
 import type Stripe from "stripe";
-import type { PaymentType } from "./stripePayment";
+import type { PaymentType } from "./stripePayment.public";
 
 export type WebhookMeta = Readonly<{
   userId: number;
@@ -22,16 +22,20 @@ export const extractWebhookMeta = (event: Stripe.Event): WebhookMeta | null => {
       userId: userId,
       paymentType: paymentType,
       paymentRowId: paymentRowId,
-      paymentKey: paymentKey
+      paymentKey: paymentKey,
     };
   }
 
   // Invoice
-    // 2) Invoice (your logs show this is present)
+  // 2) Invoice (your logs show this is present)
   const invoiceMeta = obj?.parent?.subscription_details?.metadata;
-  if (invoiceMeta?.paymentType && invoiceMeta?.userId && invoiceMeta?.paymentRowId) {
+  if (
+    invoiceMeta?.paymentType &&
+    invoiceMeta?.userId &&
+    invoiceMeta?.paymentRowId
+  ) {
     const userId = invoiceMeta.userId;
-    const paymentRowId = invoiceMeta.paymentRowId
+    const paymentRowId = invoiceMeta.paymentRowId;
     if (!userId || !paymentRowId) return null;
 
     return {
@@ -42,5 +46,5 @@ export const extractWebhookMeta = (event: Stripe.Event): WebhookMeta | null => {
     };
   }
 
-  return null
+  return null;
 };

@@ -1,6 +1,4 @@
-import { processEnv } from "../processEnv";
-
-const membership = {
+export const membership = {
   monthly: {
     paymentKey: "membership-monthly-fee",
     amountCents: 1000,
@@ -20,9 +18,7 @@ export const STRIPE_PAYMENT = {
 
 export type PaymentType = keyof typeof STRIPE_PAYMENT;
 
-export const STRIPE_PAYMENT_ID = {
-  [membership.monthly.paymentKey]: processEnv.stripe.payment.membership.monthly,
-  [membership.annual.paymentKey]: processEnv.stripe.payment.membership.annual,
-} as const;
-
 export type MembershipPlan = keyof typeof membership;
+
+export type MembershipPaymentKey =
+  (typeof membership)[MembershipPlan]["paymentKey"];

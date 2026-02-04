@@ -1,12 +1,12 @@
 "use server";
 
 import { toActionErrors } from "@/app/_lib/actionHelper";
-import {processEnv} from "@/app/_lib/processEnv"
 import { stripe } from "@/app/_lib/stripe/stripe";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe"; // ✅ add this
 import { DonationSchema, type DonationState } from "./schema";
 import { STRIPE_SESSION_QUERY as ssq } from "@/app/_lib/stripe/stripe";
+import { publicEnv } from "@/app/_lib/env/public";
 
 export async function submitDonation(
   _prev: DonationState | undefined,
@@ -30,8 +30,8 @@ export async function submitDonation(
   const data = parsed.data;
   const unitAmount = Math.round(Number(data.amount) * 100);
 
-  const successUrl = `${processEnv.baseUrl}?${ssq}`;
-  const cancelUrl = `${processEnv.baseUrl}/donate/cancel`;
+  const successUrl = `${publicEnv.baseUrl}?${ssq}`;
+  const cancelUrl = `${publicEnv.baseUrl}/donate/cancel`;
 
   // ✅ Type now resolves because of `import type Stripe from "stripe"`
   const address: Stripe.AddressParam = {

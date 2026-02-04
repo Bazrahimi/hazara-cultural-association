@@ -11,8 +11,9 @@ import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { processEnv } from "../processEnv";
+
 import { AuthRoutes } from "../routes";
+import { serverEnv } from "../env/server";
 
 /* ============ Single source of truth (schema) ============ */
 
@@ -39,7 +40,7 @@ type DecodedSession = SessionNormalized &
 const SESSION_COOKIE = "session";
 const SESSION_DAYS = 0.5;
 const alg = "HS256";
-const encodedKey = new TextEncoder().encode(processEnv.sessionSecret);
+const encodedKey = new TextEncoder().encode(serverEnv.sessionSecret);
 
 /* ============ Sign / Verify ============ */
 

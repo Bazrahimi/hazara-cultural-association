@@ -1,5 +1,5 @@
-import { processEnv } from "./processEnv";
-const CLD_BASE = `https://res.cloudinary.com/${processEnv.cloudinary.cloudName}/image/upload`;
+import { publicEnv } from "./env/public";
+const CLD_BASE = `https://res.cloudinary.com/${publicEnv.cloudinaryCloudName}/image/upload`;
 
 export function cld(
   path: string | null | undefined,

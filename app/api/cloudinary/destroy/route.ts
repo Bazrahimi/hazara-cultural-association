@@ -1,11 +1,12 @@
-import { processEnv } from "@/app/_lib/processEnv";
+import { publicEnv } from "@/app/_lib/env/public";
+import { serverEnv } from "@/app/_lib/env/server";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 
 cloudinary.config({
-  cloud_name: processEnv.cloudinary.cloudName,
-  api_key: processEnv.cloudinary.apiKey,
-  api_secret: processEnv.cloudinary.apiSecret,
+  cloud_name: publicEnv.cloudinaryCloudName,
+  api_key: publicEnv.cloudinaryApiKey,
+  api_secret: serverEnv.cloudinary.apiSecret,
 });
 
 type DestroyBody = {

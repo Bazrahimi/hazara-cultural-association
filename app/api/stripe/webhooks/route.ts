@@ -2,7 +2,7 @@
 import { stripe } from "@/app/_lib/stripe/stripe";
 import Stripe from "stripe";
 
-import { processEnv } from "@/app/_lib/processEnv";
+import { serverEnv } from "@/app/_lib/env/server";
 import { extractWebhookMeta } from "@/app/_lib/stripe/webhookMeta";
 import { headers } from "next/headers";
 
@@ -21,7 +21,7 @@ export const POST = async (req: Request) => {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      processEnv.stripe.webhookSecret,
+      serverEnv.stripe.webhookSecret,
     );
   } catch (error) {
     console.error("❌ Invalid signature", error);
@@ -38,7 +38,7 @@ export const POST = async (req: Request) => {
         break;
     }
   } catch (err) {
-       console.error("❌ Webhook handler failed", err);
+    console.error("❌ Webhook handler failed", err);
     return new Response("Webhook failed", { status: 500 });
   }
 

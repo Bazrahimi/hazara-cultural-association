@@ -1,5 +1,6 @@
 // app/shop/lib/actions/checkout.ts
 "use server";
+import { publicEnv } from "@/app/_lib/env/public";
 
 import { FieldErrors } from "@/app/_lib/actionHelper";
 import { STRIPE_SESSION_QUERY as ssq, stripe } from "@/app/_lib/stripe/stripe";
@@ -86,8 +87,8 @@ export async function createCheckoutSession(
     const buyer = buyerParsed.data;
     const validCart = cartParsed.data;
 
-    const successUrl = `${processEnv.baseUrl}/shop/cart/checkout/success?${ssq}`;
-    const cancelUrl = `${processEnv.baseUrl}/shop/cart/checkout?canceled=1`;
+    const successUrl = `${publicEnv.baseUrl}/shop/cart/checkout/success?${ssq}`;
+    const cancelUrl = `${publicEnv.baseUrl}/shop/cart/checkout?canceled=1`;
 
     /* stripe objects */
     const address: Stripe.AddressParam = {

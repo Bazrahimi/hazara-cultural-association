@@ -1,6 +1,9 @@
 // app/u/oauth/google/callback/route.ts
 import { sql } from "@/app/_lib/db";
-import { processEnv } from "@/app/_lib/processEnv";
+import { publicEnv } from "@/app/_lib/env/public";
+import { serverEnv } from "@/app/_lib/env/server";
+
+
 import { AccountRoutes, AuthRoutes } from "@/app/_lib/routes";
 import { createSession } from "@/app/_lib/session/session";
 import { buildFullName } from "@/app/u/auth/_lib/helper"; // you already have this
@@ -44,7 +47,7 @@ export async function GET(req: NextRequest) {
     maxAge: 0,
   });
 
-  const redirectUri = `${processEnv.baseUrl}${AuthRoutes.googleOAuthCallback()}`;
+  const redirectUri = `${publicEnv.baseUrl}${AuthRoutes.googleOAuthCallback()}`;
 
   // 3) Exchange code -> tokens
   const tokenRes = await fetch(GOOGLE_TOKEN_URL, {
@@ -52,8 +55,8 @@ export async function GET(req: NextRequest) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       code,
-      client_id: processEnv.oAuth.google.clientId,
-      client_secret: processEnv.oAuth.google.clientSecret,
+      client_id: serverEnv.oAuth.google.clientId,
+      client_secret: serverEnv.oAuth.google.clientSecret,
       redirect_uri: redirectUri,
       grant_type: "authorization_code",
     }),
@@ -232,7 +235,7 @@ export async function GET(req: NextRequest) {
 
   // 8) Redirect to account dashboard (must be an absolute URL)
 
-  const redirectUrl = new URL(AccountRoutes.root(), processEnv.baseUrl);
+  const redirectUrl = new URL(AccountRoutes.root(), publicEnv.baseUrl);
 
   return NextResponse.redirect(redirectUrl);
 }

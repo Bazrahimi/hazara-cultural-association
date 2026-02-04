@@ -1,8 +1,9 @@
 import { sql } from "@/app/_lib/db";
-import Stripe from "stripe";
-
-import { PaymentKey } from "./definitions";
+import {} from "@/app/_lib/stripe/stripe";
 import { WebhookMeta } from "@/app/_lib/stripe/webhookMeta";
+import { stripe } from "@/app/_lib/stripe/stripe";
+import Stripe from "stripe";
+import { PaymentKey } from "./definitions";
 
 export const upsertFeeWaived = async (userId: number) => {
   await sql`
@@ -105,7 +106,8 @@ export const setUserMembershipActive = async (userId: number) => {
 };
 
 export const handleCheckoutCompleted = async (
-  session: Stripe.Checkout.Session, meta:WebhookMeta
+  session: Stripe.Checkout.Session,
+  meta: WebhookMeta,
 ) => {
   console.log(
     "handleCheckoutCompleted_________Stripe.Checkout.Session_________",
@@ -120,15 +122,24 @@ export const handleCheckoutCompleted = async (
   }
 };
 
-export const handleInvoice = async (invoice: Stripe.Invoice, meta:WebhookMeta) => {
+export const handleInvoice = async (
+  invoice: Stripe.Invoice,
+  meta: WebhookMeta,
+) => {
   console.log("handleInvoice_________Stripe.Invoice_________", invoice);
 };
 
-export const handleInvoiceFailed = async (session: Stripe.Invoice, meta:WebhookMeta) => {
+export const handleInvoiceFailed = async (
+  session: Stripe.Invoice,
+  meta: WebhookMeta,
+) => {
   console.log("handleInvoiceFailed_________Stripe.Invoice_________", session);
 };
 
-export const handleInvoicePaymentPaid = async (ip: Stripe.InvoicePayment, meta:WebhookMeta) => {
+export const handleInvoicePaymentPaid = async (
+  ip: Stripe.InvoicePayment,
+  meta: WebhookMeta,
+) => {
   if (ip.status !== "paid") return;
 
   const invoiceId =
@@ -180,10 +191,11 @@ export const handleInvoicePaymentPaid = async (ip: Stripe.InvoicePayment, meta:W
   console.log("✅ Paid + activated", metadata);
 };
 
-
-export const handleMembershipEvent = async(event:Stripe.Event, meta:WebhookMeta ) => {
-
-   try {
+export const handleMembershipEvent = async (
+  event: Stripe.Event,
+  meta: WebhookMeta,
+) => {
+  try {
     switch (event.type) {
       case "checkout.session.completed":
         await handleCheckoutCompleted(event.data.object, meta);
@@ -199,7 +211,8 @@ export const handleMembershipEvent = async(event:Stripe.Event, meta:WebhookMeta 
       // Payment-based invoice events (what you are receiving)
       case "invoice_payment.paid":
         await handleInvoicePaymentPaid(
-          event.data.object as Stripe.InvoicePayment, meta
+          event.data.object as Stripe.InvoicePayment,
+          meta,
         );
         break;
       default:
@@ -209,5 +222,4 @@ export const handleMembershipEvent = async(event:Stripe.Event, meta:WebhookMeta 
     console.error("❌ Webhook handler failed", err);
     return new Response("Webhook failed", { status: 500 });
   }
-
-}
+};

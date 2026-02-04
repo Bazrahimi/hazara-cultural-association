@@ -1,13 +1,7 @@
-import { processEnv } from "@/app/_lib/processEnv";
+import { publicEnv } from "@/app/_lib/env/public";
 import { MemberRoutes } from "@/app/_lib/routes";
 import { STRIPE_SESSION_QUERY as ssq, stripe } from "@/app/_lib/stripe/stripe";
 import type { WebhookMeta } from "@/app/_lib/stripe/webhookMeta";
-import Stripe from "stripe";
-import {
-  getMembershipPaymentStatus,
-  markMembershipPaymentPaid,
-  setUserMembershipActive,
-} from "./data";
 import type { PaymentKey } from "./definitions";
 
 export async function createMembershipCheckoutSession(params: {
@@ -20,8 +14,8 @@ export async function createMembershipCheckoutSession(params: {
     mode: "subscription",
     line_items: [{ price: params.priceId, quantity: 1 }],
     customer_email: params.customerEmail,
-    success_url: `${processEnv.baseUrl}${MemberRoutes.paymentSuccess()}?${ssq}`,
-    cancel_url: `${processEnv.baseUrl}${MemberRoutes.paymentCancel()}`,
+    success_url: `${publicEnv.baseUrl}${MemberRoutes.paymentSuccess()}?${ssq}`,
+    cancel_url: `${publicEnv.baseUrl}${MemberRoutes.paymentCancel()}`,
     metadata: params.metadata,
     subscription_data: {
       metadata: params.metadata,
@@ -30,4 +24,3 @@ export async function createMembershipCheckoutSession(params: {
 
   return checkout;
 }
-

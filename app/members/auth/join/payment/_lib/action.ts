@@ -5,8 +5,14 @@ import { MemberRoutes } from "@/app/_lib/routes";
 import { getSession } from "@/app/_lib/session/session";
 import {
   STRIPE_PAYMENT as sp,
+ 
+} from "@/app/_lib/stripe/stripePayment.public";
+import {
+ 
   STRIPE_PAYMENT_ID as spi,
-} from "@/app/_lib/stripe/stripePayment";
+} from "@/app/_lib/stripe/stripePayment.server";
+
+
 import { redirect } from "next/navigation";
 
 import {

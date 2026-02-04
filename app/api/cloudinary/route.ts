@@ -1,10 +1,11 @@
-import { processEnv } from "@/app/_lib/processEnv";
+import { publicEnv } from "@/app/_lib/env/public";
+import { serverEnv } from "@/app/_lib/env/server";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: processEnv.cloudinary.cloudName,
-  api_key: processEnv.cloudinary.apiKey,
-  api_secret: processEnv.cloudinary.apiSecret,
+  cloud_name: publicEnv.cloudinaryCloudName,
+  api_key: publicEnv.cloudinaryApiKey,
+  api_secret: serverEnv.cloudinary.apiSecret,
 });
 
 export async function POST(request: Request) {
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
 
     const signature = cloudinary.utils.api_sign_request(
       paramsToSign,
-      processEnv.cloudinary.apiSecret,
+      serverEnv.cloudinary.apiSecret,
     );
 
     return Response.json({ signature });

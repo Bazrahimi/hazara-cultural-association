@@ -1,12 +1,12 @@
 //app/_lib/stripe.ts
 import Stripe from "stripe";
-import { processEnv } from "../processEnv";
+import { serverEnv } from "../env/server";
 
-export const stripe = new Stripe(processEnv.stripe.stripeSecretKey as string, {
+export const stripe = new Stripe(serverEnv.stripe.secretKey as string, {
   apiVersion: "2025-08-27.basil", // ✅ stable
 });
 
-export const STRIPE_SESSION_QUERY = "session_id={CHECKOUT_SESSION_ID}"
+export const STRIPE_SESSION_QUERY = "session_id={CHECKOUT_SESSION_ID}";
 
 /**
  * 
