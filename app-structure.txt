@@ -62,11 +62,13 @@ app
 │   ├── actionHelper.ts
 │   ├── cloudinary.ts
 │   ├── db.ts
-│   ├── definitions.ts
 │   ├── email
 │   │   ├── client.ts
 │   │   └── components
 │   │       └── EmailFooter.tsx
+│   ├── env
+│   │   ├── public.ts
+│   │   └── server.ts
 │   ├── font.ts
 │   ├── helper.ts
 │   ├── org
@@ -89,7 +91,11 @@ app
 │   │   ├── protectedRoutes.ts
 │   │   ├── session.ts
 │   │   └── sessionConfig.ts
-│   ├── stripe.ts
+│   ├── stripe
+│   │   ├── stripe.ts
+│   │   ├── stripePayment.public.ts
+│   │   ├── stripePayment.server.ts
+│   │   └── webhookMeta.ts
 │   └── translation
 │       ├── BreadcrumbsTrans.ts
 │       ├── blog
@@ -215,40 +221,12 @@ app
 │   │   ├── destroy
 │   │   │   └── route.ts
 │   │   └── route.ts
-│   └── shop
-│       └── listings
+│   ├── shop
+│   │   └── listings
+│   └── stripe
+│       └── webhooks
+│           └── route.ts
 ├── blog
-│   ├── auth
-│   │   ├── edit
-│   │   │   └── [postId]
-│   │   │       ├── loading.tsx
-│   │   │       └── page.tsx
-│   │   ├── loading.tsx
-│   │   ├── new
-│   │   │   ├── loading.tsx
-│   │   │   ├── page.tsx
-│   │   │   └── ui
-│   │   │       ├── BlogPostFormSkeleton.tsx
-│   │   │       ├── PostForm.tsx
-│   │   │       └── form
-│   │   │           ├── AdvocacyEvent.tsx
-│   │   │           ├── CategoryStatusFeaturedFields.tsx
-│   │   │           ├── EditorField.tsx
-│   │   │           ├── ExcerptField.tsx
-│   │   │           ├── FormFooter.tsx
-│   │   │           ├── FormHeader.tsx
-│   │   │           ├── SuccessModal.tsx
-│   │   │           └── index.ts
-│   │   ├── page.tsx
-│   │   └── ui
-│   │       ├── ChangeCategoryMenu.tsx
-│   │       ├── PostHeader.tsx
-│   │       ├── PostPanel.tsx
-│   │       ├── PostsLoadingFallback.tsx
-│   │       ├── PostsWrapper.tsx
-│   │       └── postActionMenu
-│   │           ├── MenuItem.tsx
-│   │           └── PostActionsMenu.tsx
 │   ├── hazara-genocide-memorial
 │   │   └── 133
 │   │       ├── layout.tsx
@@ -291,6 +269,38 @@ app
 │   │   │   ├── definitions.ts
 │   │   │   ├── helper.ts
 │   │   │   └── schema.ts
+│   │   ├── auth
+│   │   │   ├── create-new-post
+│   │   │   │   ├── loading.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── ui
+│   │   │   │       ├── BlogPostFormSkeleton.tsx
+│   │   │   │       ├── PostForm.tsx
+│   │   │   │       └── form
+│   │   │   │           ├── AdvocacyEvent.tsx
+│   │   │   │           ├── CategoryStatusFeaturedFields.tsx
+│   │   │   │           ├── EditorField.tsx
+│   │   │   │           ├── ExcerptField.tsx
+│   │   │   │           ├── FormFooter.tsx
+│   │   │   │           ├── FormHeader.tsx
+│   │   │   │           ├── SuccessModal.tsx
+│   │   │   │           └── index.ts
+│   │   │   └── manage-posts
+│   │   │       ├── edit-post
+│   │   │       │   └── [postId]
+│   │   │       │       ├── loading.tsx
+│   │   │       │       └── page.tsx
+│   │   │       ├── loading.tsx
+│   │   │       ├── page.tsx
+│   │   │       └── ui
+│   │   │           ├── ChangeCategoryMenu.tsx
+│   │   │           ├── PostHeader.tsx
+│   │   │           ├── PostPanel.tsx
+│   │   │           ├── PostsLoadingFallback.tsx
+│   │   │           ├── PostsWrapper.tsx
+│   │   │           └── postActionMenu
+│   │   │               ├── MenuItem.tsx
+│   │   │               └── PostActionsMenu.tsx
 │   │   └── category
 │   │       └── [category]
 │   │           └── page.tsx
@@ -331,7 +341,6 @@ app
 │   ├── layout.tsx
 │   ├── lib
 │   │   ├── action.ts
-│   │   ├── definitions.ts
 │   │   └── schema.ts
 │   ├── page.tsx
 │   ├── success
@@ -354,11 +363,17 @@ app
 │   │   │   ├── constant.ts
 │   │   │   ├── data.ts
 │   │   │   ├── definitions.ts
-│   │   │   ├── schema.ts
-│   │   │   └── stripe.ts
+│   │   │   └── schema.ts
 │   │   └── join
 │   │       ├── page.tsx
 │   │       ├── payment
+│   │       │   ├── _lib
+│   │       │   │   ├── action.ts
+│   │       │   │   ├── constant.ts
+│   │       │   │   ├── data.ts
+│   │       │   │   ├── definitions.ts
+│   │       │   │   ├── schema.ts
+│   │       │   │   └── stripe.ts
 │   │       │   ├── cancel
 │   │       │   │   └── page.tsx
 │   │       │   ├── page.tsx
@@ -431,4 +446,4 @@ app
             └── ui
                 └── VerifyEmailForm.tsx
 
-137 directories, 295 files
+143 directories, 304 files

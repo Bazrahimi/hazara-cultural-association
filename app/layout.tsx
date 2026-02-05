@@ -1,6 +1,6 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-
+import { CartProvider } from "./(disabled)/_shop/ui/cart/CartContext";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
@@ -10,6 +10,7 @@ import { ORG_PROFILE } from "./_lib/org/profile";
 import Footer from "./_ui/Footer";
 import { NotificationCenter } from "./blog/ui/NotificationCenter";
 import NavBar from "./Navbar";
+import { getSession } from "./_lib/session/session";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -70,12 +71,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getSession()
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <CartProvider userId={Number(session?.userId)}> */}
+        <CartProvider userId={Number(session?.userId)}>
         <NavBar />
 
         <main
@@ -93,7 +95,7 @@ export default async function RootLayout({
         </main>
 
         <NotificationCenter />
-        {/* </CartProvider> */}
+        </CartProvider>
 
         <Footer />
       </body>
