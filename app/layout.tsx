@@ -7,11 +7,11 @@ import { decrypt } from "./_lib/session/session";
 
 import "./globals.css";
 
-import { CartProvider } from "./(disabled)/_shop/ui/cart/CartContext";
+// import { CartProvider } from "./(disabled)/_shop/ui/cart/CartContext";
 import { ORG_PROFILE } from "./_lib/org/profile";
+import Footer from "./_ui/Footer";
 import { NotificationCenter } from "./blog/ui/NotificationCenter";
 import NavBar from "./Navbar";
-import Footer from "./_ui/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -80,11 +80,11 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CartProvider userId={Number(session?.userId)}>
-          <NavBar />
+        {/* <CartProvider userId={Number(session?.userId)}> */}
+        <NavBar />
 
-          <main
-            className="
+        <main
+          className="
                       mx-auto
                       w-full
                       max-w-7xl
@@ -93,12 +93,12 @@ export default async function RootLayout({
                       lg:px-5
           
           "
-          >
-            {children}
-          </main>
+        >
+          {children}
+        </main>
 
-          <NotificationCenter />
-        </CartProvider>
+        <NotificationCenter />
+        {/* </CartProvider> */}
 
         <Footer />
       </body>
