@@ -1,7 +1,5 @@
 import { sql } from "@/app/_lib/db";
-import {} from "@/app/_lib/stripe/stripe";
 import { WebhookMeta } from "@/app/_lib/stripe/webhookMeta";
-import { stripe } from "@/app/_lib/stripe/stripe";
 import Stripe from "stripe";
 import { PaymentKey } from "./definitions";
 
@@ -136,90 +134,85 @@ export const handleInvoiceFailed = async (
   console.log("handleInvoiceFailed_________Stripe.Invoice_________", session);
 };
 
-export const handleInvoicePaymentPaid = async (
-  ip: Stripe.InvoicePayment,
-  meta: WebhookMeta,
+export const handleMemberSubscriptionSuccess = async (
+  sub: Stripe.Subscription,
 ) => {
-  if (ip.status !== "paid") return;
+  const metadata: Stripe.Metadata = sub.metadata ?? {};
 
+  const subscriptionId = sub.id;
+
+  const customerId =
+    typeof sub.customer === "string" ? sub.customer : sub.customer?.id;
+
+  if (!customerId) {
+    throw new Error(`Subscription ${subscriptionId} missing customer id`);
+  }
+
+  // 4) latest_invoice can be string OR expanded Invoice OR null
   const invoiceId =
-    typeof ip.invoice === "string" ? ip.invoice : ip.invoice?.id;
+    typeof sub.latest_invoice === "string"
+      ? sub.latest_invoice
+      : sub.latest_invoice?.id;
+
+  // invoiceId can be undefined/null for some subscription states
   if (!invoiceId) {
-    console.warn("invoice_payment.paid missing invoice id", ip.id);
-    return;
+    // choose behavior: throw, return, or continue without invoice
+    console.warn(`Subscription ${subscriptionId} has no latest_invoice`);
   }
 
-  const invoice = (await stripe.invoices.retrieve(invoiceId, {
-    expand: ["lines.data.price.product"],
-    // eslint-disable-next-line
-  })) as any;
+  // Now you have safe values
+  return {
+    metadata,
+    subscriptionId,
+    customerId,
+    invoiceId: invoiceId ?? null,
+  };
+};
 
-  console.log("Invoice_______________________", invoice);
 
-  // ✅ subscription id from your current invoice shape
-  const subscriptionId =
-    invoice?.parent?.subscription_details?.subscription ??
-    /*eslint-disable @typescript-eslint/no-explicit-any*/
-    (typeof (invoice as any).subscription === "string"
-      ? (invoice as any).subscription
-      : (invoice as any).subscription?.id);
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-
-  const metadata: WebhookMeta = invoice?.parent?.subscription_details?.metadata;
-
-  if (!metadata) {
-    console.warn("Missing Payment metaData", metadata);
-    return;
+export const handleDonationEvent = async (sub: Stripe.Subscription) => {
+  try {
+    console.log(
+      "handDonationEvent is Triggered_________________",
+      "sub_________________",
+      sub,
+    );
+  } catch (err) {
+    console.error("❌ Webhook handleDonationEvent handler failed", err);
+    throw err;
   }
-
-  const status = await getMembershipPaymentStatus(
-    Number(metadata.paymentRowId),
-  );
-  if (status === "paid") {
-    console.log("Already processed (paid) row", metadata);
-    return;
-  }
-
-  await markMembershipPaymentPaid({
-    rowId: Number(metadata.paymentRowId),
-    paymentIntentId: String(ip.payment.payment_intent),
-    customerId: String(invoice.customer),
-    subscriptionId: subscriptionId,
-  });
-
-  await setUserMembershipActive(Number(metadata.userId));
-  console.log("✅ Paid + activated", metadata);
 };
 
 export const handleMembershipEvent = async (
-  event: Stripe.Event,
-  meta: WebhookMeta,
+  sub: Stripe.Subscription,
+  eventType: Stripe.Event.Type,
 ) => {
+  console.log(
+    "handMembershipEvent is Triggered_________________Sub",
+
+    sub,
+  );
   try {
-    switch (event.type) {
+    switch (eventType) {
+      case "customer.subscription.created":
+        await handleMemberSubscriptionSuccess(sub);
+
+        break;
       case "checkout.session.completed":
-        await handleCheckoutCompleted(event.data.object, meta);
-
+        await handleMemberSubscriptionSuccess(sub);
         break;
-      case "invoice.paid":
-        await handleInvoice(event.data.object, meta);
-        break;
-      case "invoice.payment_failed":
-        await handleInvoiceFailed(event.data.object, meta);
+      case "invoice.created":
+        await handleMemberSubscriptionSuccess(sub);
         break;
 
-      // Payment-based invoice events (what you are receiving)
-      case "invoice_payment.paid":
-        await handleInvoicePaymentPaid(
-          event.data.object as Stripe.InvoicePayment,
-          meta,
-        );
+      case "invoice.finalized":
+        await handleMemberSubscriptionSuccess(sub);
         break;
       default:
-        console.log("ℹ️ Ignored event:", event.type);
+        console.log("ℹ️ Ignored event:", eventType);
     }
   } catch (err) {
-    console.error("❌ Webhook handler failed", err);
-    return new Response("Webhook failed", { status: 500 });
+    console.error("❌ Webhook handleMembershipEvent handler failed", err);
+    throw err;
   }
 };

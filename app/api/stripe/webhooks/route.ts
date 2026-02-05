@@ -3,13 +3,14 @@ import { stripe } from "@/app/_lib/stripe/stripe";
 import Stripe from "stripe";
 
 import { serverEnv } from "@/app/_lib/env/server";
-import { extractWebhookMeta } from "@/app/_lib/stripe/webhookMeta";
 import { headers } from "next/headers";
+import { handleDonationEvent, handleMembershipEvent } from "@/app/members/auth/join/payment/_lib/data";
+import { WebhookMeta } from "@/app/_lib/stripe/webhookMeta";
 
 export const POST = async (req: Request) => {
   const body = await req.text();
 
-  const signature = (await headers()).get("stripe-signature");
+  const signature = req.headers.get("stripe-signature");
 
   if (!signature) {
     return new Response("Missing Stripe signature", { status: 400 });
@@ -28,10 +29,19 @@ export const POST = async (req: Request) => {
     return new Response("Invalid signature", { status: 400 });
   }
 
+  console.log("event.type_____________", event.type)
+
   try {
-    const meta = extractWebhookMeta(event);
-    switch (meta?.paymentType) {
+    const subscription = event.data.object as Stripe.Subscription
+    const metadata = subscription.metadata;
+    console.log("meta at webhooks routes_____________", metadata);
+    switch (metadata?.paymentType) {
       case "membership":
+        await handleMembershipEvent(subscription, event.type)
+        break;
+
+      case "donation": 
+        await handleDonationEvent(subscription);
         break;
 
       default:
@@ -45,4 +55,3 @@ export const POST = async (req: Request) => {
   return new Response("OK", { status: 200 });
 };
 
-// NOTE: Stripe CLI must be running in the background if we want Stripe webhook event to reach

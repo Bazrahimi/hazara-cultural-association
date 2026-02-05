@@ -80,7 +80,7 @@ export const payment = async (
     metadata: {
       paymentType: "membership",
       userId: userId,
-      paymentRowId: row.id,
+      amountCents: amountCents,
       paymentKey: paymentData.paymentKey,
     },
   });
