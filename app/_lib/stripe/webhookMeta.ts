@@ -1,3 +1,4 @@
+import Stripe from "stripe";
 import type { PaymentType } from "./stripePayment.public";
 
 export type WebhookMeta = {
@@ -7,43 +8,15 @@ export type WebhookMeta = {
   paymentKey: string;
 };
 
-// export const extractWebhookMeta = (event: Stripe.Event): WebhookMeta | null => {
-//   // eslint-disable-next-line
-//   const obj: any = event.data.object;
+export const getEventMetadata = (event: Stripe.Event) => {
+  // eslint-disable-next-line
+  const obj: any = event.data.object as any;
 
-//   const sm: WebhookMeta = obj?.metadata;
-//   if (sm?.userId && sm?.paymentType && sm?.paymentRowId && sm?.paymentKey) {
-//     const { userId, paymentType, paymentRowId, paymentKey } = sm;
+  if (obj?.metadata && typeof obj.metadata === "object") return obj.metadata;
 
-//     if (!userId || !paymentRowId) return null;
+  // invoice case you logged earlier: parent.subscription_details.metadata
+  const nested = obj?.parent?.subscription_details?.metadata;
+  if (nested && typeof nested === "object") return nested;
 
-//     return {
-//       userId: userId,
-//       paymentType: paymentType,
-//       paymentRowId: paymentRowId,
-//       paymentKey: paymentKey,
-//     };
-//   }
-
-//   // Invoice
-//   // 2) Invoice (your logs show this is present)
-//   const invoiceMeta = obj?.parent?.subscription_details?.metadata;
-//   if (
-//     invoiceMeta?.paymentType &&
-//     invoiceMeta?.userId &&
-//     invoiceMeta?.paymentRowId
-//   ) {
-//     const userId = invoiceMeta.userId;
-//     const paymentRowId = invoiceMeta.paymentRowId;
-//     if (!userId || !paymentRowId) return null;
-
-//     return {
-//       paymentType: invoiceMeta.paymentType,
-//       userId,
-//       paymentRowId,
-//       paymentKey: invoiceMeta.paymentPlansKey,
-//     };
-//   }
-
-//   return null;
-// };
+  return {};
+};

@@ -2,6 +2,7 @@ import { sql } from "@/app/_lib/db";
 import { WebhookMeta } from "@/app/_lib/stripe/webhookMeta";
 import Stripe from "stripe";
 import { PaymentKey } from "./definitions";
+import { handleCheckoutCompleted } from "./stripe";
 
 export const upsertFeeWaived = async (userId: number) => {
   await sql`
@@ -131,22 +132,7 @@ export const setUserMembershipActive = async (userId: number) => {
   `;
 };
 
-export const handleCheckoutCompleted = async (
-  session: Stripe.Checkout.Session,
-  meta: WebhookMeta,
-) => {
-  console.log(
-    "handleCheckoutCompleted_________Stripe.Checkout.Session_________",
-    session,
-  );
-  const userId = Number(session.metadata?.userId);
-  const paymentRowId = Number(session.metadata?.paymentRowId);
 
-  if (!userId || !paymentRowId) {
-    console.warn("⚠️ Missing metadata on checkout session", session.id);
-    return;
-  }
-};
 
 export const handleInvoice = async (
   invoice: Stripe.Invoice,
@@ -162,9 +148,7 @@ export const handleInvoiceFailed = async (
   console.log("handleInvoiceFailed_________Stripe.Invoice_________", session);
 };
 
-export const handleMemberSubscriptionSuccess = async (
-  sub: Stripe.Subscription,
-) => {
+export const handleMemberSubscriptionSuccess = async (sub: Stripe.Event) => {
   const subscriptionId = sub.id;
 
   const customerId =
@@ -207,12 +191,12 @@ export const handleMemberSubscriptionSuccess = async (
   return { rowId, customerId, subscriptionId, invoiceId };
 };
 
-export const handleDonationEvent = async (sub: Stripe.Subscription) => {
+export const handleDonationEvent = async (event: Stripe.Event) => {
   try {
     console.log(
       "handDonationEvent is Triggered_________________",
-      "sub_________________",
-      sub,
+      "event_________________",
+      event,
     );
   } catch (err) {
     console.error("❌ Webhook handleDonationEvent handler failed", err);
@@ -220,23 +204,24 @@ export const handleDonationEvent = async (sub: Stripe.Subscription) => {
   }
 };
 
-export const handleMembershipEvent = async (
-  sub: Stripe.Subscription,
-  eventType: Stripe.Event.Type,
-) => {
+export const handleMembershipEvent = async (event: Stripe.Event) => {
+  
+  // eslint-disable-next-line
+  const obj:any = event.data.object as any
   console.log(
-    "handMembershipEvent is Triggered_________________Sub",
+    "handMembershipEvent is Triggered_________________Event",
 
-    sub,
+    event,
   );
   try {
-    switch (eventType) {
-      case "customer.subscription.created":
-        await handleMemberSubscriptionSuccess(sub);
-
-        break;
+    switch (event.type) {
       case "checkout.session.completed":
-        await handleMemberSubscriptionSuccess(sub);
+        await handleCheckoutCompleted(obj as Stripe.Checkout.Session);
+        break;
+
+      case "customer.subscription.created":
+        await handleMemberSubscriptionSuccess(event);
+
         break;
       case "invoice.created":
         await handleMemberSubscriptionSuccess(sub);
