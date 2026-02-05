@@ -2,8 +2,6 @@
 import type { Metadata } from "next";
 
 import { Geist, Geist_Mono } from "next/font/google";
-import { cookies } from "next/headers";
-import { decrypt } from "./_lib/session/session";
 
 import "./globals.css";
 
@@ -72,9 +70,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookie = (await cookies()).get("session")?.value;
-  const session = cookie ? await decrypt(cookie) : null;
-
   return (
     <html lang="en">
       <body
