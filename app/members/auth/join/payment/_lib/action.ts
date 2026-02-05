@@ -3,15 +3,8 @@ import { toActionErrors } from "@/app/_lib/actionHelper";
 import { toBoolean } from "@/app/_lib/helper";
 import { MemberRoutes } from "@/app/_lib/routes";
 import { getSession } from "@/app/_lib/session/session";
-import {
-  STRIPE_PAYMENT as sp,
- 
-} from "@/app/_lib/stripe/stripePayment.public";
-import {
- 
-  STRIPE_PAYMENT_ID as spi,
-} from "@/app/_lib/stripe/stripePayment.server";
-
+import { STRIPE_PAYMENT as sp } from "@/app/_lib/stripe/stripePayment.public";
+import { STRIPE_PAYMENT_ID as spi } from "@/app/_lib/stripe/stripePayment.server";
 
 import { redirect } from "next/navigation";
 
@@ -23,11 +16,7 @@ import {
 } from "./schema";
 import { createMembershipCheckoutSession } from "./stripe";
 
-import {
-  createMembershipPaymentRow,
-  markMembershipPaymentRedirected,
-  upsertFeeWaived,
-} from "./data";
+import { markMembershipPaymentRedirected, upsertFeeWaived, createMembershipPaymentRow } from "./data";
 
 export const payment = async (
   _prev: PaymentState | undefined,
@@ -80,7 +69,7 @@ export const payment = async (
     metadata: {
       paymentType: "membership",
       userId: userId,
-      amountCents: amountCents,
+      paymentRowId: row.id,
       paymentKey: paymentData.paymentKey,
     },
   });

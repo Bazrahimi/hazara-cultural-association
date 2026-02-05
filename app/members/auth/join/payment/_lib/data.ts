@@ -45,6 +45,34 @@ export async function createMembershipPaymentRow(params: {
   return rows[0];
 }
 
+export const updateMembershipPaymentRow = async (params: {
+  rowId: number;
+  customerId: string;
+  subscriptionId: string;
+  invoiceId: string | null;
+  status?:
+    | "paid"
+    | "failed"
+    | "canceled"
+    | "refunded"
+    | "created"
+    | "redirected";
+}) => {
+  const rows = await sql<{ rowId: number }[]>`
+    UPDATE membership_payments
+    SET
+      stripe_customer_id     = COALESCE(${params.customerId}, stripe_customer_id),
+      stripe_subscription_id = COALESCE(${params.subscriptionId}, stripe_subscription_id),
+      stripe_invoice_id      = COALESCE(${params.invoiceId}, stripe_invoice_id),
+      status                 = COALESCE(${params.status ?? null}, status),
+      updated_at             = NOW()
+    WHERE id = ${params.rowId}
+    RETURNING id AS "rowId"
+  `;
+
+  return rows[0] ?? null;
+};
+
 export async function markMembershipPaymentRedirected(params: {
   rowId: number;
   stripeCheckoutSessionId: string;
@@ -137,8 +165,6 @@ export const handleInvoiceFailed = async (
 export const handleMemberSubscriptionSuccess = async (
   sub: Stripe.Subscription,
 ) => {
-  const metadata: Stripe.Metadata = sub.metadata ?? {};
-
   const subscriptionId = sub.id;
 
   const customerId =
@@ -148,27 +174,38 @@ export const handleMemberSubscriptionSuccess = async (
     throw new Error(`Subscription ${subscriptionId} missing customer id`);
   }
 
-  // 4) latest_invoice can be string OR expanded Invoice OR null
   const invoiceId =
     typeof sub.latest_invoice === "string"
       ? sub.latest_invoice
-      : sub.latest_invoice?.id;
+      : (sub.latest_invoice?.id ?? null);
 
-  // invoiceId can be undefined/null for some subscription states
-  if (!invoiceId) {
-    // choose behavior: throw, return, or continue without invoice
-    console.warn(`Subscription ${subscriptionId} has no latest_invoice`);
+  // ✅ get rowId from subscription metadata
+  const rowIdRaw = sub.metadata?.paymentRowId;
+  if (!rowIdRaw) {
+    throw new Error(
+      `Missing metadata.paymentRowId on subscription ${subscriptionId}`,
+    );
   }
 
-  // Now you have safe values
-  return {
-    metadata,
-    subscriptionId,
-    customerId,
-    invoiceId: invoiceId ?? null,
-  };
-};
+  const rowId = Number(rowIdRaw);
+  if (!Number.isFinite(rowId)) {
+    throw new Error(
+      `Invalid metadata.paymentRowId "${rowIdRaw}" on subscription ${subscriptionId}`,
+    );
+  }
 
+  // ⚠️ I recommend marking paid on invoice.paid, not subscription.created.
+  // But if you really want to mark paid here, do it:
+  await updateMembershipPaymentRow({
+    rowId,
+    customerId,
+    subscriptionId,
+    invoiceId,
+    status: "paid",
+  });
+
+  return { rowId, customerId, subscriptionId, invoiceId };
+};
 
 export const handleDonationEvent = async (sub: Stripe.Subscription) => {
   try {

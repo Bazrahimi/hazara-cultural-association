@@ -3,7 +3,7 @@ import type { PaymentType } from "./stripePayment.public";
 export type WebhookMeta = {
   userId: number;
   paymentType: PaymentType;
-  amountCents: number;
+  paymentRowId: number;
   paymentKey: string;
 };
 

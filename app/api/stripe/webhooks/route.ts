@@ -3,9 +3,10 @@ import { stripe } from "@/app/_lib/stripe/stripe";
 import Stripe from "stripe";
 
 import { serverEnv } from "@/app/_lib/env/server";
-import { headers } from "next/headers";
-import { handleDonationEvent, handleMembershipEvent } from "@/app/members/auth/join/payment/_lib/data";
-import { WebhookMeta } from "@/app/_lib/stripe/webhookMeta";
+import {
+  handleDonationEvent,
+  handleMembershipEvent,
+} from "@/app/members/auth/join/payment/_lib/data";
 
 export const POST = async (req: Request) => {
   const body = await req.text();
@@ -29,18 +30,17 @@ export const POST = async (req: Request) => {
     return new Response("Invalid signature", { status: 400 });
   }
 
-  console.log("event.type_____________", event.type)
+  console.log("event.type_____________", event.type);
 
   try {
-    const subscription = event.data.object as Stripe.Subscription
+    const subscription = event.data.object as Stripe.Subscription;
     const metadata = subscription.metadata;
-    console.log("meta at webhooks routes_____________", metadata);
     switch (metadata?.paymentType) {
       case "membership":
-        await handleMembershipEvent(subscription, event.type)
+        await handleMembershipEvent(subscription, event.type);
         break;
 
-      case "donation": 
+      case "donation":
         await handleDonationEvent(subscription);
         break;
 
@@ -54,4 +54,3 @@ export const POST = async (req: Request) => {
 
   return new Response("OK", { status: 200 });
 };
-
