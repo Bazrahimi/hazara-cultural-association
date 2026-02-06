@@ -5,7 +5,12 @@ export type WebhookMeta = {
   userId: number;
   paymentType: PaymentType;
   paymentRowId: number;
-  paymentKey: string;
+  paymentPlanKey: string;
+};
+
+type PaymentMetaResult = {
+  rowId: number;
+  userId: number;
 };
 
 export const getEventMetadata = (event: Stripe.Event) => {
@@ -19,4 +24,30 @@ export const getEventMetadata = (event: Stripe.Event) => {
   if (nested && typeof nested === "object") return nested;
 
   return {};
+};
+
+export const getPaymentMeta = (
+  meta: Stripe.Metadata,
+  context: string,
+  objectId: string,
+): PaymentMetaResult => {
+  const rowIdRaw = meta?.paymentRowId;
+  const userIdRaw = meta?.userId;
+
+  if (!rowIdRaw || !userIdRaw) {
+    throw new Error(
+      `${context} missing metadata.paymentRowId/userId (object ${objectId})`,
+    );
+  }
+
+  const rowId = Number(rowIdRaw);
+  const userId = Number(userIdRaw);
+
+  if (!Number.isFinite(rowId) || !Number.isFinite(userId)) {
+    throw new Error(
+      `${context} invalid metadata.paymentRowId/userId (object ${objectId})`,
+    );
+  }
+
+  return { rowId, userId };
 };

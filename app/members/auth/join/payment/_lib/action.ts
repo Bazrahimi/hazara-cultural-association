@@ -59,7 +59,7 @@ export const payment = async (
       : sp.membership.annual.amountCents;
   const row = await createMembershipPaymentRow({
     userId,
-    paymentKey: paymentData.paymentKey,
+    paymentPlanKey: paymentData.paymentKey,
     amountCents,
   });
   const checkout = await createMembershipCheckoutSession({
@@ -70,7 +70,7 @@ export const payment = async (
       paymentType: "membership",
       userId: userId,
       paymentRowId: row.id,
-      paymentKey: paymentData.paymentKey,
+      paymentPlanKey: paymentData.paymentKey,
     },
   });
 
