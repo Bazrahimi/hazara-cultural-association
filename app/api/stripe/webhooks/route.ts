@@ -8,7 +8,7 @@ import { getEventMetadata } from "@/app/_lib/stripe/webhookMeta";
 import {
   handleDonationEvent,
   handleMembershipEvent,
-} from "@/app/members/auth/join/payment/_lib/data";
+} from "@/app/members/auth/join/checkout/_lib/data";
 
 export const POST = async (req: Request) => {
   const body = await req.text();

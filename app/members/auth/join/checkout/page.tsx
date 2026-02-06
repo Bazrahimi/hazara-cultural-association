@@ -1,9 +1,9 @@
-// app/members/join/payment/page.tsx
+// app/members/join/checkout/page.tsx
 
 import { Header, P } from "@/app/_ui";
-import MembershipPaymentForm from "./ui/MembershipPaymentForm";
+import MembershipCheckoutForm from "./ui/MembershipCheckoutForm";
 
-export default function MembershipPaymentPage() {
+export default function MembershipCheckoutPage() {
   return (
     <main className="mx-auto max-w-5xl px-4 py-12">
       <section className="space-y-10">
@@ -18,7 +18,7 @@ export default function MembershipPaymentPage() {
         </div>
 
         {/* Payment form */}
-        <MembershipPaymentForm />
+        <MembershipCheckoutForm />
       </section>
     </main>
   );

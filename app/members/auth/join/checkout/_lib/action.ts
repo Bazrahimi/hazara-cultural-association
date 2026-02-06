@@ -9,10 +9,10 @@ import { STRIPE_PAYMENT_ID as spi } from "@/app/_lib/stripe/stripePayment.server
 import { redirect } from "next/navigation";
 
 import {
-  Payment,
+  MembershipCheckoutData,
+  MembershipCheckoutSchema,
+  MembershipCheckoutState,
   PAYMENT_BOOLEAN_FIELDS,
-  PaymentSchema,
-  PaymentState,
 } from "./schema";
 import { createMembershipCheckoutSession } from "./stripe";
 
@@ -22,10 +22,10 @@ import {
   upsertFeeWaived,
 } from "./data";
 
-export const payment = async (
-  _prev: PaymentState | undefined,
+export const startMembershipCheckout = async (
+  _prev: MembershipCheckoutState | undefined,
   formData: FormData,
-): Promise<PaymentState | undefined> => {
+): Promise<MembershipCheckoutState | undefined> => {
   const session = await getSession();
   if (!session?.userId) {
     return { ok: false, message: "You must be logged in." };
@@ -42,11 +42,11 @@ export const payment = async (
     rawData[key] = toBoolean(formData.get(key));
   }
 
-  const parsed = PaymentSchema.safeParse(rawData);
+  const parsed = MembershipCheckoutSchema.safeParse(rawData);
   if (!parsed.success) {
     return {
-      ...toActionErrors<PaymentState["errors"]>(parsed.error),
-      data: rawData as Partial<Payment>,
+      ...toActionErrors<MembershipCheckoutState["errors"]>(parsed.error),
+      data: rawData as Partial<MembershipCheckoutData>,
     };
   }
 
@@ -68,12 +68,13 @@ export const payment = async (
   });
 
   if (!row.email) {
-  return {
-    ok: false,
-    message: "You already have a membership subscription. Please manage your membership.",
-    data: rawData,
-  };
-}
+    return {
+      ok: false,
+      message:
+        "You already have a membership subscription. Please manage your membership.",
+      data: rawData,
+    };
+  }
 
   const checkout = await createMembershipCheckoutSession({
     paymentPlansKey: paymentData.paymentKey,

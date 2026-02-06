@@ -1,6 +1,6 @@
 import { CamelizeKeys } from "@/app/_lib/helper";
-import { PAYMENT_KEY } from "./constant";
-export type PaymentKey = (typeof PAYMENT_KEY)[number];
+import { MEMBERSHIP_PLAN_KEY } from "./constant";
+export type PaymentKey = (typeof MEMBERSHIP_PLAN_KEY)[number];
 export type MembershipOption = {
   id: string;
   label: string;

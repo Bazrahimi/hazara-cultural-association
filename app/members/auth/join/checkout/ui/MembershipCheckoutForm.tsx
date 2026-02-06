@@ -3,30 +3,33 @@ import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNo
 import { MemberRoutes } from "@/app/_lib/routes";
 import { ActionButton, Button, FormErrorMessage, Header, P } from "@/app/_ui";
 
-import { payment } from "../_lib/action";
+import { startMembershipCheckout } from "../_lib/action";
 import {
+  CHECKOUT_OPTIONS,
   PAYMENT_FIELDS as f,
-  MEMBERSHIP_OPTIONS,
-  PAYMENT_KEY,
+  MEMBERSHIP_PLAN_KEY,
 } from "../_lib/constant";
 
 import { useActionState } from "react";
 import { TiArrowBack, TiArrowForward } from "react-icons/ti";
 import MembershipOptionCard from "./MembershipOption";
 
-const MembershipPaymentForm = () => {
-  const [state, formAction, isPending] = useActionState(payment, undefined);
+const MembershipCheckoutForm = () => {
+  const [state, formAction, isPending] = useActionState(
+    startMembershipCheckout,
+    undefined,
+  );
   return (
     <form action={formAction} className="space-y-8">
       {/* Plan selection */}
 
       <div className="grid gap-6 md:grid-cols-2">
-        {MEMBERSHIP_OPTIONS.map((opt) => (
+        {CHECKOUT_OPTIONS.map((opt) => (
           <MembershipOptionCard
             key={opt.id}
             opt={opt}
             name={f.paymentKey}
-            defaultChecked={opt.id === PAYMENT_KEY[1]}
+            defaultChecked={opt.id === MEMBERSHIP_PLAN_KEY[1]}
           />
         ))}
       </div>
@@ -110,4 +113,4 @@ const MembershipPaymentForm = () => {
   );
 };
 
-export default MembershipPaymentForm;
+export default MembershipCheckoutForm;

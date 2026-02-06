@@ -1,7 +1,7 @@
 import { STRIPE_PAYMENT as sp } from "@/app/_lib/stripe/stripePayment.public";
 import { MembershipOption } from "./definitions";
 
-export const PAYMENT_KEY = [
+export const MEMBERSHIP_PLAN_KEY = [
   sp.membership.monthly.paymentKey,
   sp.membership.annual.paymentKey,
 ] as const;
@@ -20,6 +20,8 @@ export const MEMBERSHIP_OPTIONS: MembershipOption[] = [
     helper: "One payment for 12 months. Best value for regular members.",
   },
 ] as const;
+
+export const CHECKOUT_OPTIONS = MEMBERSHIP_OPTIONS;
 
 export const PAYMENT_FIELDS = {
   paymentKey: "paymentKey",
