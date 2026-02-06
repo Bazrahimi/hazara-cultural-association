@@ -16,7 +16,11 @@ import {
 } from "./schema";
 import { createMembershipCheckoutSession } from "./stripe";
 
-import { markMembershipPaymentRedirected, upsertFeeWaived, createMembershipPaymentRow } from "./data";
+import {
+  ensureMembershipPaymentRow,
+  markMembershipPaymentRedirected,
+  upsertFeeWaived,
+} from "./data";
 
 export const payment = async (
   _prev: PaymentState | undefined,
@@ -57,15 +61,24 @@ export const payment = async (
     paymentData.paymentKey === sp.membership.monthly.paymentKey
       ? sp.membership.monthly.amountCents
       : sp.membership.annual.amountCents;
-  const row = await createMembershipPaymentRow({
+  const row = await ensureMembershipPaymentRow({
     userId,
     paymentPlanKey: paymentData.paymentKey,
     amountCents,
   });
+
+  if (!row.email) {
+  return {
+    ok: false,
+    message: "You already have a membership subscription. Please manage your membership.",
+    data: rawData,
+  };
+}
+
   const checkout = await createMembershipCheckoutSession({
     paymentPlansKey: paymentData.paymentKey,
     priceId: spi[paymentData.paymentKey],
-    customerEmail: row.email,
+    customerEmail: row?.email,
     metadata: {
       paymentType: "membership",
       userId: userId,

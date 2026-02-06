@@ -87,3 +87,11 @@ export type UpdateMembershipPaymentRow = Pick<
   | "stripeInvoiceId"
   | "status"
 >;
+
+export type EnsureMembershipPaymentRow = Pick<
+  MembershipPaymentsBase,
+  "id" | "stripeCustomerId" | "stripeSubscriptionId"
+> & {
+  email: string | null;
+  created: boolean;
+};

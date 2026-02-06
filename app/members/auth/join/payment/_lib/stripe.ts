@@ -20,6 +20,8 @@ export async function createMembershipCheckoutSession(params: {
   metadata: WebhookMeta;
   customerEmail: string;
 }) {
+
+  
   const checkout = await stripe.checkout.sessions.create({
     mode: "subscription",
     line_items: [{ price: params.priceId, quantity: 1 }],

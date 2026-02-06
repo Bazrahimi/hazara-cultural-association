@@ -3,6 +3,7 @@ import { WebhookMeta } from "@/app/_lib/stripe/webhookMeta";
 import Stripe from "stripe";
 import {
   CreateMembershipPaymentRow,
+  EnsureMembershipPaymentRow,
   UpdateMembershipPaymentRow,
   UpsertMemberSubscription,
 } from "./definitions";
@@ -16,6 +17,50 @@ export const upsertFeeWaived = async (userId: number) => {
       updated_at = now()
     WHERE user_id = ${userId}
   `;
+};
+
+export const ensureMembershipPaymentRow = async (
+  params: CreateMembershipPaymentRow,
+): Promise<EnsureMembershipPaymentRow> => {
+  // 1) Find latest row for this user (NO email here)
+  const existing = await sql<
+    Pick<
+      EnsureMembershipPaymentRow,
+      "id" | "stripeCustomerId" | "stripeSubscriptionId"
+    >[]
+  >`
+    SELECT
+      id,
+      stripe_subscription_id AS "stripeSubscriptionId",
+      stripe_customer_id     AS "stripeCustomerId"
+
+    FROM membership_payments
+    WHERE user_id = ${params.userId}
+    ORDER BY created_at DESC
+    LIMIT 1
+  `;
+
+  if (existing[0]) {
+    return {
+      id: existing[0].id,
+      email: null, // ⬅️ intentionally not returned
+      stripeSubscriptionId: existing[0].stripeSubscriptionId,
+      stripeCustomerId: existing[0].stripeCustomerId,
+      created: false,
+    };
+  }
+
+  // 2) No row exists → create one (email only comes from here)
+  const row = await createMembershipPaymentRow(params);
+  if (!row) throw new Error("Failed to create membership_payments row");
+
+  return {
+    id: row.id,
+    email: row.email, // ⬅️ only available on creation
+    stripeSubscriptionId: null,
+    stripeCustomerId: null,
+    created: true,
+  };
 };
 
 export async function createMembershipPaymentRow(
