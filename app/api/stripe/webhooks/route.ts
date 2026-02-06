@@ -35,6 +35,7 @@ export const POST = async (req: Request) => {
     "event.type:",
     event.type,
     "object",
+    // eslint-disable-next-line
     (event.data.object as any).object,
   );
 

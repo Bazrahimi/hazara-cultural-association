@@ -8,11 +8,6 @@ export type WebhookMeta = {
   paymentPlanKey: string;
 };
 
-type PaymentMetaResult = {
-  rowId: number;
-  userId: number;
-};
-
 export const getEventMetadata = (event: Stripe.Event) => {
   // eslint-disable-next-line
   const obj: any = event.data.object as any;
@@ -26,28 +21,50 @@ export const getEventMetadata = (event: Stripe.Event) => {
   return {};
 };
 
-export const getPaymentMeta = (
-  meta: Stripe.Metadata,
+export const getRowIdFromMeta = (
+  meta: Stripe.Metadata | null,
   context: string,
   objectId: string,
-): PaymentMetaResult => {
+): { rowId: number } => {
   const rowIdRaw = meta?.paymentRowId;
-  const userIdRaw = meta?.userId;
 
-  if (!rowIdRaw || !userIdRaw) {
+  if (!rowIdRaw) {
     throw new Error(
       `${context} missing metadata.paymentRowId/userId (object ${objectId})`,
     );
   }
 
   const rowId = Number(rowIdRaw);
-  const userId = Number(userIdRaw);
 
-  if (!Number.isFinite(rowId) || !Number.isFinite(userId)) {
+  if (!Number.isFinite(rowId)) {
     throw new Error(
       `${context} invalid metadata.paymentRowId/userId (object ${objectId})`,
     );
   }
 
-  return { rowId, userId };
+  return { rowId };
+};
+
+export const getUserIdFromMeta = (
+  meta: Stripe.Metadata | null,
+  context: string,
+  objectId: string,
+): { userId: number } => {
+  const userIdRaw = meta?.userId;
+
+  if (!userIdRaw) {
+    throw new Error(
+      `${context} missing metadata.paymentRowId/userId (object ${objectId})`,
+    );
+  }
+
+  const userId = Number(userIdRaw);
+
+  if (!Number.isFinite(userId)) {
+    throw new Error(
+      `${context} invalid metadata.paymentRowId/userId (object ${objectId})`,
+    );
+  }
+
+  return { userId };
 };

@@ -195,11 +195,9 @@ export const handleDonationEvent = async (event: Stripe.Event) => {
 export const handleMembershipEvent = async (event: Stripe.Event) => {
   // eslint-disable-next-line
   const obj: any = event.data.object as any;
-  console.log(
-    "handMembershipEvent is Triggered_________________Event",
 
-    event,
-  );
+
+
   try {
     switch (event.type) {
       case "customer.subscription.created":

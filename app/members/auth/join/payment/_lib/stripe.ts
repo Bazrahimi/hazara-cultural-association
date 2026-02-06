@@ -34,8 +34,6 @@ export async function createMembershipCheckoutSession(params: {
   return checkout;
 }
 
-
-
 const toId = (val: unknown): string | null => {
   if (!val) return null;
   if (typeof val === "string") return val;
@@ -53,6 +51,7 @@ const toId = (val: unknown): string | null => {
 };
 
 export const handleSubscriptionCreated = async (sub: Stripe.Subscription) => {
+  console.log("customer.subscription.created____________:", sub);
   const { userId } = getPaymentMeta(
     sub.metadata,
     "customer.subscription.created",
@@ -94,21 +93,11 @@ export const handleSubscriptionCreated = async (sub: Stripe.Subscription) => {
 };
 
 export const handleCheckoutCompleted = async (cs: Stripe.Checkout.Session) => {
-  const meta = cs.metadata ?? {};
-  const rowIdRaw = meta.paymentRowId;
-  const userIdRaw = meta.userId;
-  if (!rowIdRaw || !userIdRaw) {
-    throw new Error(
-      `checkout.session.completed missing metadata.paymentRowId/userId`,
-    );
-  }
-
-  const rowId = Number(rowIdRaw);
-  const userId = Number(userIdRaw);
-
-  if (!Number.isFinite(rowId) || !Number.isFinite(userId)) {
-    throw new Error(`Invalid rowId/userId in metadata (cs ${cs.id})`);
-  }
+  const { rowId } = getPaymentMeta(
+    cs.metadata,
+    "checkout.session.completed",
+    cs.id,
+  );
 
   const updatePayload: UpdateMembershipPaymentRow = {
     id: rowId,
