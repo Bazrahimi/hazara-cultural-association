@@ -2,7 +2,8 @@ import { publicEnv } from "@/app/_lib/env/public";
 import { MemberRoutes } from "@/app/_lib/routes";
 import { STRIPE_SESSION_QUERY as ssq, stripe } from "@/app/_lib/stripe/stripe";
 import {
-  getPaymentMeta,
+  getRowIdFromMeta,
+  getUserIdFromMeta,
   type WebhookMeta,
 } from "@/app/_lib/stripe/webhookMeta";
 import Stripe from "stripe";
@@ -52,7 +53,7 @@ const toId = (val: unknown): string | null => {
 
 export const handleSubscriptionCreated = async (sub: Stripe.Subscription) => {
   console.log("customer.subscription.created____________:", sub);
-  const { userId } = getPaymentMeta(
+  const { userId } = getUserIdFromMeta(
     sub.metadata,
     "customer.subscription.created",
     sub.id,
@@ -93,7 +94,7 @@ export const handleSubscriptionCreated = async (sub: Stripe.Subscription) => {
 };
 
 export const handleCheckoutCompleted = async (cs: Stripe.Checkout.Session) => {
-  const { rowId } = getPaymentMeta(
+  const { rowId } = getRowIdFromMeta(
     cs.metadata,
     "checkout.session.completed",
     cs.id,
