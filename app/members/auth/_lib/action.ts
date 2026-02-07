@@ -57,5 +57,5 @@ export const join = async (
     };
   }
 
-  redirect(MemberRoutes.payment());
+  redirect(MemberRoutes.checkout());
 };

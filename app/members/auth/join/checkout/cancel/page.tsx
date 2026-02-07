@@ -20,7 +20,7 @@ export default function PaymentCancelPage() {
       </P>
 
       <div className="pt-6 space-y-3">
-        <Button as="link" href={MemberRoutes.payment()}>
+        <Button as="link" href={MemberRoutes.checkout()}>
           Try Payment Again
         </Button>
 

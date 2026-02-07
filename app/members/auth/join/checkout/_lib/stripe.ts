@@ -26,8 +26,8 @@ export async function createMembershipCheckoutSession(params: {
     mode: "subscription",
     line_items: [{ price: params.priceId, quantity: 1 }],
     customer_email: params.customerEmail,
-    success_url: `${publicEnv.baseUrl}${MemberRoutes.paymentSuccess()}?${ssq}`,
-    cancel_url: `${publicEnv.baseUrl}${MemberRoutes.paymentCancel()}`,
+    success_url: `${publicEnv.baseUrl}${MemberRoutes.checkoutSuccess()}?${ssq}`,
+    cancel_url: `${publicEnv.baseUrl}${MemberRoutes.checkoutCancel()}`,
     metadata: params.metadata,
     subscription_data: {
       metadata: params.metadata,

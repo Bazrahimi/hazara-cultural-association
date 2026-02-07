@@ -55,7 +55,7 @@ export const startMembershipCheckout = async (
 
   if (paymentData.feeWaived) {
     await upsertFeeWaived(userId);
-    redirect(`${MemberRoutes.paymentSuccess()}?waiver=1`);
+    redirect(`${MemberRoutes.checkoutSuccess()}?waiver=1`);
   }
   const amountCents =
     paymentData.paymentKey === sp.membership.monthly.paymentKey
