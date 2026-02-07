@@ -2,7 +2,7 @@
 import { toActionErrors } from "@/app/_lib/actionHelper";
 import { toBoolean } from "@/app/_lib/helper";
 import { MemberRoutes } from "@/app/_lib/routes";
-import { getSession } from "@/app/_lib/session/session";
+import { getSession } from "@/app/_lib";
 import { STRIPE_PAYMENT as sp } from "@/app/_lib/stripe/stripePayment.public";
 import { STRIPE_PAYMENT_ID as spi } from "@/app/_lib/stripe/stripePayment.server";
 

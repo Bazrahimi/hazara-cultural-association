@@ -1,5 +1,6 @@
+import { getSession } from "@/app/_lib";
 import { ORG_PROFILE } from "@/app/_lib/org/profile";
-import { getUserId } from "@/app/_lib/session/session";
+
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -15,9 +16,9 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const userId = await getUserId();
+  const s = await getSession();
 
-  if (userId) redirect("/account");
+  if (s?.userId) redirect("/account");
 
   return <>{children}</>;
 }

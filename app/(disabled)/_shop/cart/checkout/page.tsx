@@ -1,16 +1,16 @@
 // app/shop/cart/checkout/page.tsx
 import type { FullAddress } from "@/app/(disabled)/_shop/lib/definitions";
+import { getSession } from "@/app/_lib";
 import { sql } from "@/app/_lib/db";
-import { getUserId } from "@/app/_lib/session/session";
 import CheckoutPage from "./ui/CheckoutPage";
 import LoggedInCheckout from "./ui/LoggedInCheckout";
 
 export default async function Page() {
-  const userId = await getUserId();
-  if (!userId) return <CheckoutPage />;
+  const session = await getSession();
+  if (!session?.userId) return <CheckoutPage />;
 
   const users = await sql<{ email: string }[]>`
-    SELECT email FROM users WHERE id = ${userId} LIMIT 1
+    SELECT email FROM users WHERE id = ${session.userId} LIMIT 1
   `;
   const email = users[0]?.email ?? "";
 
@@ -26,7 +26,7 @@ export default async function Page() {
       last_name            AS "lastName", 
       phone                AS "ContactNumber"
     FROM user_profiles
-    WHERE user_id = ${userId}
+    WHERE user_id = ${session.userId}
     LIMIT 1
   `;
   const profile = profiles[0] ?? {
@@ -56,7 +56,7 @@ export default async function Page() {
       state_code,
       postcode
     FROM user_addresses
-    WHERE user_id = ${userId} AND is_default = true
+    WHERE user_id = ${session.userId} AND is_default = true
     LIMIT 1
   `;
 
@@ -80,7 +80,7 @@ export default async function Page() {
 
   return (
     <LoggedInCheckout
-      userId={userId}
+      userId={session.userId}
       email={email}
       profile={{
         firstName: profile.first_name ?? "",

@@ -1,4 +1,4 @@
-import { getSession } from "@/app/_lib/session/session";
+import { getSession } from "@/app/_lib";
 import BlogMenuClient from "./BlogMenuClient";
 
 export type BlogMenuProps = {

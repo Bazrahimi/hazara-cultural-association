@@ -1,9 +1,10 @@
 // app/blog/edit/[postId]/page.tsx
-import { requireUser } from "@/app/_lib/session/session";
+
 import { notFound } from "next/navigation";
 
 import PostForm from "../../../create-new-post/ui/PostForm";
 
+import { getSession } from "@/app/_lib";
 import { updatePost } from "@/app/blog/post/_lib/action";
 import { getEditPostById } from "@/app/blog/post/_lib/data";
 
@@ -19,15 +20,18 @@ export default async function EditPostPage({ params }: PageProps) {
     notFound();
   }
 
-  const session = await requireUser();
-  const { userId, roles } = session;
-  const isAdmin = roles.includes("admin");
+  const session = await getSession();
+  const userId = session?.userId;
+  const roles = session?.roles;
+  const isAdmin = roles?.includes("admin");
 
-  const post = await getEditPostById({
-    postId: id,
-    userId,
-    isAdmin,
-  });
+  if (userId && isAdmin) {
+    const post = await getEditPostById({
+      postId: id,
+      userId,
+      isAdmin,
+    });
 
-  return <PostForm mode="edit" action={updatePost} initialData={post} />;
+    return <PostForm mode="edit" action={updatePost} initialData={post} />;
+  }
 }

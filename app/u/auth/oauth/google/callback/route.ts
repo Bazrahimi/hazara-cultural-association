@@ -5,7 +5,7 @@ import { serverEnv } from "@/app/_lib/env/server";
 
 
 import { AccountRoutes, AuthRoutes } from "@/app/_lib/routes";
-import { createSession } from "@/app/_lib/session/session";
+import { createSession } from "@/app/_lib/session/action";
 import { buildFullName } from "@/app/u/auth/_lib/helper"; // you already have this
 import bcrypt from "bcrypt";
 import crypto from "crypto";

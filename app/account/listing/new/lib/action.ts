@@ -1,35 +1,36 @@
 "use server";
+import { getSession } from "@/app/_lib";
 import { sql } from "@/app/_lib/db";
-import { requireUser } from "@/app/_lib/session/session";
-import { ListingActionState, ListingInput, ListingSchema } from "./schema";
+import { ListingActionState, ListingSchema } from "./schema";
 
 export async function createListing(
   _prev: ListingActionState | undefined,
   formData: FormData,
 ): Promise<ListingActionState> {
-  const { userId } = await requireUser();
+  const session = await getSession();
 
-  const raw: ListingInput = {
-    title: String(formData.get("title") ?? ""),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    price: formData.get("price") as any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    postage: formData.get("postage") as any,
-    category: String(formData.get("category") ?? ""),
-    origin: String(formData.get("origin") ?? ""),
-    description: String(formData.get("description") ?? ""),
-    mainImg: String(formData.get("mainImg") ?? ""),
-    otherImgs: String(formData.get("otherImgs") ?? ""),
-  };
+  if (!session?.userId) {
+    return {
+      ok: false,
+      message: "You are not allowed to create listing.",
+    };
+  }
 
-  const parsed = ListingSchema.safeParse(raw);
+  const rawData: Record<string, unknown> = Object.fromEntries(
+    [...formData.entries()].map(([key, value]) => [
+      key,
+      typeof value === "string" ? value : undefined,
+    ]),
+  );
+
+  const parsed = ListingSchema.safeParse(rawData);
   if (!parsed.success) {
     const fe = parsed.error.flatten().fieldErrors;
     return {
       ok: false,
       message: "Please fix the errors below.",
       errors: fe,
-      data: raw,
+      data: rawData,
     };
   }
 
@@ -40,7 +41,7 @@ export async function createListing(
       INSERT INTO shop_listings
         (user_id, title, description_html, price_cents, postage_cents, category, origin, main_img_path, hero_img_path)
       VALUES
-        (${userId}, ${d.title}, ${d.description},
+        (${session.userId}, ${d.title}, ${d.description},
          ${Math.round(d.price * 100)}, ${Math.round(d.postage * 100)},
          ${d.category}, ${d.origin || null}, ${d.mainImg}, ${d.otherImgs || null})
     `;
@@ -52,7 +53,7 @@ export async function createListing(
     return {
       ok: false,
       message: "Something went wrong while creating the listing.",
-      data: raw,
+      data: rawData,
     };
   }
 }

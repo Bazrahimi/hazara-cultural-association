@@ -2,7 +2,7 @@
 
 import type { Metadata } from "next";
 import { redirectToLoginWithNext } from "../_lib/session/authRedirects";
-import { getSession } from "../_lib/session/session";
+import { getSession } from "../_lib";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | HCA",

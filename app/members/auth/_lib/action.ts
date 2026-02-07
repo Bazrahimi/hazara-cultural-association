@@ -4,7 +4,7 @@
 import { toActionErrors } from "@/app/_lib/actionHelper";
 import { toBoolean } from "@/app/_lib/helper";
 import { MemberRoutes } from "@/app/_lib/routes";
-import { getSession } from "@/app/_lib/session/session";
+import { getSession } from "@/app/_lib";
 import { redirect } from "next/navigation";
 import { upsertDefaultShippingAddress, upsertUserProfile } from "./data";
 

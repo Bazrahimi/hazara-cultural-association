@@ -1,6 +1,6 @@
 import { cn } from "@/app/_lib/helper";
 import { BlogRoutes } from "@/app/_lib/routes";
-import { getSession } from "@/app/_lib/session/session";
+import { getSession } from "@/app/_lib";
 import { ManagePostTrans } from "@/app/_lib/translation";
 import { Header, P } from "@/app/_ui";
 import Link from "next/link";

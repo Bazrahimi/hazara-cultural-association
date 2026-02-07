@@ -1,10 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { AuthRoutes } from "../routes";
-import type { DecodedSession } from "./schema";
 import { getSession } from "./action";
-import type { SessionRole } from "./sessionConfig";
-
+import type { DecodedSession } from "./schema";
 
 /* ============ Public API ============ */
 
@@ -14,50 +12,34 @@ export const requireUser = async (): Promise<DecodedSession> => {
   return s;
 };
 
-export const getUserId = async (): Promise<number | null> => {
-  const s = await getSession();
-  return s?.userId ?? null;
-};
+// // auth helper
+// export const requireAdmin = async () => {
+//   const s = await requireUser(); // redirects to /u/login if missing
 
-// auth helper
-export const requireAdmin = async () => {
-  const s = await requireUser(); // redirects to /u/login if missing
-
-  if (!s.roles.includes("admin")) redirect("/account"); // or "/not-authorized"
-  return s;
-};
+//   if (!s.roles.includes("admin")) redirect("/account"); // or "/not-authorized"
+//   return s;
+// };
 
 /* ============ Role helpers ============ */
 
-export const isAdmin = async (): Promise<boolean> => {
-  const s = await getSession();
-  return !!s?.roles.includes("admin");
-};
+// export const isAdmin = async (): Promise<boolean> => {
+//   const s = await getSession();
+//   return !!s?.roles.includes("admin");
+// };
 
-export const hasAnyRole = async (
-  required: SessionRole | SessionRole[],
-): Promise<boolean> => {
-  const req = Array.isArray(required) ? required : [required];
-  const s = await getSession();
-  if (!s) return false;
-  return s.roles.some((r) => req.includes(r));
-};
+// export const hasAnyRole = async (
+//   required: SessionRole | SessionRole[],
+// ): Promise<boolean> => {
+//   const req = Array.isArray(required) ? required : [required];
+//   const s = await getSession();
+//   if (!s) return false;
+//   return s.roles.some((r) => req.includes(r));
+// };
 
-export const hasAllRoles = async (
-  required: SessionRole | SessionRole[],
-): Promise<boolean> => {
-  const req = Array.isArray(required) ? required : [required];
-  const s = await getSession();
-  if (!s) return false;
-  return req.every((r) => s.roles.includes(r));
-};
-
-export const isBuyer = async (): Promise<boolean> => {
-  const s = await getSession();
-  return !!s && s.roles.length === 0;
-};
-
-
+// export const isBuyer = async (): Promise<boolean> => {
+//   const s = await getSession();
+//   return !!s && s.roles.length === 0;
+// };
 
 // /* ============ Public API Helper ============ */
 // // Canonicalize roles coming from DB or call sites.

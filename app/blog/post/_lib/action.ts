@@ -4,7 +4,7 @@
 
 import { slugify } from "@/app/(disabled)/_shop/lib/helper";
 import { BlogRoutes } from "@/app/_lib/routes";
-import { getSession, requireUser } from "@/app/_lib/session/session";
+import { getSession} from "@/app/_lib";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -39,8 +39,8 @@ export async function createPost(
   _prevState: PostState | undefined,
   formData: FormData,
 ): Promise<PostState> {
-  const session = await requireUser();
-  if (!session) return postFailure("You are not allowed");
+  const session = await getSession();
+  if (!session?.userId) return postFailure("You are not allowed");
 
   const result = parseBlogPostForm(formData);
 

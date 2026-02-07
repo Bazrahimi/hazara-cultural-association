@@ -10,7 +10,7 @@ import { ORG_PROFILE } from "./_lib/org/profile";
 import Footer from "./_ui/Footer";
 import { NotificationCenter } from "./blog/ui/NotificationCenter";
 import NavBar from "./Navbar";
-import { getSession } from "./_lib/session/session";
+import { getSession } from "./_lib";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

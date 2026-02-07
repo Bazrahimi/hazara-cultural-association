@@ -1,3 +1,4 @@
+import { ActionState } from "@/app/_lib/actionHelper";
 import z from "zod";
 
 export const ListingSchema = z.object({
@@ -15,6 +16,7 @@ export const ListingSchema = z.object({
 });
 
 export type ListingInput = z.infer<typeof ListingSchema>;
+export type ListingState = ActionState<ListingInput>
 
 export type ListingActionState = {
   ok?: boolean;

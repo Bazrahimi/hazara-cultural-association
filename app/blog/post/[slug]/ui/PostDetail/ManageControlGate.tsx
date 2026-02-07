@@ -1,4 +1,4 @@
-import { getSession } from "@/app/_lib/session/session";
+import { getSession } from "@/app/_lib";
 import type { PostActionMenuProps } from "../ManagePostControls";
 import { ManagePostControls } from "../ManagePostControls";
 

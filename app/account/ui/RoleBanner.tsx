@@ -5,7 +5,7 @@ import {
   DonateRoutes,
   MemberRoutes,
 } from "@/app/_lib/routes";
-import type { SessionRole } from "@/app/_lib/session/session";
+import type { SessionRole } from "@/app/_lib/session/sessionConfig";
 import { Button, Header, P } from "@/app/_ui";
 import Link from "next/link";
 
