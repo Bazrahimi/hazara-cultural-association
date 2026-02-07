@@ -1,5 +1,5 @@
 "use client";
-import { ActionButton, FormErrorMessage, Input } from "@/app/_ui";
+import { ActionButton, FormErrorsMessage, Input } from "@/app/_ui";
 import { useActionState } from "react";
 import { MdEmail, MdPassword } from "react-icons/md";
 import { auth } from "../../_lib/action";
@@ -49,7 +49,7 @@ const LoginForm = ({ next }: { next: string }) => {
         Login
       </ActionButton>
 
-      <FormErrorMessage message={state?.message} />
+      <FormErrorsMessage message={state?.message} />
     </form>
   );
 };

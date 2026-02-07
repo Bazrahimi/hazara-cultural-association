@@ -17,7 +17,7 @@ type SelectInputProps = {
   isRTL?: boolean;
 };
 
-export function SelectInput({
+function SelectInput({
   id,
   label,
   options,
@@ -91,3 +91,5 @@ export function SelectInput({
     </div>
   );
 }
+
+export default SelectInput;

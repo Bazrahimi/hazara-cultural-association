@@ -1,5 +1,6 @@
 // components/CldFileUpload.tsx
 "use client";
+import Spinner from "../skeleton/spinner";
 
 import { cldLogoSharp } from "@/app/_lib/cloudinary";
 import { useBodyScrollLock } from "@/app/_ui/hooks/useBodyScrollLock";
@@ -10,7 +11,6 @@ import {
 import Image from "next/image";
 import * as React from "react";
 import { FiTrash2, FiUploadCloud } from "react-icons/fi";
-import Spinner from "./skeleton/spinner";
 
 const SIGNATURE_ENDPOINT = "/api/cloudinary";
 

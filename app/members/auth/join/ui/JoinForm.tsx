@@ -2,7 +2,7 @@
 "use client";
 
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
-import { ActionButton, FormErrorMessage, Header, P } from "@/app/_ui";
+import { ActionButton, FormErrorsMessage, Header, P } from "@/app/_ui";
 
 import { useActionState } from "react";
 import { join } from "../../_lib/action";
@@ -49,7 +49,7 @@ const JoinForm = ({ profile, address }: Props) => {
             prefix="By submitting this membership form, you agree to our"
             size="xs"
           />
-          <FormErrorMessage message={state?.message} />
+          <FormErrorsMessage message={state?.message} />
 
           {/* Submit */}
           <div className="flex justify-end">

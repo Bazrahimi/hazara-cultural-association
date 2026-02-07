@@ -2,12 +2,12 @@
 "use client";
 
 import { lusitana } from "@/app/_lib/font";
+import { Button } from "@/app/_ui";
 import { clsx } from "clsx";
 import Image from "next/image";
 import { ORG_PROFILE } from "../_lib/org/profile";
 import { MemberRoutes } from "../_lib/routes";
 import { IMAGE_DEFAULT_BLUR } from "./ImageShimer";
-import { Button } from "./components";
 
 const heroImg = "/images/hero/hero2.png";
 

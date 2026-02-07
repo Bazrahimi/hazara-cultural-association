@@ -1,7 +1,7 @@
 // app/account/listing/new/NewListingForm.tsx
 "use client";
 import { Button, Input } from "@/app/_ui";
-import QuillEditor from "@/app/_ui/QuillEditor";
+import QuillEditor from "@/app/_ui/form/QuillEditor";
 
 import Modal from "@/app/_ui/Modal";
 

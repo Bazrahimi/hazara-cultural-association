@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { ImSpinner10 } from "react-icons/im";
-import { Button, type ButtonProps } from "./components";
+import Button, { ButtonProps } from "./Button";
 
 // 1) Narrow ButtonProps to just the "button" variant
 type ButtonOnlyProps = Extract<ButtonProps, { as?: "button" }>;
@@ -19,7 +19,7 @@ type ActionButtonBase = {
 // 3) Final props = button-only + extras
 type ActionButtonProps = ActionButtonBase & ButtonOnlyProps;
 
-export function ActionButton({
+function ActionButton({
   isLoading = false,
   loadingText = "Working…",
   overlay = false,
@@ -41,7 +41,7 @@ export function ActionButton({
   const composedButtonClass = clsx(
     fullWidth && "w-full",
     buttonClassName,
-    overlay && isLoading && "text-transparent" // 👈 hide label under overlay
+    overlay && isLoading && "text-transparent", // 👈 hide label under overlay
   );
 
   return (
@@ -84,3 +84,5 @@ export function ActionButton({
     </div>
   );
 }
+
+export default ActionButton;

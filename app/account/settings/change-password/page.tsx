@@ -3,7 +3,7 @@
 
 import { useActionState } from "react";
 
-import { ActionButton, FormErrorMessage, Header, Input, P } from "@/app/_ui";
+import { ActionButton, FormErrorsMessage, Header, Input, P } from "@/app/_ui";
 
 import { changePassword } from "@/app/u/auth/_lib/action";
 import { setNotification } from "@/app/u/auth/_lib/setNotification";
@@ -80,7 +80,7 @@ const ChangePasswordPage = () => {
               Update Password
             </ActionButton>
 
-            <FormErrorMessage message={state?.message} />
+            <FormErrorsMessage message={state?.message} />
           </form>
         )}
       </div>

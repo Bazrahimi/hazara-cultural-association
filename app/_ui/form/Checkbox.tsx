@@ -2,7 +2,8 @@
 
 import clsx from "clsx";
 import { forwardRef } from "react";
-import { P } from "./paragraph";
+
+import { P } from "@/app/_ui";
 
 type CheckboxProps = {
   id: string;
@@ -18,7 +19,7 @@ type CheckboxProps = {
   isRTL?: boolean;
 };
 
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
+const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   function Checkbox(
     {
       id,
@@ -33,7 +34,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       className,
       isRTL = false,
     },
-    ref
+    ref,
   ) {
     const hasError = !!error?.length;
 
@@ -43,7 +44,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           htmlFor={id}
           className={clsx(
             "flex cursor-pointer items-start gap-2 text-sm text-gray-800",
-            isRTL && "flex-row-reverse text-right"
+            isRTL && "flex-row-reverse text-right",
           )}
         >
           <input
@@ -57,7 +58,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             required={required}
             className={clsx(
               "mt-1 h-4 w-4 rounded border-gray-300 text-blue-600",
-              "focus:ring-blue-500 focus:ring-2 focus:ring-offset-1"
+              "focus:ring-blue-500 focus:ring-2 focus:ring-offset-1",
             )}
           />
 
@@ -80,7 +81,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             aria-atomic="true"
             className={clsx(
               "text-xs text-red-600",
-              isRTL ? "text-left" : "text-right"
+              isRTL ? "text-left" : "text-right",
             )}
           >
             {error!.map((msg, i) => (
@@ -90,5 +91,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         )}
       </div>
     );
-  }
+  },
 );
+
+export default Checkbox;

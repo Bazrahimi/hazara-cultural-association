@@ -4,8 +4,7 @@
 
 import { toBoolean } from "@/app/_lib/helper";
 import { CreateEditPostTrans } from "@/app/_lib/translation";
-import { Input } from "@/app/_ui";
-import CldFileUpload from "@/app/_ui/CLdFileUpload";
+import { Input, CldFileUpload } from "@/app/_ui";
 import type { CategoryId } from "@/app/blog/post/_lib/category";
 import { POST_FIELDS } from "@/app/blog/post/_lib/helper";
 import { setNotification } from "@/app/u/auth/_lib/setNotification";

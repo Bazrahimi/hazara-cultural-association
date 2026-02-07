@@ -1,5 +1,5 @@
 "use client";
-import { ActionButton, FormErrorMessage, Header, Input, P } from "@/app/_ui";
+import { ActionButton, FormErrorsMessage, Header, Input, P } from "@/app/_ui";
 import { enquiry } from "@/app/contact-us/_lib/action";
 import { useActionState } from "react";
 import { CiUser } from "react-icons/ci";
@@ -57,7 +57,7 @@ export default function ContactForm() {
       <QueryTypeSelect state={state} />
 
       <MessageField state={state} />
-      <FormErrorMessage message={state?.message} />
+      <FormErrorsMessage message={state?.message} />
 
       {/* Submit */}
       <ActionButton

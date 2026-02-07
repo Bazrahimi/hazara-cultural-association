@@ -1,6 +1,8 @@
 "use client";
 
-export const FormErrorMessage = ({ message }: { message?: string }) => {
+import { P } from "@/app/_ui";
+
+const FormErrorsMessage = ({ message }: { message?: string }) => {
   if (!message) return null;
 
   return (
@@ -9,9 +11,9 @@ export const FormErrorMessage = ({ message }: { message?: string }) => {
       aria-atomic="true"
       className="mt-2 sm:mt-3 lg:mt-4 text-center sm:text-left"
     >
-      <p className="text-xs sm:text-sm lg:text-base font-medium text-red-600 leading-snug">
-        {message}
-      </p>
+      <P className=" text-red-600 leading-snug">{message}</P>
     </div>
   );
 };
+
+export default FormErrorsMessage;

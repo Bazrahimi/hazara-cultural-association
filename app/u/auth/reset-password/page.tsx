@@ -1,7 +1,7 @@
 // app/u/reset-password/page.tsx
 "use client";
 
-import { Button, FormErrorMessage, Header, Input, P } from "@/app/_ui";
+import { Button, FormErrorsMessage, Header, Input, P } from "@/app/_ui";
 import { useActionState } from "react";
 
 import { AuthRoutes } from "@/app/_lib/routes";
@@ -75,7 +75,7 @@ const ResetPasswordPage = () => {
               {isPending ? "Updating password…" : "Update password"}
             </Button>
 
-            <FormErrorMessage message={state?.message} />
+            <FormErrorsMessage message={state?.message} />
           </form>
         )}
       </div>

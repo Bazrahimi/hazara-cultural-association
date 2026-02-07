@@ -1,7 +1,7 @@
 "use client";
 import TermsAndPrivacyNotice from "@/app/(term-and-privacy)/ui/TermsAndPrivacyNotice";
 import { MemberRoutes } from "@/app/_lib/routes";
-import { ActionButton, Button, FormErrorMessage, Header, P } from "@/app/_ui";
+import { ActionButton, Button, FormErrorsMessage, Header, P } from "@/app/_ui";
 
 import { startMembershipCheckout } from "../_lib/action";
 import {
@@ -80,7 +80,7 @@ const MembershipCheckoutForm = () => {
         />
       </div>
 
-      <FormErrorMessage message={state?.message} />
+      <FormErrorsMessage message={state?.message} />
 
       {/* Actions */}
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
