@@ -1,9 +1,9 @@
 "use server";
 // app/u/auth/lib/action.ts
-
-import { createSession, getSession } from "@/app/_lib/session/session";
+import { createSession } from "@/app/_lib/session/action";
 import bcrypt from "bcrypt"; // or see note below for bcryptjs
 import { redirect } from "next/navigation";
+import { getSession } from "@/app/_lib/session/action";
 
 import { toActionErrors } from "@/app/_lib/actionHelper";
 import {

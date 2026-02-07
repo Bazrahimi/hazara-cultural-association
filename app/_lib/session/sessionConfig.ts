@@ -14,6 +14,11 @@ export const sessionEncodedKey = new TextEncoder().encode(
   serverEnv.sessionSecret,
 );
 
+export const ROLES = ["basic", "seller", "member", "blogger", "admin"] as const;
+
+export const ROLE_SET = new Set<string>(ROLES);
+export type SessionRole = (typeof ROLES)[number];
+
 export const baseSessionCookie = {
   httpOnly: true,
   secure: COOKIE_SECURE,
