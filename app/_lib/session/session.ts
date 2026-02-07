@@ -11,9 +11,9 @@ import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { SESSION as cs, sessionEncodedKey } from "./sessionConfig";
 
 import { AuthRoutes } from "../routes";
-import { serverEnv } from "../env/server";
 
 /* ============ Single source of truth (schema) ============ */
 
@@ -35,13 +35,6 @@ type SessionNormalized = z.output<typeof SessionSchema>;
 type DecodedSession = SessionNormalized &
   Required<Pick<JWTPayload, "iat" | "exp">>;
 
-/* ================= Config ================= */
-
-const SESSION_COOKIE = "session";
-const SESSION_DAYS = 0.5;
-const alg = "HS256";
-const encodedKey = new TextEncoder().encode(serverEnv.sessionSecret);
-
 /* ============ Sign / Verify ============ */
 
 const signSession = async (payload: SessionNormalized): Promise<string> =>
@@ -51,15 +44,15 @@ const signSession = async (payload: SessionNormalized): Promise<string> =>
     expiresAt: payload.expiresAt.toISOString(),
     extra: payload.extra ?? {},
   })
-    .setProtectedHeader({ alg })
+    .setProtectedHeader({ alg: cs.algorithm })
     .setIssuedAt()
-    .setExpirationTime(`${SESSION_DAYS}d`)
-    .sign(encodedKey);
+    .setExpirationTime(cs.duration)
+    .sign(sessionEncodedKey);
 
 const verifySession = async (token: string): Promise<DecodedSession | null> => {
   try {
-    const { payload } = await jwtVerify(token, encodedKey, {
-      algorithms: [alg],
+    const { payload } = await jwtVerify(token, sessionEncodedKey, {
+      algorithms: [cs.algorithm],
     });
     const parsed = SessionSchema.parse({
       userId: payload.userId,
@@ -100,7 +93,7 @@ export const createSession = async (
   roles: SessionRole | string | ReadonlyArray<SessionRole | string> = [],
   extra: Record<string, unknown> = {},
 ): Promise<void> => {
-  const expiresAt = new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000);
+  const expiresAt = new Date(Date.now() + cs.ttlMs);
 
   const payload = SessionSchema.parse({
     userId, // z.coerce.number() will normalize
@@ -111,7 +104,7 @@ export const createSession = async (
 
   const token = await signSession(payload);
   const jar = await cookies();
-  jar.set(SESSION_COOKIE, token, {
+  jar.set(cs.cookieName, token, {
     httpOnly: true,
     secure: COOKIE_SECURE,
     sameSite: COOKIE_SAMESITE,
@@ -122,7 +115,7 @@ export const createSession = async (
 
 export const destroySession = async (): Promise<void> => {
   const jar = await cookies();
-  jar.set(SESSION_COOKIE, "", {
+  jar.set(cs.cookieName, "", {
     httpOnly: true,
     secure: COOKIE_SECURE,
     sameSite: COOKIE_SAMESITE,
@@ -149,7 +142,7 @@ export const decrypt = async (
 /* ============ High-level helpers ============ */
 
 export const getSession = async (): Promise<DecodedSession | null> => {
-  const token = (await cookies()).get(SESSION_COOKIE)?.value;
+  const token = (await cookies()).get(cs.cookieName)?.value;
   if (!token) return null;
   const s = await verifySession(token);
   if (!s) return null;

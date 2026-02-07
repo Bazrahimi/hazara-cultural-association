@@ -2,14 +2,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AuthRoutes } from "./app/_lib/routes";
 import { isProtectedPath } from "./app/_lib/session/protectedRoutes";
-import { SESSION_COOKIE } from "./app/_lib/session/sessionConfig";
+import { SESSION as cs } from "./app/_lib/session/sessionConfig";
 
 export const proxy = async (req: NextRequest) => {
   const { pathname, search } = req.nextUrl;
 
   if (!isProtectedPath(pathname)) return NextResponse.next();
 
-  const hasSession = req.cookies.get(SESSION_COOKIE)?.value;
+  const hasSession = req.cookies.get(cs.cookieName)?.value;
 
   if (!hasSession) {
     const loginUrl = req.nextUrl.clone();
