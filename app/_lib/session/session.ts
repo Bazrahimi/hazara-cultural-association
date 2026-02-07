@@ -6,12 +6,15 @@
  * - roles: ['seller'|'volunteer'|'blogger'|'admin'][]   (empty [] = authenticated buyer)
  */
 
-import { COOKIE_SAMESITE, COOKIE_SECURE } from "@/app/u/auth/_lib/constants";
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { SESSION as cs, sessionEncodedKey } from "./sessionConfig";
+import {
+  baseSessionCookie,
+  SESSION as cs,
+  sessionEncodedKey,
+} from "./sessionConfig";
 
 import { AuthRoutes } from "../routes";
 
@@ -105,10 +108,7 @@ export const createSession = async (
   const token = await signSession(payload);
   const jar = await cookies();
   jar.set(cs.cookieName, token, {
-    httpOnly: true,
-    secure: COOKIE_SECURE,
-    sameSite: COOKIE_SAMESITE,
-    path: "/",
+    ...baseSessionCookie,
     expires: payload.expiresAt,
   });
 };
@@ -116,10 +116,7 @@ export const createSession = async (
 export const destroySession = async (): Promise<void> => {
   const jar = await cookies();
   jar.set(cs.cookieName, "", {
-    httpOnly: true,
-    secure: COOKIE_SECURE,
-    sameSite: COOKIE_SAMESITE,
-    path: "/",
+    ...baseSessionCookie,
     expires: new Date(0),
   });
   redirect("/");
