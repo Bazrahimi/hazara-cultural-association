@@ -8,5 +8,5 @@ import { serverEnv } from "../env/server";
 export const emailClient = new Resend(serverEnv.resendApiKey);
 
 export const FROM_EMAIL = `${ORG_PROFILE.orgName} <${ORG_PROFILE.email}>`;
-export const WEBSITE_ENQUIRY = `Website Enquiry <website${ORG_PROFILE.domain}>`;
+export const WEBSITE_ENQUIRY = `Website Enquiry <website@${ORG_PROFILE.domain}>`;
 export const ENQUIRY_ADMIN_EMAIL = ORG_PROFILE.email;
